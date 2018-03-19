@@ -1,0 +1,48 @@
+<scroll-view scroll-y class='main' bindscrolltolower="scrolltolower">
+  <view class='order_tab'>
+    <text class="{{orderType == 0 ? 'active' : ''}}" bindtap='orderTab' data-type="0">全部订单</text>
+    <text class="{{orderType == 1 ? 'active' : ''}}" bindtap='orderTab' data-type="1">待付款</text>
+    <text class="{{orderType == 2 ? 'active' : ''}}" bindtap='orderTab' data-type="2">待发货</text>
+    <text class="{{orderType == 3 ? 'active' : ''}}" bindtap='orderTab' data-type="3">待收货</text>
+  </view>
+  <view class='order_List'>
+    <view class='order_item' wx:key="key" wx:for="{{ordersItem}}">
+
+      <view class='user_info clearBoth'>
+        <image class='float_left' src='{{item.avatar}}'></image>
+        <view class='user_name float_left'>{{item.user_nicename}}</view>
+        <view class='order_status float_right'>
+          {{item.refund_status}}
+        </view>
+      </view>
+
+      <view bindtap='navigateToOrderInfo' data-id="{{item.id}}">
+      <view class='goods_item clearBoth' wx:key="key" wx:for="{{item.goods}}" wx:for-item="good" data-id="{{item.id}}">
+        <image class='float_left' lazy-load mode="aspectFill" src='{{good.image}}' data-id="{{item.id}}"></image>
+        <view class='good_title float_left' data-id="{{item.id}}">{{good.object_title}}</view>
+        <view class='good_type' data-id="{{item.id}}">{{good.goods_type_desc}}</view>
+        <navigator hover-class='none' url="/pages/refund/refund" class='good_refund'>退款中</navigator>
+        <navigator hover-class='none' url="/pages/refund/refund" class='good_refund'>退款完成</navigator>
+        <view class='good_price' data-id="{{item.id}}">￥ {{good.price}} x {{good.counts}}</view>
+      </view>
+      <view class='total' data-id="{{item.id}}">
+        <text class='float_left' data-id="{{item.id}}">共{{1}}件商品</text>
+        <text class='float_right postage' data-id="{{item.id}}">运费： ￥ {{33}}</text>
+        <text class='float_right' data-id="{{item.id}}">总价： ￥ {{212}}</text>
+      </view>
+      </view>
+
+      <view class='btns'>
+        <view class='btn float_right'>立即付款</view>
+        <view class='btn float_right'>取消订单</view>
+        <!-- <view class='float_right'>提现发货</view> -->
+        <navigator hover-class='none' url="/pages/express/express?order_number={{item.order_number}}" class='btn float_right'>
+          查看物流
+        </navigator>
+        <!-- <view class='float_right'>确认收货</view> -->
+        <!-- <view class='float_right'>删除订单</view> -->
+      </view>
+    </view>
+  </view>
+  
+</scroll-view>

@@ -1,0 +1,38 @@
+.main{
+  padding: 0 30rpx;
+  height: 100vh;
+}
+.user_goods{
+  margin-bottom: 40rpx;
+  width: 690rpx;
+  position: relative
+}
+.user_goods:first-child{
+  margin-top: 40rpx;
+}
+.user_goods .cover{
+  width: 336rpx;
+  height: 172rpx;
+  border-radius: 8rpx;
+  margin-right: 30rpx;
+}
+.user_goods .article_title{
+  width: 324rpx;
+  overflow: hidden;
+  height: 72rpx;
+  line-height: 36rpx;
+  font-size: 26rpx;
+}
+.user_goods .price{
+  font-size: 32rpx;
+  line-height: 1em;
+  position: absolute;
+  bottom: 0;
+  left: 366rpx;
+}
+.main .return_index{
+  bottom: 294rpx;
+}
+.main .return_top{
+  bottom: 178rpx;
+}

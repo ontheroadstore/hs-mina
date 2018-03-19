@@ -1,0 +1,24 @@
+<scroll-view class="main" scroll-y>
+  <view class="content {{isIphoneX ? 'content_iphoneX' : '' }}">
+    <view class='address_item' wx:key="key" wx:for="{{addressItems}}">
+      <text class='float_left user_name'>收货人： {{item.name}}</text>
+      <text class='float_right user_tel'>{{item.telphone}}</text>
+      <view class='clearBoth detail_address'>收货地址： {{item.province}}{{item.city}}{{item.county}}{{item.detail}}</view>
+      <view class='set_address'>
+        <image class='default' src='/images/checkbox.png' wx:if="{{item.default != 1}}" bindtap='setDefault' data-id="{{item.id}}"></image>
+        <image class='default' src='/images/checked.png' wx:if="{{item.default == 1}}"></image>
+        <view class='default_text' wx:if="{{item.default != 1}}" bindtap='setDefault' data-id="{{item.id}}">设为默认地址</view>
+        <view class='default_text' wx:if="{{item.default == 1}}">设为默认地址</view>
+        <!-- 编辑暂时不加 -->
+        <!-- <image class='edit' src='/images/edit.png'></image> -->
+        <!-- <view class='edit_text'>编辑</view> -->
+        <image class='delete' src="/images/delete.png" data-id="{{item.id}}" bindtap='deleteAddress' data-index="{{index}}"></image> 
+        <view class='delete_text' data-id="{{item.id}}" bindtap='deleteAddress' data-index="{{index}}">删除</view>
+      </view>
+    </view>
+  </view>
+  <view class="wx_address {{isIphoneX ? 'wx_address_iphoneX' : '' }}" bindtap='addAddress'>
+    <text class='float_right'>添加微信地址</text>
+    <image class='float_right' src='/images/wx.png'></image>
+  </view>
+</scroll-view>

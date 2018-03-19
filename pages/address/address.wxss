@@ -1,0 +1,96 @@
+.main{
+  border-top: 2rpx solid #E8E8E8;
+}
+.content{
+  padding-bottom: 100rpx;
+  min-height: 1600rpx;
+}
+.content_iphoneX{
+  padding-bottom: 168rpx;
+}
+.address_item{
+  padding: 30rpx 30rpx 0 30rpx;
+  border-bottom: 16rpx solid #F5F5F5;
+}
+.address_item .user_name,
+.address_item .user_tel{
+  font-size: 28rpx;
+  line-height: 1em;
+}
+.address_item .user_name{
+  font-weight: 600;
+  width: 400rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.detail_address{
+  padding: 24rpx 0;
+  font-size: 28rpx;
+  margin-top: 28rpx;
+  border-bottom: 2rpx solid #E8E8E8;
+}
+.set_address{
+  height: 88rpx;
+  position: relative;
+}
+.set_address .default{
+  background: none;
+  width: 28rpx;
+  height: 28rpx;
+  position: absolute;
+  top: 30rpx;
+}
+.set_address .default_text{
+  font-size: 24rpx;
+  line-height: 88rpx;
+  padding-left: 48rpx;
+  width: 300rpx;
+}
+.set_address .delete,
+.set_address .edit{
+  width: 34rpx;
+  height: 34rpx;
+  position: absolute;
+  right: 62rpx;
+  background: none;
+  top: 27rpx;
+}
+.set_address .edit{
+  right: 191rpx;
+}
+.set_address .edit_text,
+.set_address .delete_text{
+  font-size: 26rpx;
+  line-height: 34rpx;
+  height: 34rpx;
+  position: absolute;
+  right: 0;
+  top: 27rpx;
+}
+.set_address .edit_text{
+  right: 126rpx;
+}
+.wx_address{
+  width: 690rpx;
+  height: 98rpx;
+  border-top: 2rpx solid #E8E8E8;
+  position: fixed;
+  bottom: 0;
+  background: #FFF;
+  padding: 0 30rpx;
+}
+.wx_address image{
+  width: 48rpx;
+  height: 48rpx;
+  background: none;
+  margin: 25rpx 30rpx;
+}
+.wx_address text{
+  margin: 25rpx 0;
+  font-size: 28rpx;
+  line-height: 48rpx;
+}
+.wx_address_iphoneX{
+  padding-bottom: 68rpx;
+}

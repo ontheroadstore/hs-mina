@@ -1,0 +1,230 @@
+.content{
+  min-height: 1600rpx;
+}
+.order_status{
+  border-top: 1rpx solid #E8E8E8;
+  height: 173rpx;
+  padding: 0 30rpx;
+  position: relative;
+}
+.order_status .order_status_title{
+  font-size: 28rpx;
+  line-height: 1em;
+  margin: 50rpx 0 30rpx;
+}
+.order_status .order_status_text{
+  line-height: 1em;
+  font-size: 26rpx;
+  color: #959595;
+}
+.order_status image{
+  width: 190rpx;
+  height: 173rpx;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.order_status .order_status_deliverInfo{
+  height: 173rpx;
+  line-height: 173rpx;
+  margin: 0;
+}
+.express{
+  margin: 0 30rpx;
+  padding: 30rpx 0 30rpx 84rpx;
+  border-top: 1rpx solid #E8E8E8;
+  position: relative;
+}
+.express .delivered_icon{
+  position: absolute;
+  left: 14rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48rpx;
+  height: 48rpx;
+  background: none;
+}
+.express .express_info{
+  line-height: 40rpx;
+  font-size: 26rpx;
+  width: 580rpx;
+}
+.express .express_time{
+  line-height: 1em;
+  font-size: 24rpx;
+  color: #959595;
+  width: 580rpx;
+  margin-top: 20rpx;
+}
+.express .gt_icon{
+  position: absolute;
+  right: 14rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16rpx;
+  height: 26rpx;
+  background: none;
+}
+.user_address{
+  margin: 0 30rpx;
+  padding: 30rpx 0 30rpx 84rpx;
+  border-top: 1rpx solid #E8E8E8;
+  position: relative;
+}
+.address_icon{
+  position: absolute;
+  left: 14rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48rpx;
+  height: 48rpx;
+  background: none;
+}
+.address_name{
+  line-height: 40rpx;
+  font-size: 26rpx;
+  width: 580rpx;
+}
+.address_text{
+  margin-top: 20rpx;
+  line-height: 40rpx;
+  font-size: 26rpx;
+  width: 580rpx;
+}
+
+
+
+
+
+
+.order_item{
+  border-top: 16rpx solid #F5F5F5;
+}
+.user_info{
+  border-bottom: 2rpx solid #E8E8E8;
+  padding: 30rpx;
+}
+.user_info .user_avatar{
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+}
+.user_info .gt_icon{
+  width: 16rpx;
+  height: 26rpx;
+  margin-top: 12rpx;
+  background: none;
+}
+.user_info .user_name{
+  font-size: 28rpx;
+  line-height: 50rpx;
+  margin: 0 20rpx;
+  width: auto;
+}
+.user_info .seller_tel{
+  font-size: 26rpx;
+  line-height: 26rpx;
+  border: 2rpx solid #000;
+  padding: 10rpx 20rpx;
+  border-radius: 8rpx;
+}
+.goods_item{
+  margin: 30rpx 30rpx 0 30rpx;
+  padding-bottom: 30rpx;
+  border-bottom: 2rpx solid #E8E8E8;
+  position: relative;
+}
+.goods_item image{
+  width: 260rpx;
+  height: 132rpx;
+  margin-right: 30rpx;
+}
+.goods_item .good_title{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 390rpx;
+  font-size: 26rpx;
+  line-height: 1em;
+}
+.goods_item .good_type{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 140rpx;
+  font-size: 26rpx;
+  line-height: 1em;
+  color: #7E7E7E;
+  position: absolute;
+  bottom: 30rpx;
+  left: 292rpx;
+}
+.goods_item .good_price{
+  font-size: 26rpx;
+  line-height: 1em;
+  color: #7E7E7E;
+  position: absolute;
+  bottom: 30rpx;
+  right: 0;
+}
+.goods_item .good_refund{
+  font-size: 26rpx;
+  line-height: 1em;
+  color: #F61600;
+  position: absolute;
+  top: 52rpx;
+  right: 0;
+  width: 120rpx;
+  text-align: right;
+  height: 1em;
+}
+.total{
+  border-bottom: 2rpx solid #E8E8E8;
+  font-size: 26rpx;
+  margin: 0 30rpx;
+  width: 690rpx;
+  padding: 30rpx 0;
+  line-height: 1em;
+}
+.total .postage{
+  margin-bottom: 30rpx;
+}
+.total_price text{
+  color: #F61600;
+}
+.order_info{
+  padding: 30rpx;
+  font-size: 26rpx;
+  color: #959595;
+  padding-bottom: 118rpx;
+}
+.order_info view{
+  margin-bottom: 20rpx;
+}
+.order_info_iphoneX{
+  padding-bottom: 168rpx;
+}
+.btns{
+  height: 98rpx;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  border-top: 2rpx solid #E8E8E8;
+  background: #FFF;
+  z-index: 999;
+}
+.btns_iphoneX{
+  padding-bottom: 68rpx;
+}
+.btns .btn{
+  width: 140rpx;
+  height: 40rpx;
+  border: 2rpx solid #000;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  line-height: 40rpx;
+  text-align: center;
+  margin-right: 30rpx;
+  margin-top: 31rpx;
+}

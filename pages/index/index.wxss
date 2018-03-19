@@ -1,0 +1,264 @@
+/* 首页分类 */
+.header{
+  padding: 0 30rpx;
+  height: 88rpx;
+  white-space: nowrap;
+  position: fixed;
+  z-index: 999;
+  background: #FFF;
+}
+.header .classifys{
+  line-height: 88rpx;
+  height: 100%;
+}
+.header .classify_item{
+  display: inline-block;
+  margin-right: 50rpx;
+  font-size: 32rpx;
+  font-weight: 300;
+}
+.header .classify_item.active{
+  color: #E03B29;
+  position: relative;
+  font-weight: 900;
+}
+.header .classify_item.active:after{
+  content: "";
+  position: absolute;
+  width: 24rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 8rpx;
+  border-radius: 4rpx;
+  border-bottom: 7rpx solid #E03B29;
+  overflow: hidden;
+}
+
+
+/* 商店 */
+.content_index{
+  width: 100vw;
+  padding-top: 88rpx;
+  display: none;
+}
+.content_index .advert{
+  width: 690rpx;
+  height: 280rpx;
+  overflow: hidden;
+  box-shadow: 0rpx 10rpx 30rpx rgba(0,0,0,0.18);
+  margin: 40rpx 30rpx 0;
+}
+.content_index .advert swiper-item{
+  box-shadow: 0rpx 10rpx 30rpx rgba(0,0,0,0.18);
+  border-radius: 12rpx;
+}
+.content_index .advert image{
+  background: rgba(0,0,0,0);
+}
+ .ranking,
+ .showall,
+ .recommend{
+  margin: 0 30rpx;
+  width: 690rpx;
+}
+ .ranking .goods,
+ .showall .goods,
+ .recommend .goods{
+  padding: 40rpx 0 40rpx 0;
+  border-bottom: 1rpx solid #E8E8E8;
+}
+ .ranking .goods .user,
+ .showall .goods .user,
+ .recommend .goods .user{
+   width: 556rpx;
+   height: 40rpx;
+   float: left;
+ }
+ .ranking .title,
+ .showall .title,
+ .recommend .title{
+  font-size: 32rpx;
+  padding: 40rpx 0 12rpx 0;
+  font-weight: 700;
+}
+ .ranking .explain,
+ .showall .explain,
+ .recommend .explain{
+  font-size: 26rpx;
+  color: #888888;
+  letter-spacing: 0;
+  line-height: 13px;
+}
+ .ranking .cover,
+ .showall .cover,
+ .recommend .cover{
+  width: 100%;
+  height: 352rpx;
+  border-radius: 12rpx;
+}
+ .showall .article_title,
+ .recommend .article_title{
+  font-size: 28rpx;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 68rpx;
+  line-height: 68rpx;
+  color: #202123;
+}
+ .ranking .user_avatar,
+ .showall .user_avatar,
+ .recommend .user_avatar{
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+}
+ .ranking .user_name,
+ .showall .user_name,
+ .recommend .user_name{
+  font-size: 24rpx;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+  line-height: 40rpx;
+  margin-left: 16rpx;
+  width: 500rpx;
+  color: #8E8E8E;
+}
+ .ranking .price,
+ .showall .price,
+ .recommend .price{
+  font-size: 32rpx;
+  color: #202123;
+  height: 40rpx;
+  line-height: 40rpx;
+}
+.ranking{
+  position: relative;
+  height: 715rpx;
+  border-bottom: 1rpx solid #E8E8E8;
+}
+.ranking .ranking_content{
+  height: 595rpx;
+  width: 750rpx;
+  display: flex;
+  white-space: nowrap;
+  position: absolute;
+  left: -30rpx;
+  top: 120rpx;
+}
+.ranking .ranking_content .goods{
+  display: inline-block;
+  margin: 30rpx 10rpx 40rpx 10rpx;
+  width: 658rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  padding: 0;
+  box-shadow: 0rpx 10rpx 30rpx rgba(0,0,0,0.12);
+}
+.ranking .ranking_content .cover{
+  border-radius: 0rpx;
+}
+.ranking .ranking_content .article_title{
+  padding: 0 26rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  height: 76rpx;
+  line-height: 76rpx;
+  color: #202123;
+}
+.ranking .ranking_content .user_avatar{
+  margin: 0 0 26rpx 26rpx;
+}
+.ranking .ranking_content .price{
+  margin: 0 26rpx 26rpx 0;
+}
+
+
+/* 分类 */
+.content_classify{
+  width: 100vw;
+  padding-top: 88rpx;
+  box-sizing: border-box;
+  padding-left: 30rpx;
+  display: none;
+}
+.classifys_scroll{
+  display: flex;
+  white-space: nowrap;
+  height: 72rpx;
+  width: 100%;
+  margin: 30rpx 0 40rpx 0;
+}
+.classifys_scroll .classifys_content{
+  line-height: 88rpx;
+  height: 100%;
+}
+.classifys_scroll .classify_son{
+  width: 152rpx;
+  height: 72rpx;
+  display: inline-block;
+  margin-right: 20rpx;
+  font-size: 28rpx;
+  color: #FFF;
+  border-radius: 12rpx;
+  overflow: hidden;
+  position: relative;
+}
+.classifys_scroll .classify_son text{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 72rpx;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+.classify_goods{
+  padding-bottom: 40rpx;
+  width: 690rpx;
+}
+.classify_goods .cover{
+  width: 336rpx;
+  height: 172rpx;
+  border-radius: 12rpx;
+  margin-right: 30rpx;
+}
+.classify_goods .article_title{
+  width: 324rpx;
+  overflow: hidden;
+  height: 72rpx;
+  line-height: 36rpx;
+  font-size: 26rpx;
+}
+.classify_goods .user_avatar{
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  margin: 18rpx 12rpx 16rpx 0;
+}
+.classify_goods .user_name{
+  font-size: 24rpx;
+  line-height: 32rpx;
+  color: #8E8E8E;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 280rpx;
+  margin: 18rpx 0 16rpx 0;
+}
+.classify_goods .price{
+  font-size: 32rpx;
+  line-height: 1em;
+}
+
+.content_classify.active,
+.content_index.active{
+  display: block;
+}

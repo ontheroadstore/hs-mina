@@ -1,0 +1,17 @@
+<scroll-view class="main" scroll-y>
+  <view class='label'>退换货或更多优惠服务,您可以选择：</view>
+  <view class='item'>
+    <image src="/images/gonglushangdian.png"></image>
+    <view class='title'>公路商店</view>
+    <view class='content'>AppStore及各大安卓应用市场搜索并下载“公路商店”</view>
+  </view>
+  <view class='item'>
+    <image src="/images/heishi.png"></image>
+    <view class='title'>公路商店Stroe</view>
+    <view class='content'>关注微信公众号“公路商店Stroe”</view>
+  </view>
+  <view class='item'>
+    <image src="/images/tel.png"></image>
+    <view class='content'>拨打官方客服电话010-56021762</view>
+  </view>
+</scroll-view>

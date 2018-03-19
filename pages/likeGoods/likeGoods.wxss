@@ -1,0 +1,62 @@
+.main{
+  padding: 0 30rpx;
+  height: 100vh;
+}
+.me_like{
+  margin-bottom: 40rpx;
+  width: 690rpx;
+  position: relative
+}
+.me_like:first-child{
+  margin-top: 40rpx;
+}
+.me_like .cover{
+  width: 336rpx;
+  height: 172rpx;
+  border-radius: 8rpx;
+  margin-right: 30rpx;
+}
+.me_like .article_title{
+  width: 324rpx;
+  overflow: hidden;
+  height: 72rpx;
+  line-height: 36rpx;
+  font-size: 26rpx;
+}
+.me_like .user_avatar{
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  margin: 18rpx 12rpx 16rpx 0;
+}
+.me_like .user_name{
+  font-size: 24rpx;
+  line-height: 32rpx;
+  color: #8E8E8E;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 280rpx;
+  margin: 18rpx 0 16rpx 0;
+}
+.me_like .price{
+  font-size: 32rpx;
+  line-height: 1em;
+  position: absolute;
+  bottom: 0;
+  left: 366rpx;
+}
+.me_like .like_btn{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 48rpx;
+  height: 48rpx;
+  background: none;
+}
+.main .return_index{
+  bottom: 294rpx;
+}
+.main .return_top{
+  bottom: 178rpx;
+}

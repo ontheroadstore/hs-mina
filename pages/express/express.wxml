@@ -1,0 +1,30 @@
+<scroll-view scroll-y class="main">
+  <view class='order_info express_status'>物流状态： {{expressInfo.statusLabel}}</view>
+  <view class='order_info'>运单编号： <text>{{expressInfo.mailNo}}</text></view>
+  <view class='order_info'>承运来源： {{expressInfo.expTextName}}</view>
+  <view class='order_info'>官方电话： <text>{{expressInfo.tel}}</text></view>
+  <view class='express_details'>
+    <view class='title'>物流跟踪</view>
+    <view class='express_content'>
+      <view class="express_item {{expressData.length-1 == index? 'clearBorder': ''}}" wx:key="key" wx:for="{{expressData}}">
+        <view class="date float_left {{index == 0 ? 'active':''}}">
+          <view class='day'>{{item.newDay}}</view>
+          <view class='time'>{{item.newTime}}</view>
+        </view>
+        <image class='up_icon' src='/images/up.png' wx:if="{{index != 0}}"></image>
+        <image class='up_icon' src='/images/upNow.png' wx:if="{{index == 0}}"></image>
+        <view class="details  float_left  {{index == 0 ? 'active':''}}">{{item.context}}</view>
+      </view>
+    </view>
+  </view>
+  <view class='random_goods' >
+    <view class='model_title'>猜你喜欢</view>
+    <view class='good_item clearBoth' wx:key="key" wx:for="{{randomGoods}}">
+      <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
+      <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+      <image bindtap="navigateToUser" data-id="{{item.id}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+      <text bindtap="navigateToUser" data-id="{{item.id}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+      <text class="price font_din float_left">￥ 198</text>
+    </view>
+  </view>
+</scroll-view>

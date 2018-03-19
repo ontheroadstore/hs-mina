@@ -1,0 +1,68 @@
+<scroll-view scroll-y class='main'>
+  <view class='content'>
+    <view class='order_status' wx:if="{{orderInfo.order_status == 0}}">
+      <view class='order_status_title'>等待买家付款</view>
+      <view class='order_status_text'>11小时40分后自动关闭</view>
+      <image src='/images/ordersInfo.png'></image>
+    </view>
+    <view class='order_status' wx:if="{{orderInfo.order_status == 1}}">
+      <view class='order_status_title order_status_deliverInfo'>卖家未发货</view>
+      <image src='/images/deliverInfo.png'></image>
+    </view>
+    <view class='order_status' wx:if="{{orderInfo.order_status == 2}}">
+      <view class='order_status_title'>待收货</view>
+      <view class='order_status_text'>还剩12天12小时34分后自动确认收货</view>
+      <image src='/images/deliveredInfo.png'></image>
+    </view>
+    <view class='express' wx:if="{{orderInfo.order_status == 2}}">
+      <image class='delivered_icon' src='/images/delivered.png'></image>
+      <view class='express_info'>[北京市]已签收，签收人是本人签收，感谢使用申通快递，期待再次为你服务</view>
+      <view class='express_time'>2018-08-17 12:12:43</view>
+      <image class='gt_icon' src='/images/gt.png'></image>
+    </view>
+    <view class='user_address'>
+      <image class='address_icon' src='/images/address.png'></image>
+      <view class='address_name'>收货人： 啊三大萨斯</view>
+      <view class='address_text'>收货地址： 速度大大大大大大三大打扫的啊三大三大萨斯打扫打扫阿斯达</view>
+    </view>
+    
+    <view class='order_item'>
+
+      <view class='user_info clearBoth'>
+        <image class='float_left user_avatar' src='http://thirdwx.qlogo.cn/mmopen/F5To0uNDwUJ5jyZRpD26Kiar3DWXaUqnSibXXV4pScjs7nPRt7yUPe691rwEy18gdZibeZiazjMdqT7iat336wUZnNvk9nic2t9Uy2/64'></image>
+        <navigator hover-class='none' url="/pages/user/user?id=30" class='user_name float_left'>苏打{{item.user_nicename}}</navigator>
+        <image class='gt_icon float_left' src='/images/gt.png'></image>
+        <view class='seller_tel float_right' bindtap='callTel' data-tel="{{18735063453}}">联系卖家</view>
+      </view>
+
+      <view class='goods_item clearBoth'>
+        <image class='float_left' mode="aspectFill" src='http://img1.3lian.com/2015/a1/95/d/105.jpg'></image>
+        <view class='good_title float_left'> asdas{{good.object_title}}</view>
+        <view class='good_type'>asd{{good.goods_type_desc}}</view>
+        <navigator hover-class='none' url="/pages/refund/refund" class='good_refund'>退款中</navigator>
+        <navigator hover-class='none' url="/pages/refund/refund" class='good_refund'>退款完成</navigator>
+        <view class='good_price'>￥ 21{{good.price}} x 1{{good.counts}}</view>
+      </view>
+      <view class='total'>
+        <view class='postage'>运费： <text class='float_right'>￥ {{33}}</text></view>
+        <view class='total_price'>实付（含运费）： <text class='float_right'>￥ {{212}}</text></view>
+      </view>
+      <view class="order_info {{isIphoneX? 'order_info_iphoneX' : ''}}">
+        <view>订单号： HS2100112121561551</view>
+        <view>成交时间： 2017-21-3 23:23:13</view>
+        <view>付款时间： 2017-21-3 23:23:13</view>
+      </view>
+    </view>
+    <view class="btns {{isIphoneX ? 'btns_iphoneX' : ''}}">
+        <view class='btn float_right'>立即付款</view>
+        <view class='btn float_right'>取消订单</view>
+        <navigator hover-class='none' url="/pages/express/express?order_number=HB20180314175158XOALFJ" class='btn float_right'>
+            查看物流
+        </navigator>
+        <!-- <view class='float_right'>提现发货</view> -->
+        <!-- <view class='float_right'>查看物流</view> -->
+        <!-- <view class='float_right'>确认收货</view> -->
+        <!-- <view class='float_right'>删除订单</view> -->
+    </view>
+  </view>
+</scroll-view>

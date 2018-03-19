@@ -1,0 +1,116 @@
+.user_info{
+  width: 100vw;
+  height: 410rpx;
+  position: relative;
+  overflow: hidden;
+}
+.user_info .bg{
+  position: absolute;
+  z-index: -1;
+}
+.user_info .avatar{
+  width: 140rpx;
+  height: 140rpx;
+  margin: 56rpx auto 26rpx;
+  border-radius: 50%;
+  border: 4rpx solid #FFF;
+}
+.user_info .user_name{
+  font-size: 28rpx;
+  color: #FFF;
+  text-align: center;
+  line-height: 1em;
+}
+.user_info .relevance_tel{
+  margin: 30rpx auto;
+  border-radius: 8rpx;
+  border: 2rpx solid #FFF;
+  width: 140rpx;
+  height: 40rpx;
+  font-size: 26rpx;
+  color: #FFF;
+  text-align: center;
+  line-height: 40rpx;
+}
+.user_info .tel{
+  margin: 30rpx auto;
+  width: 140rpx;
+  height: 40rpx;
+  font-size: 26rpx;
+  color: #FFF;
+  text-align: center;
+  line-height: 40rpx;
+}
+.order{
+  padding: 30rpx;
+}
+.order_all{
+  height: 28rpx;
+  padding-bottom: 30rpx;
+  border-bottom: 2rpx solid #E8E8E8;
+  position: relative;
+}
+.order_all text{
+  font-size: 28rpx;
+  color: #353535;
+  line-height: 1em;
+  display: block;
+}
+.order_all image{
+  width: 16rpx;
+  height: 26rpx;
+  background: none;
+  position: absolute;
+  padding: 10rpx;
+  right: -10rpx;
+  top: -9rpx;
+}
+.order_content{
+  padding: 30rpx 66rpx 0 66rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.order_content .order_item{
+  width: 96rpx;
+}
+.order_content .order_item image{
+  background: none;
+  width: 48rpx;
+  height: 48rpx;
+  padding: 20rpx;
+  border: 4rpx solid #E8E8E8;
+  border-radius: 50%;
+}
+.order_content .order_item view{
+  font-size: 26rpx;
+  margin-top: 12rpx;
+  text-align: center;
+}
+.user_item{
+  border-top: 16rpx solid #F5F5F5;
+  padding: 0 30rpx;
+}
+.user_item navigator,
+.user_item view{
+  padding: 20rpx 0;
+  border-bottom: 2rpx solid #E8E8E8;
+  position: relative;
+}
+.user_item image{
+  width: 48rpx;
+  height: 48rpx;
+  background: none;
+  margin-right: 20rpx;
+}
+.user_item text{
+  font-size: 28rpx;
+}
+.user_item .clearBorder{
+  border: none; 
+}
+.contact{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}

@@ -1,0 +1,106 @@
+<scroll-view class='main' scroll-y>
+  <image class='frontcover' mode="aspectFill" src='{{goodInfo.banner[0]}}'></image>
+  <view class='good_title'>{{goodInfo.title}}</view>
+  <view class='share_content'>
+    <view class='good_price font_din' wx:if="{{goodInfo.price.length != 1 && selectStylePrice}}">￥ {{goodInfo.price[0]}} - {{goodInfo.price[1]}}</view>
+    <view class='good_price font_din' wx:elif="{{!selectStylePrice}}">￥ {{goodInfo.price[0]}}</view>
+    <view class='good_price font_din' wx:else="{{selectStylePrice}}">￥ {{selectStylePrice}}</view>
+    <image class='share' src='/images/share.png' bindtap='share'></image>
+    <button class='share_btn' open-type="share">转发</button>
+  </view>
+  <view class='user_introduce clearBoth' wx:if="{{goodInfo.seller.announcement}}">
+    <image class='float_left' src='{{goodInfo.seller.avatar}}'></image>
+    <text class='float_left'>{{goodInfo.seller.announcement}}</text>
+  </view>
+  <view class='style' bindtap='selectShow' wx:if="{{styleNum > 1}}">
+    <view class='label'>请选择</view>
+    <text>{{selectStyleName ? selectStyleName : '请选择你要的款式' }}</text>
+    <image class='more' src='/images/gt.png'></image>
+  </view>
+  <view class='presell' wx:if="{{presellTime}}">
+    <view class='label'>预售</view>
+    <text>预计发货时间为 {{presellTime}}</text>
+  </view>
+  <view class='desc' wx:if="{{goodInfo.desc}}">
+    <text class='title'>狠货简介</text>
+    <text class='text_details'>{{goodInfo.desc}}</text>
+  </view>
+  <view class='content'>
+    <text class='title'>狠人说</text>
+    <text class='text_details'>{{goodInfo.content}}</text>
+  </view>
+  <view class='images'>
+    <image wx:key="key" bindtap='previewImage' data-url="{{item}}" mode="aspectFill" lazy-load wx:for="{{goodInfo.images}}" src='{{item}}'></image>
+  </view>
+  <!-- <view class='buy_users'>
+    <view class='user_nums'>325个人已购买</view>
+    <view class='user_avatars clearBoth'>
+      <image  src='http://thirdwx.qlogo.cn/mmopen/DrfuYticfJSjp0wSwFJodNb5V02EkCEzwqsMlgPlkk8KKXiaUNbP19ebm4thdOHPjMdJEsHIRwcxhlib62QJaZwmfFTUvM2tytl/64'></image>
+      <image class='last_user_avatar' src='/images/more.png'></image>
+    </view>
+  </view> -->
+
+  <view class='user_goods'>
+    <view class='user_info clearBoth'>
+      <image class='float_left' src='{{modulesUserGoods.data.result[0].avatar}}'></image>
+      <view class='user_name float_left'>{{modulesUserGoods.data.result[0].name}}</view>
+      <view class='user_motto float_left'>{{modulesUserGoods.data.result[0].motto?modulesUserGoods.data.result[0].motto:'这家伙太懒了，啥都没写'}}</view>
+      <view class='user_all_good float_right' bindtap="navigateToUser" data-name="{{modulesUserGoods.data.result[0].name}}" data-id="{{modulesUserGoods.data.result[0].id}}">全部狠货</view>
+    </view>
+    <scroll-view class='good_items' scroll-x>
+      <navigator url="/pages/article/article?id={{item.id}}" class='good_item' wx:for="{{modulesUserGoods.data.result[0].goods}}" wx:key="key" hover-class="none">
+        <image mode="aspectFill" lazy-load  src='{{item.cover}}'></image>
+        <view>{{item.title}}</view>
+      </navigator>
+    </scroll-view>
+  </view>
+  <view class='guess_like'>
+    <view class='title'>猜你喜欢</view>
+    <view class="good_item clearBoth" wx:key="key" wx:for="{{modulesGuessLike}}" wx:if="{{index < 5}}">
+      <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
+      <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+      <image bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+      <text bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+      <text class="price font_din float_left">￥ 198</text>
+    </view>
+  </view>
+  <view class="btns clearBoth {{isIphoneX?'iphoneX_btns':''}}">
+    <view class='add_chart float_left' bindtap='navigateToChart'>
+      <image src='/images/chart.png'></image>
+      <text>购物车</text>
+      <view class='chart_num' wx:if="{{chartNum != 0}}">{{chartNum}}</view>
+    </view>
+    <view class='add_like float_left' bindtap='addLike'>
+      <image src='/images/like.png' wx:if="{{!addLikeStatus}}"></image>
+      <image src='/images/likeSelected.png' wx:else></image>
+      <text>收藏</text>
+    </view>
+    <view class='chart_btn float_left' bindtap="{{styleNum > 1 ? 'selectShow':'addChart'}}" data-type="1">加入购物车</view>
+    <view class='buy_btn float_left' bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2">立即购买</view>
+  </view>
+  <view class="select {{selectStatus ? 'show':''}}" bindtap='selectHide' data-status="true">
+    <view class="select_content {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}">
+      <image class='cover' src='{{goodInfo.banner[0]}}'></image>
+      <view class='title'>{{goodInfo.title}}</view>
+      <view class='price font_din' wx:if="{{goodInfo.price.length != 1 && selectStylePrice}}">￥ {{goodInfo.price[0]}} - {{goodInfo.price[1]}}</view>
+      <view class='price font_din' wx:elif="{{!selectStylePrice}}">￥ {{goodInfo.price[0]}}</view>
+      <view class='price font_din' wx:else="{{selectStylePrice}}">￥ {{selectStylePrice}}</view>
+      <view class='styles_content'>
+        <view class='styles_select clearBoth'>
+          <view class='label'>款式</view>
+          <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}">{{item.name}}</text>
+        </view>
+        <view class='good_num clearBoth'>
+          <view class='label'>数量</view>
+          <image src='/images/sub.png' class='sub float_left' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}">-</image>
+          <text class='num float_left'>{{selectStyleCount}}</text>
+          <image src='/images/add.png' class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}">+</image>
+        </view>
+      </view>
+        <view class='chart_btn' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}">加入购物车</view> 
+        <view class='buy_btn' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}">立即购买           </view> 
+        <view class='next_btn' wx:if="{{selectType==1}}" bindtap="{{selectStyleId?'addChart':'noSelect'}}">确认</view>
+        <view class='next_btn' wx:if="{{selectType==2}}" bindtap="{{selectStyleId?'navigateToCreateOrder':'noSelect'}}">确认</view> 
+    </view>
+  </view>
+</scroll-view>

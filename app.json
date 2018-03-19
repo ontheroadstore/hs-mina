@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/createOrder/createOrder",
+    "pages/article/article",
+    "pages/orderInfo/orderInfo",
+    "pages/address/address",
+    "pages/refund/refund",
+    "pages/chart/chart",
+    "pages/express/express",
+    "pages/orders/orders",
+    "pages/me/me",
+    "pages/likeGoods/likeGoods",
+    "pages/index/index",
+    "pages/relevanceTel/relevanceTel",
+    "pages/user/user"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "公路商店Store",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#000",
+    "selectedColor": "#E03B29",
+    "backgroundColor": "#FFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/index.png",
+        "selectedIconPath": "images/indexSelected.png"
+      },
+      {
+        "pagePath": "pages/chart/chart",
+        "text": "购物车",
+        "iconPath": "images/chart.png",
+        "selectedIconPath": "images/chartSelected.png"
+      },
+      {
+        "pagePath": "pages/me/me",
+        "text": "我的",
+        "iconPath": "images/me.png",
+        "selectedIconPath": "images/meSelected.png"
+      }
+    ]
+  },
+  "debug": true
+}

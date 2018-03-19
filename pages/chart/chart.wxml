@@ -1,0 +1,47 @@
+<scroll-view scroll-y class="main">
+  <view class='content'>
+    <view class='seller_item' wx:key="key" wx:for="{{goodList}}" wx:if="{{goodList}}">
+      <view class='user_info'>
+        <image class='checkbox_icon float_left' bindtap='selectUser' data-userid="{{item.seller_user_id}}" src="{{item.selectStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
+        <view class='user_name float_left'>{{item.seller_name}}</view>
+      </view>
+      <view class="order_item clearBoth {{good.slideStatus? 'slide':''}}" wx:key="key" wx:for="{{item.item}}" wx:for-item="good" wx:for-index="i" bindtouchmove='leftTouchMove' bindtouchstart='leftTouchStart' data-orderid="{{good.id}}" bindtouchend='touchEnd'>
+        <image class='checkbox_icon float_left' bindtap='selectSingle' data-orderid="{{good.id}}" src="{{good.selectStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
+        <image class='cover float_left' data-goodid="{{good.item_id}}" bindtap='navigateToGoods' src='{{good.image}}'></image>
+        <view class='good_title float_left' data-goodid="{{good.item_id}}" bindtap='navigateToGoods'>{{good.item_name}}</view>
+        <view class='good_info float_left'>
+          <view class='good_type'>{{good.model_desc?good.model_desc: ''}}</view>
+          <view class='good_price'>￥ {{good.price}}</view>
+        </view>
+        <view class='num_content float_left'>
+          <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum' data-orderid="{{good.id}}"></image>
+          <!-- 下边框在text上，判断最后一个清除border -->
+          <text class="good_num float_left {{i == item.item.length-1 ? '': 'good_num_border'}}">{{good.numbers}}</text>
+          <image class='add_icon float_left' src='/images/add.png' bindtap='addNum' data-orderid="{{good.id}}"></image>
+        </view>
+        <view class='delete_good' data-orderid="{{good.id}}" bindtap='deleteGood'>删除</view>
+      </view>
+    </view>
+    <view class='no_data' wx:if="{{!goodList}}">
+      <image src='/images/chartEmpty.png'></image>
+      <view>购物车毛都没有</view>
+    </view>
+  </view>
+  <view class='random_goods' >
+    <view class='model_title'>猜你喜欢</view>
+    <view class='good_item clearBoth' wx:key="key" wx:for="{{randomGoods}}">
+      <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
+      <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+      <image bindtap="navigateToUser" data-id="{{item.id}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+      <text bindtap="navigateToUser" data-id="{{item.id}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+      <text class="price font_din float_left">￥ 198</text>
+    </view>
+  </view>
+  <view class='chart_content'>
+    <image class='checkbox_icon float_left' bindtap='selectAll' src="{{selectAllStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
+    <view class='float_left all_select'>全选</view>
+    <view class='float_right buy_btn' bindtap='navigatorToCreateOrder'>买他妈的</view>
+    <view class='float_right no_postage'>不含运费</view>
+    <view class='float_right total_text' >总价： <text>￥ 30</text></view>
+  </view>
+</scroll-view>

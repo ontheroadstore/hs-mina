@@ -1,0 +1,26 @@
+<!-- 下一步--绑定用户手机，成功则提示用户，然后延时1~2秒返回个人中心 -->
+<scroll-view class="main" scroll-y>
+  <view class='form'>
+    <view class='area_code'>
+      <picker bindchange="bindPickerChange" value="{{areaCodeIndex}}" range="{{areaCodes}}">
+        <view>
+          国家/地区 中国({{areaCodes[areaCodeIndex]}})
+        </view>
+      </picker>
+      
+      <image src='/images/gt.png'></image>
+    </view>
+    <view class='write_tel'>
+      <text class='float_left'>手机号码</text>
+      <input class='float_left' placeholder="填写手机号码" bindinput="inputTel" maxlength="11" type="number" />
+      <view class='get_verification' bindtap='getVerificationCode' wx:if="{{time == 60}}">获取验证码</view>
+      <view class='get_verification' bindtap='getVerificationCode' wx:if="{{time != 60}}">{{time}}s</view>
+    </view>
+    <view class='write_verification'>
+      <text class='float_left'>验证码</text>
+      <input class='float_left' bindinput='inputVerification' placeholder="输入验证码"/>
+    </view>
+  </view>
+  <view class='referral'>绑定手机号，同步app数据</view>
+  <view class='next' bindtap='next'>下一步</view>
+</scroll-view>

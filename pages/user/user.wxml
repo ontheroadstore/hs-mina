@@ -1,0 +1,9 @@
+<scroll-view class='main' scroll-y bindscroll="mainScroll" scroll-top="{{scrollTop}}" bindscrolltolower="scrolltolower">
+  <view class="user_goods clearBoth" wx:key="key" wx:for="{{userGoods}}">
+    <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
+    <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+    <text class="price font_din float_left">￥ 198</text>
+  </view>
+  <image src='/images/returnTop.png' class='return_top' bindtap="returnTop" wx:if="{{returnTopStatus}}"></image>
+  <image src='/images/returnIndex.png' class='return_index' bindtap="returnIndex"></image>
+</scroll-view>

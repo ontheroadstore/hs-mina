@@ -1,0 +1,70 @@
+.main{
+  background: #F5F5F5;
+}
+.form{
+  padding-left: 15rpx;
+  background: #FFF;
+  margin-top: 30rpx;
+}
+.form .area_code{
+  font-size: 34rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  position: relative;
+  border-bottom: 2rpx solid #E8E8E8;
+}
+.form .area_code image{
+  width: 16rpx;
+  height: 26rpx;
+  position: absolute;
+  right: 30rpx;
+  top: 31rpx;
+  background: none;
+}
+.write_verification,
+.write_tel{
+  font-size: 34rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  position: relative;
+  border-bottom: 2rpx solid #E8E8E8;
+}
+.write_verification text,
+.write_tel text{
+  width: 180rpx;
+}
+.write_verification input,
+.write_tel input{
+  width: 300rpx;
+  height: 88rpx;
+  font-size: 34rpx;
+}
+.get_verification{
+  position: absolute;
+  border-left: 2rpx solid #E8E8E8;
+  width: 210rpx;
+  height: 88rpx;
+  right: 0;
+  font-size: 32rpx;
+  top: 0;
+  line-height: 88rpx;
+  text-align: center;
+}
+.write_verification{
+  border: none;
+}
+.referral{
+  padding: 40rpx 30rpx;
+  font-size: 26rpx;
+}
+.next{
+  margin: 0 40rpx;
+  background: #000;
+  color: #FFF;
+  border-radius: 12rpx;
+  width: 670rpx;
+  height: 94rpx;
+  font-size: 36rpx;
+  line-height: 94rpx;
+  text-align: center;
+}

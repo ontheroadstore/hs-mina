@@ -1,0 +1,99 @@
+<scroll-view class='main' scroll-y bindscroll="mainScroll" scroll-top="{{scrollTop}}" bindscrolltolower="scrolltolower">
+  <scroll-view class='header' scroll-x bindscroll="scroll">
+    <view class='classifys'>
+      <view class="classify_item {{tabIndex == 0 ? 'active':''}}" bindtap="tabtap" data-id="0">商店</view>
+      <view class="classify_item {{tabIndex == item.id ? 'active':''}}" wx:key="key" wx:for="{{categories}}" bindtap="tabtap" data-id="{{item.id}}">{{item.name}}</view>
+    </view>
+  </scroll-view>
+  <view class="content_index {{tabIndex == 0 ? 'active':''}}">
+    <swiper class='advert' indicator-dots="true" indicator-active-color="#FFF" indicator-color="rgba(255, 255, 255, 0.3)" autoplay="true" interval="3000" circular="true">
+      <swiper-item>
+        <image bindtap="navigateToGoods" data-id="13985" mode="aspectFill" src='http://img1.3lian.com/2015/a1/95/d/105.jpg'></image>
+      </swiper-item>
+      <swiper-item>
+        <image bindtap="navigateToGoods" data-id="13985" mode="aspectFill" src='http://img1.3lian.com/2015/a1/95/d/105.jpg'></image>
+      </swiper-item>
+      <swiper-item>
+        <image bindtap="navigateToGoods" data-id="13985" mode="aspectFill" src='http://img1.3lian.com/2015/a1/95/d/105.jpg'></image>
+      </swiper-item>
+    </swiper>
+    
+    <view class="recommend">
+      <view class="title">今日推荐</view>
+      <view class="explain">Mar.6</view>
+      <view class="goods clearBoth">
+        <image bindtap="navigateToGoods" data-id="13985" class="cover" lazy-load mode="aspectFill" src="http://img1.3lian.com/2015/a1/95/d/105.jpg" />
+        <view class="article_title" bindtap="navigateToGoods" data-id="13985">《Love Theme From The Godfather》复古手摇音乐盒是教父中最深情地耳语</view>
+        <image bindtap="navigateToUser" data-id="13985" data-name="指文图书元宝" class="user_avatar float_left" lazy-load src="http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLAb8GcZFcpBhNAOvmiaqSkLPyNCcWjTcDP5uOSmQMCEdoLcDAyTc6xav7A6TjGcjWIXWc3OHBEDf6A/64" />
+        <text bindtap="navigateToUser" data-id="13985" data-name="指文图书元宝" class="user_name float_left">指文图书元宝</text>
+        <text class="price font_din float_right">￥ 1070</text>
+      </view>
+    </view>
+
+    <view class="ranking">
+      <view class="title">哆嗦排行榜</view>
+      <view class="explain">TOP 10</view>
+      <swiper class='ranking_content' current="1" interval="3000" previous-margin="36rpx" next-margin="36rpx" circular="true">
+        <swiper-item>
+          <view class="goods clearBoth">
+            <image bindtap="navigateToGoods" data-id="13985" class="cover" lazy-load mode="aspectFill" src="http://img1.3lian.com/2015/a1/95/d/105.jpg" />
+            <view class="article_title" bindtap="navigateToGoods" data-id="13985">《Love Theme From The Godfather》复古手摇音乐盒是教父中最深情地耳语</view>
+            <image bindtap="navigateToUser" data-id="13985" data-name="指文图书元宝" class="user_avatar float_left" lazy-load src="http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLAb8GcZFcpBhNAOvmiaqSkLPyNCcWjTcDP5uOSmQMCEdoLcDAyTc6xav7A6TjGcjWIXWc3OHBEDf6A/64" />
+            <text bindtap="navigateToUser" data-id="13985" data-name="指文图书元宝" class="user_name float_left">指文图书元宝</text>
+            <text class="price font_din float_right">￥ 1070</text>
+          </view>
+        </swiper-item>
+        <swiper-item>
+          <view class="goods clearBoth">
+            <image bindtap="navigateToGoods" data-id="13985" class="cover" lazy-load mode="aspectFill" src="http://img1.3lian.com/2015/a1/95/d/105.jpg" />
+            <view class="article_title" bindtap="navigateToGoods" data-id="13985">《Love Theme From The Godfather》复古手摇音乐盒是教父中最深情地耳语</view>
+            <image bindtap="navigateToUser" data-name="指文图书元宝" data-id="13985" class="user_avatar float_left" lazy-load src="http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLAb8GcZFcpBhNAOvmiaqSkLPyNCcWjTcDP5uOSmQMCEdoLcDAyTc6xav7A6TjGcjWIXWc3OHBEDf6A/64" />
+            <text bindtap="navigateToUser" data-name="指文图书元宝" data-id="13985" class="user_name float_left">指文图书元宝</text>
+            <text class="price font_din float_right">￥ 1070</text>
+          </view>
+        </swiper-item>
+        <swiper-item>
+          <view class="goods clearBoth">
+            <image bindtap="navigateToGoods" data-id="13985" class="cover" lazy-load mode="aspectFill" src="http://img1.3lian.com/2015/a1/95/d/105.jpg" />
+            <view class="article_title" bindtap="navigateToGoods" data-id="13985">《Love Theme From The Godfather》复古手摇音乐盒是教父中最深情地耳语</view>
+            <image bindtap="navigateToUser" data-id="13985" data-name="指文图书元宝" class="user_avatar float_left" lazy-load src="http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLAb8GcZFcpBhNAOvmiaqSkLPyNCcWjTcDP5uOSmQMCEdoLcDAyTc6xav7A6TjGcjWIXWc3OHBEDf6A/64" />
+            <text bindtap="navigateToUser" data-id="13985" data-name="指文图书元宝" class="user_name float_left">指文图书元宝</text>
+            <text class="price font_din float_right">￥ 1070</text>
+          </view>
+        </swiper-item>
+      </swiper>
+    </view>
+
+    <view class="showall">
+      <view class="title">当下最热</view>
+      <view class="explain">The Hottest Monent</view>
+      <view class="goods clearBoth">
+        <image class="cover" bindtap="navigateToGoods" data-id="13985" lazy-load mode="aspectFill" src="http://img1.3lian.com/2015/a1/95/d/105.jpg" />
+        <view class="article_title" bindtap="navigateToGoods" data-id="13985">《Love Theme From The Godfather》复古手摇音乐盒是教父中最深情地耳语</view>
+        <image bindtap="navigateToUser" data-id="13985" data-name="指文图书元宝" class="user_avatar float_left" lazy-load src="http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLAb8GcZFcpBhNAOvmiaqSkLPyNCcWjTcDP5uOSmQMCEdoLcDAyTc6xav7A6TjGcjWIXWc3OHBEDf6A/64" />
+        <text bindtap="navigateToUser" data-id="13985" data-name="指文图书元宝" class="user_name float_left">指文图书元宝</text>
+        <text class="price font_din float_right">￥ 1070</text>
+      </view>
+    </view>
+
+  </view>
+  
+  <view class="content_classify {{tabIndex != 0 ? 'active':''}}">
+    <scroll-view class='classifys_scroll' scroll-x>
+      <view class='classifys_content'>
+        <view class="classify_son" wx:key="key" wx:for="{{categoriesChild}}">
+          <image mode="aspectFill" src='{{item.icon}}'></image>
+          <text bindtap='classifySonTab' data-id="{{item.id}}">{{item.name}}</text>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="classify_goods clearBoth" wx:key="key" wx:for="{{categoriesGoods}}">
+      <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
+      <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+      <image bindtap="navigateToUser" data-id="{{item.id}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+      <text bindtap="navigateToUser" data-id="{{item.id}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+      <text class="price font_din float_left">￥ 198</text>
+    </view>
+    <image src='/images/returnTop.png' class='return_top' bindtap="returnTop" wx:if="{{returnTopStatus}}"></image>
+  </view>
+</scroll-view>
