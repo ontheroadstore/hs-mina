@@ -66,7 +66,7 @@
   </view>
   <view class="btns clearBoth {{isIphoneX?'iphoneX_btns':''}}">
     <view class='add_chart float_left' bindtap='navigateToChart'>
-      <image src='/images/chart.png'></image>
+      <image src='/images/chartInfo.png'></image>
       <text>购物车</text>
       <view class='chart_num' wx:if="{{chartNum != 0}}">{{chartNum}}</view>
     </view>

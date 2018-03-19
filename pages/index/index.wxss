@@ -124,7 +124,7 @@
   display: block;
   line-height: 40rpx;
   margin-left: 16rpx;
-  width: 500rpx;
+  width: 400rpx;
   color: #8E8E8E;
 }
  .ranking .price,
@@ -198,6 +198,7 @@
 .classifys_scroll .classifys_content{
   line-height: 88rpx;
   height: 100%;
+  min-width: 750rpx;
 }
 .classifys_scroll .classify_son{
   width: 152rpx;

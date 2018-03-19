@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/createOrder/createOrder",
     "pages/article/article",
     "pages/orderInfo/orderInfo",
@@ -10,7 +11,6 @@
     "pages/orders/orders",
     "pages/me/me",
     "pages/likeGoods/likeGoods",
-    "pages/index/index",
     "pages/relevanceTel/relevanceTel",
     "pages/user/user"
   ],

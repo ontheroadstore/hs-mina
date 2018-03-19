@@ -33,7 +33,7 @@ Page({
       goodList.push(item)
     })
     this.setData({
-      // goodList: goodList,
+      goodList: goodList,
       randomGoods: util.userAvatarTransform(chartss.data.recommended, 'user_avatar')
     })
   },

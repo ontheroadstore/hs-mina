@@ -78,7 +78,7 @@
   width: 48rpx;
   height: 48rpx;
   padding: 20rpx;
-  border: 4rpx solid #E8E8E8;
+  border: 2rpx solid #E8E8E8;
   border-radius: 50%;
 }
 .order_content .order_item view{
