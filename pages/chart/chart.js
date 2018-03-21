@@ -11,9 +11,12 @@ Page({
   data: {
     goodList: null,           // 购物车商品列表
     selectAllStatus: false,   // 全选状态
-    startLocation: null,      // 左滑开始位置（用于显示删除按钮）
-    moveLocation: null,       // 左滑进行中的位置（用于显示删除按钮）
-    randomGoods: null         // 猜你喜欢商品列表
+    startLocationX: null,      // 左滑开始位置（用于显示删除按钮）
+    moveLocationX: null,       // 左滑进行中的位置（用于显示删除按钮）
+    startLocationY: null,      // 左滑开始位置（用于显示删除按钮）
+    moveLocationY: null,       // 左滑进行中的位置（用于显示删除按钮）
+    randomGoods: null,        // 猜你喜欢商品列表
+    scrollStatus: true
   },
   onLoad: function () {
     wx.setNavigationBarTitle({
@@ -75,24 +78,31 @@ Page({
   // 左滑开始
   leftTouchStart: function(e) {
     this.setData({
-      startLocation: e.touches[0].pageX
+      startLocationX: e.touches[0].pageX,
+      startLocationY: e.touches[0].pageY
     })
   },
   // 左滑中
   leftTouchMove: function(e) {
     this.setData({
-      moveLocation: e.touches[0].pageX
+      moveLocationX: e.touches[0].pageX,
+      moveLocationY: e.touches[0].pageY
     })
-    const num = this.data.startLocation - this.data.moveLocation
-
+    const numX = this.data.startLocationX - this.data.moveLocationX
+    const numY = this.data.startLocationY - this.data.moveLocationY
+    if (Math.abs(numY) < Math.abs(numX)){
+      this.setData({
+        scrollStatus: false
+      })
+    }
     let goodList = this.data.goodList
     
     const orderId = e.currentTarget.dataset.orderid
     goodList.forEach(function (item, index) {
       item.item.forEach(function (good, i) {
-        if (good.id == orderId && num > 100) {
+        if (good.id == orderId && numX > 60) {
           good['slideStatus'] = true
-        } else if (good.id == orderId && num < -100) {
+        } else if (good.id == orderId && numX < -60) {
           good['slideStatus'] = false
         } else{
           good['slideStatus'] = false
@@ -106,8 +116,11 @@ Page({
   //滑动结束
   touchEnd: function() {
     this.setData({
-      startLocation: 0,
-      moveLocation: 0
+      startLocationX: 0,
+      moveLocationX: 0,
+      startLocationY: 0,
+      moveLocationY: 0,
+      scrollStatus: true
     })
   },
   // 删除购物车商品

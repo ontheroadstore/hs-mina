@@ -1,4 +1,4 @@
-<scroll-view scroll-y class="main">
+<scroll-view scroll-y="{{scrollStatus}}" class="main">
   <view class='content'>
     <view class='seller_item' wx:key="key" wx:for="{{goodList}}" wx:if="{{goodList}}">
       <view class='user_info'>
