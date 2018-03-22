@@ -25,6 +25,8 @@ Page({
     this.setData({
       categories: categories.data
     })
+    // getApp().request('ssss')
+    // this.request('aaa')
   },
   // 顶部tab切换
   tabtap: function (e) {
