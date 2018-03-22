@@ -10,7 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isIphoneX: app.isIphoneX,      // 是否IphoneX
+    isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
     addressItems: null,            // 地址列表
     addressType: 0,                // 0：通过我的地址进入  1：确认订单页进入
     orderType: 0                   // 订单类型传入什么在返回什么(确认订单页)

@@ -9,7 +9,7 @@ Page({
     orderInfo: {
       order_status: 1,
     },
-    isIphoneX: app.isIphoneX      // 是否IphoneX
+    isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
 
   onLoad: function (options) {

@@ -23,7 +23,7 @@ Page({
     addLikeStatus: false,         // 是否收藏
     selectStatus: false,          // 选择款式框显示状态
     selectType: 0,                // 调起选择框：0文中选择 1加入购物车 2立即购买 （单个款式不调起）
-    isIphoneX: app.isIphoneX      // 是否IphoneX
+    isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({

@@ -2,6 +2,14 @@ import { request } from './wx-promise-request';
 let categoriesJson = '../jsons/categories.json';
 
 
+Promise.prototype.finally = function (callback) {
+  let P = this.constructor;
+  return this.then(
+    value => P.resolve(callback()).then(() => value),
+    reason => P.resolve(callback()).then(() => { throw reason })
+  );
+}
+
 const getCategories = () => {
   wx.request({
     url: '../jsons/categories.json',
@@ -15,30 +23,23 @@ const getCategories = () => {
   })
 }
 // 微信登陆接口
-const wx_login = (baseUrl, callback) => {
+const wx_login = (baseUrl, url, data, method) => {
   wx.login({
     success: (res) => {
       let code = res.code
       wx.getUserInfo({
         success: (res) => {
-          var data = {
-            code: code,
-            encryptedData: res.encryptedData,
-            iv: res.iv,
-            signature: res.signature,
-            rawData: res.rawData
-          }
           request({
             url: baseUrl + 'appv5_1/login/wechatapp',
-            data: data,
+            data: {
+              code: code
+            },
             method: 'POST'
           }).then(res => {
             switch (res.data.status) {
               case 1:
                 wx.setStorageSync('token', res.data.data.token)
-                if (typeof callback === "function") {
-                  callback()
-                }
+                req(baseUrl, url, data, method)
               break;
               default:
                 wx.showToast({ title: '截图给客服，登陆接口坏了。', icon: 'none', duration: 2000 })
@@ -63,6 +64,10 @@ const wx_login = (baseUrl, callback) => {
 // 封装请求接口
 const req = (baseUrl, url, data, method) => {
   return new Promise(function (resolve, reject) {
+    wx.showNavigationBarLoading()
+    wx.showLoading({
+      title: '加载中'
+    })
     request({
       url: baseUrl + url,
       data: data,
@@ -81,16 +86,18 @@ const req = (baseUrl, url, data, method) => {
         }
       } else if (res.statusCode == 401) {
         // 请求登陆
-        wx_login(baseUrl)
+        wx_login(baseUrl, url, data, method)
       }
     }).catch(error => {
       reject(error)
-    })
+      }).then(res => {
+        wx.hideNavigationBarLoading()
+        wx.hideLoading()
+      })
   })
 }
 
 module.exports = {
   getCategories: getCategories,
-  wx_login: wx_login,
   req: req
 }

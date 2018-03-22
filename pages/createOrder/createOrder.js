@@ -14,7 +14,7 @@ Page({
     //   address: '速度大大大大大苏打撒大苏打撒打算啊实打实大'
     // },
     addressInfo: null,            // 默认地址 在支付时，addressInfo不能为空
-    isIphoneX: app.isIphoneX      // 是否IphoneX
+    isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
