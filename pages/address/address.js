@@ -31,7 +31,7 @@ Page({
     this.getAddr()
   },
   // 删除地址
-  deleteAddress: function(e) {
+  deleteAddress: function (e) {
     const id = e.target.dataset.id
     req(app.globalData.bastUrl, 'appv2/removeaddress', {
       target_address_id: id
@@ -48,10 +48,10 @@ Page({
     })
   },
   // 设置默认地址
-  setDefault: function(e) {
+  setDefault: function (e) {
     const id = e.target.dataset.id
     // addressType=1 设置成功后返回
-    if (this.data.addressType == 1){
+    if (this.data.addressType == 1) {
       const orderType = this.data.orderType
       wx.navigateTo({
         url: '/pages/createOrder/createOrder?type=' + orderType,
@@ -70,10 +70,10 @@ Page({
     })
   },
   // 添加微信地址
-  addAddress: function() {
+  addAddress: function () {
     const that = this
     wx.chooseAddress({
-      complete: function(res) {
+      complete: function (res) {
         // chooseAddress: fail cancel
         // chooseAddress:ok
         // cityName:"广州市"
@@ -85,7 +85,7 @@ Page({
         // provinceName: "广东省"
         // telNumber: "020-81167888"
         // userName: "张三"
-        if (res.errMsg == 'chooseAddress:ok' ){
+        if (res.errMsg == 'chooseAddress:ok') {
           wx.showModal({
             title: '提示',
             content: '是否保存地址',
@@ -123,7 +123,7 @@ Page({
       }
     })
   },
-  getAddr: function() {
+  getAddr: function () {
     req(app.globalData.bastUrl, 'appv2/useraddress').then(res => {
       this.setData({
         addressItems: res.data
