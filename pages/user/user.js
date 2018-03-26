@@ -1,9 +1,7 @@
 // pages/user/user.js
-
+const app = getApp()
 const util = require('../../utils/util.js')
-// 假数据
-// 分类商品
-const categories_goods = require('../../data/categories_goods.js')
+import { req } from '../../utils/api.js'
 
 Page({
 
@@ -11,23 +9,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userId: 0,                    // 用户id
-    userGoods: null,              // 当前用户发布商品
+    isHideLoadMore: false,
+    usergoodsPages: 1,
+    userId: null,                    // 用户id
+    userGoods: [],              // 当前用户发布商品
     returnTopStatus: false,       // 返回顶部按钮显示状态
     scrollTop: 0                  // 滚动条高度
   },
   onLoad: function (options) {
-    console.log(options)
+    
     wx.setNavigationBarTitle({
       title: options.name
     })
-    console.log(options)
-    // this.setData({
-    //   userId: options.id
-    // })
+    
     this.setData({
-      userGoods: util.userAvatarTransform(categories_goods.data.data.item_list.result, 'user_avatar')
+      userId: options.id
     })
+    
+    this.getgoodsList()
   },
   // 返回顶部
   returnTop: function() {
@@ -57,6 +56,28 @@ Page({
   },
   // 触底加载
   scrolltolower: function (e) {
-    console.log(e)
+    this.getgoodsList()
+  },
+  // 卖家商品列表
+  getgoodsList: function () {
+    if (this.data.isHideLoadMore) return
+    this.setData({
+      isHideLoadMore: true
+    })
+    req(app.globalData.bastUrl, 'appv1/useritem', {
+      'cur_page': this.data.usergoodsPages,
+      'to_user_id': this.data.userId
+    }).then(res => {
+      this.setData({
+        userGoods: this.data.userGoods.concat(res.data.user_items),
+        usergoodsPages: this.data.usergoodsPages + 1,
+        isHideLoadMore: false
+      })
+      if (this.data.usergoodsPages > res.data.total_pages) {
+        this.setData({
+          isHideLoadMore: true
+        })
+      }
+    })
   }
 })

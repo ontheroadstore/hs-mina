@@ -40,6 +40,7 @@ const singleUserAvatarTransform = date => {
 }
 // 替换文本中换行<br />
 const replaceBr = date => {
+  if (!date) return false
   let newText = date
   let m = date.length/4
   for(let i = 0; i < m; i++){

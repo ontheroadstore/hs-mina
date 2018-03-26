@@ -1,11 +1,11 @@
 <scroll-view class='main' scroll-y bindscroll="mainScroll" scroll-top="{{scrollTop}}" bindscrolltolower="scrolltolower">
   <view class="me_like clearBoth" wx:key="key" wx:for="{{likeGoods}}">
-    <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
-    <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
-    <image bindtap="navigateToUser" data-id="{{item.id}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
-      <text bindtap="navigateToUser" data-id="{{item.id}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+    <image bindtap="navigateToGoods" data-id="{{item.object_id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.filepath}}" />
+    <view bindtap="navigateToGoods" data-id="{{item.object_id}}" class="article_title float_left">{{item.post_title}}</view>
+    <image bindtap="navigateToUser" data-id="{{item.object_id}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+      <text bindtap="navigateToUser" data-id="{{item.object_id}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
     <text class="price font_din float_left">￥ 198</text>
-    <image class='like_btn' src='/images/likeSelected.png' bindtap='cancelLike' data-goodId="{{item.id}}" data-index="{{index}}"></image>
+    <image class='like_btn' src='/images/likeSelected.png' bindtap='cancelLike' data-goodId="{{item.object_id}}" data-index="{{index}}"></image>
   </view>
   <image src='/images/returnTop.png' class='return_top' bindtap="returnTop" wx:if="{{returnTopStatus}}"></image>
   <image src='/images/returnIndex.png' class='return_index' bindtap="returnIndex"></image>

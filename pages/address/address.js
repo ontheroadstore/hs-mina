@@ -3,6 +3,7 @@ const app = getApp()
 
 //假数据
 const address = require('../../data/address.js')
+import { req } from '../../utils/api.js'
 
 Page({
 
@@ -10,10 +11,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
-    addressItems: null,            // 地址列表
-    addressType: 0,                // 0：通过我的地址进入  1：确认订单页进入
-    orderType: 0                   // 订单类型传入什么在返回什么(确认订单页)
+    isIphoneX: app.globalData.isIphoneX,    // 是否IphoneX
+    addressItems: [],                       // 地址列表
+    addressType: 0,                         // 0：通过我的地址进入  1：确认订单页进入
+    orderType: 0                            // 订单类型传入什么在返回什么(确认订单页)
   },
   onLoad: function (options) {
     // options type参数 0：通过我的地址进入  1：确认订单页进入
@@ -28,6 +29,9 @@ Page({
     })
     wx.setNavigationBarTitle({
       title: '收货地址'
+    })
+    req(app.globalData.bastUrl, 'appv2/useraddress').then(res => {
+      console.log(res.data)
     })
   },
   // 删除地址

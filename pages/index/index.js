@@ -21,11 +21,12 @@ Page({
     categories: [],               // 一级分类数组
     categoriesChild: [],          // 二级分类数组
     categoriesGoods: [],          // 分类关联商品数组
+    categoriesgoodsPages: 1,      // 分类商品页数
     hotGoods: [],                 // 热门商品列表
     hotgoodPages: 1,              // 热门商品分页
     salesGoods: [],               // 哆嗦排行榜列表
     bannerItem: [],               // banner列表
-    newGoods: []                  // 新品列表
+    newGoods: [],                 // 新品列表
   },
   onLoad: function () {
     // 获取分类
@@ -85,15 +86,10 @@ Page({
         })
       }
     })
+    // 切换到新的
+    this.clearcategoriesGoods()
     // 分类关联商品
-    req(app.globalData.bastUrl, 'appv3/category/posts', {
-      'category_id': this.data.tabIndex,
-      'cur_page': 1
-    }).then(res => {
-      this.setData({
-        categoriesGoods: res.data.data.item_list.result
-      })
-    })
+    this.getcategoriesGoods()
   },
   // 返回顶部
   returnTop: function() {
@@ -121,11 +117,15 @@ Page({
   },
   // 二级分类切换
   classifySonTab: function(e) {
-    let id = e.target.dataset
-    console.log(id)
+    // tab切换
+    let id = e.target.dataset.id
     this.setData({
-      categoriesGoods: util.userAvatarTransform(categories_goods1.data.data.item_list.result, 'user_avatar')
+      tabIndex: id
     })
+    // 切换到新的
+    this.clearcategoriesGoods()
+    // 分类关联商品
+    this.getcategoriesGoods()
   },
   // 商品跳转article
   navigateToGoods: function(e) {
@@ -152,10 +152,11 @@ Page({
       // 首页加载
       this.getHotlist()
     } else {
-
+      // 分类加载
+      this.getcategoriesGoods()
     }
   },
-  // 获取当下最热
+  // 获取当下最热商品列表
   getHotlist: function() {
     if (this.data.isHideLoadMore) return
     this.setData({
@@ -171,6 +172,30 @@ Page({
         hotgoodPages: this.data.hotgoodPages + 1,
         isHideLoadMore: false
       })
+    })
+  },
+  // 获取分类商品列表
+  getcategoriesGoods: function() {
+    if (this.data.isHideLoadMore) return
+    this.setData({
+      isHideLoadMore: true
+    })
+    req(app.globalData.bastUrl, 'appv3/category/posts', {
+      'category_id': this.data.tabIndex,
+      'cur_page': this.data.categoriesgoodsPages
+    }).then(res => {
+      this.setData({
+        categoriesGoods: this.data.categoriesGoods.concat(res.data.data.item_list.result),
+        categoriesgoodsPages: this.data.categoriesgoodsPages + 1,
+        isHideLoadMore: false
+      })
+    })
+  },
+  // 切换分类商品清空数据
+  clearcategoriesGoods: function() {
+    this.setData({
+      categoriesGoods: [],
+      categoriesgoodsPages: 1,
     })
   }
 })

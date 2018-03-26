@@ -2,14 +2,15 @@
 const app = getApp()
 const util = require('../../utils/util.js')
 
-//假数据
-const good = require('../../data/good1.js')
+import { req } from '../../utils/api.js'
 
 Page({
 
   data: {
     articleId: 0,                 // 商品ID
     goodInfo: null,               // 商品信息
+    desc: null,
+    content: null,
     selectStyleId: null,          // 选中的款式ID
     selectStyleName: null,        // 选中的款式名称
     selectStylePrice: null,       // 选中款式的价格
@@ -29,48 +30,36 @@ Page({
     wx.setNavigationBarTitle({
       title: '商品详情'
     })
-    // this.setData({
-    //   articleId: options.id
-    // })
+    this.setData({
+      articleId: options.id
+    })
+    // 获取商品详情
+    req(app.globalData.bastUrl, 'appv3_1/goods/' + this.data.articleId).then(res => {
+      this.setData({
+        goodInfo: res.data,
+        modulesUserGoods: res.data.modules[0],
+        modulesGuessLike: res.data.modules[1].data.result,
+        desc: util.replaceBr(res.data.desc),
+        content: util.replaceBr(res.data.content)
+      })
+      // 单个款式 直接显示预售且 选择框消失
+      // 多个款式 选择框显示 预售消失 （在选中款式时，更新预售状态，以及选中的款式）
+      const styleNum = this.data.goodInfo.type.length
+      let presellTime = null
+      let selectStyleId = null
+      // 单个订单 初始 预售 款式ID
+      if (styleNum == 1) {
+        presellTime = util.formatTime(this.data.goodInfo.type[0].estimated_delivery_date)
+        selectStyleId = this.data.goodInfo.type[0].id
+      }
+      this.setData({
+        presellTime: presellTime,
+        styleNum: styleNum,
+        selectStyleId: selectStyleId
+      })
+    })
     // 更新购物车图标数量
     this.getChartNum()
-
-    // 单个用户头像替换
-    good.data.seller.avatar = util.singleUserAvatarTransform(good.data.seller.avatar)
-    good.data.modules[0].data.result[0].avatar = util.singleUserAvatarTransform(good.data.modules[0].data.result[0].avatar)
-    // 多个用户头像替换
-    good.data.modules[1].data.result = util.userAvatarTransform(good.data.modules[1].data.result, 'user_avatar')
-
-    // 替换文本<br />
-    good.data.desc = util.replaceBr(good.data.desc)
-    good.data.content = util.replaceBr(good.data.content)
-    
-    // 设置收藏状态
-    if (good.data.is_favorited != 0){
-      this.setData({
-        addLikeStatus: true
-      })
-    }
-
-    // 单个款式 直接显示预售且 选择框消失
-    // 多个款式 选择框显示 预售消失 （在选中款式时，更新预售状态，以及选中的款式）
-    const styleNum = good.data.type.length
-    let presellTime = null
-    let selectStyleId = null
-    // 单个订单 初始 预售 款式ID
-    if (styleNum == 1){
-      presellTime = util.formatTime(good.data.type[0].estimated_delivery_date)
-      selectStyleId = good.data.type[0].id
-    }
-
-    this.setData({
-      goodInfo: good.data,
-      modulesUserGoods: good.data.modules[0],
-      modulesGuessLike: good.data.modules[1].data.result,
-      presellTime: presellTime,
-      styleNum: styleNum,
-      selectStyleId: selectStyleId
-    })
   },
   // 分享
   onShareAppMessage: function (res) {
@@ -80,7 +69,7 @@ Page({
     }
     return {
       title: '商品详情转发标题',
-      path: '/pages/article/articleId?id=' + 123,
+      path: '/pages/article/articleId?id=' + this.data.articleId,
       success: function (res) {
         // 转发成功
       },
@@ -97,7 +86,7 @@ Page({
   },
   // 图片预览
   previewImage: function(e) {
-    const url = e.target.dataset.url
+    const url = e.target.dataset.original
     // 图片加入预览列表
     wx.previewImage({
       current: url, // 当前显示图片的http链接
@@ -106,19 +95,27 @@ Page({
   },
   // 收藏
   addLike: function() {
-    // 需要商品id 
-    console.log(this.articleId)
-    // 已经收藏直接返回
-    if (this.data.addLikeStatus){
-      return false
+    if (this.data.goodInfo.is_favorited == 0) {
+      req(app.globalData.bastUrl, 'appv2/itemaddfavourite', {
+        item_id: this.data.articleId
+      }, 'POST').then(res => {
+        this.setData({
+          goodInfo: {
+            is_favorited: 1
+          }
+        })
+      })
+    } else {
+      req(app.globalData.bastUrl, 'appv2/itemdeletefavourite', {
+        item_id: this.data.articleId
+      }, 'POST').then(res => {
+        this.setData({
+          goodInfo: {
+            is_favorited: 0
+          }
+        })
+      })
     }
-    wx.showToast({
-      title: '成功',
-      duration: 2000
-    })
-    this.setData({
-      addLikeStatus: true
-    })
   },
   // 加入购物车
   addChart: function(e) {

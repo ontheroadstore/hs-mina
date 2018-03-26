@@ -39,7 +39,7 @@ const wx_login = (baseUrl, url, data, method) => {
             switch (res.data.status) {
               case 1:
                 wx.setStorageSync('token', res.data.data.token)
-                req(baseUrl, url, data, method)
+                return req(baseUrl, url, data, method)
               break;
               default:
                 wx.showToast({ title: '截图给客服，登陆接口坏了。', icon: 'none', duration: 2000 })

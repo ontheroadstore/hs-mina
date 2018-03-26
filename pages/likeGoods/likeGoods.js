@@ -1,29 +1,24 @@
 // pages/likeGoods/likeGoods.js
+const app = getApp()
 const util = require('../../utils/util.js')
-// 假数据
-// 商品
-const categories_goods = require('../../data/categories_goods.js')
+import { req } from '../../utils/api.js'
 
 Page({
 
   data: {
-    userId: 0,                    // 用户id
-    likeGoods: null,              // 当前用户发布商品
-    returnTopStatus: false,       // 返回顶部按钮显示状态
-    scrollTop: 0                  // 滚动条高度
+    userId: 0,                  // 用户id
+    likeGoods: [],              // 当前用户发布商品
+    returnTopStatus: false,     // 返回顶部按钮显示状态
+    scrollTop: 0,               // 滚动条高度
+    likegoodPages: 1,
+    isHideLoadMore: false
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: '我的收藏'
     })
-    // 含有用户id
-    console.log(options)
-    this.setData({
-      userId: 64
-    })
-    this.setData({
-      likeGoods: util.userAvatarTransform(categories_goods.data.data.item_list.result, 'user_avatar')
-    })
+    this.getlikeGood()
+
   },
   // 返回顶部
   returnTop: function () {
@@ -55,19 +50,45 @@ Page({
   cancelLike: function(e) {
     const goodId = e.target.dataset.goodid
     const index = e.target.dataset.index
-    wx.showToast({
-      title: '取消成功',
-      icon: 'success',
-      duration: 2000
-    })
-    // 清除数组中 取消的like
-    this.data.likeGoods.splice(index, 1)
-    this.setData({
-      likeGoods: this.data.likeGoods
+    
+    req(app.globalData.bastUrl, 'appv2/itemdeletefavourite', {
+      item_id: goodId
+    },'POST').then(() => {
+      wx.showToast({
+        title: '取消成功',
+        icon: 'success',
+        duration: 2000
+      })
+      // 清除数组中 取消的like
+      this.data.likeGoods.splice(index, 1)
+      this.setData({
+        likeGoods: this.data.likeGoods
+      })
     })
   },
   // 触底加载
   scrolltolower: function (e) {
     console.log(e)
+  },
+  // 获取用户收藏列表
+  getlikeGood: function () {
+    if (this.data.isHideLoadMore) return
+    this.setData({
+      isHideLoadMore: true
+    })
+    req(app.globalData.bastUrl, 'appv2/userfavourite', {
+      'cur_page': this.data.likegoodPages
+    }).then(res => {
+      this.setData({
+        likeGoods: this.data.likeGoods.concat(res.data.items),
+        likegoodPages: this.data.likegoodPages + 1,
+        isHideLoadMore: false
+      })
+      if (this.data.likegoodPages > res.data.total_pages) {
+        this.setData({
+          isHideLoadMore: true
+        })
+      }
+    })
   }
 })
