@@ -74,6 +74,11 @@ Page({
         isHideLoadMore: false
       })
       if (this.data.usergoodsPages > res.data.total_pages) {
+        wx.showToast({
+          title: '已经到底了',
+          icon: 'none',
+          duration: 1000
+        })
         this.setData({
           isHideLoadMore: true
         })

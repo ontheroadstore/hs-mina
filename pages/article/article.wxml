@@ -2,9 +2,9 @@
   <image class='frontcover' mode="aspectFill" lazy-load src='{{goodInfo.banner[0]}}@640w_1l'></image>
   <view class='good_title'>{{goodInfo.title}}</view>
   <view class='share_content'>
-    <view class='good_price font_din' wx:if="{{goodInfo.price.length != 1 && selectStylePrice}}">￥ {{goodInfo.price[0]}} - {{goodInfo.price[1]}}</view>
-    <view class='good_price font_din' wx:elif="{{!selectStylePrice}}">￥ {{goodInfo.price[0]}}</view>
-    <view class='good_price font_din' wx:else="{{selectStylePrice}}">￥ {{selectStylePrice}}</view>
+    <view class='good_price font_din' wx:if="{{goodInfo.price.length != 1 && !selectStylePrice}}">￥ {{goodInfo.price[0]}} - {{goodInfo.price[1]}}</view>
+    <view class='good_price font_din' wx:elif="{{goodInfo.price.length == 1}}">￥ {{goodInfo.price[0]}}</view> 
+    <view class='good_price font_din' wx:else="{{selectStylePrice}}">￥ {{selectStylePrice}}</view> 
     <image class='share' src='/images/share.png' bindtap='share'></image>
     <button class='share_btn' open-type="share">转发</button>
   </view>
@@ -25,7 +25,7 @@
     <text class='title'>狠货简介</text>
     <text class='text_details'>{{desc}}</text>
   </view>
-  <view class='content'>
+  <view class='content' wx:if="{{content}}">
     <text class='title'>狠人说</text>
     <text class='text_details'>{{content}}</text>
   </view>
@@ -42,7 +42,7 @@
 
   <view class='user_goods'>
     <view class='user_info clearBoth'>
-      <image class='float_left' src='{{modulesUserGoods.data.result[0].avatar}}/64'></image>
+      <image class='float_left' src='{{modulesUserGoods.data.result[0].avatar}}'></image>
       <view class='user_name float_left'>{{modulesUserGoods.data.result[0].name}}</view>
       <view class='user_motto float_left'>{{modulesUserGoods.data.result[0].motto?modulesUserGoods.data.result[0].motto:'这家伙太懒了，啥都没写'}}</view>
       <view class='user_all_good float_right' bindtap="navigateToUser" data-name="{{modulesUserGoods.data.result[0].name}}" data-id="{{modulesUserGoods.data.result[0].id}}">全部狠货</view>
@@ -54,7 +54,7 @@
       </navigator>
     </scroll-view>
   </view>
-  <view class='guess_like'>
+  <view class="guess_like {{isIphoneX? 'iphoneX_guess_like' : ''}}">
     <view class='title'>猜你喜欢</view>
     <view class="good_item clearBoth" wx:key="key" wx:for="{{modulesGuessLike}}" wx:if="{{index < 5}}">
       <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
@@ -80,11 +80,11 @@
   </view>
   <view class="select {{selectStatus ? 'show':''}}" bindtap='selectHide' data-status="true">
     <view class="select_content {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}">
-      <image class='cover' src='{{goodInfo.banner[0]}}'></image>
+      <image class='cover' src='{{goodInfo.banner[0]}}@640w_1l'></image>
       <view class='title'>{{goodInfo.title}}</view>
-      <view class='price font_din' wx:if="{{goodInfo.price.length != 1 && selectStylePrice}}">￥ {{goodInfo.price[0]}} - {{goodInfo.price[1]}}</view>
-      <view class='price font_din' wx:elif="{{!selectStylePrice}}">￥ {{goodInfo.price[0]}}</view>
-      <view class='price font_din' wx:else="{{selectStylePrice}}">￥ {{selectStylePrice}}</view>
+      <view class='price font_din' wx:if="{{goodInfo.price.length != 1 && !selectStylePrice}}">￥ {{goodInfo.price[0]}} - {{goodInfo.price[1]}}</view>
+      <view class='price font_din' wx:elif="{{goodInfo.price.length == 1}}">￥ {{goodInfo.price[0]}}</view> 
+      <view class='price font_din' wx:else="{{selectStylePrice}}">￥ {{selectStylePrice}}</view> 
       <view class='styles_content'>
         <view class='styles_select clearBoth'>
           <view class='label'>款式</view>

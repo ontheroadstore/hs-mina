@@ -1,21 +1,14 @@
 //index.js
 //获取应用实例
 const app = getApp()
-const util = require('../../utils/util.js')
+import util from '../../utils/util.js'
 import { req } from '../../utils/api.js'
-
-//假数据
-// 分类
-const categories = require('../../data/categories.js')
-// 分类商品
-const categories_goods = require('../../data/categories_goods.js')
-const categories_goods1 = require('../../data/categories_goods1.js')
-const categories_goods2 = require('../../data/categories_goods2.js')
 
 Page({
   data: {
     isHideLoadMore: false,        // 判断加载
     tabIndex: 0,                  // tab切换
+    categoriesTabIndex: 0,        // 分类tab切换
     returnTopStatus: false,       // 返回顶部按钮显示状态
     scrollTop: 0,                 // 滚动条高度
     categories: [],               // 一级分类数组
@@ -50,6 +43,7 @@ Page({
     req(app.globalData.bastUrl, 'appv3/modules', {
       qt: 4
     }).then(res => {
+      res.data.result = util.userAvatarTransform(res.data.result, 'user_avatar')
       this.setData({
         newGoods: res.data.result
       })
@@ -59,6 +53,7 @@ Page({
       channel: '2',
       random: '1'
     }).then(res => {
+      res.data.modules[0].data.result = util.userAvatarTransform(res.data.modules[0].data.result, 'user_avatar')
       this.setData({
         salesGoods: res.data.modules[0].data.result
       })
@@ -101,7 +96,7 @@ Page({
   scroll: function(e) {
     // console.log(e)
   },
-  // 纵向滚动监控
+  // 滚动监控
   mainScroll: function(e) {
     // 控制按钮显示
     let height = e.detail.scrollTop
@@ -120,7 +115,7 @@ Page({
     // tab切换
     let id = e.target.dataset.id
     this.setData({
-      tabIndex: id
+      categoriesTabIndex: id
     })
     // 切换到新的
     this.clearcategoriesGoods()
@@ -167,6 +162,7 @@ Page({
       'page': this.data.hotgoodPages,
       'size': 10
     }).then(res => {
+      res.data.result = util.userAvatarTransform(res.data.result, 'user_avatar')
       this.setData({
         hotGoods: this.data.hotGoods.concat(res.data.result),
         hotgoodPages: this.data.hotgoodPages + 1,
@@ -180,8 +176,9 @@ Page({
     this.setData({
       isHideLoadMore: true
     })
+    const category_id = this.data.categoriesTabIndex == 0 ? this.data.tabIndex : this.data.categoriesTabIndex
     req(app.globalData.bastUrl, 'appv3/category/posts', {
-      'category_id': this.data.tabIndex,
+      'category_id': category_id,
       'cur_page': this.data.categoriesgoodsPages
     }).then(res => {
       this.setData({

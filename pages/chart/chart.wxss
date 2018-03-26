@@ -117,8 +117,7 @@
   margin-top: 32rpx;
 }
 .chart_content .all_select{
-  font-size: 26rpx;
-  font-weight: 600;
+  font-size: 24rpx;
 }
 .chart_content .buy_btn{
   font-size: 24rpx;
@@ -129,6 +128,7 @@
   line-height: 70rpx;
   margin-top: 13rpx;
   text-align: center;
+  border-radius: 8rpx;
 }
 .chart_content .total_text{
   font-size: 24rpx;

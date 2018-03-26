@@ -1,8 +1,7 @@
 // pages/article/article.js
 const app = getApp()
-const util = require('../../utils/util.js')
-
 import { req } from '../../utils/api.js'
+import util from '../../utils/util.js'
 
 Page({
 
@@ -36,40 +35,50 @@ Page({
     // 获取商品详情
     req(app.globalData.bastUrl, 'appv3_1/goods/' + this.data.articleId).then(res => {
       this.setData({
-        goodInfo: res.data,
-        modulesUserGoods: res.data.modules[0],
         modulesGuessLike: res.data.modules[1].data.result,
         desc: util.replaceBr(res.data.desc),
         content: util.replaceBr(res.data.content)
       })
+      const goodInfo = res.data
+      const modulesUserGoods = res.data.modules[0]
       // 单个款式 直接显示预售且 选择框消失
       // 多个款式 选择框显示 预售消失 （在选中款式时，更新预售状态，以及选中的款式）
-      const styleNum = this.data.goodInfo.type.length
+      const styleNum = goodInfo.type.length
       let presellTime = null
       let selectStyleId = null
       // 单个订单 初始 预售 款式ID
       if (styleNum == 1) {
-        presellTime = util.formatTime(this.data.goodInfo.type[0].estimated_delivery_date)
-        selectStyleId = this.data.goodInfo.type[0].id
+        presellTime = util.formatTime(goodInfo.type[0].estimated_delivery_date)
+        selectStyleId = goodInfo.type[0].id
       }
+      // 添加/64
+      res.data.seller.avatar = util.singleUserAvatarTransform(res.data.seller.avatar) 
+      res.data.modules[0].data.result[0].avatar = util.singleUserAvatarTransform(res.data.modules[0].data.result[0].avatar) 
+      
       this.setData({
         presellTime: presellTime,
         styleNum: styleNum,
-        selectStyleId: selectStyleId
+        selectStyleId: selectStyleId,
+        goodInfo: goodInfo,
+        modulesUserGoods: modulesUserGoods
       })
     })
     // 更新购物车图标数量
     this.getChartNum()
   },
+  onShow: function() {
+    console.log(this.data.goodInfo)
+  },
   // 分享
   onShareAppMessage: function (res) {
     if (res.from === 'button') {
       // 来自页面内转发按钮
-      console.log(res.target)
+      // console.log(res.target)
     }
     return {
-      title: '商品详情转发标题',
-      path: '/pages/article/articleId?id=' + this.data.articleId,
+      title: this.data.goodInfo.title,
+      path : '/pages/article/article?id=' + this.data.articleId,
+      imageUrl: this.data.goodInfo.banner[0],
       success: function (res) {
         // 转发成功
       },
@@ -79,10 +88,20 @@ Page({
     }
   },
   // 获取购物车数量
-  getChartNum: function() {
-    this.setData({
-      chartNum: 1
+  getChartNum: function(n) {
+    req(app.globalData.bastUrl, 'appv3_1/getcart/count', {}, 'GET').then(res => {
+      this.setData({
+        chartNum: res.data
+      })
+      if(n == 1){
+        wx.showToast({
+          title: '添加成功',
+          icon: 'success',
+          duration: 1000
+        })
+      }
     })
+
   },
   // 图片预览
   previewImage: function(e) {
@@ -99,20 +118,18 @@ Page({
       req(app.globalData.bastUrl, 'appv2/itemaddfavourite', {
         item_id: this.data.articleId
       }, 'POST').then(res => {
+        this.data.goodInfo.is_favorited = 1
         this.setData({
-          goodInfo: {
-            is_favorited: 1
-          }
+          goodInfo: this.data.goodInfo
         })
       })
     } else {
       req(app.globalData.bastUrl, 'appv2/itemdeletefavourite', {
         item_id: this.data.articleId
       }, 'POST').then(res => {
+        this.data.goodInfo.is_favorited = 0        
         this.setData({
-          goodInfo: {
-            is_favorited: 0
-          }
+          goodInfo: this.data.goodInfo
         })
       })
     }
@@ -123,10 +140,12 @@ Page({
     // this.data.articleId 商品id 
     // this.data.selectStyleId 款式id
     // this.data.selectStyleCount 数量
-    console.log(this.data)
-    wx.showToast({
-      title: '添加成功',
-      duration: 2000
+    req(app.globalData.bastUrl, 'appv2/additemintocart', {
+      item_id: this.data.articleId,
+      model_id: this.data.selectStyleId,
+      count: this.data.selectStyleCount
+    }, 'POST').then(res => {
+      this.getChartNum(1)
     })
   },
   // 显示款式选择框
@@ -205,7 +224,10 @@ Page({
     // 设置选择的款式，以及数量，进行数据缓存（没有款式，直接存储）
     let goodInfo = this.data.goodInfo
     if (this.data.styleNum == 1){
-      goodInfo.type[0]['number'] = 1
+      let newType = goodInfo.type
+      newType[0]['number'] = 1
+      newType[0]['desc'] = null
+      goodInfo.newType = newType
       wx.setStorageSync('orderData', goodInfo)
     }else{
       let selectStyleId = this.data.selectStyleId
@@ -214,10 +236,11 @@ Page({
       goodInfo.type.forEach(function(item, index){
         if (item.id == selectStyleId){
           item['number'] = selectStyleCount
+          item['desc'] = null
           newType.push(item)
         }
       })
-      goodInfo.type = newType
+      goodInfo.newType = newType
       wx.setStorageSync('orderData', goodInfo)
     }
     const url = '/pages/createOrder/createOrder?type=0'

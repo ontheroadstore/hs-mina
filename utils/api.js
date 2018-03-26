@@ -1,5 +1,4 @@
 import { request } from './wx-promise-request';
-let categoriesJson = '../jsons/categories.json';
 
 
 Promise.prototype.finally = function (callback) {

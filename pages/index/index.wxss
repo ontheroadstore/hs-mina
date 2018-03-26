@@ -221,6 +221,17 @@
   top: 0;
   background: rgba(0, 0, 0, 0.4);
 }
+.classifys_scroll .classify_son text.active::after{
+  content: "";
+  position: absolute;
+  width: 32rpx;
+  height: 4rpx;
+  background: #FFF;
+  border-radius: 2rpx;
+  bottom: 10rpx;
+  left: 50%;
+  transform: translateX(-50%);
+}
 .classify_goods{
   padding-bottom: 40rpx;
   width: 690rpx;

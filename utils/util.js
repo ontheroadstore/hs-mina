@@ -19,7 +19,9 @@ const wxUrl = 'http://wx.qlogo.cn/'
 const userAvatarTransform = (date, param) => {
   let newGoods = []
   date.forEach(function (item, index) {
-    if (item[param].indexOf(thirdwx) || item[param].indexOf(wxUrl)) {
+    if (!item[param]){
+      newGoods.push(item)
+    }else if (item[param].indexOf(thirdwx) || item[param].indexOf(wxUrl)) {
       item[param] = item[param] + '/64'
       newGoods.push(item)
     }else{

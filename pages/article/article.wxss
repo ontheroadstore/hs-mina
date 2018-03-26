@@ -111,7 +111,7 @@
   margin-bottom: 30rpx;
 }
 .content{
-  padding: 0 30rpx;
+  padding: 30rpx;
 }
 .desc .title,
 .content .title{
@@ -263,6 +263,9 @@
 }
 .guess_like{
   padding: 0 30rpx 100rpx;
+}
+iphoneX_guess_like{
+  padding: 0 30rpx 168rpx;
 }
 .guess_like .title{
   font-size: 32rpx;

@@ -54,7 +54,7 @@ Page({
     if (this.data.addressType == 1){
       const orderType = this.data.orderType
       wx.navigateTo({
-        url: '/pages/createOrder/createOrder?orderType=' + orderType,
+        url: '/pages/createOrder/createOrder?type=' + orderType,
       })
     }
     req(app.globalData.bastUrl, 'appv2/updateaddress', {
@@ -113,7 +113,7 @@ Page({
                 if (that.data.addressType == 1) {
                   const orderType = that.data.orderType
                   wx.navigateTo({
-                    url: '/pages/createOrder/createOrder?orderType=' + orderType,
+                    url: '/pages/createOrder/createOrder?type=' + orderType,
                   })
                 }
               }

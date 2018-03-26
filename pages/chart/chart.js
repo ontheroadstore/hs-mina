@@ -1,43 +1,48 @@
 // pages/chart/chart.js
 const app = getApp()
 const util = require('../../utils/util.js')
-
-//假数据
-const chartss = require('../../data/chartss.js')
+import { req } from '../../utils/api.js'
 
 
 Page({
 
   data: {
-    goodList: null,           // 购物车商品列表
-    selectAllStatus: false,   // 全选状态
-    startLocationX: null,      // 左滑开始位置（用于显示删除按钮）
-    moveLocationX: null,       // 左滑进行中的位置（用于显示删除按钮）
-    startLocationY: null,      // 左滑开始位置（用于显示删除按钮）
-    moveLocationY: null,       // 左滑进行中的位置（用于显示删除按钮）
-    randomGoods: null,        // 猜你喜欢商品列表
-    scrollStatus: true
+    goodList: null,             // 购物车商品列表
+    selectAllStatus: false,     // 全选状态
+    startLocationX: null,       // 左滑开始位置（用于显示删除按钮）
+    moveLocationX: null,        // 左滑进行中的位置（用于显示删除按钮）
+    startLocationY: null,       // 左滑开始位置（用于显示删除按钮）
+    moveLocationY: null,        // 左滑进行中的位置（用于显示删除按钮）
+    randomGoods: null,          // 猜你喜欢商品列表
+    scrollStatus: true,         // 是否禁止滚动
+    totalPrice: 0               // 总价
   },
   onLoad: function () {
     wx.setNavigationBarTitle({
       title: '购物车'
     })
-
-    // 获取数据添加选中状态 左滑选中状态
-    // childOrderShow 在传入确认订单页中使用
-    let goodList = []
-    chartss.data.cart.forEach(function(item, index) {
-      item['selectStatus'] = false
-      item['childOrderShow'] = false
-      item.item.forEach(function(good, i){
-        good['selectStatus'] = false
-        good['slideStatus'] = false
-      })
-      goodList.push(item)
-    })
-    this.setData({
-      goodList: goodList,
-      randomGoods: util.userAvatarTransform(chartss.data.recommended, 'user_avatar')
+    // 获取购物车商品
+    req(app.globalData.bastUrl, 'appv4/getcart', {}).then(res => {
+      console.log(res)
+      if (res.status == 1){
+        // 获取数据添加选中状态 左滑选中状态
+        // childOrderShow 在传入确认订单页中使用
+        let goodList = []
+        res.data.cart.forEach(function (item, index) {
+          item['selectStatus'] = false
+          item['childOrderShow'] = false
+          item['seller_avatar'] = util.singleUserAvatarTransform(item['seller_avatar'])
+          item.item.forEach(function (good, i) {
+            good['selectStatus'] = false
+            good['slideStatus'] = false
+          })
+          goodList.push(item)
+        })
+        this.setData({
+          goodList: goodList,
+          randomGoods: util.userAvatarTransform(res.data.recommended, 'user_avatar')
+        })
+      }
     })
   },
   // 修改购物车数量 需要更新服务端存储数据，修改成功后再更新显示数量
@@ -160,14 +165,19 @@ Page({
   // 全部选择商品
   selectAll: function () {
     if (this.data.selectAllStatus){
+      let status = SetStatus(this.data.goodList, false, 0, 0)
       this.setData({
-        goodList: SetStatus(this.data.goodList, false, 0, 0).data,
-        selectAllStatus: false
+        goodList: status.data,
+        selectAllStatus: false,
+        totalPrice: countTotalPrice(this.data.goodList)
       })
     }else{
+      let status = SetStatus(this.data.goodList, true, 0, 0)
+      
       this.setData({
-        goodList: SetStatus(this.data.goodList, true, 0, 0).data,
-        selectAllStatus: true
+        goodList: status.data,
+        selectAllStatus: true,
+        totalPrice: countTotalPrice(this.data.goodList)
       })
     }
   },
@@ -177,7 +187,8 @@ Page({
     let status = SetStatus(this.data.goodList, true, 0, goodid)
     this.setData({
       goodList: status.data,
-      selectAllStatus: status.selectAllStatus
+      selectAllStatus: status.selectAllStatus,
+      totalPrice: countTotalPrice(this.data.goodList)
     })
   },
   // 用户选择商品
@@ -186,12 +197,13 @@ Page({
     let status = SetStatus(this.data.goodList, true, userid, 0)
     this.setData({
       goodList: status.data,
-      selectAllStatus: status.selectAllStatus
+      selectAllStatus: status.selectAllStatus,
+      totalPrice: countTotalPrice(this.data.goodList)
     })
   },
   // 商品跳转article
   navigateToGoods: function (e) {
-    let id = e.target.dataset.id
+    let id = e.target.dataset.goodid
     const url = '/pages/article/article?id=' + id
     wx.navigateTo({
       url: url
@@ -289,5 +301,17 @@ function SetStatus(data, status, userId, orderId) {
     data: newData,
     selectAllStatus: selectAllStatus
   }
-  
+
+}
+
+function countTotalPrice(data) {
+  var totalPrice = 0
+  data.forEach(function (item, index) {
+    item.item.forEach(function (good, i) {
+      if (good['selectStatus']){
+        totalPrice += good['numbers'] * good['price']
+      }
+    })
+  })
+  return totalPrice
 }
