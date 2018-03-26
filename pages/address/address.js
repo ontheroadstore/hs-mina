@@ -2,7 +2,6 @@
 const app = getApp()
 
 //假数据
-const address = require('../../data/address.js')
 import { req } from '../../utils/api.js'
 
 Page({
@@ -21,39 +20,36 @@ Page({
     // 0情况下正常操作
     // 1情况在 设置默认后,微信添加地址(设为默认地址) 返回--确认订单页
     console.log(options)
-    console.log(address.data)
     this.setData({
       orderType: options.orderType,
       addressType: options.type,
-      addressItems: address.data
+      // addressItems: address.data
     })
     wx.setNavigationBarTitle({
       title: '收货地址'
     })
-    req(app.globalData.bastUrl, 'appv2/useraddress').then(res => {
-      console.log(res.data)
-    })
+    this.getAddr()
   },
   // 删除地址
   deleteAddress: function(e) {
     const id = e.target.dataset.id
-    const index = e.target.dataset.index
-    console.log(id)
-    wx.showToast({
-      title: '成功',
-      icon: 'success',
-      duration: 2000
-    })
-    // 清除数组中 删除的地址
-    this.data.addressItems.splice(index, 1)
-    this.setData({
-      addressItems: this.data.addressItems
+    req(app.globalData.bastUrl, 'appv2/removeaddress', {
+      target_address_id: id
+    }, 'POST').then(res => {
+      if (res.code == 1) {
+        wx.showToast({
+          title: '删除成功',
+          icon: 'success',
+          duration: 2000
+        })
+        // 清除数组中 删除的地址
+        this.getAddr()
+      }
     })
   },
   // 设置默认地址
   setDefault: function(e) {
     const id = e.target.dataset.id
-    console.log(e)
     // addressType=1 设置成功后返回
     if (this.data.addressType == 1){
       const orderType = this.data.orderType
@@ -61,24 +57,16 @@ Page({
         url: '/pages/createOrder/createOrder?orderType=' + orderType,
       })
     }
-    wx.showToast({
-      title: '成功',
-      icon: 'success',
-      duration: 2000
-    })
-    // 清除数组中 删除的地址
-    let newAddressItems = [];
-    this.data.addressItems.forEach(function(item, i){
-      if(item.id == id){
-        item.default = 1
-        newAddressItems.push(item)
-      }else{
-        item.default = 0
-        newAddressItems.push(item)
-      }
-    })
-    this.setData({
-      addressItems: newAddressItems
+    req(app.globalData.bastUrl, 'appv2/updateaddress', {
+      target_address_id: id,
+      is_default: 1
+    }, 'POST').then(res => {
+      wx.showToast({
+        title: '成功',
+        icon: 'success',
+        duration: 2000
+      })
+      this.getAddr()
     })
   },
   // 添加微信地址
@@ -104,7 +92,23 @@ Page({
             success: function (data) {
               if (data.confirm) {
                 // 待保存的地址信息
-                console.log(res)
+                req(app.globalData.bastUrl, 'appv1/usernewaddress', {
+                  address_detail: res.detailInfo,
+                  city: res.cityName,
+                  district: res.countyName,
+                  is_default: 0,
+                  mobile: res.telNumber,
+                  postal_code: res.postalCode,
+                  province: res.provinceName,
+                  user_name: res.userName
+                }, 'POST').then(res => {
+                  if (res.code = 1) {
+                    wx.showToast({
+                      title: '保存成功',
+                    })
+                  }
+                  that.getAddr()
+                })
                 // addressType=1 设置成功后返回
                 if (that.data.addressType == 1) {
                   const orderType = that.data.orderType
@@ -117,6 +121,13 @@ Page({
           })
         }
       }
+    })
+  },
+  getAddr: function() {
+    req(app.globalData.bastUrl, 'appv2/useraddress').then(res => {
+      this.setData({
+        addressItems: res.data
+      })
     })
   }
 })
