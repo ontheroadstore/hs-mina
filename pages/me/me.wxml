@@ -1,10 +1,10 @@
 <scroll-view scroll-y class='main'>
   <view class='user_info'>
     <image class='bg' src='/images/meBg.png'></image>
-    <image class='avatar' src='{{userInfo.avatar}}'></image>
+    <image class='avatar' src='{{userInfo.avatar}}/64'></image>
     <view class='user_name'>{{userInfo.nickname}}</view>
-    <navigator hover-class="none" url="/pages/relevanceTel/relevanceTel" wx:if="{{!userInfo.tel}}" class='relevance_tel'>绑定手机</navigator>
-    <view class='tel' wx:if="{{userInfo.tel}}">{{userInfo.tel}}</view>
+    <navigator hover-class="none" url="/pages/relevanceTel/relevanceTel" wx:if="{{!userInfo.telphone}}" class='relevance_tel'>绑定手机</navigator>
+    <view class='tel' wx:if="{{userInfo.telphone}}">{{userInfo.telphone}}</view>
   </view>
   <view class='order'>
     <navigator class='order_all' hover-class="none" url="/pages/orders/orders?type=0">

@@ -1,6 +1,8 @@
 // pages/relevanceTel/relevanceTel.js
 const app = getApp()
 const util = require('../../utils/util.js')
+import { req } from '../../utils/api.js'
+
 
 Page({
   data: {
@@ -14,6 +16,7 @@ Page({
   onLoad: function () {
     // 存有用户id
     console.log(app.userInfo)
+
   },
   // 输入手机号
   inputTel: function(e) {
@@ -36,53 +39,76 @@ Page({
   },
   // 点击获取验证码
   getVerificationCode: function() {
-    let time = this.data.time
-    const that = this
-    // 正在倒计时
-    if (time != 60){
-      return false
-    }
     // 输入手机号 为11位
-    const telNumber = parseInt(this.data.telNumber)
-    if (telNumber.length != 11){
-      return wx.showToast({
+    if (this.data.telNumber.length != 11) {
+      wx.showToast({
         title: '请输入正确的手机号',
         icon: 'none',
         duration: 1000
       })
+      return false
     }
-    const clearTime = setInterval(function() {
-      if(time == 0){
-        clearInterval(clearTime)
-        that.setData({
-          time: 60
-        })
-      }else{
-        time = time - 1
-        that.setData({
-          time: time
+
+    req(app.globalData.bastUrl, 'appv4/signings/codes', {
+      phone: this.data.telNumber
+    }).then(res => {
+      if (res.code == 1) {
+        // 正在倒计时
+        if (this.data.time != 60) {
+          return false
+        }
+        const clearTime = setInterval(() => {
+          if (time == 0) {
+            clearInterval(clearTime)
+            this.setData({
+              time: 60
+            })
+          } else {
+            time = time - 1
+            this.setData({
+              time: time
+            })
+          }
+        }, 1000)
+      } else {
+        wx.showToast({
+          title: res.data,
         })
       }
-    },1000)
+    })
+
+
   },
   // 点击下一步
   next: function() {
     const telNumber = this.data.telNumber
     const verificationCode = this.data.verificationCode
-    if (telNumber == 0 || verificationCode == 0){
-      return wx.showToast({
+    if (telNumber.length == 0 || verificationCode.length == 0){
+      wx.showToast({
         title: '请填写完成',
         icon: 'none',
         duration: 1000
       })
+      return false
     }
+    req(app.globalData.bastUrl, 'appv4/signings/bindings', {
+      phone: this.data.telNumber,
+      code: this.data.verificationCode
+    }, 'POST').then(res => {
+      if (res.code == 1) {
+        // 成功则提示用户，然后延时1~2秒返回个人中心 更新app存储的tel
+        app.userInfo.telNumber = this.data.telNumber
 
-    // 成功则提示用户，然后延时1~2秒返回个人中心 更新app存储的tel
-    // app.userInfo.tel = 18735060000
-    setTimeout(function() {
-      wx.switchTab({
-        url: "/pages/me/me"
-      })
+        setTimeout(function () {
+          wx.switchTab({
+            url: "/pages/me/me"
+          })
+        })
+      } else {
+        wx.showToast({
+          title: res.data,
+        })
+      }
     })
   }
 })
