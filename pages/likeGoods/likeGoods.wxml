@@ -1,6 +1,6 @@
 <scroll-view class='main' scroll-y bindscroll="mainScroll" scroll-top="{{scrollTop}}" bindscrolltolower="scrolltolower">
   <view class="me_like clearBoth" wx:key="key" wx:for="{{likeGoods}}">
-    <image bindtap="navigateToGoods" data-id="{{item.object_id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.filepath}}" />
+    <image bindtap="navigateToGoods" data-id="{{item.object_id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.filepath}}@640w_1l" />
     <view bindtap="navigateToGoods" data-id="{{item.object_id}}" class="article_title float_left">{{item.post_title}}</view>
     <image bindtap="navigateToUser" data-id="{{item.object_id}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
       <text bindtap="navigateToUser" data-id="{{item.object_id}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
