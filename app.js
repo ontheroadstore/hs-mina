@@ -1,6 +1,6 @@
 //app.js
 // data数据不区分大小写
-
+import util from './utils/util.js'
 import { wx_login, req } from './utils/api.js'
 
 App({
@@ -19,6 +19,7 @@ App({
     // 登录
     wx_login(this.globalData.bastUrl).then(res => {
       req(this.globalData.bastUrl, 'appv4/user/simple').then(res => {
+        res.data.avatar = util.singleUserAvatarTransform(res.data.avatar)
         this.globalData.userInfo = res.data
       })
     })
