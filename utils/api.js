@@ -66,12 +66,14 @@ const wx_login = (baseUrl) => {
   })
 }
 // 封装请求接口
-const req = (baseUrl, url, data, method) => {
+const req = (baseUrl, url, data, method, showLoadingStatus) => {
   return new Promise(function (resolve, reject) {
-    wx.showNavigationBarLoading()
-    wx.showLoading({
-      title: '加载中'
-    })
+    if (!showLoadingStatus){
+      wx.showNavigationBarLoading()
+      wx.showLoading({
+        title: '加载中'
+      })
+    }
     request({
       url: baseUrl + url,
       data: data,
@@ -96,8 +98,11 @@ const req = (baseUrl, url, data, method) => {
     }).catch(error => {
       reject(error)
     }).then(res => {
-      wx.hideNavigationBarLoading()
-      wx.hideLoading()
+      if (!showLoadingStatus){
+        wx.hideNavigationBarLoading()
+        wx.hideLoading()
+      }
+      
     })
   })
 }
