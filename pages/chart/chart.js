@@ -21,10 +21,11 @@ Page({
     wx.setNavigationBarTitle({
       title: '购物车'
     })
+  },
+  onShow: function() {
     // 获取购物车商品
     req(app.globalData.bastUrl, 'appv4/getcart', {}).then(res => {
-      console.log(res)
-      if (res.status == 1){
+      if (res.status == 1) {
         // 获取数据添加选中状态 左滑选中状态
         // childOrderShow 在传入确认订单页中使用
         let goodList = []
