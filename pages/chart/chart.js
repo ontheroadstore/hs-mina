@@ -7,7 +7,7 @@ import { req } from '../../utils/api.js'
 Page({
 
   data: {
-    goodList: null,             // 购物车商品列表
+    goodList: [],             // 购物车商品列表
     selectAllStatus: false,     // 全选状态
     startLocationX: null,       // 左滑开始位置（用于显示删除按钮）
     moveLocationX: null,        // 左滑进行中的位置（用于显示删除按钮）
@@ -40,6 +40,8 @@ Page({
           goodList.push(item)
         })
         this.setData({
+          selectAllStatus: false,
+          totalPrice: 0,
           goodList: goodList,
           randomGoods: util.userAvatarTransform(res.data.recommended, 'user_avatar')
         })
@@ -49,36 +51,56 @@ Page({
   // 修改购物车数量 需要更新服务端存储数据，修改成功后再更新显示数量
   subNum: function(e) {
     const orderId = e.target.dataset.orderid
-    // /appv5/cart/{id} 更新服务端数据 
-
-    // 更新本地 将服务端返回值显示
-    let goodList = this.data.goodList
-    goodList.forEach(function (item, index) {
-      item.item.forEach(function (good, i) {
-        if (good.id == orderId) {
-          good['numbers'] = 2
-        }
-      })
-    })
-    this.setData({
-      goodList: goodList
+    const that = this
+    req(app.globalData.bastUrl, 'appv5/cart/' + orderId, {
+      increase: -1
+    }, "POST", true).then(res => {
+      if(res.status == 1){
+        let goodList = that.data.goodList
+        goodList.forEach(function (item, index) {
+          item.item.forEach(function (good, i) {
+            if (good.id == orderId) {
+              good['numbers'] = res.data
+            }
+          })
+        })
+        that.setData({
+          goodList: goodList
+        })
+      }else{
+        wx.showToast({
+          title: res.info,
+          icon: 'none',
+          duration: 500
+        })
+      }
     })
   },
   addNum: function(e) {
     const orderId = e.target.dataset.orderid
-    // /appv5/cart/{id} 更新服务端数据 
-
-    // 更新本地 将服务端返回值显示
-    let goodList = this.data.goodList
-    goodList.forEach(function (item, index) {
-      item.item.forEach(function (good, i) {
-        if (good.id == orderId) {
-          good['numbers'] = 5
-        }
-      })
-    })
-    this.setData({
-      goodList: goodList
+    const that = this
+    req(app.globalData.bastUrl, 'appv5/cart/' + orderId, {
+      increase: 1
+    }, "POST", true).then(res => {
+      if (res.status == 1) {
+        let goodList = that.data.goodList
+        goodList.forEach(function (item, index) {
+          item.item.forEach(function (good, i) {
+            if (good.id == orderId) {
+              good['numbers'] = res.data
+            }
+          })
+        })
+        that.setData({
+          goodList: goodList
+        })
+      } else {
+        wx.showToast({
+          title: res.info,
+          icon: 'none',
+          duration: 500
+        })
+      }
     })
   },
   // 左滑开始
@@ -132,27 +154,54 @@ Page({
   // 删除购物车商品
   deleteGood: function(e) {
     const orderId = e.currentTarget.dataset.orderid
-    let goodList = []
-    this.data.goodList.forEach(function (item, index) {
-      let m = -1
-      item.item.forEach(function (good, i) {
-        if (good.id == orderId){
-          m = i
+    const cart_row_id = []
+    const that = this
+    cart_row_id.push(orderId)
+    wx.showModal({
+      title: '提示',
+      content: '是否删除商品',
+      success: function (res) {
+        if (res.confirm) {
+          req(app.globalData.bastUrl, 'appv2/removeitemfromcart', {
+            cart_row_id: cart_row_id
+          }, "POST").then(res => {
+            if(res.status == 1){
+              let goodList = []
+              that.data.goodList.forEach(function (item, index) {
+                let m = -1
+                item.item.forEach(function (good, i) {
+                  if (good.id == orderId) {
+                    m = i
+                  }
+                })
+                // 删除选中的商品
+                if (m != -1) {
+                  item.item.splice(m, 1)
+                }
+                // 删除已经购物车没有商品的用户
+                if (item.item.length != 0) {
+                  goodList.push(item)
+                }
+              })
+              that.setData({
+                startLocation: 0,
+                moveLocation: 0,
+                goodList: goodList
+              })
+            }else{
+              wx.showToast({
+                title: res.info,
+                icon: 'none',
+                duration: 500
+              })
+              that.setData({
+                startLocation: 0,
+                moveLocation: 0
+              })
+            }
+          })
         }
-      })
-      // 删除选中的商品
-      if(m != -1){
-        item.item.splice(m, 1)
       }
-      // 删除已经购物车没有商品的用户
-      if(item.item.length != 0){
-        goodList.push(item)
-      }
-    })
-    this.setData({
-      startLocation: 0,
-      moveLocation: 0,
-      goodList: goodList
     })
   },
   // 买他妈的
