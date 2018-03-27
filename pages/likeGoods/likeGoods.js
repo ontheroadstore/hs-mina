@@ -50,20 +50,28 @@ Page({
   cancelLike: function(e) {
     const goodId = e.target.dataset.goodid
     const index = e.target.dataset.index
-    
-    req(app.globalData.bastUrl, 'appv2/itemdeletefavourite', {
-      item_id: goodId
-    },'POST').then(() => {
-      wx.showToast({
-        title: '取消成功',
-        icon: 'success',
-        duration: 2000
-      })
-      // 清除数组中 取消的like
-      this.data.likeGoods.splice(index, 1)
-      this.setData({
-        likeGoods: this.data.likeGoods
-      })
+    const that = this
+    wx.showModal({
+      title: '提示',
+      content: '确定取消收藏吗？',
+      success: function (res) {
+        if (res.confirm) {
+          req(app.globalData.bastUrl, 'appv2/itemdeletefavourite', {
+            item_id: goodId
+          }, 'POST').then(() => {
+            wx.showToast({
+              title: '取消成功',
+              icon: 'success',
+              duration: 2000
+            })
+            // 清除数组中 取消的like
+            that.data.likeGoods.splice(index, 1)
+            that.setData({
+              likeGoods: that.data.likeGoods
+            })
+          })
+        }
+      }
     })
   },
   // 触底加载

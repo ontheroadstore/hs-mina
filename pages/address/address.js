@@ -33,17 +33,26 @@ Page({
   // 删除地址
   deleteAddress: function (e) {
     const id = e.target.dataset.id
-    req(app.globalData.bastUrl, 'appv2/removeaddress', {
-      target_address_id: id
-    }, 'POST').then(res => {
-      if (res.code == 1) {
-        wx.showToast({
-          title: '删除成功',
-          icon: 'success',
-          duration: 2000
-        })
-        // 清除数组中 删除的地址
-        this.getAddr()
+    const that = this
+    wx.showModal({
+      title: '提示',
+      content: '确定删除吗？',
+      success: function (res) {
+        if (res.confirm) {
+          req(app.globalData.bastUrl, 'appv2/removeaddress', {
+            target_address_id: id
+          }, 'POST').then(res => {
+            if (res.code == 1) {
+              wx.showToast({
+                title: '删除成功',
+                icon: 'success',
+                duration: 2000
+              })
+              // 清除数组中 删除的地址
+              that.getAddr()
+            }
+          })
+        }
       }
     })
   },
