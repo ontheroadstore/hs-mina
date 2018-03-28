@@ -207,6 +207,13 @@ Page({
   // 买他妈的
   navigatorToCreateOrder: function() {
     // 将数据缓存
+    if (this.data.totalPrice == 0){
+      return wx.showToast({
+        title: '请选择购买的商品',
+        icon: 'none',
+        duration:1000
+      })
+    }
     wx.setStorageSync('chartData', this.data.goodList)
     wx.navigateTo({
       url: '/pages/createOrder/createOrder?type=1',

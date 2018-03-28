@@ -16,20 +16,16 @@
         <view class='float_left'>{{singleOrder.seller.name}}</view>
       </view>
       <view class='order_item clearBoth'>
-        <image class='float_left' src='{{singleOrder.banner[0]}}'></image>
+        <image class='float_left image' src='{{singleOrder.banner[0]}}'></image>
         <view class='good_title float_left'>{{singleOrder.title}}</view>
          <view class='good_type float_left'>{{singleOrder.newType[0].name}}</view> 
          <view class='good_price float_left'>￥ {{singleOrder.newType[0].price}}</view> 
-         <view class='good_num'>x {{singleOrder.newType[0].number}}</view> 
-      </view>
-      <!-- <view class='buy_num clearBoth'>
-        <view class='float_left label'>购买数量</view>
-        <view class='float_right num_content'>
+         <view class='count_num'>
           <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum'></image>
           <text class="good_num float_left">{{singleOrder.newType[0].number}}</text>
-          <image class='add_icon float_left' src='/images/add.png' bindtap='addNum'></image>
-        </view>
-      </view> -->
+          <image class='add_icon float_left' src='/images/add.png' bindtap='addNum' data-remain="{{singleOrder.newType[0].stock}}"></image>
+         </view>
+      </view>
       <view class='postage_num clearBoth'>
         <view class='float_left label'>运费</view>
         <view class='float_right postage_price'>￥ {{singleOrder.newType[0].postage}}</view>
@@ -48,11 +44,15 @@
         <view class='float_left'>{{item.seller_name}}</view>
       </view>
       <view class='order_item clearBoth' wx:key="key" wx:for="{{item.item}}" wx:for-item="good" wx:if="{{good.selectStatus}}">
-        <image class='float_left' src='{{good.image}}'></image>
+        <image class='float_left image' src='{{good.image}}'></image>
         <view class='good_title float_left'>{{good.item_name}}</view>
         <view class='good_type float_left'>{{good.model_desc ? good.model_desc: ''}}</view>
         <view class='good_price float_left'>￥ {{good.price}}</view>
-        <view class='good_num'>x {{good.numbers}}</view>
+        <view class='count_num'>
+          <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum' data-id="{{good.id}}"></image>
+          <text class="good_num float_left">{{good.numbers}}</text>
+          <image class='add_icon float_left' src='/images/add.png' bindtap='addNum' data-id="{{good.id}}" data-remain="{{good.remain}}"></image>
+        </view>
       </view>
       <view class='postage_num clearBoth'>
         <view class='float_left label'>运费</view>

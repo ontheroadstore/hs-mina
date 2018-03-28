@@ -90,8 +90,8 @@
   padding: 30rpx 0;
   border-bottom: 2rpx solid #E8E8E8;
 }
-.orders .order_item image,
-.order .order_item image{
+.orders .order_item .image,
+.order .order_item .image{
   border-radius: 12rpx;
   width: 286rpx;
   height: 146rpx;
@@ -124,39 +124,18 @@
   bottom: 30rpx;
   line-height: 1em;
 }
-.orders .order_item .good_num,
-.order .order_item .good_num{
+.orders .order_item .count_num,
+.order .order_item .count_num{
   font-size: 26rpx;
   position: absolute;
-  right: 30rpx;
+  right: 0;
   bottom: 30rpx;
   line-height: 1em;
   color: #8E8E8E;
 }
-.buy_num,
-.postage_num,
-.desc{
-  border-bottom: 2rpx solid #E8E8E8;
-  height: 88rpx;
-  line-height: 88rpx;
-  font-size: 28rpx;
-}
-.buy_num .label,
-.postage_num .label,
-.desc .label{
-  font-weight: 600;
-}
-.desc{
-  border: none;
-}
-.buy_num .num_content{
-  height: 30rpx;
-  line-height: 30rpx;
-  width: 150rpx;
-  margin: 29rpx 0;
-}
-.buy_num .num_content .add_icon,
-.buy_num .num_content .sub_icon{
+
+.order_item .count_num .add_icon,
+.order_item .count_num .sub_icon{
   width: 30rpx;
   height: 30rpx;
   border: 1rpx solid #E8E8E8;
@@ -164,12 +143,29 @@
   padding: 6rpx;
   box-sizing: border-box;
 }
-.buy_num .num_content .good_num{
+.order_item .count_num .good_num{
   display: block;
-  width: 90rpx;
+  width: 64rpx;
   text-align: center;
   height: 30rpx;
 }
+
+
+.postage_num,
+.desc{
+  border-bottom: 2rpx solid #E8E8E8;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 28rpx;
+}
+.postage_num .label,
+.desc .label{
+  font-weight: 600;
+}
+.desc{
+  border: none;
+}
+
 .desc input{
   height: 88rpx;
   line-height: 88rpx;
