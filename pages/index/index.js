@@ -30,6 +30,7 @@ Page({
       this.setData({
         categories: res.data
       })
+      wx.stopPullDownRefresh()
     })
     // 获取banner
     req(app.globalData.bastUrl, 'appv3/modules', {
@@ -38,6 +39,7 @@ Page({
       this.setData({
         bannerItem: res.data
       })
+      wx.stopPullDownRefresh()
     })
     // 获取新品
     req(app.globalData.bastUrl, 'appv3/modules', {
@@ -47,6 +49,7 @@ Page({
       this.setData({
         newGoods: res.data.result
       })
+      wx.stopPullDownRefresh()
     })
     // 哆嗦排行榜
     req(app.globalData.bastUrl, 'appv3/channels', {
@@ -57,6 +60,7 @@ Page({
       this.setData({
         salesGoods: res.data.modules[0].data.result
       })
+      wx.stopPullDownRefresh()
     })
     // 初始化当下热门
     this.getHotlist()
@@ -67,7 +71,8 @@ Page({
     // tab切换
     let id = e.target.dataset.id
     this.setData({
-      tabIndex: id
+      tabIndex: id,
+      categoriesTabIndex:id
     })
     // 设置滚动条在顶部
     this.returnTop()
@@ -181,11 +186,13 @@ Page({
       'category_id': category_id,
       'cur_page': this.data.categoriesgoodsPages
     }).then(res => {
+      const categoriesGoods = util.userAvatarTransform(res.data.data.item_list.result, 'user_avatar')
       this.setData({
-        categoriesGoods: this.data.categoriesGoods.concat(res.data.data.item_list.result),
+        categoriesGoods: this.data.categoriesGoods.concat(categoriesGoods),
         categoriesgoodsPages: this.data.categoriesgoodsPages + 1,
         isHideLoadMore: false
       })
+      wx.stopPullDownRefresh()
     })
   },
   // 切换分类商品清空数据
@@ -194,5 +201,16 @@ Page({
       categoriesGoods: [],
       categoriesgoodsPages: 1,
     })
+  },
+  onPullDownRefresh: function() {
+    const tabIndex = this.data.tabIndex
+    if (tabIndex == 0){
+      this.onLoad()
+    }else{
+      // 切换到新的
+      this.clearcategoriesGoods()
+      // 分类关联商品
+      this.getcategoriesGoods()
+    }
   }
 })

@@ -1,4 +1,7 @@
 /* 首页分类 */
+.main{
+  height: auto;
+}
 .header{
   padding: 0 30rpx;
   height: 88rpx;

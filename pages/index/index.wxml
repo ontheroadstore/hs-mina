@@ -1,10 +1,10 @@
+<scroll-view class='header' scroll-x bindscroll="scroll">
+  <view class='classifys'>
+    <view class="classify_item {{tabIndex == 0 ? 'active':''}}" bindtap="tabtap" data-id="0">商店</view>
+    <view class="classify_item {{tabIndex == item.id ? 'active':''}}" wx:key="key" wx:for="{{categories}}" bindtap="tabtap" data-id="{{item.id}}">{{item.name}}</view>
+  </view>
+</scroll-view>
 <scroll-view class='main' scroll-y bindscroll="mainScroll" scroll-top="{{scrollTop}}" bindscrolltolower="scrolltolower">
-  <scroll-view class='header' scroll-x bindscroll="scroll">
-    <view class='classifys'>
-      <view class="classify_item {{tabIndex == 0 ? 'active':''}}" bindtap="tabtap" data-id="0">商店</view>
-      <view class="classify_item {{tabIndex == item.id ? 'active':''}}" wx:key="key" wx:for="{{categories}}" bindtap="tabtap" data-id="{{item.id}}">{{item.name}}</view>
-    </view>
-  </scroll-view>
   <view class="content_index {{tabIndex == 0 ? 'active':''}}">
     <swiper class='advert' indicator-dots="true" indicator-active-color="#FFF" indicator-color="rgba(255, 255, 255, 0.3)" autoplay="true" interval="3000" circular="true" wx:if="{{bannerItem.length}}">
       <swiper-item wx:for="{{bannerItem}}" wx:key="{{item.id}}">
@@ -56,6 +56,10 @@
   <view class="content_classify {{tabIndex != 0 ? 'active':''}}">
     <scroll-view class='classifys_scroll' scroll-x>
       <view class='classifys_content'>
+        <view class="classify_son">
+          <image mode="aspectFill" src='{{item.icon}}'></image>
+          <text class="{{categoriesTabIndex==tabIndex?'active':''}}" bindtap="classifySonTab" data-id="{{tabIndex}}">全部</text>
+        </view>
         <view class="classify_son" wx:key="key" wx:for="{{categoriesChild}}">
           <image mode="aspectFill" src='{{item.icon}}'></image>
           <text class="{{categoriesTabIndex==item.id?'active':''}}" bindtap="classifySonTab" data-id="{{item.id}}">{{item.name}}</text>
