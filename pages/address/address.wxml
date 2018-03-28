@@ -1,9 +1,13 @@
 <scroll-view class="main" scroll-y>
   <view class="content {{isIphoneX ? 'content_iphoneX' : '' }}">
     <view class='address_item' wx:key="key" wx:for="{{addressItems}}">
-      <text class='float_left user_name'>收货人： {{item.name}}</text>
-      <text class='float_right user_tel'>{{item.telphone}}</text>
-      <view class='clearBoth detail_address'>收货地址： {{item.province}}{{item.city}}{{item.county}}{{item.detail}}</view>
+      <text class='float_left user_name' wx:if="{{addressType != 0}}" bindtap='setDefault' data-id="{{item.id}}">收货人： {{item.name}}</text>
+      <text class='float_right user_tel' wx:if="{{addressType != 0}}" bindtap='setDefault' data-id="{{item.id}}">{{item.telphone}}</text>
+      <view class='clearBoth detail_address' wx:if="{{addressType != 0}}" bindtap='setDefault' data-id="{{item.id}}">收货地址： {{item.province}}{{item.city}}{{item.county}}{{item.detail}}</view>
+      <text class='float_left user_name' wx:if="{{addressType == 0}}">收货人： {{item.name}}</text>
+      <text class='float_right user_tel' wx:if="{{addressType == 0}}">{{item.telphone}}</text>
+      <view class='clearBoth detail_address' wx:if="{{addressType == 0}}">收货地址： {{item.province}}{{item.city}}{{item.county}}{{item.detail}}</view>
+
       <view class='set_address'>
         <image class='default' src='/images/checkbox.png' wx:if="{{item.default != 1}}" bindtap='setDefault' data-id="{{item.id}}"></image>
         <image class='default' src='/images/checked.png' wx:if="{{item.default == 1}}"></image>
