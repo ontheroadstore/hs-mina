@@ -264,7 +264,7 @@
 .guess_like{
   padding: 0 30rpx 100rpx;
 }
-iphoneX_guess_like{
+.iphoneX_guess_like{
   padding: 0 30rpx 168rpx;
 }
 .guess_like .title{
@@ -359,7 +359,7 @@ iphoneX_guess_like{
   border-radius: 36rpx;
   text-align: center;
   top: 4rpx;
-  right: -12rpx;
+  right: -14rpx;
 }
 .btns .chart_btn,
 .btns .buy_btn{
@@ -431,8 +431,13 @@ iphoneX_guess_like{
   font-size: 40rpx;
 }
 .select_content .styles_content{
-  padding: 30rpx;
+  padding: 30rpx 30rpx 100rpx;
+  max-height: 200rpx;
   border-top: 2rpx solid #E8E8E8;
+  width: 690rpx;
+}
+.select_content .good_num{
+  margin-top: 16rpx;
 }
 .select_content .good_num,
 .select_content .styles_select{
@@ -446,6 +451,9 @@ iphoneX_guess_like{
   left: 0;
   top: 40%;
   transform: translateY(-50%);
+}
+.select_content .good_num .label{
+  top: 50%;
 }
 .select_content .styles_select text{
   border: 1rpx solid #E8E8E8;

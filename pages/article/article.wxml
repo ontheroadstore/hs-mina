@@ -85,7 +85,7 @@
       <view class='price font_din' wx:if="{{goodInfo.price.length != 1 && !selectStylePrice}}">￥ {{goodInfo.price[0]}} - {{goodInfo.price[1]}}</view>
       <view class='price font_din' wx:elif="{{goodInfo.price.length == 1}}">￥ {{goodInfo.price[0]}}</view> 
       <view class='price font_din' wx:else="{{selectStylePrice}}">￥ {{selectStylePrice}}</view> 
-      <view class='styles_content'>
+      <scroll-view class='styles_content' scroll-y>
         <view class='styles_select clearBoth'>
           <view class='label'>款式</view>
           <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}">{{item.name}}</text>
@@ -96,7 +96,7 @@
           <text class='num float_left'>{{selectStyleCount}}</text>
           <image src='/images/add.png' class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}">+</image>
         </view>
-      </view>
+      </scroll-view>
         <view class='chart_btn' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}">加入购物车</view> 
         <view class='buy_btn' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}">立即购买           </view> 
         <view class='next_btn' wx:if="{{selectType==1}}" bindtap="{{selectStyleId?'addChart':'noSelect'}}">确认</view>

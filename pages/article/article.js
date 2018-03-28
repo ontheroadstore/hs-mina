@@ -89,7 +89,7 @@ Page({
   },
   // 获取购物车数量
   getChartNum: function(n) {
-    req(app.globalData.bastUrl, 'appv3_1/getcart/count', {}, 'GET').then(res => {
+    req(app.globalData.bastUrl, 'appv3_1/getcart/count', {}, 'GET', true).then(res => {
       this.setData({
         chartNum: res.data
       })
