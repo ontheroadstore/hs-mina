@@ -1,41 +1,37 @@
 // pages/express/express.js
 const app = getApp()
 const util = require('../../utils/util.js')
-
-//假数据
-const expresss = require('../../data/expressss.js')
-const expresss1 = require('../../data/expressss1.js')
-const chartss = require('../../data/chartss.js')
+import { req } from '../../utils/api.js'
 
 
 Page({
 
   data: {
     expressInfo: null,
-    expressData: null,
+    expressData: [],
     randomGoods: null
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: '物流信息'
     })
-    var expressData = null
-    // 时间格式处理
-    if (expresss1.data.data){
-      expressData = []
-      expresss1.data.data.forEach(function(item, index){
-        item['newDay'] = item.time.slice(5, 10)
-        item['newTime'] = item.time.slice(11)
-        expressData.push(item)
+    req(app.globalData.bastUrl, 'appv2_1/express', {
+      order_id: options.order_number
+    }, "GET", true).then(res => {
+      var expressData = []
+      // 时间格式处理
+      if (res.data.data) {
+        res.data.data.forEach(function (item, index) {
+          item['newDay'] = item.time.slice(5, 10)
+          item['newTime'] = item.time.slice(11)
+          expressData.push(item)
+        })
+      }
+      this.setData({
+        expressData: expressData,
+        expressInfo: res.data
       })
-    }
-    console.log(expressData.length)
-    this.setData({
-      expressData: expressData,
-      expressInfo: expresss1.data,
-      randomGoods: util.userAvatarTransform(chartss.data.recommended, 'user_avatar')
     })
-    console.log(expresss)
   },
   // 商品跳转article
   navigateToGoods: function (e) {

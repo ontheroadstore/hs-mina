@@ -1,7 +1,7 @@
 <scroll-view scroll-y class='main'>
   <view class='user_info'>
     <image class='bg' src='/images/meBg.png'></image>
-    <image class='avatar' src='{{userInfo.avatar}}/64'></image>
+    <image class='avatar' src='{{userInfo.avatar}}'></image>
     <view class='user_name'>{{userInfo.nickname}}</view>
     <navigator hover-class="none" url="/pages/relevanceTel/relevanceTel" wx:if="{{!userInfo.telphone}}" class='relevance_tel'>绑定手机</navigator>
     <view class='tel' wx:if="{{userInfo.telphone}}">{{userInfo.telphone}}</view>
@@ -43,7 +43,7 @@
       <text class='float_left'>联系客服</text>
       <button class='contact' open-type="contact">在线客服</button>
     </view>
-    <navigator class='clearBoth clearBorder' hover-class="none" url="/pages/refund/refund">
+    <navigator class='clearBoth' hover-class="none" url="/pages/refund/refund">
       <image class='float_left' src='/images/refund.png'></image>
       <text class='float_left'>退货服务</text>
     </navigator>

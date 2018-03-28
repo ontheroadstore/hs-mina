@@ -52,7 +52,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 500rpx;
+  width: 400rpx;
   font-size: 28rpx;
   line-height: 42rpx;
 }
@@ -107,7 +107,7 @@
   position: absolute;
   top: 52rpx;
   right: 0;
-  width: 120rpx;
+  width: 160rpx;
   text-align: right;
   height: 1em;
 }

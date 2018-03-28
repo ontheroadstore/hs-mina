@@ -47,6 +47,7 @@
   width: 186rpx;
   line-height: 34rpx;
   color: #888888;
+  padding-top: 7rpx;
 }
 .express_item .date .day{
   font-size: 26rpx;
@@ -55,6 +56,7 @@
 .express_item .date .time{
   font-size: 24rpx;
   font-weight: 300;
+  line-height: 1em;
 }
 .express_item .up_icon{
   position: absolute;
@@ -123,4 +125,8 @@
 .random_goods .price{
   font-size: 32rpx;
   line-height: 1em;
+}
+.no_data{
+  font-size: 32rpx;
+  color: #EC3B2A;
 }

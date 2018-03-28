@@ -104,6 +104,9 @@
   border-bottom: 2rpx solid #E8E8E8;
   padding: 30rpx;
 }
+.user_info .user{
+  max-width: 60vw;
+}
 .user_info .user_avatar{
   width: 50rpx;
   height: 50rpx;

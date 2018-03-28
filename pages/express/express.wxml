@@ -6,7 +6,7 @@
   <view class='express_details'>
     <view class='title'>物流跟踪</view>
     <view class='express_content'>
-      <view class="express_item {{expressData.length-1 == index? 'clearBorder': ''}}" wx:key="key" wx:for="{{expressData}}">
+      <view class="express_item {{expressData.length-1 == index? 'clearBorder': ''}}" wx:key="key" wx:if="{{expressData.length!=0}}" wx:for="{{expressData}}">
         <view class="date float_left {{index == 0 ? 'active':''}}">
           <view class='day'>{{item.newDay}}</view>
           <view class='time'>{{item.newTime}}</view>
@@ -15,9 +15,11 @@
         <image class='up_icon' src='/images/upNow.png' wx:if="{{index == 0}}"></image>
         <view class="details  float_left  {{index == 0 ? 'active':''}}">{{item.context}}</view>
       </view>
+      <view class='no_data' wx:if="{{expressData.length==0}}">{{expressInfo.msg}}</view>
     </view>
   </view>
-  <view class='random_goods' >
+  <!-- 猜你喜欢待添加 -->
+  <!-- <view class='random_goods' >
     <view class='model_title'>猜你喜欢</view>
     <view class='good_item clearBoth' wx:key="key" wx:for="{{randomGoods}}">
       <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
@@ -26,5 +28,5 @@
       <text bindtap="navigateToUser" data-id="{{item.id}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
       <text class="price font_din float_left">￥ 198</text>
     </view>
-  </view>
+  </view> -->
 </scroll-view>
