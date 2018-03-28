@@ -19,7 +19,7 @@
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "公路商店Store",
     "navigationBarTextStyle": "black",
-    "enablePullDownRefresh": false
+    "enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "#000",

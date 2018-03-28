@@ -13,7 +13,7 @@ App({
           this.globalData.isIphoneX = true
         }
         // 判断当前环境，填写baseUrl
-        this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://api.ontheroadstore.com/'
+        this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://apitest.ontheroadstore.com/'
       }
     })
     // 登录

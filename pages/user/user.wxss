@@ -1,11 +1,11 @@
 .main{
-  padding: 0 30rpx;
   height: 100vh;
 }
 .user_goods{
   margin-bottom: 40rpx;
   width: 690rpx;
-  position: relative
+  position: relative;
+  margin: 30rpx;
 }
 .user_goods:first-child{
   margin-top: 40rpx;

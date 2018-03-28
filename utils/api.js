@@ -1,4 +1,4 @@
-import { request } from './wx-promise-request';
+import { request, setConfig } from './wx-promise-request';
 const app = getApp()
 
 Promise.prototype.finally = function (callback) {
@@ -71,7 +71,8 @@ const req = (baseUrl, url, data, method, showLoadingStatus) => {
     if (!showLoadingStatus){
       wx.showNavigationBarLoading()
       wx.showLoading({
-        title: '加载中'
+        title: '加载中',
+        mask: true
       })
     }
     request({

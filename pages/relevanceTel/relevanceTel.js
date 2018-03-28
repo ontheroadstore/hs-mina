@@ -103,7 +103,7 @@ Page({
           wx.switchTab({
             url: "/pages/me/me"
           })
-        })
+        },2000)
       } else {
         wx.showToast({
           title: res.data,

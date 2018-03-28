@@ -40,6 +40,14 @@ Page({
       url: "/pages/index/index"
     })
   },
+  // 商品跳转article
+  navigateToGoods: function (e) {
+    let id = e.target.dataset.id
+    const url = '/pages/article/article?id=' + id
+    wx.navigateTo({
+      url: url
+    })
+  },
   // 滚动条监控
   mainScroll: function(e) {
     // 控制按钮显示
