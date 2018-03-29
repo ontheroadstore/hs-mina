@@ -13,12 +13,12 @@ App({
           this.globalData.isIphoneX = true
         }
         // 判断当前环境，填写baseUrl
-        this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://apitest.ontheroadstore.com/'
+        this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://api.ontheroadstore.com/'
       }
     })
     // 登录
     wx_login(this.globalData.bastUrl).then(res => {
-      req(this.globalData.bastUrl, 'appv4/user/simple').then(res => {
+      req(this.globalData.bastUrl, 'appv4/user/simple',{}, "GET", true).then(res => {
         res.data.avatar = util.singleUserAvatarTransform(res.data.avatar)
         this.globalData.userInfo = res.data
       })

@@ -12,14 +12,15 @@
     "pages/me/me",
     "pages/likeGoods/likeGoods",
     "pages/relevanceTel/relevanceTel",
-    "pages/user/user"
+    "pages/user/user",
+    "pages/secondLevelChart/secondLevelChart"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "公路商店Store",
     "navigationBarTextStyle": "black",
-    "enablePullDownRefresh": true
+    "enablePullDownRefresh": false
   },
   "tabBar": {
     "color": "#000",
