@@ -10,7 +10,6 @@ Page({
     tabIndex: 0,                  // tab切换
     categoriesTabIndex: 0,        // 分类tab切换
     returnTopStatus: false,       // 返回顶部按钮显示状态
-    scrollTop: 0,                 // 滚动条高度
     categories: [],               // 一级分类数组
     categoriesChild: [],          // 二级分类数组
     categoriesGoods: [],          // 分类关联商品数组
@@ -20,50 +19,64 @@ Page({
     salesGoods: [],               // 哆嗦排行榜列表
     bannerItem: [],               // banner列表
     newGoods: [],                 // 新品列表
+    apiStatus:0
   },
   onLoad: function () {
+    wx.showNavigationBarLoading()
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     // 获取分类
     req(app.globalData.bastUrl, 'appv3/categories', {
       level: 1,
       depth: 1
-    }).then(res => {
+    }, "GET", true).then(res => {
       this.setData({
-        categories: res.data
+        categories: res.data,
+        apiStatus: this.data.apiStatus + 1
       })
-      wx.stopPullDownRefresh()
+      this.getHotlistLoading()
     })
     // 获取banner
     req(app.globalData.bastUrl, 'appv3/modules', {
       qt: 1
-    }).then(res => {
+    }, "GET", true).then(res => {
       this.setData({
-        bannerItem: res.data
+        bannerItem: res.data,
+        apiStatus: this.data.apiStatus + 1
       })
-      wx.stopPullDownRefresh()
+      this.getHotlistLoading()
     })
     // 获取新品
     req(app.globalData.bastUrl, 'appv3/modules', {
       qt: 4
-    }).then(res => {
+    }, "GET", true).then(res => {
       res.data.result = util.userAvatarTransform(res.data.result, 'user_avatar')
       this.setData({
-        newGoods: res.data.result
+        newGoods: res.data.result,
+        apiStatus: this.data.apiStatus + 1
       })
-      wx.stopPullDownRefresh()
+      this.getHotlistLoading()
     })
     // 哆嗦排行榜
     req(app.globalData.bastUrl, 'appv3/channels', {
       channel: '2',
       random: '1'
-    }).then(res => {
+    }, "GET", true).then(res => {
       res.data.modules[0].data.result = util.userAvatarTransform(res.data.modules[0].data.result, 'user_avatar')
       this.setData({
-        salesGoods: res.data.modules[0].data.result
+        salesGoods: res.data.modules[0].data.result,
+        apiStatus: this.data.apiStatus + 1
       })
-      wx.stopPullDownRefresh()
+      this.getHotlistLoading()
     })
-    // 初始化当下热门
-    this.getHotlist()
+  },
+  onShow: function () {
+    this.setData({
+      tabIndex: 0,
+      categoriesTabIndex: 0
+    })
   },
   // 顶部tab切换
   tabtap: function (e) {
@@ -93,8 +106,9 @@ Page({
   },
   // 返回顶部
   returnTop: function() {
-    this.setData({
-      scrollTop: 0
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
     })
   },
   // 横向滚动监控
@@ -102,10 +116,9 @@ Page({
     // console.log(e)
   },
   // 滚动监控
-  mainScroll: function(e) {
+  onPageScroll: function(e) {
     // 控制按钮显示
-    let height = e.detail.scrollTop
-    if (height >= 500 && this.data.tabIndex != 0){
+    if (e.scrollTop >= 500 && this.data.tabIndex != 0){
       this.setData({
         returnTopStatus: true
       })
@@ -145,7 +158,7 @@ Page({
     })
   },
   //触底加载
-  scrolltolower: function(e) {
+  onReachBottom: function(e) {
     // 根据tabIndex判断0为商店 其他为当前显示一级分类id 
     // 如果点击二级分类则优先加载二级
     if (this.data.tabIndex == 0) {
@@ -192,7 +205,6 @@ Page({
         categoriesgoodsPages: this.data.categoriesgoodsPages + 1,
         isHideLoadMore: false
       })
-      wx.stopPullDownRefresh()
     })
   },
   // 切换分类商品清空数据
@@ -202,15 +214,33 @@ Page({
       categoriesgoodsPages: 1,
     })
   },
+  // 首页模块加载完成后，加载热门商品
+  getHotlistLoading: function() {
+    // 初始化当下热门
+    if (this.data.apiStatus == 4){
+      wx.hideNavigationBarLoading()
+      wx.hideLoading()
+      this.getHotlist()
+      this.setData({
+        apiStatus: 0
+      })
+    }
+  },
   onPullDownRefresh: function() {
     const tabIndex = this.data.tabIndex
-    if (tabIndex == 0){
-      this.onLoad()
-    }else{
-      // 切换到新的
-      this.clearcategoriesGoods()
-      // 分类关联商品
-      this.getcategoriesGoods()
-    }
+    const that = this
+    setTimeout(function () {
+      wx.stopPullDownRefresh()
+    }, 400)
+    setTimeout(function () {
+      if (tabIndex == 0) {
+        that.onLoad()
+      } else {
+        // 切换到新的
+        that.clearcategoriesGoods()
+        // 分类关联商品
+        that.getcategoriesGoods()
+      }
+    }, 1000)
   }
 })

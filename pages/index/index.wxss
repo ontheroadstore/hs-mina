@@ -186,21 +186,27 @@
 /* 分类 */
 .content_classify{
   width: 100vw;
-  padding-top: 88rpx;
+  padding-top: 230rpx;
   box-sizing: border-box;
   padding-left: 30rpx;
   display: none;
+
 }
 .classifys_scroll{
   display: flex;
   white-space: nowrap;
-  height: 72rpx;
+  height: 122rpx;
+  /* height: 142rpx; */
   width: 100%;
-  margin: 30rpx 0 40rpx 0;
+  position: fixed;
+  top: 88rpx;
+  background: #FFF;
+  box-sizing: border-box;
 }
 .classifys_scroll .classifys_content{
   line-height: 88rpx;
-  height: 100%;
+  height: 72rpx;
+  padding: 30rpx 0 20rpx 0;
   min-width: 750rpx;
 }
 .classifys_scroll .classify_son{
