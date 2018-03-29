@@ -1,0 +1,221 @@
+.seller_item{
+  border-top: 16rpx solid #F5F5F5;
+  padding: 0 30rpx;
+}
+.user_info{
+  border-bottom: 2rpx solid #E8E8E8;
+  padding: 30rpx 0;
+  height: 32rpx;
+}
+.user_info .user_name{
+  font-size: 26rpx;
+  line-height: 32rpx;
+}
+.order_item{
+  padding: 30rpx 0;
+  position: relative;
+  transition: all 300ms;
+}
+.order_item.slide{
+  margin-right: 120rpx;
+  margin-left: -120rpx;
+}
+.order_item .cover{
+  width: 286rpx;
+  height: 146rpx;
+  border-radius: 12rpx;
+  margin-right: 30rpx;
+}
+.order_item .checkbox_icon{
+  margin-top: 57rpx;
+}
+.good_title{
+  width: 312rpx;
+  height: 68rpx;
+  line-height: 34rpx;
+  font-size: 26rpx;
+  margin-bottom: 10rpx;
+  overflow: hidden;
+}
+.good_info{
+  font-size: 26rpx;
+  width: 312rpx;
+  line-height: 26rpx;
+  margin-bottom: 10rpx;
+  height: 26rpx;
+}
+.good_info .good_type{
+  width: 50%;
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  white-space: nowrap;
+  color: #8E8E8E;
+  display: inline-block;
+  font-size: 24rpx;
+  line-height: 1em;
+
+}
+.good_info .good_price{
+  width: 50%;
+  text-align: right;
+  color: #E03B29;
+  display: inline-block;
+}
+.num_content{
+  height: 30rpx;
+  font-size: 28rpx;
+  line-height: 30rpx;
+}
+.num_content .add_icon,
+.num_content .sub_icon{
+  width: 30rpx;
+  height: 30rpx;
+  border: 1rpx solid #E8E8E8;
+  background: none;
+  padding: 6rpx;
+  box-sizing: border-box;
+}
+.num_content .good_num{
+  display: block;
+  width: 90rpx;
+  text-align: center;
+  position: relative;
+}
+.good_num_border::after{
+  content: "";
+  position: absolute;
+  top: 61rpx;
+  left: -346rpx;
+  width: 628rpx;
+  height: 2rpx;
+  background: #E8E8E8;
+}
+.delete_good{
+  position: absolute;
+  width: 120rpx;
+  height: 206rpx;
+  background: #E03B29;
+  color: #FFF;
+  text-align: center;
+  line-height: 206rpx;
+  font-size: 26rpx;
+  top: 0;
+  right: -150rpx;
+}
+.chart_content{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 96rpx;
+  border-top: 2rpx solid #E8E8E8;
+  width: 690rpx;
+  background: #FFF;
+  padding: 0 30rpx;
+  line-height: 96rpx;
+}
+.isIphoneX_chart_content{
+  padding: 0 30rpx 68rpx 30rpx;
+}
+.chart_content .checkbox_icon{
+  margin-top: 32rpx;
+}
+.chart_content .all_select{
+  font-size: 24rpx;
+}
+.chart_content .buy_btn{
+  font-size: 24rpx;
+  color: #FFF;
+  background: #E03B29;
+  width: 174rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  margin-top: 13rpx;
+  text-align: center;
+  border-radius: 8rpx;
+}
+.chart_content .total_text{
+  font-size: 24rpx;
+}
+.chart_content .total_text text{
+  font-size: 28rpx;
+  color: #E03B29;
+  font-weight: 100;
+}
+.chart_content .no_postage{
+  font-size: 24rpx;
+  color:  #838383;
+  margin: 0 30rpx 0 20rpx;
+}
+
+.checkbox_icon{
+  width: 32rpx;
+  height: 32rpx;
+  background: none;
+  margin-right: 30rpx;
+}
+
+.no_data{
+  width: 100vw;
+  height: 726rpx;
+  overflow: hidden;
+}
+.no_data image{
+  width: 260rpx;
+  height: 180rpx;
+  margin: 200rpx 245rpx 44rpx;
+  background: none;
+}
+.no_data view{
+  font-size: 28rpx;
+  text-align: center;
+  color: #B2B2B2;
+}
+.random_goods{
+  border-top: 16rpx solid #F5F5F5;
+  padding: 0 30rpx 100rpx 30rpx;
+}
+.isIphoneX_random_goods{
+  padding: 0 30rpx 168rpx 30rpx;
+}
+.random_goods .model_title{
+  padding: 30rpx 0;
+  font-weight: 600;
+  font-size: 32rpx;
+}
+.random_goods .good_item{
+  padding-bottom: 40rpx;
+  width: 690rpx;
+}
+.random_goods .cover{
+  width: 336rpx;
+  height: 172rpx;
+  border-radius: 12rpx;
+  margin-right: 30rpx;
+}
+.random_goods .article_title{
+  width: 324rpx;
+  overflow: hidden;
+  height: 72rpx;
+  line-height: 36rpx;
+  font-size: 26rpx;
+}
+.random_goods .user_avatar{
+  width: 32rpx;
+  height: 32rpx;
+  border-radius: 50%;
+  margin: 18rpx 12rpx 16rpx 0;
+}
+.random_goods .user_name{
+  font-size: 24rpx;
+  line-height: 32rpx;
+  color: #8E8E8E;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 280rpx;
+  margin: 18rpx 0 16rpx 0;
+}
+.random_goods .price{
+  font-size: 32rpx;
+  line-height: 1em;
+}
