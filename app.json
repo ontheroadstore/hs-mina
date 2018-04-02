@@ -2,18 +2,20 @@
   "pages": [
     "pages/index/index",
     "pages/createOrder/createOrder",
+    "pages/chart/chart",
+    "pages/paySuccess/paySuccess",
     "pages/article/article",
     "pages/orderInfo/orderInfo",
     "pages/address/address",
     "pages/refund/refund",
-    "pages/chart/chart",
     "pages/express/express",
     "pages/orders/orders",
     "pages/me/me",
     "pages/likeGoods/likeGoods",
     "pages/relevanceTel/relevanceTel",
     "pages/user/user",
-    "pages/secondLevelChart/secondLevelChart"
+    "pages/secondLevelChart/secondLevelChart",
+    "pages/webView/webView"
   ],
   "window": {
     "backgroundTextStyle": "light",

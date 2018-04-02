@@ -1,0 +1,42 @@
+.main{
+  background: #FFF;
+  box-sizing: border-box;
+  border-top: 2rpx solid #E8E8E8;
+}
+.status_image{
+  width: 78rpx;
+  height: 78rpx;
+  display: block;
+  margin: 114rpx auto 24rpx;
+  background: none;
+}
+.pay_status{
+  font-size: 36rpx;
+  text-align: center;
+  line-height: 50rpx;
+  margin-bottom: 24rpx;
+}
+.pay_text{
+  font-size: 24rpx;
+  text-align: center;
+}
+.btns{
+  border-top: 2rpx solid #E8E8E8;
+  margin-top: 112rpx;
+  padding: 110rpx 98rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.btns navigator{
+   font-size: 28rpx;
+   height: 68rpx;
+   width: 214rpx;
+   border-radius: 8rpx;
+   border: 2rpx solid #202123;
+   line-height: 68rpx;
+   text-align: center;
+}
+.btns .retrun_index{
+  background: #202123;
+  color: #FFF;
+}

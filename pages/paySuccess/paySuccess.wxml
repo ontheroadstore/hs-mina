@@ -1,0 +1,9 @@
+<view class='main'>
+  <image class='status_image' src='/images/paySuccess.png'></image>
+  <view class='pay_status'>支付完成</view>
+  <view class='pay_text'>支付成功，不相信你可以再购买一次</view>
+  <view class='btns'>
+    <navigator class='retrun_index' open-type="switchTab" url="/pages/index/index">返回首页</navigator>
+    <navigator class='query_order' url="/pages/orders/orders?type=0">查看订单</navigator>
+  </view>
+</view>
