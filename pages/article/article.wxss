@@ -8,6 +8,12 @@
   font-size: 32rpx;
   font-weight: 700;
 }
+.special{
+  padding: 0 30rpx 30rpx 30rpx;
+  line-height: 1em;
+  font-size: 26rpx;
+  color: #202123;
+}
 .share_content{
   position: relative;
   height: 86rpx;
@@ -17,6 +23,27 @@
   font-size: 40rpx;
   position: absolute;
   left: 30rpx;
+}
+.good_price .new_price{
+  color: #E03B29;
+}
+.good_price .now_price{
+  font-size: 32rpx;
+  color: #888;
+  position: relative;
+  margin-left: 28rpx;
+  height: 1em;
+  font-weight: 300;
+}
+.good_price .now_price:after{
+  content: "";
+  position: absolute;
+  width: 130%;
+  height: 2rpx;
+  top: 50%;
+  left: -5%;
+  transform: translateY(-50%);
+  background: #888;
 }
 .share{
   width: 48rpx;
@@ -430,6 +457,30 @@
   padding: 30rpx;
   font-size: 40rpx;
 }
+.select_content .price{
+}
+.select_content .price .new_price{
+  color: #E03B29;
+}
+.select_content .price .now_price{
+  font-size: 32rpx;
+  color: #888;
+  position: relative;
+  margin-left: 28rpx;
+  height: 1em;
+  font-weight: 300;
+}
+.select_content .price .now_price:after{
+  content: "";
+  position: absolute;
+  width: 130%;
+  height: 2rpx;
+  top: 50%;
+  left: -5%;
+  transform: translateY(-50%);
+  background: #888;
+}
+
 .select_content .styles_content{
   padding: 30rpx 30rpx 100rpx;
   max-height: 200rpx;
@@ -529,4 +580,7 @@
 .iphoneX_select_content .chart_btn,
 .iphoneX_select_content .next_btn{
   bottom: 68rpx;
+}
+.main .return_index{
+  bottom: 178rpx;
 }

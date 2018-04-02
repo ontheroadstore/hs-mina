@@ -1,10 +1,21 @@
 <scroll-view class='main' scroll-y>
   <image class='frontcover' mode="aspectFill" lazy-load src='{{goodInfo.banner[0]}}@640w_1l'></image>
   <view class='good_title'>{{goodInfo.title}}</view>
+  <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view>
   <view class='share_content'>
-    <view class='good_price font_din' wx:if="{{goodInfo.price.length != 1 && !selectStylePrice}}">￥ {{goodInfo.price[0]}} - {{goodInfo.price[1]}}</view>
-    <view class='good_price font_din' wx:elif="{{goodInfo.price.length == 1}}">￥ {{goodInfo.price[0]}}</view> 
-    <view class='good_price font_din' wx:else="{{selectStylePrice}}">￥ {{selectStylePrice}}</view> 
+    <view class='good_price' wx:if="{{styleNum == 1 && specialOfferStatus}}">
+      <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
+      <text class='now_price font_din'>￥{{goodInfo.type[0].price}}</text>
+    </view>
+    <view class='good_price font_din' wx:if="{{styleNum == 1 && !specialOfferStatus}}">￥ {{goodInfo.type[0].price}}</view>
+
+    <view class='good_price font_din' wx:if="{{styleNum != 1 && !selectStylePrice}}">￥ {{goodInfo.price[0]}} - {{goodInfo.price[1]}}</view> 
+     <view class='good_price font_din' wx:if="{{styleNum != 1 && selectStylePrice && !specialOfferStatus}}">￥ {{selectStylePrice}}</view> 
+    <view class='good_price font_din' wx:if="{{styleNum != 1 && selectStylePrice && specialOfferStatus}}">
+      <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
+      <text class='now_price font_din'>￥{{selectStylePrice}}</text>
+    </view>
+
     <image class='share' src='/images/share.png' bindtap='share'></image>
     <button class='share_btn' open-type="share">转发</button>
   </view>
@@ -82,13 +93,22 @@
     <view class="select_content {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}">
       <image class='cover' src='{{goodInfo.banner[0]}}@640w_1l'></image>
       <view class='title'>{{goodInfo.title}}</view>
-      <view class='price font_din' wx:if="{{goodInfo.price.length != 1 && !selectStylePrice}}">￥ {{goodInfo.price[0]}} - {{goodInfo.price[1]}}</view>
-      <view class='price font_din' wx:elif="{{goodInfo.price.length == 1}}">￥ {{goodInfo.price[0]}}</view> 
-      <view class='price font_din' wx:else="{{selectStylePrice}}">￥ {{selectStylePrice}}</view> 
+      <view class='price' wx:if="{{styleNum == 1 && specialOfferStatus}}">
+        <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
+        <text class='now_price font_din'>￥{{goodInfo.type[0].price}}</text>
+      </view>
+      <view class='price font_din' wx:if="{{styleNum == 1 && !specialOfferStatus}}">￥ {{goodInfo.type[0].price}}</view>
+
+      <view class='price font_din' wx:if="{{styleNum != 1 && !selectStylePrice}}">￥ {{goodInfo.price[0]}} - {{goodInfo.price[1]}}</view> 
+      <view class='price font_din' wx:if="{{styleNum != 1 && selectStylePrice && !specialOfferStatus}}">￥ {{selectStylePrice}}</view> 
+      <view class='price font_din' wx:if="{{styleNum != 1 && selectStylePrice && specialOfferStatus}}">
+        <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
+        <text class='now_price font_din'>￥{{selectStylePrice}}</text>
+      </view>
       <scroll-view class='styles_content' scroll-y>
         <view class='styles_select clearBoth'>
           <view class='label'>款式</view>
-          <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}">{{item.name}}</text>
+          <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}">{{item.name}}</text>
         </view>
         <view class='good_num clearBoth'>
           <view class='label'>数量</view>
@@ -103,4 +123,5 @@
         <view class='next_btn' wx:if="{{selectType==2}}" bindtap="{{selectStyleId?'navigateToCreateOrder':'noSelect'}}">确认</view> 
     </view>
   </view>
+  <image src='/images/returnIndex.png' class='return_index' bindtap="returnIndex"></image>
 </scroll-view>

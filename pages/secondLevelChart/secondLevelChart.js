@@ -27,6 +27,7 @@ Page({
       if (res.status == 1) {
         // 获取数据添加选中状态 左滑选中状态
         // childOrderShow 在传入确认订单页中使用
+        // slideStatus 左滑删除参数
         let goodList = []
         res.data.cart.forEach(function (item, index) {
           item['selectStatus'] = false
@@ -35,6 +36,9 @@ Page({
           item.item.forEach(function (good, i) {
             good['selectStatus'] = false
             good['slideStatus'] = false
+            if (good['special_offer_end']) {
+              good['special_offer_end'] = formTime(good['special_offer_end'])
+            }
           })
           goodList.push(item)
         })
@@ -64,7 +68,8 @@ Page({
           })
         })
         that.setData({
-          goodList: goodList
+          goodList: goodList,
+          totalPrice: countTotalPrice(goodList)
         })
       } else {
         wx.showToast({
@@ -91,7 +96,8 @@ Page({
           })
         })
         that.setData({
-          goodList: goodList
+          goodList: goodList,
+          totalPrice: countTotalPrice(goodList)
         })
       } else {
         wx.showToast({
@@ -364,10 +370,30 @@ function countTotalPrice(data) {
   var totalPrice = 0
   data.forEach(function (item, index) {
     item.item.forEach(function (good, i) {
-      if (good['selectStatus']) {
+      if (good['selectStatus'] && good['is_sku_deleted'] == 0 && good['remain'] > 0 && !good['special_offer_end']) {
         totalPrice += good['numbers'] * good['price']
+      } else if (good['selectStatus'] && good['is_sku_deleted'] == 0 && good['remain'] > 0 && good['special_offer_end']) {
+        totalPrice += good['numbers'] * good['special_offer_price']
       }
     })
   })
   return totalPrice
+}
+
+function formTime(end) {
+  Date.prototype.toLocaleString = function () {
+    return (this.getMonth() + 1) + "月" + this.getDate() + "日 ";
+  };
+  let time = +new Date()
+  time = parseInt(time / 1000)
+  if ((end - time) >= 86400) {
+    const date = new Date(end * 1000).toLocaleString()
+    return date + '后恢复原价'
+  }
+  if ((end - time) < 86400) {
+    const timestamp = end - time
+    let hour = parseInt(timestamp / 3600)
+    let min = parseInt((timestamp - hour * 3600) / 60)
+    return hour + "小时" + min + "分后恢复原价"
+  }
 }

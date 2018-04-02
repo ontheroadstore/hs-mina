@@ -15,7 +15,9 @@ Page({
     selectStylePrice: null,       // 选中款式的价格
     selectStyleCount: 1,          // 选中款式的数量
     selectStyleStock: 0,          // 选中款式的库存
-    presellTime: null,            // 预售时间
+    specialOfferStatus: false,    // 选中款式的特价状态
+    specialOfferPrice: null,      // 选中款式的特价
+    presellTime: null,            // 选中款式 预售时间
     styleNum: 1,                  // 款式数量
     modulesUserGoods: null,       // 卖家其他商品
     modulesGuessLike: null,       // 猜你喜欢商品
@@ -46,10 +48,14 @@ Page({
       const styleNum = goodInfo.type.length
       let presellTime = null
       let selectStyleId = null
-      // 单个订单 初始 预售 款式ID
+      let specialOfferStatus = false
+      let specialOfferPrice = false
+      // 单个订单 初始 预售 款式ID 处理特价时间
       if (styleNum == 1) {
         presellTime = util.formatTime(goodInfo.type[0].estimated_delivery_date)
         selectStyleId = goodInfo.type[0].id
+        specialOfferStatus = formTime(goodInfo.type[0].special_offer_start, goodInfo.type[0].special_offer_end)
+        specialOfferPrice = goodInfo.type[0].special_offer_price
       }
       // 添加/64
       res.data.seller.avatar = util.singleUserAvatarTransform(res.data.seller.avatar) 
@@ -60,7 +66,9 @@ Page({
         styleNum: styleNum,
         selectStyleId: selectStyleId,
         goodInfo: goodInfo,
-        modulesUserGoods: modulesUserGoods
+        modulesUserGoods: modulesUserGoods,
+        specialOfferStatus: specialOfferStatus,
+        specialOfferPrice: specialOfferPrice
       })
     })
     // 更新购物车图标数量
@@ -173,7 +181,9 @@ Page({
     const name = e.target.dataset.name
     const stock = e.target.dataset.stock
     const price = e.target.dataset.price
-    const presellTime = e.target.dataset.presellTime ? util.formatTime(e.target.dataset.presellTime) : null
+    const specialOfferStatus = formTime(e.target.dataset.specialofferstart, e.target.dataset.specialofferend)
+    const specialOfferPrice = e.target.dataset.specialofferprice
+    const presellTime = e.target.dataset.preselltime ? util.formatTime(e.target.dataset.preselltime) : null
     if (stock <= 0){
       return false
     }
@@ -184,7 +194,9 @@ Page({
       presellTime: presellTime,
       selectStylePrice: price,
       selectStyleStock: stock,
-      selectStyleCount: 1
+      selectStyleCount: 1,
+      specialOfferStatus: specialOfferStatus,
+      specialOfferPrice: specialOfferPrice
     })
   },
   // 当没有选中款式时 点击加入购物车/立即购买
@@ -250,8 +262,8 @@ Page({
   },
   // 跳转购物车
   navigateToChart: function() {
-    wx.switchTab({
-      url: "/pages/chart/chart"
+    wx.navigateTo({
+      url: "/pages/secondLevelChart/secondLevelChart"
     })
   },
   // 跳转商品
@@ -270,5 +282,38 @@ Page({
     wx.navigateTo({
       url: url
     })
+  },
+  // 返回首页
+  returnIndex: function () {
+    wx.switchTab({
+      url: "/pages/index/index"
+    })
   }
 })
+
+function formTime(start, end) {
+  if (!start || !end){
+    return false
+  }
+  Date.prototype.toLocaleString = function () {
+    return (this.getMonth() + 1) + "月" + this.getDate() + "日 ";
+  };
+  let time = +new Date()
+  time = parseInt(time / 1000)
+  if (start < time && end > time) {
+    if ((end - time) >= 86400) {
+      const date = new Date(end * 1000).toLocaleString()
+      return date + '结束'
+    }
+    if ((end - time) < 86400) {
+      const timestamp = end - time
+      let hour = parseInt(timestamp / 3600)
+      let min = parseInt((timestamp - hour * 3600) / 60)
+      return hour + "小时" + min + "分后结束"
+    }
+  } else if (start > time) {
+    return '特价活动未开始'
+  } else if (end < time) {
+    return false
+  }
+}

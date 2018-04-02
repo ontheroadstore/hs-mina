@@ -23,7 +23,14 @@ Page({
     // type 0 直接购买， 1购物车购买 缓存数据头像已经处理
     if (options.type == 0){
       let orderData = wx.getStorageSync('orderData')
+      // 如果是特价商品 直接替换price
+      const nowDate = +new Date()
+      if (orderData.newType[0].special_offer_end *1000 >= nowDate){
+        orderData.newType[0].price = orderData.newType[0].special_offer_price
+      }
+      // 邮费
       let totalPostage = orderData.newType[0].postage
+      // 总价
       const countPrice = countTotalPrice(orderData, 0)
       this.setData({
         orderType: 0,
@@ -39,9 +46,20 @@ Page({
 
       orderList.forEach(function (item, index) {
         let maxPostage = 0
+        var status = true
         item.item.forEach(function (good, i) {
           if (good.postage > maxPostage && good.selectStatus) {
             maxPostage = good.postage
+          }
+          // 如果售罄 下架 直接设置隐藏
+          if (good['is_sku_deleted'] != 0 || good['remain'] <= 0){
+            good['selectStatus'] = false
+            item['selectStatus'] = false
+            item['childOrderShow'] = false
+          }
+          // 如果有特价 重新设置price参数
+          if (good['special_offer_end']){
+            good['price'] = good['special_offer_price']
           }
         })
         item['maxPostage'] = maxPostage
@@ -58,7 +76,6 @@ Page({
     // 获取默认地址
     // "appv2/defaultaddress" morendizhi
     req(app.globalData.bastUrl, 'appv2/defaultaddress',{}).then(res => {
-      console.log(res)
       if (res.status == 1){
         this.setData({
           addressInfo: res.data
@@ -216,14 +233,17 @@ function countTotalPrice(data, n) {
     let totalPostage = 0
     let totalPrice = 0
     // 邮费处理 增加备注字段
+    console.log(data)
     data.forEach(function (item, index) {
       item.item.forEach(function (good, i) {
         if (good.selectStatus) {
           totalPrice += good['numbers'] * good['price']
         }
       })
-      totalPostage += item['maxPostage']
-      totalPrice += item['maxPostage']
+      if (item.childOrderShow){
+        totalPostage += item['maxPostage']
+        totalPrice += item['maxPostage']
+      }
     })
     return {
       totalPostage: totalPostage,

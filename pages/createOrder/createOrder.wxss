@@ -1,6 +1,9 @@
 .main{
   background: #F5F5F5;
 }
+.main_content{
+  min-height: 105vh;
+}
 .address{
   background: #FFF;
   position: relative;
