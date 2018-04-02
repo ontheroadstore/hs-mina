@@ -8,7 +8,7 @@
   <view class="content_index {{tabIndex == 0 ? 'active':''}}">
     <swiper class='advert' indicator-dots="true" indicator-active-color="#FFF" indicator-color="rgba(255, 255, 255, 0.3)" autoplay="true" interval="3000" circular="true" wx:if="{{bannerItem.length}}">
       <swiper-item wx:for="{{bannerItem}}" wx:key="{{item.id}}">
-        <image bindtap="navigateToGoods" data-id="{{item.id}}" lazy-load mode="aspectFill" src='{{item.image}}@640w_1l'></image>
+        <image bindtap="navigateToWebView" data-url="{{item.url}}" lazy-load mode="aspectFill" src='{{item.img}}@640w_1l'></image>
       </swiper-item>
     </swiper>
     

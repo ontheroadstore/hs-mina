@@ -2,7 +2,7 @@
   <view class='content'>
     <view class='order_status' wx:if="{{orderInfo.process_status != 33 && orderInfo.order_status == 0}}">
       <view class='order_status_title'>等待买家付款</view>
-      <view class='order_status_text'>11小时40分后自动关闭</view>
+      <view class='order_status_text'>{{paymentCountDown}}后自动关闭</view>
       <image src='/images/ordersInfo.png'></image>
     </view>
 
@@ -13,7 +13,7 @@
 
     <view class='order_status' wx:if="{{orderInfo.process_status != 33 && orderInfo.order_status != 0 && orderInfo.process_status == 1}}">
       <view class='order_status_title'>待收货</view>
-      <view class='order_status_text'>还剩12天12小时34分后自动确认收货</view>
+      <view class='order_status_text'>还剩{{receivingCountDown}}后自动确认收货</view>
       <image src='/images/deliveredInfo.png'></image>
     </view>
 

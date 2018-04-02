@@ -19,7 +19,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '确认订单'
     })
-    options.type = 0
+    // options.type = 0
     // type 0 直接购买， 1购物车购买 缓存数据头像已经处理
     if (options.type == 0){
       let orderData = wx.getStorageSync('orderData')

@@ -71,6 +71,7 @@
   width: 260rpx;
   height: 132rpx;
   margin-right: 30rpx;
+  border-radius: 8rpx;
 }
 .goods_item .good_title{
   overflow: hidden;

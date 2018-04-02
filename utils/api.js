@@ -9,18 +9,6 @@ Promise.prototype.finally = function (callback) {
   );
 }
 
-const getCategories = () => {
-  wx.request({
-    url: '../jsons/categories.json',
-    method: 'GET',
-    success: (data) => {
-      console.log(data);
-    },
-    fail: (data) => {
-      console.log(data);
-    }
-  })
-}
 // 微信登陆接口
 const wx_login = (baseUrl) => {
   return new Promise(function (resolve, reject) {
@@ -109,7 +97,6 @@ const req = (baseUrl, url, data, method, showLoadingStatus) => {
 }
 
 module.exports = {
-  getCategories: getCategories,
   req: req,
   wx_login: wx_login
 }

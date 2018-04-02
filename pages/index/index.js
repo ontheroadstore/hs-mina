@@ -39,9 +39,7 @@ Page({
       this.getHotlistLoading()
     })
     // 获取banner
-    req(app.globalData.bastUrl, 'appv3/modules', {
-      qt: 1
-    }, "GET", true).then(res => {
+    req(app.globalData.bastUrl, 'appv3/advertis/1024', {}, "GET", true).then(res => {
       this.setData({
         bannerItem: res.data,
         apiStatus: this.data.apiStatus + 1
@@ -147,6 +145,13 @@ Page({
     wx.navigateTo({
       url: url
     })
+  },// 商品跳转WebView
+  navigateToWebView: function (e) {
+    let webUrl = e.target.dataset.url
+    const url = '/pages/webView/webView?url=' + webUrl
+    wx.navigateTo({
+      url: url
+    })
   },
   // 卖家中心跳转user
   navigateToUser: function (e) {
@@ -226,6 +231,7 @@ Page({
       })
     }
   },
+  // 下拉刷新
   onPullDownRefresh: function() {
     const tabIndex = this.data.tabIndex
     const that = this
