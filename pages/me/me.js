@@ -5,14 +5,22 @@ import { req } from '../../utils/api.js'
 
 Page({
   data: {
-    userInfo: null
+    userInfo: null,
+    userTel: 0
   },
   onLoad: function () {
     wx.setNavigationBarTitle({
       title: '个人中心'
     })
+    var userTel = String(app.globalData.userInfo.telphone)
+    var userTelArr = userTel.split("");
+    for (let i = 3; i < 7; i++) {
+      userTelArr[i] = '*'
+    }
+    userTel = userTelArr.join("")
     this.setData({
-      userInfo: app.globalData.userInfo
+      userInfo: app.globalData.userInfo,
+      userTel: userTel
     })
   }
 })
