@@ -21,6 +21,12 @@ Page({
     wx.setNavigationBarTitle({
       title: '购物车'
     })
+    var animation = wx.createAnimation({
+      transformOrigin: "50% 50%",
+      duration: 300,
+      timingFunction: "ease"
+    })
+    this.animation = animation
   },
   onShow: function() {
     // 获取购物车商品
@@ -28,7 +34,7 @@ Page({
       if (res.status == 1) {
         // 获取数据添加选中状态 左滑选中状态
         // childOrderShow 在传入确认订单页中使用
-        // slideStatus 左滑删除参数
+        // animation 左滑动画
         let goodList = []
         res.data.cart.forEach(function (item, index) {
           item['selectStatus'] = false
@@ -36,7 +42,7 @@ Page({
           item['seller_avatar'] = util.singleUserAvatarTransform(item['seller_avatar'])
           item.item.forEach(function (good, i) {
             good['selectStatus'] = false
-            good['slideStatus'] = false
+            good['animation'] = {}
             if (good['special_offer_end']){
               good['special_offer_end'] = formTime(good['special_offer_end'])
             }
@@ -118,6 +124,7 @@ Page({
   },
   // 左滑中
   leftTouchMove: function(e) {
+    const that = this
     this.setData({
       moveLocationX: e.touches[0].pageX,
       moveLocationY: e.touches[0].pageY
@@ -130,22 +137,25 @@ Page({
       })
     }
     let goodList = this.data.goodList
-    
     const orderId = e.currentTarget.dataset.orderid
     goodList.forEach(function (item, index) {
       item.item.forEach(function (good, i) {
         if (good.id == orderId && numX > 60) {
-          good['slideStatus'] = true
+          that.animation.translate(-60).step()
+          good['animation'] = that.animation.export()
         } else if (good.id == orderId && numX < -60) {
-          good['slideStatus'] = false
+          that.animation.translate(0).step()
+          good['animation'] = that.animation.export()
         } else{
-          good['slideStatus'] = false
+          that.animation.translate(0).step()
+          good['animation'] = that.animation.export()
         }
       })
     })
     this.setData({
       goodList: goodList
     })
+    
   },
   //滑动结束
   touchEnd: function() {

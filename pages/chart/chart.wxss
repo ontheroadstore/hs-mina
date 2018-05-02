@@ -14,14 +14,9 @@
 .order_item{
   padding: 30rpx 0;
   position: relative;
-  transition: all 300ms;
 }
 .order_item_opacity{
   opacity: 0.5;
-}
-.order_item.slide{
-  margin-right: 120rpx;
-  margin-left: -120rpx;
 }
 .order_item .cover{
   width: 286rpx;
