@@ -136,19 +136,21 @@ Page({
         })
       }
     })
-    
+
     // 直接从地址跳入购买
-    let singleOrder = [{
-      // 因为后端的原因，attach不能为null，设成''空字符
-      attach: this.data.singleOrder.newType[0].desc ? this.data.singleOrder.newType[0].desc : '',
-      items: [{
-        counts: this.data.singleOrder.newType[0].number,
-        item_id: this.data.singleOrder.articleId,
-        mid: this.data.singleOrder.newType[0].id
-      }],
-      seller_name: this.data.singleOrder.seller.name,
-      seller_uid: this.data.singleOrder.seller.id
-    }]
+    if (this.data.orderType == 0) {  
+      let singleOrder = [{
+        // 因为后端的原因，attach不能为null，设成''空字符
+        attach: this.data.singleOrder.newType[0].desc ? this.data.singleOrder.newType[0].desc : '',
+        items: [{
+          counts: this.data.singleOrder.newType[0].number,
+          item_id: this.data.singleOrder.articleId,
+          mid: this.data.singleOrder.newType[0].id
+        }],
+        seller_name: this.data.singleOrder.seller.name,
+        seller_uid: this.data.singleOrder.seller.id
+      }]
+    }
 
     // 执行生成订单方法 this.data.orderType 参考
     this.createorder(this.data.orderType ? createOrderData : singleOrder)
