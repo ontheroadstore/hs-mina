@@ -154,7 +154,17 @@ Page({
     this.createorder(this.data.orderType ? createOrderData : singleOrder)
   },
   // 生成订单
-  createorder: function(order) {
+  // 	"orders": [{
+  //   "attach": "旅途",
+  //   "items": [{
+  //     "counts": "1",
+  //     "item_id": "1095220",
+  //     "mid": "868277"
+  //   }],
+  //   "seller_name": ".动感光波.还就喜欢",
+  //   "seller_uid": "168"
+  // }]
+  createorder: function (order) {
     req(app.globalData.bastUrl, 'appv3_1/createorder', {
       address_id: this.data.addressInfo.id,
       type: 1,
@@ -164,6 +174,27 @@ Page({
         console.log('生成订单成功：', res.data)
       }
     })
+  },
+  // 微信支付方法
+  // ordernummber
+  // 文档：https://developers.weixin.qq.com/miniprogram/dev/api/api-pay.html
+  wxpayment: function (ordernumber) {
+    // wx.requestPayment({
+    //   timeStamp: '',
+    //   nonceStr: '',
+    //   package: ordernumber,
+    //   signType: '',
+    //   paySign: '',
+    //   success: function() {
+
+    //   },
+    //   fail: function() {
+
+    //   },
+    //   complete: function() {
+
+    //   }
+    // })
   },
   // 修改商品数量
   subNum: function(e) {
