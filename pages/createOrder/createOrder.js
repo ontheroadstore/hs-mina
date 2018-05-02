@@ -38,7 +38,7 @@ Page({
         totalPostage: totalPostage,
         totalPrice: countPrice.totalPrice
       })
-      console.log(orderData)
+      // console.log(orderData)
     }
     
     if (options.type == 1){
@@ -120,18 +120,50 @@ Page({
       if (item.childOrderShow){
         let newItem = []
         item.item.forEach(function(good, i){
-          console.log(good)
           if (good.selectStatus){
-            newItem.push(good)
+            newItem.push({
+              counts: good.numbers,
+              item_id: good.item_id,
+              mid: good.model_id
+            })
           }
         })
-        item.item = newItem
-        createOrderData.push(item)
+        createOrderData.push({
+          attach: item.desc,
+          items: newItem,
+          seller_name: item.seller_name,
+          seller_uid: item.seller_user_id
+        })
       }
     })
-    console.log(createOrderData)
-    // 单个订单 singleOrder数据
-    console.log(this.data.singleOrder)
+    
+    // 直接从地址跳入购买
+    let singleOrder = [{
+      // 因为后端的原因，attach不能为null，设成''空字符
+      attach: this.data.singleOrder.newType[0].desc ? this.data.singleOrder.newType[0].desc : '',
+      items: [{
+        counts: this.data.singleOrder.newType[0].number,
+        item_id: this.data.singleOrder.articleId,
+        mid: this.data.singleOrder.newType[0].id
+      }],
+      seller_name: this.data.singleOrder.seller.name,
+      seller_uid: this.data.singleOrder.seller.id
+    }]
+
+    // 执行生成订单方法 this.data.orderType 参考
+    this.createorder(this.data.orderType ? createOrderData : singleOrder)
+  },
+  // 生成订单
+  createorder: function(order) {
+    req(app.globalData.bastUrl, 'appv3_1/createorder', {
+      address_id: this.data.addressInfo.id,
+      type: 1,
+      orders: order
+    }, 'POST').then(res => {
+      if (res.code == 1) {
+        console.log('生成订单成功：', res.data)
+      }
+    })
   },
   // 修改商品数量
   subNum: function(e) {
@@ -171,6 +203,7 @@ Page({
         this.data.singleOrder.newType[0].number = this.data.singleOrder.newType[0].number - 1
       }
       const countPrice = countTotalPrice(this.data.singleOrder, orderType)
+      // console.log(this.data.singleOrder)
       this.setData({
         singleOrder: this.data.singleOrder,
         totalPrice: countPrice.totalPrice

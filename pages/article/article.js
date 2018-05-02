@@ -235,6 +235,7 @@ Page({
   navigateToCreateOrder: function () {
     // 设置选择的款式，以及数量，进行数据缓存（没有款式，直接存储）
     let goodInfo = this.data.goodInfo
+    goodInfo.articleId = parseInt(this.data.articleId)
     if (this.data.styleNum == 1){
       let newType = goodInfo.type
       newType[0]['number'] = 1
