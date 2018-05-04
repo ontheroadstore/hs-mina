@@ -22,6 +22,12 @@ Page({
     apiStatus:0
   },
   onLoad: function () {
+    wx.getUserInfo({
+      success: res => {
+        console.log(res.rawData)
+      }
+    })
+    // console.log(MD5('ssssss'))
     wx.showNavigationBarLoading()
     wx.showLoading({
       title: '加载中',

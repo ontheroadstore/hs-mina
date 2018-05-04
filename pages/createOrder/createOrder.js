@@ -3,7 +3,6 @@ const app = getApp()
 const util = require('../../utils/util.js')
 import { req } from '../../utils/api.js'
 
-
 Page({
 
   data: {
@@ -174,21 +173,47 @@ Page({
     }, 'POST').then(res => {
       if (res.code == 1) {
         console.log('生成订单成功：', res.data)
+        // this.wxpayment(res.data)
+        this.buychecking(res.data)
       }
+    })
+  },
+  buychecking: function (ordernumber) {
+    req(app.globalData.bastUrl, 'appv2_1/buychecking', {
+      order_number: ordernumber,
+      payment_type: 3
+    }, 'POST').then(res => {
+      this.wxpayment(res.data)
     })
   },
   // 微信支付方法
   // ordernummber
   // 文档：https://developers.weixin.qq.com/miniprogram/dev/api/api-pay.html
-  wxpayment: function (ordernumber) {
+  wxpayment: function (prepayId) {
+    req(app.globalData.bastUrl, 'appv5_1/payment/getWxPaymentParam', {
+      package: 'prepay_id=' + prepayId
+    }, 'POST').then(res => {
+      console.log(res)
+      wx.requestPayment({
+        timeStamp: res.data.timeStamp,
+        nonceStr: res.data.nonceStr,
+        package: res.data.package,
+        signType: res.data.signType,
+        paySign: res.data.paySign,
+        // total_fee: 2,
+        complete: function () {
+          console.log('aaa')
+        }
+      })
+    })
     // wx.requestPayment({
     //   timeStamp: '',
     //   nonceStr: '',
     //   package: ordernumber,
-    //   signType: '',
+    //   signType: 'MD5',
     //   paySign: '',
     //   success: function() {
-
+            
     //   },
     //   fail: function() {
 

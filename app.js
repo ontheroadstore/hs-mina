@@ -5,6 +5,7 @@ import { wx_login, req } from './utils/api.js'
 
 App({
   onLaunch: function() {
+    
     // 存储手机型号
     wx.getSystemInfo({
       success: (res) => {
