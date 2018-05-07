@@ -120,7 +120,7 @@
 }
 .orders .order_item .good_price,
 .order .order_item .good_price{
-  color: #E03B29;
+  color: #AE2121;
   font-size: 26rpx;
   position: absolute;
   left: 316rpx;
@@ -198,7 +198,7 @@
   text-align: center;
   line-height: 98rpx;
   font-size: 32rpx;
-  background: #E03B29;
+  background: #AE2121;
 }
 .buy .postage{
   color: #8E8E8E;
@@ -211,7 +211,7 @@
   line-height: 96rpx;
 }
 .buy .tatol text{
-  color: #E03B29;
+  color: #AE2121;
   font-size: 28rpx;
 }
 .buy_iphoneX{

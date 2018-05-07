@@ -11,7 +11,7 @@
       <text>全部订单</text>
       <image src='/images/gt.png'></image>
     </navigator>
-    <view class='order_content'>
+    <!-- <view class='order_content'>
       <navigator class='order_item' hover-class="none" url="/pages/orders/orders?type=1">
         <image src='/images/orders.png'></image>
         <view>待付款</view>
@@ -24,7 +24,7 @@
         <image src='/images/delivered.png'></image>
         <view>待收货</view>
       </navigator>
-    </view>
+    </view> -->
   </view>
   <view class='user_item'>
     <navigator class='clearBoth' hover-class="none" url="/pages/likeGoods/likeGoods?id={{userInfo.id}}">

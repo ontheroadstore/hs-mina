@@ -88,7 +88,7 @@
 .good_info .good_price{
   width: 50%;
   text-align: right;
-  color: #E03B29;
+  color: #AE2121;
   display: inline-block;
 }
 .good_info .special_offer_price{
@@ -146,7 +146,7 @@
   position: absolute;
   width: 120rpx;
   height: 206rpx;
-  background: #E03B29;
+  background: #AE2121;
   color: #FFF;
   text-align: center;
   line-height: 206rpx;
@@ -174,7 +174,7 @@
 .chart_content .buy_btn{
   font-size: 24rpx;
   color: #FFF;
-  background: #E03B29;
+  background: #AE2121;
   width: 174rpx;
   height: 70rpx;
   line-height: 70rpx;
@@ -187,7 +187,7 @@
 }
 .chart_content .total_text text{
   font-size: 28rpx;
-  color: #E03B29;
+  color: #AE2121;
   font-weight: 100;
 }
 .chart_content .no_postage{

@@ -45,8 +45,8 @@
 }
 .order_all{
   height: 28rpx;
-  padding-bottom: 30rpx;
-  border-bottom: 2rpx solid #E8E8E8;
+  /* padding-bottom: 30rpx; */
+  /* border-bottom: 2rpx solid #E8E8E8; */
   position: relative;
 }
 .order_all text{

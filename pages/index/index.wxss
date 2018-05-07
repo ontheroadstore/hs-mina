@@ -21,7 +21,7 @@
   font-weight: 300;
 }
 .header .classify_item.active{
-  color: #E03B29;
+  color: #AE2121;
   position: relative;
   font-weight: 900;
 }
@@ -33,7 +33,7 @@
   transform: translateX(-50%);
   bottom: 8rpx;
   border-radius: 4rpx;
-  border-bottom: 7rpx solid #E03B29;
+  border-bottom: 7rpx solid #AE2121;
   overflow: hidden;
 }
 

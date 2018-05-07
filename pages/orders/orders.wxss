@@ -18,7 +18,7 @@
   position: relative;
 }
 .order_tab .active{
-  color: #E03B29;
+  color: #AE2121;
 }
 .order_tab .active:after{
   content: "";
@@ -28,7 +28,7 @@
   transform: translateX(-50%);
   bottom: 16rpx;
   border-radius: 4rpx;
-  border-bottom: 6rpx solid #E03B29;
+  border-bottom: 6rpx solid #AE2121;
   overflow: hidden;
 }
 .order_List{

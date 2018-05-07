@@ -25,7 +25,7 @@
   left: 30rpx;
 }
 .good_price .new_price{
-  color: #E03B29;
+  color: #AE2121;
 }
 .good_price .now_price{
   font-size: 32rpx;
@@ -404,7 +404,7 @@
   right: 268rpx;
 }
 .btns .buy_btn{
-  background: #E03B29;
+  background: #AE2121;
   right: 0;
   top: 0;
 }
@@ -460,7 +460,7 @@
 .select_content .price{
 }
 .select_content .price .new_price{
-  color: #E03B29;
+  color: #AE2121;
 }
 .select_content .price .now_price{
   font-size: 32rpx;
@@ -519,9 +519,9 @@
   margin-bottom: 24rpx;
 }
 .select_content .styles_select text.active{
-  border-color: #E03B29;
+  border-color: #AE2121;
   color: #FFF;
-  background: #E03B29;
+  background: #AE2121;
 }
 .select_content .styles_select text.no_stock{
   background: #ECECEC;
@@ -557,7 +557,7 @@
   text-align: center;
 }
 .select_content .buy_btn{
-  background: #E03B29;
+  background: #AE2121;
   right: 0;
 }
 .select_content .chart_btn{
@@ -565,7 +565,7 @@
   left: 0;
 }
 .select_content .next_btn{
-  background: #E03B29;
+  background: #AE2121;
   width: 100vw;
   height: 98rpx;
   position: absolute;
