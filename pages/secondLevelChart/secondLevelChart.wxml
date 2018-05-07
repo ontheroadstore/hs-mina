@@ -5,15 +5,15 @@
         <image class='checkbox_icon float_left' bindtap='selectUser' data-userid="{{item.seller_user_id}}" src="{{item.selectStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
         <view class='user_name float_left'>{{item.seller_name}}</view>
       </view>
-      <view class="order_item clearBoth {{good.slideStatus? 'slide':''}} {{good.is_sku_deleted == 0 && good.remain > 0 ? '':'order_item_opacity'}}" wx:key="key" wx:for="{{item.item}}" wx:for-item="good" wx:for-index="i" bindtouchmove='leftTouchMove' bindtouchstart='leftTouchStart' data-orderid="{{good.id}}" bindtouchend='touchEnd'>
+      <view animation="{{good.animation}}" class="order_item clearBoth {{good.is_sku_deleted == 0 && good.remain > 0 ? '':'order_item_opacity'}}" wx:key="key" wx:for="{{item.item}}" wx:for-item="good" wx:for-index="i" bindtouchmove='leftTouchMove' bindtouchstart='leftTouchStart' data-orderid="{{good.id}}" bindtouchend='touchEnd'>
         <image class='checkbox_icon float_left' bindtap='selectSingle' data-orderid="{{good.id}}" src="{{good.selectStatus? '/images/checked.png':'/images/checkbox.png'}}" wx:if="{{good.is_sku_deleted == 0 && good.remain > 0}}"></image>
         <view class="lose_efficacy float_left" wx:if="{{good.is_sku_deleted != 0 || good.remain <= 0}}">失效</view>
-        <image class='cover float_left' data-goodid="{{good.item_id}}" bindtap='navigateToGoods' src='{{good.image}}@640w_1l'></image>
+        <image class='cover float_left' data-goodid="{{good.item_id}}" bindtap="{{good.is_sku_deleted == 1 || good.remain <= 0 ? '':'navigateToGoods'}}" src='{{good.image}}@640w_1l'></image>
 
          <view class='text_hint' wx:if="{{good.special_offer_end}}">{{good.special_offer_end}}</view> 
         <view class='text_hint' wx:if="{{good.remain > 0 && good.remain <= 10 && !good.special_offer_end}}">{{good.labels[0]}}</view>
         
-        <view class='good_title float_left' data-goodid="{{good.item_id}}" bindtap='navigateToGoods'>{{good.item_name}}</view>
+        <view class='good_title float_left' data-goodid="{{good.item_id}}" bindtap="{{good.is_sku_deleted == 1 || good.remain <= 0 ? '':'navigateToGoods'}}">{{good.item_name}}</view>
         <view class="good_info float_left {{good.is_sku_deleted == 0 && good.remain > 0 ? '':'good_info_hide'}}">
            <view class='good_type'>{{good.model_desc?good.model_desc: ''}}</view>
            <view class='good_price' wx:if="{{!good.special_offer_end}}">￥ {{good.price}}</view> 
@@ -48,7 +48,7 @@
   </view>
   <view class="chart_content {{isIphoneX? 'isIphoneX_chart_content':''}}" wx:if="{{goodList.length != 0}}">
     <image class='checkbox_icon float_left' bindtap='selectAll' src="{{selectAllStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
-    <view class='float_left all_select'>全选</view>
+    <view class='float_left all_select' bindtap='selectAll'>全选</view>
     <view class='float_right buy_btn' bindtap='navigatorToCreateOrder'>买他妈的</view>
     <view class='float_right no_postage'>不含运费</view>
     <view class='float_right total_text' >总价： <text>￥ {{totalPrice}}</text></view>

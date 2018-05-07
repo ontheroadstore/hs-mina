@@ -1,4 +1,3 @@
-// pages/chart/chart.js
 const app = getApp()
 const util = require('../../utils/util.js')
 import { req } from '../../utils/api.js'
@@ -7,7 +6,7 @@ import { req } from '../../utils/api.js'
 Page({
 
   data: {
-    goodList: [],             // 购物车商品列表
+    goodList: [],               // 购物车商品列表
     selectAllStatus: false,     // 全选状态
     startLocationX: null,       // 左滑开始位置（用于显示删除按钮）
     moveLocationX: null,        // 左滑进行中的位置（用于显示删除按钮）
@@ -155,7 +154,6 @@ Page({
     this.setData({
       goodList: goodList
     })
-    
   },
   //滑动结束
   touchEnd: function() {
@@ -227,7 +225,7 @@ Page({
       return wx.showToast({
         title: '请选择购买的商品',
         icon: 'none',
-        duration:1000
+        duration: 1000
       })
     }
     wx.setStorageSync('chartData', this.data.goodList)

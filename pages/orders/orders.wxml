@@ -79,5 +79,5 @@
       </view>
     </view>
   </view>
-  
+  <image src='/images/returnIndex.png' class='return_index' bindtap="returnIndex"></image>
 </scroll-view>

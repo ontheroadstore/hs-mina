@@ -21,6 +21,7 @@ Page({
     // options.type = 0
     // type 0 直接购买， 1购物车购买 缓存数据头像已经处理
     if (options.type == 0){
+      console.log(options)
       let orderData = wx.getStorageSync('orderData')
       // 如果是特价商品 直接替换price
       const nowDate = +new Date()
@@ -37,7 +38,6 @@ Page({
         totalPostage: totalPostage,
         totalPrice: countPrice.totalPrice
       })
-      // console.log(orderData)
     }
     
     if (options.type == 1){
@@ -112,35 +112,41 @@ Page({
         duration: 1000
       })
     }
-    
+
+    var createOrderData = []    
     // 多个订单 orderList 在orderList提取需要提交的数据
-    let createOrderData = []
-    this.data.orderList.forEach(function(item, index){
-      if (item.childOrderShow){
-        let newItem = []
-        item.item.forEach(function(good, i){
-          if (good.selectStatus){
-            newItem.push({
-              counts: good.numbers,
-              item_id: good.item_id,
-              mid: good.model_id
-            })
-          }
-        })
-        createOrderData.push({
-          attach: item.desc,
-          items: newItem,
-          seller_name: item.seller_name,
-          seller_uid: item.seller_user_id
-        })
-      }
-    })
+    if (this.data.orderType == 1) {
+      this.data.orderList.forEach(function(item, index){
+        if (item.childOrderShow){
+          let newItem = []
+          item.item.forEach(function(good, i){
+            if (good.selectStatus){
+              newItem.push({
+                counts: good.numbers,
+                item_id: good.item_id,
+                mid: good.model_id
+              })
+            }
+          })
+          createOrderData.push({
+            attach: item.desc,
+            items: newItem,
+            seller_name: item.seller_name,
+            seller_uid: item.seller_user_id
+          })
+        }
+      })
+    }
 
     // 直接从地址跳入购买
-    if (this.data.orderType == 0) {  
-      let singleOrder = [{
-        // 因为后端的原因，attach不能为null，设成''空字符
-        attach: this.data.singleOrder.newType[0].desc ? this.data.singleOrder.newType[0].desc : '',
+    if (this.data.orderType == 0) {
+      // 因为后端的原因，attach不能为null，设成''空字符
+      var desc = ''
+      if (this.data.singleOrder.newType[0].desc){
+        desc = this.data.singleOrder.newType[0].desc
+      }
+      createOrderData = [{
+        attach: desc,
         items: [{
           counts: this.data.singleOrder.newType[0].number,
           item_id: this.data.singleOrder.articleId,
@@ -152,7 +158,7 @@ Page({
     }
 
     // 执行生成订单方法 this.data.orderType 参考
-    this.createorder(this.data.orderType ? createOrderData : singleOrder)
+    this.createorder(createOrderData)
   },
   // 生成订单
   // 	"orders": [{
@@ -200,9 +206,10 @@ Page({
         package: res.data.package,
         signType: res.data.signType,
         paySign: res.data.paySign,
-        // total_fee: 2,
-        complete: function () {
-          console.log('aaa')
+        success: function () {
+          wx.navigateTo({
+            url: '/pages/orders/orders?type=0',
+          })
         }
       })
     })

@@ -166,5 +166,11 @@ Page({
         }
       }
     })
+  },
+  // 返回首页
+  returnIndex: function () {
+    wx.switchTab({
+      url: "/pages/index/index"
+    })
   }
 })

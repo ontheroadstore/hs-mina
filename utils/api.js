@@ -15,7 +15,6 @@ const wx_login = (baseUrl) => {
     wx.login({
       success: (res) => {
         let code = res.code
-        console.log(res.code)
         wx.getUserInfo({
           success: (res) => {
             request({

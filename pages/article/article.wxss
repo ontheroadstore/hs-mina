@@ -156,15 +156,14 @@
   font-family:  normal;
 }
 .images{
-  padding: 30rpx;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  padding: 30rpx 0 30rpx 30rpx;
 }
 .images image{
   width: 216rpx;
   height: 216rpx;
+  float: left;
   margin-bottom: 20rpx;
+  margin-right: 21rpx;
 }
 /* 暂时不上 */
 /* .buy_users{

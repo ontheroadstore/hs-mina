@@ -137,3 +137,7 @@
   margin-right: 30rpx;
   margin-top: 31rpx;
 }
+
+.main .return_index{
+  bottom: 178rpx;
+}
