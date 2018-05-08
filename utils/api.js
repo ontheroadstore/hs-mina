@@ -20,7 +20,16 @@ const wx_login = (baseUrl) => {
             request({
               url: baseUrl + 'appv5_1/login/wechatapp',
               data: {
-                code: code
+                code: code,
+                user_info: {
+                  nickName: res.userInfo.nickName,
+                  avatarUrl: res.userInfo.avatarUrl,
+                  gender: res.userInfo.gender,
+                  city: res.userInfo.city,
+                  province: res.userInfo.province,
+                  country: res.userInfo.country,
+                  language: res.userInfo.language
+                }
               },
               method: 'POST'
             }).then(res => {

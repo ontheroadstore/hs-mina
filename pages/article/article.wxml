@@ -72,7 +72,7 @@
       <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
       <image bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}/64" />
       <text bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
-      <text class="price font_din float_left">￥ 198</text>
+      <text class="price font_din float_left">￥ {{item.price[0]}}</text>
     </view>
   </view>
   <view class="btns clearBoth {{isIphoneX?'iphoneX_btns':''}}">

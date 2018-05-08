@@ -2,7 +2,7 @@
   <view class="user_goods clearBoth" wx:key="key" wx:for="{{userGoods}}">
     <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
     <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.post_title}}</view>
-    <text class="price font_din float_left">￥ 198</text>
+    <text class="price font_din float_left">￥ {{item.price[0]}}</text>
   </view>
   <image src='/images/returnTop.png' class='return_top' bindtap="returnTop" wx:if="{{returnTopStatus}}"></image>
   <image src='/images/returnIndex.png' class='return_index' bindtap="returnIndex"></image>
