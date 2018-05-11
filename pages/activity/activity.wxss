@@ -42,7 +42,7 @@
 }
 .activity2 text{
   display: block;
-  width: 267rpx;
+  width: 330rpx;
   height: 40rpx;
   line-height: 40rpx;
   font-size: 22rpx;
@@ -60,54 +60,232 @@
   top: 0;
   left: 0;
 }
+.activity3_content{
+  width: 750rpx;
+  height: 435rpx;
+  position: relative
+}
  .activity3{
   width: 750rpx;
-  height: 380rpx;
+  height: 435rpx;
+}
+.activity3_content .temperament{
+  position: absolute;
+  top: -87rpx;
+  left: 125rpx;
+  z-index: 1;
+  width: 338rpx;
+  height: 360rpx;
+}
+.activity3_content .red_wine{
+  position: absolute;
+  top: 137rpx;
+  left: 376rpx;
+  z-index: 1;
+  width: 324rpx;
+  height: 136rpx;
+}
+.activity3_content .chocolate{
+  position: absolute;
+  top: 109rpx;
+  right: 142rpx;
+  z-index: 1;
+  width: 346rpx;
+  height: 164rpx;
+}
+.activity3_content .good,
+.activity4_content .good{
+  position: absolute;
+  bottom: 0;
+  width: 250rpx;
+  height: 300rpx;
+  opacity: 0;
+  left: 0;
+}
+.activity3_content .red_wine_good{
+  position: absolute;
+  bottom: 0;
+  width: 250rpx;
+  height: 300rpx;
+  opacity: 0;
+  left: 250rpx;
+}
+.activity3_content .chocolate_good{
+  position: absolute;
+  bottom: 0;
+  width: 250rpx;
+  height: 300rpx;
+  left: 500rpx;
+  opacity: 0;
+}
+.activity4_content .good{
+  height: 230rpx;
+}
+.activity4_content .qualification_good{
+  position: absolute;
+  bottom: 0;
+  width: 250rpx;
+  height: 300rpx;
+  left: 0;
+  opacity: 0;
+}
+.activity4_content .iphone_good{
+  position: absolute;
+  bottom: 0;
+  width: 384rpx;
+  height: 220rpx;
+  left: 250rpx;
+  opacity: 0;
+}
+.activity4_content{
+  width: 750rpx;
+  height: 217rpx;
+  position: relative
 }
 .activity4{
   width: 750rpx;
-  height: 190rpx;
+  height: 217rpx;
 }
-
+.activity4_content .qualification{
+  position: absolute;
+  top: -88rpx;
+  left: 134rpx;
+  z-index: 1;
+  width: 462rpx;
+  height: 192rpx;
+}
+.activity4_content .iphone{
+  position: absolute;
+  top: -88rpx;
+  left: 450rpx;
+  z-index: 1;
+  width: 462rpx;
+  height: 192rpx;
+}
+.activity3_content image,
+.activity4_content image{
+  background: none;
+}
 .activity5{
   width: 750rpx;
-  height: 68rpx;
+  height: 203rpx;
+}
+
+
+.activity6{
+  width: 750rpx;
+  height: 85rpx;
   background: #21140f;
   overflow: hidden;
+  position: relative;
 }
-.activity5 text{
+.activity6 text{
   display: block;
-  width: 100rpx;
+  width: 235rpx;
   height: 40rpx;
   line-height: 40rpx;
   font-size: 22rpx;
   color: #79635a;
   border-radius: 40rpx;
   border: 2rpx solid #79635a;
-  margin: 3rpx auto;
+  margin: 18rpx auto 0;
   text-align: center;
 }
-
-.activity6{
-  width: 750rpx;
-  height: 444rpx;
+.activity6 .contact{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  top: 0;
+  left: 0;
 }
 .activity7{
   width: 750rpx;
-  height: 320rpx;
+  height: 194rpx;
 }
 .activity8{
   width: 750rpx;
-  height: 198rpx;
+  height: 340rpx;
+}
+.activity8_content{
+  width: 750rpx;
+  height: 340rpx;
+  position: relative;
+}
+.activity8_content .good{
+  width: 250rpx;
+  height: 340rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.activity8_content .recommend_good2{
+  left: 250rpx;
+}
+.activity8_content .recommend_good3{
+  left: 500rpx;
 }
 .activity9{
   width: 750rpx;
-  height: 535rpx;
+  height: 166rpx;
+}
+.activity10{
+  width: 750rpx;
+  height: 821rpx;
+}
+.activity10_content{
+  width: 750rpx;
+  height: 821rpx;
+  position: relative;
+}
+.activity10_content .user{
+  width: 250rpx;
+  height: 250rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.activity10_content .navigateTo_user2{
+  left: 250rpx;
+}
+.activity10_content .navigateTo_user3{
+  left: 500rpx;
+}
+.activity10_content .navigateTo_user4{
+  left: 0;
+  top: 250rpx;
+  height: 300rpx;
+}
+.activity10_content .navigateTo_user5{
+  top: 250rpx;
+  left: 250rpx;
+  height: 300rpx;
+  
+}
+.activity10_content .navigateTo_user6{
+  top: 250rpx;
+  left: 500rpx;
+  height: 300rpx;
+}
+.activity10_content .navigateTo_user7{
+  top: 550rpx;
+  left: 0;
+}
+.activity10_content .navigateTo_user8{
+  top: 550rpx;
+  left: 250rpx;
+}
+.activity10_content .navigateTo_user9{
+  top: 550rpx;
+  left: 500rpx;
+}
+.activity11{
+  width: 750rpx;
+  height: 730rpx;
 }
 
-.activity3_content{
-
-}
 
 
 

@@ -265,3 +265,49 @@
   font-size: 32rpx;
   line-height: 1em;
 }
+
+.getUserInfo_content{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.3);
+}
+.getUserInfo_content .pop_up{
+  width: 560rpx;
+  height: 265rpx;
+  position: absolute;
+  top: 200rpx;
+  left: 95rpx;
+  background: #FFF;
+  border-radius: 8rpx;
+}
+.getUserInfo_content .pop_up_text{
+  height: 164rpx;
+  box-sizing: border-box;
+  padding-top: 50rpx;
+  line-height: 1em;
+  font-size: 30rpx;
+  text-align: center;
+  border-bottom: 1rpx solid #E5E5E5;
+}
+.getUserInfo_content .btn{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width:50%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+}
+.getUserInfo_content .pass{
+  color: #02BB00;
+  left: 50%;
+  border-left: 1rpx solid #E5E5E5;
+}
+.getUserInfo_content button.pass{
+  opacity: 0;
+  z-index: 1;
+}

@@ -8,9 +8,8 @@ Page({
     paymentInfo: null,
     supernatant: false,
     winLogId: 0,
-    textPackUp: '收起',
-    packUpStatus: false,
     drawStatus: false,
+    prizeIntroduce: 0,
     supernatantAnimation: null,
     supernatant_circle1: null,
     supernatant_circle2: null,
@@ -290,19 +289,34 @@ Page({
       supernatantActiveAnimation: supernatantActiveAnimation.export()
     })
   },
-  // 打开
-  packUp: function() {
-    if (this.data.packUpStatus){
-      this.setData({
-        textPackUp: '收起',
-        packUpStatus: false
-      })
-    }else{
-      this.setData({
-        textPackUp: '打开',
-        packUpStatus: true
-      })
-    }
+  // 奖品介绍
+  activityContent: function(e) {
+    const num = e.target.dataset.num
+    this.setData({
+      prizeIntroduce: num
+    })
+  },
+  activityHide: function() {
+    this.setData({
+      prizeIntroduce: 0
+    })
+  },
+  // 商品跳转article
+  navigateToGoods: function (e) {
+    let id = e.target.dataset.id
+    const url = '/pages/article/article?id=' + id
+    wx.navigateTo({
+      url: url
+    })
+  },
+  // 卖家中心跳转user
+  navigateToUser: function (e) {
+    let id = e.target.dataset.id
+    let name = e.target.dataset.name
+    const url = '/pages/user/user?id=' + id + '&name=' + name
+    wx.navigateTo({
+      url: url
+    })
   },
   // 分享加金币
   onShareAppMessage: function(res) {

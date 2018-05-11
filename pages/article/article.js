@@ -29,7 +29,6 @@ Page({
     authorizationStatus: false    //授权状态
   },
   onLoad: function (options) {
-    console.log(app.globalData.authorizationStatus)
     wx.setNavigationBarTitle({
       title: '商品详情'
     })
@@ -74,14 +73,17 @@ Page({
       })
     })
     // 更新购物车图标数量
-    if (app.globalData.authorizationStatus){
-      this.getChartNum()
-    }else{
-      this.setData({
-        authorizationStatus: true
-      })
-    }
-
+    const that = this
+    wx.getUserInfo({
+      success: function () {
+        that.getChartNum()
+      },
+      fail: function () {
+        that.setData({
+          authorizationStatus: true
+        })
+      }
+    })
   },
   onShow: function() {
     // console.log(this.data.goodInfo)

@@ -1,32 +1,64 @@
 <scroll-view class='main' scroll-y>
   <view class='activity'>
-    <image wx:if="{{drawStatus}}" src='http://img8.ontheroadstore.com/upload/180510/b1f3170a3a032c4ac82e867c8e2b1964.gif' class='activity_gif'></image>
-    <image wx:if="{{!drawStatus}}" src='/images/activity3.png' class='activity_png'></image>
+    <image hidden="{{drawStatus}}" src='http://img8.ontheroadstore.com/upload/180510/b1f3170a3a032c4ac82e867c8e2b1964.gif' class='activity_gif'></image>
+    <image wx:if="{{!drawStatus}}" src='' class='activity_png'></image>
     <view class='draw_btn' bindtap='draw'></view>
     <button class='share_btn' open-type="share">转发</button>
     <view class='draw_number'>{{gameCurrency}}</view>
 
 
-    <image class='activity1' src='/images/activity1.png'></image>
+    <image class='activity1' src='http://img8.ontheroadstore.com/upload/180511/f531e052a1627faa355a6093c14542f2.png'></image>
     <view class='activity2'>
-      <text>如有疑问 客服咨询</text>
+      <text>点击了解更多新齐特礼品</text>
       <button class='contact' open-type="contact">在线客服</button>
     </view>
     <view class='activity3_content'>
-      <image class='activity3' src='/images/activity3.png'></image>
-      <view></view>
-      <view></view>
-      <view></view>
+      <image class='activity3' src='http://img8.ontheroadstore.com/upload/180511/d5e8d0d06264f5b99c4e8a234118fda0.png'></image>
+      <view class='temperament_good good' data-num="1" bindtouchstart='activityContent' bindtouchend='activityHide'></view>
+      <view class='red_wine_good good' data-num="2" bindtouchstart='activityContent' bindtouchend='activityHide'></view>
+      <view class='chocolate_good good' data-num="3" bindtouchstart='activityContent' bindtouchend='activityHide'></view>
+      <image class='temperament' hidden='{{prizeIntroduce == 1? false: true}}' src='http://img8.ontheroadstore.com/upload/180511/f439959ebdd9a3ec94d3a0a6d0842db5.png'></image>
+      <image class='red_wine' hidden='{{prizeIntroduce == 2? false: true}}' src='http://img8.ontheroadstore.com/upload/180511/ce3965ac3318c9b39336a0b21d292a88.png'></image>
+      <image class='chocolate' hidden='{{prizeIntroduce == 3? false: true}}' src='http://img8.ontheroadstore.com/upload/180511/c7067eee8d1862e0c69ebb0369cda1c2.png'></image>
     </view>
-    <image class='activity4' wx:if="{{!packUpStatus}}" src='/images/activity4.png'></image>
-    <view class='activity5'>
-      <text bindtap='packUp'>{{textPackUp}}</text>
-      <!-- <text>打开</text> -->
+    <view class='activity4_content' touchstart='activity4Content'>
+      <image class='activity4' src='http://img8.ontheroadstore.com/upload/180511/4c43851ee5a8ff08e978c1aeab1591f9.png'></image>
+
+      <view class='qualification_good good' data-num="4" bindtouchstart='activityContent' bindtouchend='activityHide'></view>
+      <view class='iphone_good good' data-num="5" bindtouchstart='activityContent' bindtouchend='activityHide'></view>
+
+      <image class='qualification' hidden='{{prizeIntroduce == 4? false: true}}' src='http://img8.ontheroadstore.com/upload/180511/b3c6ed11bdac6083a2958a187c719c96.png'></image>
+      <image class='iphone' hidden='{{prizeIntroduce == 5? false: true}}' src='http://img8.ontheroadstore.com/upload/180511/343bd193bfcb4b8ee60acddef4f103bb.png'></image>
     </view>
-    <image class='activity6' src='/images/activity6.png'></image>
-    <image class='activity7' src='/images/activity7.png'></image>
-    <image class='activity8' src='/images/activity8.png'></image>
-    <image class='activity9' src='/images/activity9.png'></image>
+    <image class='activity5' src='http://img8.ontheroadstore.com/upload/180511/be6e9081d1e0b97f73194b0505ccd5b3.png'></image>
+    <view class='activity6'>
+      <text>点击咨询客服</text>
+      <button class='contact' open-type="contact">在线客服</button>
+    </view>
+
+
+
+    <image class='activity7' src='http://img8.ontheroadstore.com/upload/180511/daacdd81ef6798512b316fcf88352ee7.png'></image>
+    <view class='activity8_content'>
+      <image class='activity8' src='http://img8.ontheroadstore.com/upload/180511/4672ad6e8f1cba01cc50e252826c2d65.png'></image>
+      <view class='recommend_good1 good' bindtap='navigateToGoods' data-id="9513"></view>
+      <view class='recommend_good2 good' bindtap='navigateToGoods' data-id="15216"></view>
+      <view class='recommend_good3 good' bindtap='navigateToGoods' data-id="16102"></view>
+    </view>
+    <image class='activity9' src='http://img8.ontheroadstore.com/upload/180511/4db36d852c10ec59b72611e8c77fd650.png'></image>
+    <view class='activity10_content'>
+      <image class='activity10' src='http://img8.ontheroadstore.com/upload/180511/b46a19ed019810128a08a8042a2c10ca.png'></image>
+      <view class='navigateTo_user1 user' bindtap='navigateToUser' data-id="559934" data-name="惠同学"></view>
+      <view class='navigateTo_user2 user' bindtap='navigateToUser' data-id="22911" data-name="大鱼"></view>
+      <view class='navigateTo_user3 user' bindtap='navigateToUser' data-id="243832" data-name="浅野"></view>
+      <view class='navigateTo_user4 user' bindtap='navigateToUser' data-id="1252392" data-name="香氛艺廊"></view>
+      <view class='navigateTo_user5 user' bindtap='navigateToUser' data-id="1225185" data-name="回忆制造机"></view>
+      <view class='navigateTo_user6 user' bindtap='navigateToUser' data-id="524014" data-name="爆炸美丁"></view>
+      <view class='navigateTo_user7 user' bindtap='navigateToUser' data-id="240" data-name="Oldwave"></view>
+      <view class='navigateTo_user8 user' bindtap='navigateToUser' data-id="5368" data-name="ocb滨"></view>
+      <view class='navigateTo_user9 user' bindtap='navigateToUser' data-id="401621" data-name="lomo小强"></view>
+    </view>
+    <image class='activity11' src='http://img8.ontheroadstore.com/upload/180511/fb90bb88c1dbff000341a6febdad08ab.png'></image>
   </view>
   <image hidden="{{supernatant}}" src="/images/gonglushangdian.png" class="supernatant_image supernatant_animation" bindtap='supernatantShow'></image>
   <image animation="{{supernatantActiveAnimation}}" src="/images/heishi.png" class="supernatant_image_active" bindtap='supernatantHide'></image> 

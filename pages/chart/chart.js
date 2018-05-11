@@ -14,7 +14,8 @@ Page({
     moveLocationY: null,        // 左滑进行中的位置（用于显示删除按钮）
     randomGoods: null,          // 猜你喜欢商品列表
     scrollStatus: true,         // 是否禁止滚动
-    totalPrice: 0               // 总价
+    totalPrice: 0,              // 总价
+    getUserInfoStatus: false    // 授权状态
   },
   onLoad: function () {
     wx.setNavigationBarTitle({
@@ -28,35 +29,44 @@ Page({
     this.animation = animation
   },
   onShow: function() {
-    // 用户未授权等待用户授权
-    if (!app.globalData.authorizationStatus) {
-      return false
-    }
-    // 获取购物车商品
-    req(app.globalData.bastUrl, 'appv4/getcart', {}).then(res => {
-      if (res.status == 1) {
-        // 获取数据添加选中状态 左滑选中状态
-        // childOrderShow 在传入确认订单页中使用
-        // animation 左滑动画
-        let goodList = []
-        res.data.cart.forEach(function (item, index) {
-          item['selectStatus'] = false
-          item['childOrderShow'] = false
-          item['seller_avatar'] = item['seller_avatar']
-          item.item.forEach(function (good, i) {
-            good['selectStatus'] = false
-            good['animation'] = {}
-            if (good['special_offer_end']){
-              good['special_offer_end'] = formTime(good['special_offer_end'])
-            }
-          })
-          goodList.push(item)
+    const that = this
+    that.setData({
+      getUserInfoStatus: false
+    })
+    wx.getUserInfo({
+      success: function() {
+        // 获取购物车商品
+        req(app.globalData.bastUrl, 'appv4/getcart', {}).then(res => {
+          if (res.status == 1) {
+            // 获取数据添加选中状态 左滑选中状态
+            // childOrderShow 在传入确认订单页中使用
+            // animation 左滑动画
+            let goodList = []
+            res.data.cart.forEach(function (item, index) {
+              item['selectStatus'] = false
+              item['childOrderShow'] = false
+              item['seller_avatar'] = item['seller_avatar']
+              item.item.forEach(function (good, i) {
+                good['selectStatus'] = false
+                good['animation'] = {}
+                if (good['special_offer_end']) {
+                  good['special_offer_end'] = formTime(good['special_offer_end'])
+                }
+              })
+              goodList.push(item)
+            })
+            that.setData({
+              selectAllStatus: false,
+              totalPrice: 0,
+              goodList: goodList,
+              randomGoods: res.data.recommended
+            })
+          }
         })
-        this.setData({
-          selectAllStatus: false,
-          totalPrice: 0,
-          goodList: goodList,
-          randomGoods: res.data.recommended
+      },
+      fail: function() {
+        that.setData({
+          getUserInfoStatus: true
         })
       }
     })
@@ -64,8 +74,16 @@ Page({
   // 用户授权
   bindgetuserinfo: function(res) {
     if (res.detail.errMsg == 'getUserInfo:ok'){
+      this.setData({
+        getUserInfoStatus: true
+      })
       app.login(this.onShow)
     }
+  },
+  repulseGetUserInfo: function() {
+    this.setData({
+      getUserInfoStatus: false
+    })
   },
   // 修改购物车数量 需要更新服务端存储数据，修改成功后再更新显示数量
   subNum: function(e) {

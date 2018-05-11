@@ -143,7 +143,8 @@ Page({
     wx.navigateTo({
       url: url
     })
-  },// 商品跳转WebView
+  },
+  // 商品跳转WebView
   navigateToWebView: function (e) {
     let webUrl = e.target.dataset.url
     const url = '/pages/webView/webView?url=' + webUrl

@@ -48,7 +48,12 @@
       <text class='float_left'>退货服务</text>
     </navigator>
   </view>
-  <view>
-    <button open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo">授权</button>
+  <view class='getUserInfo_content' wx:if="{{getUserInfoStatus}}">
+    <view class='pop_up'>
+      <view class='pop_up_text'>我们需要获取您的授权信息</view>
+      <view class='repulse btn' bindtap='repulseGetUserInfo'>拒绝</view>
+      <view class='pass btn'>确认</view>
+      <button class='pass btn' open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo">授权</button>
+    </view>
   </view>
 </scroll-view>
