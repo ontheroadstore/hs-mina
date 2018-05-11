@@ -19,7 +19,7 @@ Page({
     salesGoods: [],               // 哆嗦排行榜列表
     bannerItem: [],               // banner列表
     newGoods: [],                 // 新品列表
-    apiStatus:0
+    apiStatus: 0 
   },
   onLoad: function () {
     wx.showNavigationBarLoading()
@@ -50,7 +50,6 @@ Page({
     req(app.globalData.bastUrl, 'appv3/modules', {
       qt: 4
     }, "GET", true).then(res => {
-      res.data.result = util.userAvatarTransform(res.data.result, 'user_avatar')
       this.setData({
         newGoods: res.data.result,
         apiStatus: this.data.apiStatus + 1
@@ -62,7 +61,6 @@ Page({
       channel: '2',
       random: '1'
     }, "GET", true).then(res => {
-      res.data.modules[0].data.result = util.userAvatarTransform(res.data.modules[0].data.result, 'user_avatar')
       this.setData({
         salesGoods: res.data.modules[0].data.result,
         apiStatus: this.data.apiStatus + 1
@@ -185,7 +183,6 @@ Page({
       'page': this.data.hotgoodPages,
       'size': 10
     }).then(res => {
-      res.data.result = util.userAvatarTransform(res.data.result, 'user_avatar')
       this.setData({
         hotGoods: this.data.hotGoods.concat(res.data.result),
         hotgoodPages: this.data.hotgoodPages + 1,
@@ -204,7 +201,7 @@ Page({
       'category_id': category_id,
       'cur_page': this.data.categoriesgoodsPages
     }).then(res => {
-      const categoriesGoods = util.userAvatarTransform(res.data.data.item_list.result, 'user_avatar')
+      const categoriesGoods = res.data.data.item_list.result
       this.setData({
         categoriesGoods: this.data.categoriesGoods.concat(categoriesGoods),
         categoriesgoodsPages: this.data.categoriesgoodsPages + 1,

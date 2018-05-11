@@ -19,7 +19,6 @@ Page({
     // options type参数 0：通过我的地址进入  1：确认订单页进入
     // 0情况下正常操作
     // 1情况在 设置默认后,微信添加地址(设为默认地址) 返回--确认订单页
-    console.log(options)
     this.setData({
       orderType: options.orderType,
       addressType: options.type,
@@ -82,50 +81,54 @@ Page({
   addAddress: function () {
     const that = this
     wx.chooseAddress({
-      complete: function (res) {
-        // chooseAddress: fail cancel
-        // chooseAddress:ok
-        // cityName:"广州市"
-        // countyName: "海珠区"
-        // detailInfo: "新港中路397号"
-        // errMsg: "chooseAddress:ok"
-        // nationalCode: "510000"
-        // postalCode: "510000"
-        // provinceName: "广东省"
-        // telNumber: "020-81167888"
-        // userName: "张三"
-        if (res.errMsg == 'chooseAddress:ok') {
-          wx.showModal({
-            title: '提示',
-            content: '是否保存地址',
-            success: function (data) {
-              if (data.confirm) {
-                // 待保存的地址信息
-                req(app.globalData.bastUrl, 'appv1/usernewaddress', {
-                  address_detail: res.detailInfo,
-                  city: res.cityName,
-                  district: res.countyName,
-                  is_default: 0,
-                  mobile: res.telNumber,
-                  postal_code: res.postalCode,
-                  province: res.provinceName,
-                  user_name: res.userName
-                }, 'POST').then(res => {
-                  if (res.code = 1) {
-                    wx.showToast({
-                      title: '保存成功',
-                    })
-                  }
-                  that.getAddr()
-                })
-                // addressType=1 设置成功后返回
-                if (that.data.addressType == 1) {
-                  const orderType = that.data.orderType
-                  wx.navigateTo({
-                    url: '/pages/createOrder/createOrder?type=' + orderType,
+      success: function (res) {
+        wx.showModal({
+          title: '提示',
+          content: '是否保存地址',
+          success: function (data) {
+            if (data.confirm) {
+              // 待保存的地址信息
+              req(app.globalData.bastUrl, 'appv1/usernewaddress', {
+                address_detail: res.detailInfo,
+                city: res.cityName,
+                district: res.countyName,
+                is_default: 0,
+                mobile: res.telNumber,
+                postal_code: res.postalCode,
+                province: res.provinceName,
+                user_name: res.userName
+              }, 'POST').then(res => {
+                if (res.code = 1) {
+                  wx.showToast({
+                    title: '保存成功',
                   })
                 }
+                that.getAddr()
+              })
+              // addressType=1 设置成功后返回
+              if (that.data.addressType == 1) {
+                const orderType = that.data.orderType
+                wx.navigateTo({
+                  url: '/pages/createOrder/createOrder?type=' + orderType,
+                })
               }
+            }
+          }
+        })
+      }
+    })
+  },
+  // 检测用户是否授权调用地址
+  detectionAddress: function () {
+    const that = this
+    wx.getSetting({
+      complete: function (res) {
+        if (res.authSetting['scope.address']) {
+          that.addAddress()
+        } else {
+          wx.openSetting({
+            success: function () {
+              that.addAddress()
             }
           })
         }

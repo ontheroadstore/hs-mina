@@ -74,7 +74,7 @@ Page({
         orderStatus = true
       }
       this.setData({
-        ordersItem: this.data.ordersItem.concat(util.userAvatarTransform(res.data.orders, 'avatar')),
+        ordersItem: this.data.ordersItem.concat(res.data.orders),
         orderPages: this.data.orderPages + 1,
         orderStatus: orderStatus,
         isHideLoadMore: false

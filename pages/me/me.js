@@ -22,5 +22,10 @@ Page({
       userInfo: app.globalData.userInfo,
       userTel: userTel
     })
+  },
+  bindgetuserinfo: function(res) {
+    if (res.detail.errMsg == 'getUserInfo:ok') {
+      app.login(this.onLoad)
+    }
   }
 })

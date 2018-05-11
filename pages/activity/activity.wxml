@@ -1,0 +1,41 @@
+<scroll-view class='main' scroll-y>
+  <view class='activity'>
+    <image wx:if="{{drawStatus}}" src='http://img8.ontheroadstore.com/upload/180510/b1f3170a3a032c4ac82e867c8e2b1964.gif' class='activity_gif'></image>
+    <image wx:if="{{!drawStatus}}" src='/images/activity3.png' class='activity_png'></image>
+    <view class='draw_btn' bindtap='draw'></view>
+    <button class='share_btn' open-type="share">转发</button>
+    <view class='draw_number'>{{gameCurrency}}</view>
+
+
+    <image class='activity1' src='/images/activity1.png'></image>
+    <view class='activity2'>
+      <text>如有疑问 客服咨询</text>
+      <button class='contact' open-type="contact">在线客服</button>
+    </view>
+    <view class='activity3_content'>
+      <image class='activity3' src='/images/activity3.png'></image>
+      <view></view>
+      <view></view>
+      <view></view>
+    </view>
+    <image class='activity4' wx:if="{{!packUpStatus}}" src='/images/activity4.png'></image>
+    <view class='activity5'>
+      <text bindtap='packUp'>{{textPackUp}}</text>
+      <!-- <text>打开</text> -->
+    </view>
+    <image class='activity6' src='/images/activity6.png'></image>
+    <image class='activity7' src='/images/activity7.png'></image>
+    <image class='activity8' src='/images/activity8.png'></image>
+    <image class='activity9' src='/images/activity9.png'></image>
+  </view>
+  <image hidden="{{supernatant}}" src="/images/gonglushangdian.png" class="supernatant_image supernatant_animation" bindtap='supernatantShow'></image>
+  <image animation="{{supernatantActiveAnimation}}" src="/images/heishi.png" class="supernatant_image_active" bindtap='supernatantHide'></image> 
+  <view class='supernatant' hidden="{{!supernatant}}"  bindtap='supernatantHide'>
+  <!-- hidden="{{!supernatant}}" -->
+    <view animation="{{supernatant_circle1}}" class='supernatant_circle supernatant_circle1'></view>
+    <view animation="{{supernatant_circle2}}" class='supernatant_circle supernatant_circle2'></view> 
+    <view animation="{{supernatant_circle3}}" class='supernatant_circle supernatant_circle3'></view> 
+    <view animation="{{supernatant_circle4}}" class='supernatant_circle supernatant_circle4'></view> 
+    <view animation="{{supernatant_circle5}}" class='supernatant_circle supernatant_circle5'></view> 
+  </view>
+</scroll-view>

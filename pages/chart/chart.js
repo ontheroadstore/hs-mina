@@ -1,6 +1,6 @@
 const app = getApp()
 const util = require('../../utils/util.js')
-import { req } from '../../utils/api.js'
+import { req, wx_login } from '../../utils/api.js'
 
 
 Page({
@@ -28,6 +28,10 @@ Page({
     this.animation = animation
   },
   onShow: function() {
+    // 用户未授权等待用户授权
+    if (!app.globalData.authorizationStatus) {
+      return false
+    }
     // 获取购物车商品
     req(app.globalData.bastUrl, 'appv4/getcart', {}).then(res => {
       if (res.status == 1) {
@@ -38,7 +42,7 @@ Page({
         res.data.cart.forEach(function (item, index) {
           item['selectStatus'] = false
           item['childOrderShow'] = false
-          item['seller_avatar'] = util.singleUserAvatarTransform(item['seller_avatar'])
+          item['seller_avatar'] = item['seller_avatar']
           item.item.forEach(function (good, i) {
             good['selectStatus'] = false
             good['animation'] = {}
@@ -52,10 +56,16 @@ Page({
           selectAllStatus: false,
           totalPrice: 0,
           goodList: goodList,
-          randomGoods: util.userAvatarTransform(res.data.recommended, 'user_avatar')
+          randomGoods: res.data.recommended
         })
       }
     })
+  },
+  // 用户授权
+  bindgetuserinfo: function(res) {
+    if (res.detail.errMsg == 'getUserInfo:ok'){
+      app.login(this.onShow)
+    }
   },
   // 修改购物车数量 需要更新服务端存储数据，修改成功后再更新显示数量
   subNum: function(e) {

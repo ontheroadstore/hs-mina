@@ -31,7 +31,7 @@
       <image class='float_left' src='/images/like.png'></image>
       <text class='float_left'>我的收藏</text>
     </navigator>
-    <navigator class='clearBoth clearBorder' hover-class="none" url="/pages/address/address?type=0">
+    <navigator class='clearBoth clearBorder' hover-class="none" url="/pages/address/address?type=0&orderType=0">
       <image class='float_left' src='/images/address.png'></image>
       <text class='float_left'>收货地址</text>
     </navigator>
@@ -47,5 +47,8 @@
       <image class='float_left' src='/images/refund.png'></image>
       <text class='float_left'>退货服务</text>
     </navigator>
+  </view>
+  <view>
+    <button open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo">授权</button>
   </view>
 </scroll-view>

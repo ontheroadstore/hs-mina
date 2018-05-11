@@ -87,7 +87,8 @@
       <text>收藏</text>
     </view>
     <view class='chart_btn float_left' bindtap="{{styleNum > 1 ? 'selectShow':'addChart'}}" data-type="1">加入购物车</view>
-    <view class='buy_btn float_left' bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2">立即购买</view>
+    <view class='buy_btn float_left' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2">立即购买</view>
+    <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
   </view>
   <view class="select {{selectStatus ? 'show':''}}" bindtap='selectHide' data-status="true">
     <view class="select_content {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}">
@@ -118,9 +119,10 @@
         </view>
       </scroll-view>
         <view class='chart_btn' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}">加入购物车</view> 
-        <view class='buy_btn' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}">立即购买           </view> 
-        <view class='next_btn' wx:if="{{selectType==1}}" bindtap="{{selectStyleId?'addChart':'noSelect'}}">确认</view>
-        <view class='next_btn' wx:if="{{selectType==2}}" bindtap="{{selectStyleId?'navigateToCreateOrder':'noSelect'}}">确认</view> 
+        <view class='buy_btn' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}">立即购买           </view>
+      <view class='next_btn' wx:if="{{selectType==1}}" bindtap="{{selectStyleId?'addChart':'noSelect'}}">确认</view>
+      <view class='next_btn' wx:if="{{selectType==2}}" bindtap="{{selectStyleId?'navigateToCreateOrder':'noSelect'}}">确认</view>
+      <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
     </view>
   </view>
   <image src='/images/returnIndex.png' class='return_index' bindtap="returnIndex"></image>

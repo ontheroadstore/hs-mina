@@ -16,6 +16,7 @@ const wx_login = (baseUrl) => {
       success: (res) => {
         let code = res.code
         wx.getUserInfo({
+          lang: 'zh_CN',
           success: (res) => {
             request({
               url: baseUrl + 'appv5_1/login/wechatapp',
@@ -45,13 +46,11 @@ const wx_login = (baseUrl) => {
             })
           },
           fail: (res) => {
-            //用户拒绝授权
-            if (res.errMsg == "getUserInfo:cancel" || res.errMsg == "getUserInfo:fail auth deny") {
-              wx.redirectTo({
-                url: '../xxx-page/xxx-page'
-              })
-              reject()
-            }
+            // wx.showToast({
+            //   title: '没有授权',
+            //   icon: 'error',
+            //   duration: 1000
+            // })
           }
         })
       },

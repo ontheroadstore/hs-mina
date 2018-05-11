@@ -53,4 +53,7 @@
     <view class='float_right no_postage'>不含运费</view>
     <view class='float_right total_text' >总价： <text>￥ {{totalPrice}}</text></view>
   </view>
+  <view>
+    <button open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo">授权</button>
+  </view>
 </scroll-view>

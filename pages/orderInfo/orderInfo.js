@@ -25,7 +25,7 @@ Page({
       title: '订单详情'
     })
     req(app.globalData.bastUrl, 'appv5/orders/' + options.id, {}, "GET").then(res => {
-      res.data.avatar = util.singleUserAvatarTransform(res.data.avatar)
+      res.data.avatar = res.data.avatar
       this.setData({
         orderId: options.id,
         orderInfo: res.data,

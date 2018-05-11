@@ -12,6 +12,7 @@ Page({
     totalPrice: 0,                // 总价
     totalPostage: 0,              // 总邮费
     addressInfo: null,            // 默认地址 在支付时，addressInfo不能为空
+    orderNumber: null,            // 订单号 HS20180510144319VWW33O
     isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
   onLoad: function (options) {
@@ -21,7 +22,6 @@ Page({
     // options.type = 0
     // type 0 直接购买， 1购物车购买 缓存数据头像已经处理
     if (options.type == 0){
-      console.log(options)
       let orderData = wx.getStorageSync('orderData')
       // 如果是特价商品 直接替换price
       const nowDate = +new Date()
@@ -178,13 +178,15 @@ Page({
       orders: order
     }, 'POST').then(res => {
       if (res.code == 1) {
-        console.log('生成订单成功：', res.data)
-        // this.wxpayment(res.data)
         this.buychecking(res.data)
       }
     })
   },
   buychecking: function (ordernumber) {
+    // 订单号
+    this.setData({
+      orderNumber: ordernumber
+    })
     req(app.globalData.bastUrl, 'appv2_1/buychecking', {
       order_number: ordernumber,
       payment_type: 3
@@ -196,10 +198,10 @@ Page({
   // ordernummber
   // 文档：https://developers.weixin.qq.com/miniprogram/dev/api/api-pay.html
   wxpayment: function (prepayId) {
+    const orderNumber = this.data.orderNumber
     req(app.globalData.bastUrl, 'appv5_1/payment/getWxPaymentParam', {
       package: 'prepay_id=' + prepayId
     }, 'POST').then(res => {
-      console.log(res)
       wx.requestPayment({
         timeStamp: res.data.timeStamp,
         nonceStr: res.data.nonceStr,
@@ -207,8 +209,18 @@ Page({
         signType: res.data.signType,
         paySign: res.data.paySign,
         success: function () {
-          wx.navigateTo({
-            url: '/pages/orders/orders?type=0',
+          // wx.navigateTo({
+          //   url: '/pages/orders/orders?type=0',
+          // })
+          // 活动期间 跳转至商品
+          req(app.globalData.bastUrl, 'appv5_1/tigger/payIncrCoin', {
+            order: orderNumber
+          }, 'POST').then(data => {
+            if (data.data) {
+              wx.reLaunch({
+                url: '/pages/activity/activity',
+              })
+            }
           })
         }
       })

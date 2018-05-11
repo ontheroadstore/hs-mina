@@ -21,7 +21,7 @@
       </view>
     </view>
   </view>
-  <view class="wx_address {{isIphoneX ? 'wx_address_iphoneX' : '' }}" bindtap='addAddress'>
+  <view class="wx_address {{isIphoneX ? 'wx_address_iphoneX' : '' }}" bindtap='detectionAddress'>
     <text class='float_right'>添加微信地址</text>
     <image class='float_right' src='/images/wx.png'></image>
   </view>

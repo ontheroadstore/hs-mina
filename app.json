@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/activity/activity",
     "pages/createOrder/createOrder",
     "pages/chart/chart",
     "pages/paySuccess/paySuccess",
@@ -26,7 +27,7 @@
   },
   "tabBar": {
     "color": "#000",
-    "selectedColor": "#E03B29",
+    "selectedColor": "#AE2121",
     "backgroundColor": "#FFF",
     "borderStyle": "black",
     "list": [

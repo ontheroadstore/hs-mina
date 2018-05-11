@@ -17,26 +17,28 @@ App({
         this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://apitest.ontheroadstore.com/'
       }
     })
-    // 登录
-    wx_login(this.globalData.bastUrl).then(res => {
-      req(this.globalData.bastUrl, 'appv4/user/simple',{}, "GET", true).then(res => {
-        res.data.avatar = util.singleUserAvatarTransform(res.data.avatar)
-        this.globalData.userInfo = res.data
-      })
-    })
-
+    this.login()
   },
-  onShow: function() {
-
-
-  },
+  onShow: function() {},
   onHide: function() {},
   onError: function() {},
-
+  login: function(callback) {
+    // 登录
+    wx_login(this.globalData.bastUrl).then(res => {
+      req(this.globalData.bastUrl, 'appv4/user/simple', {}, "GET", true).then(res => {
+        this.globalData.userInfo = res.data
+        this.globalData.authorizationStatus = true
+        if (callback){
+          callback()
+        }
+      })
+    })
+  },
   globalData: {
     bastUrl: null,
     isIphoneX: false,
     userInfo: null,
-    systemInfo: null
+    systemInfo: null,
+    authorizationStatus: false
   }
 })

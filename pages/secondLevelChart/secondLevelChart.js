@@ -39,7 +39,7 @@ Page({
         res.data.cart.forEach(function (item, index) {
           item['selectStatus'] = false
           item['childOrderShow'] = false
-          item['seller_avatar'] = util.singleUserAvatarTransform(item['seller_avatar'])
+          item['seller_avatar'] = item['seller_avatar']
           item.item.forEach(function (good, i) {
             good['selectStatus'] = false
             good['animation'] = {}
@@ -53,7 +53,7 @@ Page({
           selectAllStatus: false,
           totalPrice: 0,
           goodList: goodList,
-          randomGoods: util.userAvatarTransform(res.data.recommended, 'user_avatar')
+          randomGoods: res.data.recommended
         })
       }
     })

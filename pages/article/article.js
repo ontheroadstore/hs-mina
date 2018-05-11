@@ -25,9 +25,11 @@ Page({
     addLikeStatus: false,         // 是否收藏
     selectStatus: false,          // 选择款式框显示状态
     selectType: 0,                // 调起选择框：0文中选择 1加入购物车 2立即购买 （单个款式不调起）
-    isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
+    isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
+    authorizationStatus: false    //授权状态
   },
   onLoad: function (options) {
+    console.log(app.globalData.authorizationStatus)
     wx.setNavigationBarTitle({
       title: '商品详情'
     })
@@ -58,8 +60,8 @@ Page({
         specialOfferPrice = goodInfo.type[0].special_offer_price
       }
       // 添加/64
-      res.data.seller.avatar = util.singleUserAvatarTransform(res.data.seller.avatar) 
-      res.data.modules[0].data.result[0].avatar = util.singleUserAvatarTransform(res.data.modules[0].data.result[0].avatar) 
+      res.data.seller.avatar = res.data.seller.avatar 
+      res.data.modules[0].data.result[0].avatar = res.data.modules[0].data.result[0].avatar
       
       this.setData({
         presellTime: presellTime,
@@ -72,10 +74,17 @@ Page({
       })
     })
     // 更新购物车图标数量
-    this.getChartNum()
+    if (app.globalData.authorizationStatus){
+      this.getChartNum()
+    }else{
+      this.setData({
+        authorizationStatus: true
+      })
+    }
+
   },
   onShow: function() {
-    console.log(this.data.goodInfo)
+    // console.log(this.data.goodInfo)
   },
   // 分享
   onShareAppMessage: function (res) {
@@ -231,8 +240,34 @@ Page({
       selectStyleCount: m
     })
   },
+  // 授权
+  bindgetuserinfo: function(res) {
+    const that = this
+    if (res.detail.errMsg == 'getUserInfo:ok') {
+      this.setData({
+        authorizationStatus: false
+      })
+      app.login(function(){
+        wx.showToast({
+          title: '授权成功',
+          icon: 'success',
+          duration: 2000
+        })
+        that.getChartNum()
+      })
+    }
+  },
   // 跳转下订单
-  navigateToCreateOrder: function () {
+  navigateToCreateOrder: function (e) {
+    const stock = e.target.dataset.stock
+    if (stock == 0){
+      console.log(e)
+      return wx.showToast({
+        title: '当前商品暂无库存',
+        icon: 'none',
+        duration: 1000
+      })
+    }
     // 设置选择的款式，以及数量，进行数据缓存（没有款式，直接存储）
     let goodInfo = this.data.goodInfo
     goodInfo.articleId = parseInt(this.data.articleId)

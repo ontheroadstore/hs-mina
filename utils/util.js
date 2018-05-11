@@ -34,34 +34,6 @@ const timestamp = date => {
   }
 }
 
-// 多个用户头像转换(+/64)  
-const thirdwx = 'http://thirdwx.qlogo.cn/'
-const wxUrl = 'http://wx.qlogo.cn/'
-// date 列表 parem 字段名
-const userAvatarTransform = (date, param) => {
-  let newGoods = []
-  date.forEach(function (item, index) {
-    if (!item[param]){
-      newGoods.push(item)
-    }else if (item[param].indexOf(thirdwx) || item[param].indexOf(wxUrl)) {
-      item[param] = item[param] + '/64'
-      newGoods.push(item)
-    }else{
-      newGoods.push(item)
-    }
-  })
-  return newGoods
-}
-// 单个用户头像转换(+/64)
-const singleUserAvatarTransform = date => {
-  let newUserAvatar = null
-  if (date.indexOf(thirdwx) || date.indexOf(wxUrl)) {
-    newUserAvatar = date + '/64'
-  } else {
-    newUserAvatar = date
-  }
-  return newUserAvatar
-}
 // 替换文本中换行<br />
 const replaceBr = date => {
   if (!date) return false
@@ -76,8 +48,6 @@ const replaceBr = date => {
 
 module.exports = {
   formatTime: formatTime,
-  userAvatarTransform: userAvatarTransform,
-  singleUserAvatarTransform: singleUserAvatarTransform,
   replaceBr: replaceBr,
   timestamp: timestamp
 }
