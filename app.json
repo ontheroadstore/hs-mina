@@ -16,7 +16,8 @@
     "pages/relevanceTel/relevanceTel",
     "pages/user/user",
     "pages/secondLevelChart/secondLevelChart",
-    "pages/webView/webView"
+    "pages/webView/webView",
+    "pages/activityIndex/activityIndex"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -26,7 +27,7 @@
     "enablePullDownRefresh": false
   },
   "tabBar": {
-    "color": "#000",
+    "color": "#c2c2c2",
     "selectedColor": "#AE2121",
     "backgroundColor": "#FFF",
     "borderStyle": "black",
@@ -51,5 +52,5 @@
       }
     ]
   },
-  "debug": true
+  "debug": false
 }

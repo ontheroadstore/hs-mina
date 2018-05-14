@@ -85,7 +85,7 @@ const req = (baseUrl, url, data, method, showLoadingStatus) => {
             resolve(res.data)
             break;
           default:
-            wx.showToast({ title: res.data.info, icon: 'none', duration: 2000 })
+            wx.showToast({ title: res.data.info.toString(), icon: 'none', duration: 2000 })
         }
       } else if (res.statusCode == 401) {
         // 请求登陆

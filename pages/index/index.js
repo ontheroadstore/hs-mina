@@ -8,6 +8,7 @@ Page({
   data: {
     isHideLoadMore: false,        // 判断加载
     tabIndex: 0,                  // tab切换
+    todayTime: 0,                 // 今天日期
     categoriesTabIndex: 0,        // 分类tab切换
     returnTopStatus: false,       // 返回顶部按钮显示状态
     categories: [],               // 一级分类数组
@@ -19,13 +20,34 @@ Page({
     salesGoods: [],               // 哆嗦排行榜列表
     bannerItem: [],               // banner列表
     newGoods: [],                 // 新品列表
-    apiStatus: 0 
+    apiStatus: 0,                 // 顺序加载
+    activityStatus: false,        // 活动状态
+    activityDialogStatus: false   // 弹窗状态
   },
   onLoad: function () {
     wx.showNavigationBarLoading()
     wx.showLoading({
       title: '加载中',
       mask: true
+    })
+    // 更新今日推荐 副标题时间
+    this.getTime()
+    // wx.clearStorageSync()
+    // 查看活动是否结束
+    var time = new Date()
+    req(app.globalData.bastUrl, 'appv5_1/tigger/getStatus', {}, "GET", true).then(res => {
+      const tiggerGetStatus = wx.getStorageSync('tiggerGetStatus')
+      if (res.data) {
+        this.setData({
+          activityStatus: true
+        })
+        if (tiggerGetStatus == '' || tiggerGetStatus < time.getUTCDate().toString()){
+          this.setData({
+            activityDialogStatus: true
+          })
+          wx.setStorageSync('tiggerGetStatus', time.getUTCDate().toString())
+        }
+      }
     })
     // 获取分类
     req(app.globalData.bastUrl, 'appv3/categories', {
@@ -66,12 +88,6 @@ Page({
         apiStatus: this.data.apiStatus + 1
       })
       this.getHotlistLoading()
-    })
-  },
-  onShow: function () {
-    this.setData({
-      tabIndex: 0,
-      categoriesTabIndex: 0
     })
   },
   // 顶部tab切换
@@ -144,12 +160,18 @@ Page({
       url: url
     })
   },
-  // 商品跳转WebView
+  // 跳转WebView
   navigateToWebView: function (e) {
     let webUrl = e.target.dataset.url
     const url = '/pages/webView/webView?url=' + webUrl
     wx.navigateTo({
       url: url
+    })
+  },
+  // 跳转到活动页
+  navigateToActivity: function() {
+    wx.navigateTo({
+      url: '/pages/activity/activity'
     })
   },
   // 卖家中心跳转user
@@ -228,6 +250,21 @@ Page({
         apiStatus: 0
       })
     }
+  },
+  // 关闭活动提示
+  closeActivityDialog: function() {
+    this.setData({
+      activityDialogStatus: false
+    })
+  },
+  //getTime
+  getTime: function() {
+    const timeArr = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'June.', 'July.', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.']
+    const time = new Date()
+    const mon = timeArr[time.getMonth()]
+    this.setData({
+      todayTime: mon + time.getUTCDate()
+    })
   },
   // 下拉刷新
   onPullDownRefresh: function() {

@@ -48,6 +48,8 @@
   /* padding-bottom: 30rpx; */
   /* border-bottom: 2rpx solid #E8E8E8; */
   position: relative;
+  font-weight: 600;
+  font-size: 28rpx;
 }
 .order_all text{
   font-size: 28rpx;

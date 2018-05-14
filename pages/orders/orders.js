@@ -172,5 +172,11 @@ Page({
     wx.switchTab({
       url: "/pages/index/index"
     })
+  },
+  // 跳转
+  goodRefund: function () {
+    wx.navigateTo({
+      url: '/pages/refund/refund',
+    })
   }
 })

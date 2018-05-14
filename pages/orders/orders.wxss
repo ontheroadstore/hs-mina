@@ -108,7 +108,6 @@
   position: absolute;
   top: 52rpx;
   right: 0;
-  width: 160rpx;
   text-align: right;
   height: 1em;
 }

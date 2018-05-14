@@ -1,41 +1,336 @@
-.activity_gif{
-  width: 750rpx;
-  height: 1034rpx;
+.main{
+  width: 100vw;
+  height: auto;
+  position: relative;
+}
+.main_overflow{
+  overflow: hidden;
+}
+.main_loading{
+  opacity: 0;
+}
+.streamer{
+  position: absolute;
+  top: 24rpx;
+  left: 24rpx;
+  min-width: 320rpx;
+  height: 48rpx;
+  background: rgba(0,0,0,0.5);
+  border-radius: 48rpx;
+  z-index: 10;
+  overflow: hidden; 
+  color: #FFF;
+  text-align: center;
+  line-height: 48rpx;
+  font-size: 22rpx;
+}
+.streamer view{
+  padding: 48rpx 20rpx 0;
+  min-width: 320rpx;
+  height: 48rpx;
+  opacity: 0.7;
 }
 .activity_png{
+  width: 750rpx;
+  height: 1034rpx;
+  background: none;
+}
+.activity_bg{
+  position: absolute;
+  z-index: -1;
+  background: #000;
+  width: 570rpx;
+  top: 0;
+  left: 100rpx;
+  height: 1034rpx;
+  overflow: hidden;
+}
+.activity_bg .scroll_image{
+  width: 180rpx;
+  height: 11712rpx;
+  padding-left: 6rpx;
+  float: left;
+  position: relative;
+}
+.activity_bg .scroll_image image{
+  width: 180rpx;
+  height: 1952rpx;
+}
+.activity_bg .scroll_image1{
+  margin-top: 130rpx;
+}
+.activity_bg .scroll_image2{
+  margin-top: 290rpx;
+}
+.activity_bg .scroll_image3{
+  margin-top: -420rpx;
+}
+
+.facility{
+  position: absolute;
+  z-index: 1;
+  width: 532rpx;
+  height: 268rpx;
+  top: 5rpx;
+  left: 120rpx;
+  background: none;
+}
+.light{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  width: 750rpx;
+}
+.light image{
+  position: absolute;
+  width: 62rpx;
+  height: 62rpx;
+  background: none;
+}
+.light1{
+  top: 44rpx;
+  left: 123rpx;
+}
+.light2{
+  top: 44rpx;
+  right: 123rpx;
+}
+ .light3{
+  top: 120rpx;
+  left: 97rpx;
+}
+.light4{
+  top: 120rpx;
+  right: 90rpx;
+}
+.light5{
+  top: 199rpx;
+  left: 89rpx;
+}
+.light6{
+  top: 202rpx;
+  right: 80rpx;
+}
+.light7{
+  top: 254rpx;
+  left: 85rpx;
+}
+.light8{
+  top: 254rpx;
+  right: 83rpx;
+}
+ .light9{
+  top: 254rpx;
+  left: 145rpx;
+}
+.light10{
+  top: 254rpx;
+  right: 140rpx;
+}
+.light11{
+  top: 254rpx;
+  left: 215rpx;
+}
+.light12{
+  top: 254rpx;
+  right: 210rpx;
+}
+.hand_shank{
+  position: absolute;
+  z-index: 100;
+  top: 1032rpx;
+  width: 0rpx;
+  height: 0rpx;
+  left: 373rpx;
+  background: red;
+}
+.hand_shank image{
+  position: absolute;
+  background: none;
+
+}
+.hand_shank1{
+  top: -230rpx;
+  left: -53rpx;
+  width: 126rpx;
+  height: 230rpx;
+  z-index: 100;
+}
+.hand_shank2{
+  top: -230rpx;
+  left: -55rpx;
+  width: 130rpx;
+  height: 234rpx;
+}
+.hand_shank3{
+  top: -196rpx;
+  left: -66rpx;
+  width: 150rpx;
+  height: 214rpx;
+}
+.hand_shank4{
+  top: -200rpx;
+  left: -66rpx;
+  width: 150rpx;
+  height: 214rpx;
+}
+.hand_shank5{
+  top: -110rpx;
+  left: -54rpx;
+  width: 126rpx;
+  height: 126rpx;
+}
+.hand_shank_image{
+  width: 60rpx;
+  height: 124rpx;
+  position: absolute;
+  top: 846rpx;
+  left: 490rpx;
+  background: none;
+  z-index: 101;
+  animation: hand_shank_animation 400ms linear infinite alternate; 
+}
+@keyframes hand_shank_animation{
+  from {
+    transform: scale(1.2, 1.2)
+  }
+  to {
+    transform: scale(1.3, 1.3)
+  }
+}
+
+
+
+
+.getUserInfo{
   position: absolute;
   top: 0;
   left: 0;
   width: 750rpx;
   height: 1034rpx;
+  z-index: 999;
+  opacity: 0;
 }
-.draw_btn{
-  width: 200rpx;
+.no_draw,
+.no_selected,
+.selected{
+  width: 750rpx;
+  height: 100vh;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  background: rgba(0,0,0,0.7);
+}
+.select_content{
+  width: 750rpx;
+  height: 100vh;
+  position: relative;
+}
+.no_draw image,
+.no_selected image,
+.selected image{
+  width: 750rpx;
+  height: 1206rpx;
+  background: none;
+}
+.selected .buy{
+  width: 300rpx;
   height: 100rpx;
-  background: #FFF;
   position: absolute;
-  top: 500rpx;
-  left: 300rpx;
+  top: 900rpx;
+  left: 225rpx;
+  opacity: 0;
 }
-.drawStatus{
-  display: none;
+.no_draw .close,
+.selected .close,
+.no_selected .close{
+  width: 100rpx;
+  height: 100rpx;
+  position: absolute;
+  top: 200rpx;
+  right: 100rpx;
+  opacity: 0;
+}
+.isIphone_no_draw,
+.isIphone_selected,
+.isIphone_no_selected{
+  padding-top: 80rpx;
+}
+.no_draw .share,
+.no_selected .share{
+  z-index: 10;
+}
+.no_draw .share_btn,
+.no_selected .share_btn{
+  width: 200rpx;
+  height: 150rpx;
+  position: absolute;
+  top: 850rpx;
+  right: 150rpx;
+  opacity: 0;
+}
+.no_draw .return_index,
+.no_selected .return_index{
+  width: 200rpx;
+  height: 150rpx;
+  position: absolute;
+  top: 850rpx;
+  left: 150rpx;
+  opacity: 0;
 }
 
 
 
-
+.right_content{
+  position: absolute;
+  top: 24rpx;
+  right: 22rpx;
+  z-index: 10;
+}
+.right_content .draw{
+  width: 112rpx;
+  height: 28rpx;
+  background: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.right_content .number{
+  min-width: 112rpx; 
+  text-align: center; 
+  margin: 36rpx 0 84rpx;
+  font-size: 94rpx;
+  color: #FFF;
+  line-height: 1em;
+}
+.right_content .share{
+  width: 144rpx;
+  height: 56rpx;
+  background: none;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.right_content .share_btn{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 144rpx;
+  height: 56rpx;
+  opacity: 0;
+}
 
 .activity1{
   width: 750rpx;
   height: 137rpx;
-  margin-top: -120rpx;
+  margin-top: -115rpx; 
   position: relative;
   z-index: 10;
   background: none;
 }
 .activity2{
   width: 750rpx;
-  height: 62rpx;
+  height: 30rpx;
   background: #21140f;
   overflow: hidden;
   position: relative;
@@ -71,15 +366,15 @@
 }
 .activity3_content .temperament{
   position: absolute;
-  top: -87rpx;
+  top: -92rpx;
   left: 125rpx;
-  z-index: 1;
+  z-index: 10;
   width: 338rpx;
   height: 360rpx;
 }
 .activity3_content .red_wine{
   position: absolute;
-  top: 137rpx;
+  top: 130rpx;
   left: 376rpx;
   z-index: 1;
   width: 324rpx;
@@ -87,7 +382,7 @@
 }
 .activity3_content .chocolate{
   position: absolute;
-  top: 109rpx;
+  top: 100rpx;
   right: 142rpx;
   z-index: 1;
   width: 346rpx;
@@ -132,8 +427,8 @@
 .activity4_content .iphone_good{
   position: absolute;
   bottom: 0;
-  width: 384rpx;
-  height: 220rpx;
+  width: 250rpx;
+  height: 300rpx;
   left: 250rpx;
   opacity: 0;
 }
@@ -148,7 +443,7 @@
 }
 .activity4_content .qualification{
   position: absolute;
-  top: -88rpx;
+  top: -138rpx;
   left: 134rpx;
   z-index: 1;
   width: 462rpx;
@@ -156,11 +451,11 @@
 }
 .activity4_content .iphone{
   position: absolute;
-  top: -88rpx;
-  left: 450rpx;
+  top: -178rpx;
+  left: 365rpx;
   z-index: 1;
-  width: 462rpx;
-  height: 192rpx;
+  width: 384rpx;
+  height: 220rpx;
 }
 .activity3_content image,
 .activity4_content image{
@@ -289,27 +584,118 @@
 
 
 
-.share_btn{
-  position: absolute;
-  top: 100rpx;
-  right: 20rpx;
-  height: 100rpx;
-  width: 100rpx;
-  z-index: 10;
+.address_content{
+  width: 750rpx;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,0.5);
 }
-.draw_number{
+.select_address{
+  width: 750rpx;
+  height: 702rpx;
   position: absolute;
-  top: 10rpx;
-  right: 20rpx;
-  height: 100rpx;
-  width: 100rpx;
-  z-index: 10;
+  bottom: 0;
+  left: 0;
+  background: #FFF;
+  border-top-left-radius: 60rpx;
+  border-top-right-radius: 60rpx;
+}
+.isIphone_select_address{
+  padding-bottom: 68rpx;
+}
+.select_address .title{
+  height: 128rpx;
+  border-bottom: 2rpx solid #E8E8E8;
+  line-height: 128rpx;
+  position: relative;
+  font-size: 32rpx;
+  font-weight: 500;
+  text-align: center;
+}
+.select_address .title image{
+  background: none;
+  width: 30rpx;
+  height: 30rpx;
+  top: 32rpx;
+  right: 32rpx;
+  position: absolute;
+  padding: 20rpx;
+}
+.select_address .address{
+  height: 190rpx;
+  position: relative;
+  border-bottom: 2rpx solid #E8E8E8;
+}
+.select_address .address .address_icon{
+  width: 48rpx;
+  height: 48rpx;
+  position: absolute;
+  top: 74rpx;
+  left: 56rpx;
+  background: none;
+}
+.select_address .address .gt_icon{
+  width: 16rpx;
+  height: 26rpx;
+  position: absolute;
+  top: 82rpx;
+  right: 54rpx;
+  background: none;
+}
+.select_address .address .address_text{
+  padding: 0 130rpx;
+  line-height: 190rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+.select_address .address .address_info{
+  padding: 30rpx 80rpx 30rpx 130rpx;
+  position: relative;
+  font-size: 26rpx;
+  height: 130rpx;
+}
+.select_address .address .user_name{
+  font-weight: 500;
+  width: 360rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.select_address .address .user_tel{
+  position: absolute;
+  top: 30rpx;
+  right: 80rpx;
+  width: 160rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.select_address .address .user_address{
+  overflow: hidden;
+  height: 2.4em;
+  line-height: 1.2em;
+  width: 540rpx;
+  margin-top: 20rpx;
+}
+.select_address .good_info{
+  width: 750rpx;
+  height: 268rpx;
+  background: none;
+}
+.select_address .payment{
+  width: 640rpx;
+  height: 84rpx;
+  margin: 0 auto;
+  border-radius: 14rpx;
+  background: #AE2121;
   color: #FFF;
-  background: #000;
+  text-align: center;
+  line-height: 84rpx;
+  font-size: 36rpx;
 }
-
-
-
 
 
 
@@ -319,34 +705,37 @@
 
 .supernatant_image{
   position: fixed;
-  width: 60rpx;
-  height: 80rpx;
+  width: 24rpx;
+  padding: 17rpx 30rpx 17rpx 10rpx;
+  height: 54rpx;
   right: -20rpx;
-  top: 400rpx;
+  top: 860rpx;
   z-index: 1001;
+  background: #584239;
+  border-radius: 8rpx;
 }
 .supernatant_animation{
-  animation: supernatant 600ms ease-out infinite alternate;
+   animation: supernatant 600ms ease-out infinite alternate; 
 }
 @keyframes supernatant{
   from {
-    right: -23rpx;
+    right: -20rpx;
   }
   to {
-    right: -17rpx;
+    right: -25rpx;
   }
 }
 .supernatant_image_active{
   position: fixed;
-  right: -50rpx;
-  top: 400rpx;
+  right: -90rpx;
+  top: 860rpx;
   z-index: 1002;
+  background: none;
   animation: supernatant 600ms ease-out infinite alternate;
   border-radius: 50%;
-  /* height: 160rpx; */
-  /* width: 160rpx; */
   height: 0;
   width: 0;
+  margin-right: -20rpx;
 }
 .supernatant{
   width: 100vw;
@@ -355,41 +744,228 @@
   top: 0;
   left: 0;
   z-index: 1000;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
 }
 
 .supernatant_circle{
   position: absolute;
   border-radius: 50%;
-  border: 2rpx solid #FFF;
+  border: 3rpx solid rgba(255,255,255,0.6);
 }
 .supernatant_circle1{
-  top: 300rpx;
-  right: -50rpx;
+  top: 266rpx;
+  right: -183rpx;
   width: 0;
   height: 0;
 }
 .supernatant_circle2{
-  top: 350rpx;
-  right: -100rpx;
+  top: 420rpx;
+  right: -216rpx;
   width: 0;
   height: 0;
 }
 .supernatant_circle3{
-  top: 150rpx;
-  right: -150rpx;
+  top: 646rpx;
+  right: -169rpx;
   width: 0;
   height: 0;
 }
 .supernatant_circle4{
-  top: 300rpx;
-  right: -50rpx;
+  top: 636rpx;
+  right: -176rpx;
   width: 0;
   height: 0;
 }
-.supernatant_circle5{
-  top: 300rpx;
-  right: -50rpx;
-  width: 0;
-  height: 0;
+
+.classify1{
+  /* top: 217rpx; */
+  top: 157rpx;
+  right: 158rpx;
+  animation: classify_animation1 620ms ease-out infinite alternate;
 }
+.classify2{
+  /* top: 329rpx; */
+  top: 269rpx;
+  right:380rpx;
+  animation: classify_animation2 650ms ease-out infinite alternate;
+}
+.classify3{
+  /* top: 552rpx; */
+  top: 492rpx;
+  right: 488rpx;
+  animation: classify_animation3 610ms ease-out infinite alternate;
+}
+.classify4{
+  /* top: 828rpx; */
+  top: 768rpx;
+  right: 395rpx;
+  animation: classify_animation4 600ms ease-out infinite alternate;
+}
+.classify5{
+  /* top: 617rpx; */
+  top: 557rpx;
+  right:252rpx;
+  animation: classify_animation5 680ms ease-out infinite alternate;
+}
+.classify6{
+  /* top: 1043rpx; */
+  top: 983rpx;
+  right: 330rpx;
+  animation: classify_animation6 660ms ease-out infinite alternate;
+}
+.classify7{
+  /* top: 449rpx; */
+  top: 389rpx;
+  right: 149rpx;
+  animation: classify_animation7 670ms ease-out infinite alternate;
+}
+.classify8{
+  /* top: 927rpx; */
+  top: 867rpx;
+  right: 149rpx;
+  animation: classify_animation8 630ms ease-out infinite alternate;
+}
+.classify9{
+  /* top: 612rpx; */
+  top: 552rpx;
+  right: 16rpx;
+  animation: classify_animation9 700ms ease-out infinite alternate;
+}
+.supernatant .classify{
+  position: absolute;
+  width: 100rpx;
+  height: 100rpx;
+  background: none;
+  opacity: 0;
+}
+
+
+.classify_text1{
+  top: 157rpx;
+  right: 278rpx;
+  animation: classify_animation1 620ms ease-out infinite alternate;
+}
+.classify_text2{
+  top: 269rpx;
+  right: 500rpx;
+  animation: classify_animation2 650ms ease-out infinite alternate;
+}
+.classify_text3{
+  top: 492rpx;
+  right: 608rpx;
+  animation: classify_animation3 610ms ease-out infinite alternate;
+}
+.classify_text4{
+  top: 768rpx;
+  right: 515rpx;
+  animation: classify_animation4 600ms ease-out infinite alternate;
+}
+.classify_text5{
+  top: 557rpx;
+  right: 372rpx;
+  animation: classify_animation5 680ms ease-out infinite alternate;
+}
+.classify_text6{
+  top: 983rpx;
+  right: 450rpx;
+  animation: classify_animation6 660ms ease-out infinite alternate;
+}
+.classify_text7{
+  top: 389rpx;
+  right: 269rpx;
+  animation: classify_animation7 670ms ease-out infinite alternate;
+}
+.classify_text8{
+  top: 867rpx;
+  right: 269rpx;
+  animation: classify_animation8 630ms ease-out infinite alternate;
+}
+.classify_text9{
+  top: 552rpx;
+  right: 136rpx;
+  animation: classify_animation9 700ms ease-out infinite alternate;
+}
+.supernatant .classify_text{
+  position: absolute;
+  font-size: 32rpx;
+  color: #FFF;
+  line-height: 100rpx;
+  opacity: 0;
+}
+
+
+@keyframes classify_animation1{
+  from {
+    padding-top: 10rpx;
+  }
+  to {
+    padding-top: 0;
+  }
+}
+
+@keyframes classify_animation2{
+  from {
+    padding-top: 10rpx;
+  }
+  to {
+    padding-top: 0;
+  }
+}
+@keyframes classify_animation3{
+  from {
+    padding-top: 10rpx;
+  }
+  to {
+    padding-top: 0;
+  }
+}
+@keyframes classify_animation4{
+  from {
+    padding-top: 10rpx;
+  }
+  to {
+    padding-top: 0;
+  }
+}
+@keyframes classify_animation5{
+  from {
+    padding-top: 10rpx;
+  }
+  to {
+    padding-top: 0;
+  }
+}
+@keyframes classify_animation6{
+  from {
+    padding-top: 10rpx;
+  }
+  to {
+    padding-top: 0;
+  }
+}
+@keyframes classify_animation7{
+  from {
+    padding-top: 10rpx;
+  }
+  to {
+    padding-top: 0;
+  }
+}
+@keyframes classify_animation8{
+  from {
+    padding-top: 10rpx;
+  }
+  to {
+    padding-top: 0;
+  }
+}
+@keyframes classify_animation9{
+  from {
+    padding-top: 10rpx;
+  }
+  to {
+    padding-top: 0;
+  }
+}
+
+

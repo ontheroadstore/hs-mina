@@ -27,15 +27,16 @@
         <image class='float_left' lazy-load mode="aspectFill" src='{{good.image}}' data-id="{{item.id}}"></image>
         <view class='good_title float_left' data-id="{{item.id}}">{{good.object_title}}</view>
         <view class='good_type' data-id="{{item.id}}">{{good.goods_type_desc}}</view>
-        <navigator hover-class='none' url="/pages/refund/refund" class='good_refund'>
+        <view class='good_refund' catchtap='goodRefund'>
           <block wx:if="{{good.old_refund == 1 && good.process_status == 25}}">退款中</block>
           <block wx:if="{{good.old_refund == 1 && good.process_status == 26}}">处理完成</block>
           <block wx:if="{{good.old_refund == 1 && good.process_status == 30}}">转售后</block>
           <block wx:if="{{good.old_refund == 1 && good.process_status == 31}}">售后处理完成</block>
-          <block wx:if="{{good.old_refund != 1 && good.process_status == 1}}">退款中</block>
-          <block wx:if="{{good.old_refund != 1 && good.process_status == 2}}">退款失败</block>
-          <block wx:if="{{good.old_refund != 1 && good.process_status == 3}}">退款成功</block>
-        </navigator>
+          <block wx:if="{{good.old_refund == 1 && good.process_status == 33}}">处理完成</block>
+          <block wx:if="{{good.old_refund != 1 && good.refund_status == 1}}">退款中</block>
+          <block wx:if="{{good.old_refund != 1 && good.refund_status == 2}}">退款失败</block>
+          <block wx:if="{{good.old_refund != 1 && good.refund_status == 3}}">退款成功</block>
+        </view>
         <view class='good_price' data-id="{{item.id}}">￥ {{good.price}} x {{good.counts}}</view>
       </view>
       <view class='total' data-id="{{item.id}}">

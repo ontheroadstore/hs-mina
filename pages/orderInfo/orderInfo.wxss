@@ -181,6 +181,7 @@
   width: 120rpx;
   text-align: right;
   height: 1em;
+  padding: 0 0 30rpx 30rpx;
 }
 .total{
   border-bottom: 2rpx solid #E8E8E8;

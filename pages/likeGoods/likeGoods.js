@@ -76,7 +76,7 @@ Page({
   },
   // 触底加载
   scrolltolower: function (e) {
-    console.log(e)
+    this.getlikeGood()
   },
   // 获取用户收藏列表
   getlikeGood: function () {
@@ -98,5 +98,13 @@ Page({
         })
       }
     })
-  }
+  },
+  // 跳转商品
+  navigateToGoods: function (e) {
+    let id = e.target.dataset.id
+    const url = '/pages/article/article?id=' + id
+    wx.redirectTo({
+      url: url
+    })
+  },
 })

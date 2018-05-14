@@ -210,7 +210,7 @@
   height: 75rpx;
 }
 .user_goods{
-  padding: 30rpx 30rpx 0;
+  padding: 30rpx;
   border-top: 16rpx solid #F5F5F5;
   position: relative;
   border-bottom: 16rpx solid #F5F5F5;
@@ -258,7 +258,7 @@
   top: 17rpx;
 }
 .user_goods .good_items{
-  height: 384rpx;
+  height: 354rpx;
   white-space: nowrap;
   z-index: 999;
   background: #FFF;
@@ -266,7 +266,7 @@
   justify-content: space-around;
   width: 720rpx;
 }
-.user_goods .good_items navigator{
+.user_goods .good_items .good_item{
   display: inline-block;
   width: 542rpx;
   margin-right: 20rpx;

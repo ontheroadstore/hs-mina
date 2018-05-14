@@ -13,11 +13,20 @@ Page({
     totalPostage: 0,              // 总邮费
     addressInfo: null,            // 默认地址 在支付时，addressInfo不能为空
     orderNumber: null,            // 订单号 HS20180510144319VWW33O
-    isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
+    isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
+    activityStatus: false
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: '确认订单'
+    })
+    // 查看活动是否结束
+    req(app.globalData.bastUrl, 'appv5_1/tigger/getStatus', {}, "GET", true).then(res => {
+      if (res.data) {
+        this.setData({
+          activityStatus: true
+        })
+      }
     })
     // options.type = 0
     // type 0 直接购买， 1购物车购买 缓存数据头像已经处理
@@ -45,7 +54,7 @@ Page({
 
       orderList.forEach(function (item, index) {
         let maxPostage = 0
-        var status = true
+        var numItem = item.item.length
         item.item.forEach(function (good, i) {
           if (good.postage > maxPostage && good.selectStatus) {
             maxPostage = good.postage
@@ -54,13 +63,17 @@ Page({
           if (good['is_sku_deleted'] != 0 || good['remain'] <= 0){
             good['selectStatus'] = false
             item['selectStatus'] = false
-            item['childOrderShow'] = false
+            numItem = numItem - 1
+            // item['childOrderShow'] = false
           }
           // 如果有特价 重新设置price参数
           if (good['special_offer_end']){
             good['price'] = good['special_offer_price']
           }
         })
+        if (numItem <= 0){
+          item['childOrderShow'] = false
+        }
         item['maxPostage'] = maxPostage
         item['desc'] = null
       })
@@ -100,7 +113,6 @@ Page({
         orderList: orderList
       })
     }
-    
   },
   // 支付生成订单进行支付（正常购买）
   payment: function() {
@@ -128,6 +140,9 @@ Page({
               })
             }
           })
+          if (!item.desc){
+            item.desc = ''
+          }
           createOrderData.push({
             attach: item.desc,
             items: newItem,
@@ -175,7 +190,8 @@ Page({
     req(app.globalData.bastUrl, 'appv3_1/createorder', {
       address_id: this.data.addressInfo.id,
       type: 1,
-      orders: order
+      orders: order,
+      payment_type: 3
     }, 'POST').then(res => {
       if (res.code == 1) {
         this.buychecking(res.data)
@@ -190,7 +206,7 @@ Page({
     req(app.globalData.bastUrl, 'appv2_1/buychecking', {
       order_number: ordernumber,
       payment_type: 3
-    }, 'POST').then(res => {
+    }, 'POST', true).then(res => {
       this.wxpayment(res.data)
     })
   },
@@ -199,6 +215,7 @@ Page({
   // 文档：https://developers.weixin.qq.com/miniprogram/dev/api/api-pay.html
   wxpayment: function (prepayId) {
     const orderNumber = this.data.orderNumber
+    const that = this
     req(app.globalData.bastUrl, 'appv5_1/payment/getWxPaymentParam', {
       package: 'prepay_id=' + prepayId
     }, 'POST').then(res => {
@@ -212,35 +229,45 @@ Page({
           // wx.navigateTo({
           //   url: '/pages/orders/orders?type=0',
           // })
-          // 活动期间 跳转至商品
-          req(app.globalData.bastUrl, 'appv5_1/tigger/payIncrCoin', {
-            order: orderNumber
-          }, 'POST').then(data => {
-            if (data.data) {
-              wx.reLaunch({
-                url: '/pages/activity/activity',
-              })
-            }
-          })
+          // 推送 appv5_1/wxapp/payment/action
+          that.paymentSuccess(prepayId)
         }
       })
     })
-    // wx.requestPayment({
-    //   timeStamp: '',
-    //   nonceStr: '',
-    //   package: ordernumber,
-    //   signType: 'MD5',
-    //   paySign: '',
-    //   success: function() {
-            
-    //   },
-    //   fail: function() {
-
-    //   },
-    //   complete: function() {
-
-    //   }
-    // })
+  },
+  // 支付成功后回调
+  paymentSuccess: function (prepayId) {
+    const orderNumber = this.data.orderNumber
+    const activityStatus = this.data.activityStatus
+    req(app.globalData.bastUrl, 'appv5_1/wxapp/payment/action', {
+      order_number: orderNumber,
+      prepay_id: prepayId
+    }, 'POST', true).then(res => {
+      // 活动期间 跳转至商品
+      if (activityStatus){
+        req(app.globalData.bastUrl, 'appv5_1/tigger/payIncrCoin', {
+          order: orderNumber
+        }, 'POST').then(data => {
+          if (data.data) {
+            wx.reLaunch({
+              url: '/pages/activity/activity',
+            })
+          }
+        })
+      }else{
+        wx.reLaunch({
+          url: '/pages/orders/orders?type=0',
+        })
+      }
+    })
+  },
+  // 跳转添加地址
+  navigateToAddress: function (e) {
+    let orderType = this.data.orderType
+    const url = '/pages/address/address?type=1&orderType=' + orderType
+    wx.redirectTo({
+      url: url
+    })
   },
   // 修改商品数量
   subNum: function(e) {
@@ -343,7 +370,6 @@ function countTotalPrice(data, n) {
     let totalPostage = 0
     let totalPrice = 0
     // 邮费处理 增加备注字段
-    console.log(data)
     data.forEach(function (item, index) {
       item.item.forEach(function (good, i) {
         if (good.selectStatus) {

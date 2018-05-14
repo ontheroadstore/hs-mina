@@ -122,5 +122,11 @@ Page({
         }
       }
     })
+  },
+  // 跳转
+  goodRefund: function() {
+    wx.navigateTo({
+      url: '/pages/refund/refund',
+    })
   }
 })

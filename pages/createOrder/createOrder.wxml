@@ -1,13 +1,13 @@
 <scroll-view class="main" scroll-y>
   <view class='main_content'>
-    <navigator class='address' url="/pages/address/address?type=1&orderType={{orderType}}" hover-class='none'>
+    <view class='address' bindtap='navigateToAddress'>
       <image class='address_icon' src='/images/address.png'></image>
       <view class='user_tel' wx:if="{{addressInfo}}">{{addressInfo.telphone}}</view>
       <view class='user_name' wx:if="{{addressInfo}}">收货人： {{addressInfo.name}}</view>
       <view class='address_details' wx:if="{{addressInfo}}">收货地址： {{addressInfo.province}}{{addressInfo.city}}{{addressInfo.county}}{{addressInfo.detail}}</view>
       <image class='gt_icon' src='/images/gt.png'></image>
       <view class='no_address' wx:if="{{!addressInfo}}">添加地址</view>
-    </navigator>
+    </view>
     <!-- 直接购买，购物车购买，待支付订单， 如果数据格式统一可以合并 -->
     <!-- 单个订单 -->
     <view class='order' wx:if="{{orderType == 0}}">

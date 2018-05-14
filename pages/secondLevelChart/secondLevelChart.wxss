@@ -1,27 +1,23 @@
 .seller_item{
   border-top: 16rpx solid #F5F5F5;
-  padding: 0 30rpx;
+  padding-right: 30rpx;
 }
 .user_info{
   border-bottom: 2rpx solid #E8E8E8;
-  padding: 30rpx 0;
-  height: 32rpx;
+  height: 94rpx;
+  line-height: 94rpx;
 }
 .user_info .user_name{
   font-size: 26rpx;
-  line-height: 32rpx;
+  height: 94rpx;
+  line-height: 94rpx;
 }
 .order_item{
   padding: 30rpx 0;
   position: relative;
-  transition: all 300ms;
 }
 .order_item_opacity{
   opacity: 0.5;
-}
-.order_item.slide{
-  margin-right: 120rpx;
-  margin-left: -120rpx;
 }
 .order_item .cover{
   width: 286rpx;
@@ -30,7 +26,7 @@
   margin-right: 30rpx;
 }
 .order_item .checkbox_icon{
-  margin-top: 57rpx;
+  margin-top: 27rpx;
 }
 .order_item .lose_efficacy{
   width:62rpx;
@@ -41,7 +37,7 @@
   background: #8E8E8E;
   font-size: 22rpx;
   color: #FFF;
-  margin-left: -15rpx;
+  margin-left: 15rpx;
   margin-right: 15rpx;
   text-align: center;
 }
@@ -49,7 +45,7 @@
 .order_item .text_hint{
   position: absolute;
   bottom: 30rpx;
-  left: 62rpx;
+  left: 92rpx;
   font-size: 24rpx;
   width: 286rpx;
   height: 30rpx;
@@ -101,7 +97,7 @@
   top: 134rpx;
   right: 0;
   font-size: 24rpx;
-  color: #E8E8E8;
+  color: #999;
 }
 .good_info .special_offer_price:after{
   content: "";
@@ -110,7 +106,7 @@
   top: 50%;
   transform: translateY(-50%);
   left: 0;
-  background: #E8E8E8;
+  background: #999;
   position: absolute;
 }
 .num_content{
@@ -167,14 +163,14 @@
   border-top: 2rpx solid #E8E8E8;
   width: 690rpx;
   background: #FFF;
-  padding: 0 30rpx;
+  padding-right: 30rpx;
   line-height: 96rpx;
 }
 .isIphoneX_chart_content{
   padding: 0 30rpx 68rpx 30rpx;
 }
 .chart_content .checkbox_icon{
-  margin-top: 32rpx;
+  margin-top: 2rpx;
 }
 .chart_content .all_select{
   font-size: 24rpx;
@@ -208,7 +204,7 @@
   width: 32rpx;
   height: 32rpx;
   background: none;
-  margin-right: 30rpx;
+  padding: 30rpx;
 }
 
 .no_data{

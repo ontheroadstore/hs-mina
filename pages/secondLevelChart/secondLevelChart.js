@@ -275,7 +275,7 @@ Page({
   },
   // 商品跳转article
   navigateToGoods: function (e) {
-    let id = e.target.dataset.goodid
+    let id = e.target.dataset.id
     const url = '/pages/article/article?id=' + id
     wx.navigateTo({
       url: url

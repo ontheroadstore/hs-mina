@@ -11,6 +11,7 @@ Page({
     desc: null,
     content: null,
     selectStyleId: null,          // 选中的款式ID
+    selectStylePostage: null,     // 选中的款式运费
     selectStyleName: null,        // 选中的款式名称
     selectStylePrice: null,       // 选中款式的价格
     selectStyleCount: 1,          // 选中款式的数量
@@ -124,7 +125,7 @@ Page({
   },
   // 图片预览
   previewImage: function(e) {
-    const url = e.target.dataset.original
+    const url = e.target.dataset.url
     // 图片加入预览列表
     wx.previewImage({
       current: url, // 当前显示图片的http链接
@@ -189,6 +190,7 @@ Page({
   // 选中款式
   selectedStyle: function(e) {
     const id = e.target.dataset.typeid
+    const postage = e.target.dataset.postage
     const name = e.target.dataset.name
     const stock = e.target.dataset.stock
     const price = e.target.dataset.price
@@ -201,6 +203,7 @@ Page({
     // 每次切换款式 初始数量
     this.setData({
       selectStyleId: id,
+      selectStylePostage: postage,
       selectStyleName: name,
       presellTime: presellTime,
       selectStylePrice: price,
@@ -263,7 +266,6 @@ Page({
   navigateToCreateOrder: function (e) {
     const stock = e.target.dataset.stock
     if (stock == 0){
-      console.log(e)
       return wx.showToast({
         title: '当前商品暂无库存',
         icon: 'none',
@@ -308,7 +310,7 @@ Page({
   navigateToGoods: function (e) {
     let id = e.target.dataset.id
     const url = '/pages/article/article?id=' + id
-    wx.navigateTo({
+    wx.redirectTo({
       url: url
     })
   },
@@ -317,7 +319,7 @@ Page({
     let id = e.target.dataset.id
     let name = e.target.dataset.name
     const url = '/pages/user/user?id=' + id + '&name=' + name
-    wx.navigateTo({
+    wx.redirectTo({
       url: url
     })
   },
