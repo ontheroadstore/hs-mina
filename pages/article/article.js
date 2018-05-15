@@ -98,7 +98,7 @@ Page({
     return {
       title: this.data.goodInfo.title,
       path : '/pages/article/article?id=' + this.data.articleId,
-      imageUrl: this.data.goodInfo.banner[0],
+      // imageUrl: this.data.goodInfo.banner[0],
       success: function (res) {
         // 转发成功
       },
@@ -166,6 +166,10 @@ Page({
       count: this.data.selectStyleCount
     }, 'POST').then(res => {
       this.getChartNum(1)
+      this.setData({
+        selectStatus: false
+
+      })
     })
   },
   // 显示款式选择框

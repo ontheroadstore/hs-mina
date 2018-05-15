@@ -13,7 +13,19 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      url: options.url
+      url: options.url,
+      shareTitle: options.title
     })
-  }
+  },
+  // 分享
+  onShareAppMessage: function () {
+    const url = this.data.url
+    const shareTitle = this.data.shareTitle
+    console.log(url)
+    console.log(shareTitle)
+    return {
+      title: shareTitle,
+      path: '/pages/webView/webView?url=' + url
+    }
+  },
 })

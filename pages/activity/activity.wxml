@@ -25,6 +25,8 @@
         <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
         <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
         <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
+        <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
+        <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
       </view>
       <view class='scroll_image scroll_image2' animation="{{scrollImage2}}">
         <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
@@ -35,8 +37,12 @@
         <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
         <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
         <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
+        <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
+        <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
       </view>
       <view class='scroll_image scroll_image3' animation="{{scrollImage3}}">
+        <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
+        <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
         <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
         <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>
         <image lazy-load src='http://img8.ontheroadstore.com/upload/180512/51f131d5986df2291c69355f38011eff.png'></image>

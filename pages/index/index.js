@@ -163,7 +163,8 @@ Page({
   // 跳转WebView
   navigateToWebView: function (e) {
     let webUrl = e.target.dataset.url
-    const url = '/pages/webView/webView?url=' + webUrl
+    let title = e.target.dataset.title
+    const url = '/pages/webView/webView?url=' + webUrl + '&title=' + title
     wx.navigateTo({
       url: url
     })
@@ -265,6 +266,13 @@ Page({
     this.setData({
       todayTime: mon + time.getUTCDate()
     })
+  },
+  // 分享
+  onShareAppMessage: function() {
+    return {
+      title: '公路商店 - 为了你不着边际的企图心',
+      path: '/pages/index/index'
+    }
   },
   // 下拉刷新
   onPullDownRefresh: function() {

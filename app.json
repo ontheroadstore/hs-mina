@@ -22,7 +22,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "公路商店Store",
+    "navigationBarTitleText": "公路商店",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": false
   },

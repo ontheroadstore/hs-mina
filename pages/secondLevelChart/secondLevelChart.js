@@ -201,7 +201,8 @@ Page({
               that.setData({
                 startLocation: 0,
                 moveLocation: 0,
-                goodList: goodList
+                goodList: goodList,
+                totalPrice: countTotalPrice(goodList)
               })
             } else {
               wx.showToast({

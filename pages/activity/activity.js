@@ -147,7 +147,7 @@ Page({
       that.setData({
         lightArr: newArr
       })
-      if (num == 2000){
+      if (num == 2400){
         clearInterval(time)
         that.setData({
           lightArr: []
@@ -159,16 +159,16 @@ Page({
   scrollImage: function () {
     const that = this
     var scrollImage1 = wx.createAnimation({
-      duration: 2400,
+      duration: 2800,
       timingFunction: 'ease',
     })
     var scrollImage2 = wx.createAnimation({
-      duration: 2400,
+      duration: 2800,
       delay: 150,
       timingFunction: 'ease',
     })
     var scrollImage3 = wx.createAnimation({
-      duration: 2400,
+      duration: 2800,
       delay: 300,
       timingFunction: 'ease',
     })
@@ -232,10 +232,10 @@ Page({
     setTimeout(function() {
       that.lightRandom()
       that.scrollImage()
-    },600)
+    },400)
     setTimeout(function () {
       that.draw()
-    }, 2400)
+    }, 2800)
   },
   draw: function() {
     const that = this

@@ -20,7 +20,7 @@
         <image bindtap="navigateToActivity" lazy-load mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180513/4d55b18f31236dfdb4e3883db178ee26.png'></image>
       </swiper-item>
       <swiper-item wx:for="{{bannerItem}}" wx:key="{{item.id}}">
-        <image bindtap="navigateToWebView" data-url="{{item.url}}" lazy-load mode="aspectFill" src='{{item.img}}@640w_1l'></image>
+        <image bindtap="navigateToWebView" data-title="{{item.description}}" data-url="{{item.url}}" lazy-load mode="aspectFill" src='{{item.img}}@640w_1l'></image>
       </swiper-item>
     </swiper>
     
