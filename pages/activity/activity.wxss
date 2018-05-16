@@ -330,10 +330,14 @@
 }
 .activity2{
   width: 750rpx;
-  height: 30rpx;
+  height: 62rpx;
+  line-height: 62rpx;
   background: #21140f;
   overflow: hidden;
   position: relative;
+  color: #AE9988;
+  font-size: 24rpx;
+  text-align: center;
 }
 .activity2 text{
   display: block;
@@ -523,7 +527,7 @@
 }
 .activity9{
   width: 750rpx;
-  height: 166rpx;
+  height: 197rpx;
 }
 .activity10{
   width: 750rpx;

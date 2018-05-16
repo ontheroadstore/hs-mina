@@ -1,5 +1,5 @@
 <scroll-view class='main' scroll-y>
-  <image class='frontcover' mode="aspectFill" lazy-load src='{{goodInfo.banner[0]}}@640w_1l'></image>
+  <image class='frontcover' mode="aspectFill" src='{{goodInfo.banner[0]}}@640w_1l'></image>
   <view class='good_title'>{{goodInfo.title}}</view>
   <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view>
   <view class='share_content'>

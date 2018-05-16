@@ -109,7 +109,7 @@
 
     <!-- 联系客服 -->
     <image class='activity1' src='http://img8.ontheroadstore.com/upload/180511/f531e052a1627faa355a6093c14542f2.png'></image>
-    <view class='activity2'>
+    <view class='activity2'>上滑查看更多活动内容
       <!-- <text>回复 '复眼' 了解更多</text> -->
       <!-- <button class='contact' open-type="contact">在线客服</button> -->
     </view>
