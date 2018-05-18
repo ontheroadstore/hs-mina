@@ -295,34 +295,6 @@ Page({
   noSelectedCloseBtn: function() {
     this.resetDraw()
   },
-  // 检测用户是否授权调用地址
-  detectionAddress: function () {
-    const that = this
-    wx.getSetting({
-      complete: function (res) {
-        // 已经授权 直接获取 没有的调用openSetting 让用户授权 
-        if (res.authSetting['scope.address']) {
-          that.getAddress()
-        } else {
-          wx.showModal({
-            title: '地址授权',
-            content: '我们需要您授权获取微信地址',
-            success: function (data) {
-              if (data.confirm) {
-                wx.openSetting({
-                  success: function () {
-                    that.getAddress()
-                  }
-                })
-              } else if (data.cancel){
-                that.resetDraw()
-              }
-            }
-          })
-        }
-      }
-    })
-  },
   // 获取用户地址
   getAddress: function() {
     const that = this
@@ -331,6 +303,15 @@ Page({
         that.setData({
           address: data
         })
+      },
+      fail: function(res) {
+        if (res.errMsg == 'chooseAddress:fail auth deny') {
+          wx.openSetting({
+            success: function () {
+              that.getAddress()
+            }
+          })
+        }
       }
     })
   },

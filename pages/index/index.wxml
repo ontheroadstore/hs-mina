@@ -55,7 +55,7 @@
     <view class="showall" wx:if="{{hotGoods.length}}">
       <view class="title">当下最热</view>
       <view class="explain">The Hottest Monent</view>
-      <view class="goods clearBoth" wx:for="{{hotGoods}}" wx:key="id" wx:if="{{index >= 5}}">
+      <view class="goods clearBoth" wx:for="{{hotGoods}}" wx:key="id">
         <image class="cover" bindtap="navigateToGoods" data-id="{{item.id}}" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
         <view class="article_title" bindtap="navigateToGoods" data-id="{{item.id}}">{{item.title}}</view>
         <image bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
