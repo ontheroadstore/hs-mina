@@ -6,7 +6,7 @@ Page({
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
-      text: '支付完成'
+      title: '支付完成'
     })
   }
 })

@@ -4,15 +4,6 @@
     <view class="classify_item {{tabIndex == item.id ? 'active':''}}" wx:key="key" wx:for="{{categories}}" bindtap="tabtap" data-id="{{item.id}}">{{item.name}}</view>
   </view>
 </scroll-view>
-<!-- 活动提示窗 -->
-<view class='activity_dialog' wx:if="{{activityDialogStatus}}">
-  <view class='activity_content' bindtap="navigateToActivity">
-    <image src='http://img8.ontheroadstore.com/upload/180514/8b8e19cb452773c87544e8d38ce7940d.png@640w_1l'></image>
-    <text>狠货天天抽,最高价值￥588</text>
-    <view>玩一把</view>
-  </view>
-  <image class='close_activity_dialog' bindtap='closeActivityDialog' src='/images/closeWhite.png'></image>
-</view>
 <view class='main'> 
   <view class="content_index {{tabIndex == 0 ? 'active':''}}">
     <swiper class='advert' indicator-dots="true" indicator-active-color="#FFF" indicator-color="rgba(255, 255, 255, 0.3)" autoplay="true" interval="3000" circular="true">

@@ -135,7 +135,7 @@
 .desc{
   padding: 30rpx;
   border-bottom: 16rpx solid #F5F5F5;
-  margin-bottom: 30rpx;
+  margin-bottom: 30rpx; 
 }
 .content{
   padding: 30rpx;
@@ -150,9 +150,9 @@
 }
 .desc .text_details,
 .content .text_details{
-  font-size: 28rpx;
+  font-size: 30rpx;
   line-height: 32rpx;
-  font-weight: 200;
+  font-weight: 300;
   font-family:  normal;
 }
 .images{
@@ -164,6 +164,8 @@
   float: left;
   margin-bottom: 20rpx;
   margin-right: 21rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
 }
 /* 暂时不上 */
 /* .buy_users{

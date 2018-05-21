@@ -243,6 +243,9 @@ Page({
       order_number: orderNumber,
       prepay_id: prepayId
     }, 'POST', true).then(res => {
+      wx.reLaunch({
+        url: '/pages/paySuccess/paySuccess',
+      })
       // 活动期间 跳转至商品
       if (activityStatus){
         req(app.globalData.bastUrl, 'appv5_1/tigger/payIncrCoin', {

@@ -283,51 +283,5 @@
 .content_index.active{
   display: block;
 }
-.activity_dialog{
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
-  top: 0;
-  left: 0;
-  z-index: 1000;
-}
-.activity_dialog .activity_content{
-  width: 600rpx;
-  height: 474rpx;
-  top: 300rpx;
-  left: 75rpx;
-  position: absolute;
-  border-radius: 24rpx;
-  background: #FFF;
-}
-.activity_dialog .activity_content image{
-  width: 600rpx;
-  height: 368rpx;
-}
-.activity_dialog .activity_content text{
-  position: absolute;
-  top: 295rpx;
-  width: 100%;
-  color: #FFF;
-  font-size: 32rpx;
-  text-align: center;
-}
-.activity_dialog .activity_content view{
-  font-size: 32rpx;
-  text-align: center;
-  line-height: 106rpx;
-  font-weight: 600;
-}
-.activity_dialog .close_activity_dialog{
-  width: 32rpx;
-  height: 32rpx;
-  position: absolute;
-  top: 870rpx;
-  left: 348rpx;
-  border-radius: 50%;
-  border: 2rpx solid #FFF;
-  background: none;
-  padding: 10rpx;
-}
+
 

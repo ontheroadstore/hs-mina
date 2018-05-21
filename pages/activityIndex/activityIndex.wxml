@@ -1,4 +1,5 @@
- <scroll-view class='header' scroll-x bindscroll="scroll">
+<!-- 未使用 -->
+<scroll-view class='header' scroll-x bindscroll="scroll">
   <view class='classifys'>
     <view class="classify_item {{tabIndex == 0 ? 'active':''}}" bindtap="tabtap" data-id="0">商店</view>
     <view class="classify_item {{tabIndex == item.id ? 'active':''}}" wx:key="key" wx:for="{{categories}}" bindtap="tabtap" data-id="{{item.id}}">{{item.name}}</view>

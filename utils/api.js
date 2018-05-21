@@ -46,11 +46,11 @@ const wx_login = (baseUrl) => {
             })
           },
           fail: (res) => {
-            wx.showToast({
-              title: '没有授权',
-              icon: 'error',
-              duration: 1000
-            })
+            // wx.showToast({
+            //   title: '没有授权',
+            //   icon: 'error',
+            //   duration: 1000
+            // })
           }
         })
       },

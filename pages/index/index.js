@@ -32,23 +32,6 @@ Page({
     })
     // 更新今日推荐 副标题时间
     this.getTime()
-    // wx.clearStorageSync()
-    // 查看活动是否结束
-    var time = new Date()
-    req(app.globalData.bastUrl, 'appv5_1/tigger/getStatus', {}, "GET", true).then(res => {
-      const tiggerGetStatus = wx.getStorageSync('tiggerGetStatus')
-      if (res.data) {
-        this.setData({
-          activityStatus: true
-        })
-        if (tiggerGetStatus == '' || tiggerGetStatus < time.getUTCDate().toString()){
-          this.setData({
-            activityDialogStatus: true
-          })
-          wx.setStorageSync('tiggerGetStatus', time.getUTCDate().toString())
-        }
-      }
-    })
     // 获取分类
     req(app.globalData.bastUrl, 'appv3/categories', {
       level: 1,
@@ -264,7 +247,7 @@ Page({
     const time = new Date()
     const mon = timeArr[time.getMonth()]
     this.setData({
-      todayTime: mon + time.getUTCDate()
+      todayTime: mon + time.getDate()
     })
   },
   // 分享

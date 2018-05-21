@@ -1,10 +1,9 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/activity/activity",
+    "pages/paySuccess/paySuccess",
     "pages/createOrder/createOrder",
     "pages/chart/chart",
-    "pages/paySuccess/paySuccess",
     "pages/article/article",
     "pages/orderInfo/orderInfo",
     "pages/address/address",
@@ -16,8 +15,7 @@
     "pages/relevanceTel/relevanceTel",
     "pages/user/user",
     "pages/secondLevelChart/secondLevelChart",
-    "pages/webView/webView",
-    "pages/activityIndex/activityIndex"
+    "pages/webView/webView"
   ],
   "window": {
     "backgroundTextStyle": "light",

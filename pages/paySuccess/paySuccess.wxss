@@ -37,6 +37,7 @@
    text-align: center;
 }
 .btns .retrun_index{
-  background: #202123;
+  background: #AE2121;
+  border-color: #AE2121;
   color: #FFF;
 }

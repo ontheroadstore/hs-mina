@@ -1,11 +1,10 @@
 .main{
-  padding: 0 30rpx;
   height: 100vh;
 }
 .me_like{
-  margin-bottom: 40rpx;
   width: 690rpx;
-  position: relative
+  position: relative;
+  margin: 0 30rpx 40rpx 30rpx;
 }
 .me_like:first-child{
   margin-top: 40rpx;

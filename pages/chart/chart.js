@@ -1,6 +1,6 @@
 const app = getApp()
 const util = require('../../utils/util.js')
-import { req, wx_login } from '../../utils/api.js'
+import { req } from '../../utils/api.js'
 
 
 Page({
@@ -73,6 +73,7 @@ Page({
   },
   // 用户授权
   bindgetuserinfo: function(res) {
+    console.log(res)
     if (res.detail.errMsg == 'getUserInfo:ok'){
       this.setData({
         getUserInfoStatus: true
