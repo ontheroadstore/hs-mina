@@ -1,0 +1,145 @@
+<view class="main {{drawStatus ? 'main_overflow' : ''}} {{loading ? 'main_loading' : ''}}">
+  <view class='activity'>
+    <!-- 中奖信息 -->
+    <!-- <view class='streamer'>
+    <view animation="{{streamerAnimation}}">{{streamerText}}</view>
+    </view>  -->
+    <!-- 我的奖品 -->
+    <view class='my_prize'>我的奖品</view>
+    <!-- 抽签图片 -->
+    <image src='/images/activity_png.png' class='activity_png'></image>
+    <!-- 延时 老虎机亮 -->
+    <image animation="{{facility}}" class='facility' src='http://img8.ontheroadstore.com/upload/180512/fb4588c1769e56a3dc98c8787c0ced9c.png'></image>
+    <!-- 抽奖闪灯 -->
+    <view class='light'>
+    <block wx:if="{{lightArr}}" wx:for="{{lightArr}}" wx:key="index">
+      <image  class="light{{item}}" src='http://img8.ontheroadstore.com/upload/180512/03fbefe35142a96fc25b252408330562.png'></image>
+    </block>
+    </view>
+    <!-- 抽奖动画 -->
+    <view class='activity_bg'>
+      <view class='scroll_image scroll_image1' animation="{{scrollImage1}}">
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+      </view>
+      <view class='scroll_image scroll_image2' animation="{{scrollImage2}}">
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+      </view>
+      <view class='scroll_image scroll_image3' animation="{{scrollImage3}}">
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+      </view>
+    </view>
+    <!-- 拉杆动画 -->
+    <view class='hand_shank'>
+        <image class='hand_shank1' catchtouchstart="handShank" hidden='{{handShankStatus[0]}}' src='http://img8.ontheroadstore.com/upload/180512/df9d78278feb4f88e30582980d2ec132.png'></image>  
+        <image class='hand_shank2' hidden='{{handShankStatus[1]}}' src='http://img8.ontheroadstore.com/upload/180512/babd0fa7b7fa045daa5ffb7ff952dc78.png'></image>  
+        <image class='hand_shank3' hidden='{{handShankStatus[2]}}' src='http://img8.ontheroadstore.com/upload/180512/5da4cec9f0effc3b3a3518f3893fd2bd.png'></image>  
+        <image class='hand_shank4' hidden='{{handShankStatus[3]}}' src='http://img8.ontheroadstore.com/upload/180512/52459419ccaa5f354dbc9fbdf7fa7f25.png'></image>  
+        <image class='hand_shank5' hidden='{{handShankStatus[4]}}' src='http://img8.ontheroadstore.com/upload/180512/fb923f0cacfee79a123ac65624be26fd.png'></image>  
+    </view> 
+
+    <!-- 拉杆抽奖 -->
+    <image class='hand_shank_image' src='http://img8.ontheroadstore.com/upload/180513/077c07ab4a03f720e5a523fbb37eb92a.png'></image>
+
+    <!-- 授权按钮  无法获取用户信息显示 -->
+    <button wx:if="{{authorization}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
+    
+    <!-- 抽中奖品显示 -->
+    <view class="selected {{isIphoneX ? 'isIphone_selected' : ''}}" wx:if="{{selectedImage && paymentStatus == 0}}">
+      <view class='select_content'>
+        <image src='{{selectedImage}}'></image>
+        <view class='buy' bindtap='buyBtn'></view>
+        <view class='close'  bindtap='closeBtn'></view>
+      </view>
+    </view>
+
+    <!-- 没中奖品显示 -->
+    <view class="no_selected {{isIphoneX ? 'isIphone_no_selected' : ''}}" wx:if="{{isSuccess}}">
+      <view class='select_content'>
+        <image src='http://img8.ontheroadstore.com/upload/180512/bfc0099fd2ddf769f223f645eb54e4f6.png'></image>
+        <button class='share_btn share' open-type="share">转发</button>
+        <view class='share_btn'></view>
+        <view class='return_index' bindtap='navigateToIndex' data-type="0"></view>
+        <view class='close' bindtap='noSelectedCloseBtn'></view>
+      </view>
+    </view>
+
+    <!-- 右上放抽奖数量显示 -->
+    <view class='right_content'>
+      <image class='draw' src='http://img8.ontheroadstore.com/upload/180512/9ca5946530f3e2c918c62cc37f3a4984.png'></image>
+       <view class='number font_din'>{{gameCurrency}}</view> 
+      <image class='share' src='http://img8.ontheroadstore.com/upload/180512/771836e654ff44b118932d38b079cdc7.png'></image> 
+      <button class='share_btn' open-type="share">转发</button> 
+    </view> 
+
+    <!-- 没有抽奖次数提示 -->
+    <view class="no_draw {{isIphoneX ? 'isIphone_no_draw' : ''}}" wx:if="{{noDraw}}">
+      <view class='select_content'>
+        <image src='http://img8.ontheroadstore.com/upload/180513/10f0960498ef828a9e7f47e7e4ebf83a.png'></image>
+        <button class='share_btn share' open-type="share">转发</button>
+        <view class='share_btn'></view>
+        <view class='return_index' bindtap='navigateToIndex'  data-type="0"></view>
+        <view class='close' bindtap='noSelectedCloseBtn'></view>
+      </view>
+    </view>
+
+    <!-- 联系客服 -->
+    <image class='activity1' src='http://img8.ontheroadstore.com/upload/180511/f531e052a1627faa355a6093c14542f2.png'></image>
+    <view class='activity2'>上滑查看更多活动内容
+      <!-- <text>回复 '复眼' 了解更多</text> -->
+      <!-- <button class='contact' open-type="contact">在线客服</button> -->
+    </view>
+
+    <!-- 联系客服 -->
+    <image lazy-load class='activity5' src='http://img8.ontheroadstore.com/upload/180511/be6e9081d1e0b97f73194b0505ccd5b3.png'></image>
+    <view class='activity6'>
+      <text>点击咨询客服</text>
+      <button class='contact' open-type="contact">在线客服</button>
+    </view>
+    <image class='activity7' src='http://img8.ontheroadstore.com/upload/180511/daacdd81ef6798512b316fcf88352ee7.png'></image>
+
+    <!-- 卖家推荐 -->
+    <view class='activity10_content'>
+      <image lazy-load class='activity10' src='http://img8.ontheroadstore.com/upload/180512/6e99d8d72309f8ae329438212466ad51.png'></image>
+      <view class='navigateTo_user1 user' bindtap='navigateToUser' data-id="559934" data-name="惠同学"></view>
+      <view class='navigateTo_user2 user' bindtap='navigateToUser' data-id="22911" data-name="大鱼"></view>
+      <view class='navigateTo_user3 user' bindtap='navigateToUser' data-id="243832" data-name="浅野"></view>
+      <view class='navigateTo_user4 user' bindtap='navigateToUser' data-id="1252392" data-name="香氛艺廊"></view>
+      <view class='navigateTo_user5 user' bindtap='navigateToUser' data-id="1225185" data-name="回忆制造机"></view>
+      <view class='navigateTo_user6 user' bindtap='navigateToUser' data-id="524014" data-name="爆炸美丁"></view>
+      <view class='navigateTo_user7 user' bindtap='navigateToUser' data-id="240" data-name="Oldwave"></view>
+      <view class='navigateTo_user8 user' bindtap='navigateToUser' data-id="5368" data-name="ocb滨"></view>
+      <view class='navigateTo_user9 user' bindtap='navigateToUser' data-id="401621" data-name="lomo小强"></view>
+    </view>
+    <image lazy-load class='activity11' src='http://img8.ontheroadstore.com/upload/180511/fb90bb88c1dbff000341a6febdad08ab.png'></image> 
+  </view>
+
+  <!-- 首页动画 -->
+  <image src="http://img8.ontheroadstore.com/upload/180513/e1073f320065053d223ba6038a031287.png" class="supernatant_image"></image>
+</view>

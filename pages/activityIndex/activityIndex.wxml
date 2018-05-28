@@ -1,4 +1,3 @@
-<!-- 未使用 -->
 <scroll-view class='header' scroll-x bindscroll="scroll">
   <view class='classifys'>
     <view class="classify_item {{tabIndex == 0 ? 'active':''}}" bindtap="tabtap" data-id="0">商店</view>

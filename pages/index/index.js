@@ -32,6 +32,22 @@ Page({
     })
     // 更新今日推荐 副标题时间
     this.getTime()
+    // 查看活动是否结束
+    var time = new Date()
+    req(app.globalData.bastUrl, 'appv5_1/tigger/getStatus', {}, "GET", true).then(res => {
+      const tiggerGetStatus = wx.getStorageSync('tiggerGetStatus')
+      if (res.data) {
+        this.setData({
+          activityStatus: true
+        })
+        if (tiggerGetStatus == '' || tiggerGetStatus < time.getUTCDate().toString()) {
+          this.setData({
+            activityDialogStatus: true
+          })
+          wx.setStorageSync('tiggerGetStatus', time.getUTCDate().toString())
+        }
+      }
+    })
     // 获取分类
     req(app.globalData.bastUrl, 'appv3/categories', {
       level: 1,

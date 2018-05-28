@@ -247,21 +247,21 @@ Page({
         url: '/pages/paySuccess/paySuccess',
       })
       // 活动期间 跳转至商品
-      if (activityStatus){
-        req(app.globalData.bastUrl, 'appv5_1/tigger/payIncrCoin', {
-          order: orderNumber
-        }, 'POST').then(data => {
-          if (data.data) {
-            wx.reLaunch({
-              url: '/pages/activity/activity',
-            })
-          }
-        })
-      }else{
-        wx.reLaunch({
-          url: '/pages/orders/orders?type=0',
-        })
-      }
+      // if (activityStatus){
+      //   req(app.globalData.bastUrl, 'appv5_1/tigger/payIncrCoin', {
+      //     order: orderNumber
+      //   }, 'POST').then(data => {
+      //     if (data.data) {
+      //       wx.reLaunch({
+      //         url: '/pages/activity/activity',
+      //       })
+      //     }
+      //   })
+      // }else{
+      //   wx.reLaunch({
+      //     url: '/pages/orders/orders?type=0',
+      //   })
+      // }
     })
   },
   // 跳转添加地址
