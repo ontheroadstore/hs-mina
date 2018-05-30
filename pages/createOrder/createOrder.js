@@ -203,6 +203,7 @@ Page({
     this.setData({
       orderNumber: ordernumber
     })
+    console.log(ordernumber)
     req(app.globalData.bastUrl, 'appv2_1/buychecking', {
       order_number: ordernumber,
       payment_type: 3
@@ -230,7 +231,15 @@ Page({
           //   url: '/pages/orders/orders?type=0',
           // })
           // 推送 appv5_1/wxapp/payment/action
+          req(app.globalData.bastUrl, 'appv2_1/buysuccess', {
+            order_number: orderNumber
+          }, 'POST')
           that.paymentSuccess(prepayId)
+        },
+        fail: function () {
+          req(app.globalData.bastUrl, 'appv2_1/buyfailed', {
+            order_number: orderNumber
+          }, 'POST')
         }
       })
     })
@@ -243,25 +252,22 @@ Page({
       order_number: orderNumber,
       prepay_id: prepayId
     }, 'POST', true).then(res => {
-      wx.reLaunch({
-        url: '/pages/paySuccess/paySuccess',
-      })
       // 活动期间 跳转至商品
-      // if (activityStatus){
-      //   req(app.globalData.bastUrl, 'appv5_1/tigger/payIncrCoin', {
-      //     order: orderNumber
-      //   }, 'POST').then(data => {
-      //     if (data.data) {
-      //       wx.reLaunch({
-      //         url: '/pages/activity/activity',
-      //       })
-      //     }
-      //   })
-      // }else{
-      //   wx.reLaunch({
-      //     url: '/pages/orders/orders?type=0',
-      //   })
-      // }
+      if (activityStatus){
+        req(app.globalData.bastUrl, 'appv5_1/tigger/payIncrCoin', {
+          order: orderNumber
+        }, 'POST').then(data => {
+          if (data.data) {
+            wx.reLaunch({
+              url: '/pages/activity/activity',
+            })
+          }
+        })
+      }else{
+        wx.reLaunch({
+          url: '/pages/paySuccess/paySuccess',
+        })
+      }
     })
   },
   // 跳转添加地址

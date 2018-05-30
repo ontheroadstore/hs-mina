@@ -1,11 +1,20 @@
 <view class="main {{drawStatus ? 'main_overflow' : ''}} {{loading ? 'main_loading' : ''}}">
   <view class='activity'>
-    <!-- 中奖信息 -->
-    <!-- <view class='streamer'>
-    <view animation="{{streamerAnimation}}">{{streamerText}}</view>
-    </view>  -->
     <!-- 我的奖品 -->
-    <view class='my_prize'>我的奖品</view>
+    <image bindtap='prizeContent' class='my_prize' data-status="0" src='http://img8.ontheroadstore.com/upload/180528/56bbf8899d3684e5ea5226720c39817d.png'></image>
+    <view class='prize_content' wx:if="{{prizeContentStatus}}">
+      <view class="prize_list {{noSingleNum == 0 ? 'no_prize_list' : ''}}">
+        <image bindtap='prizeContent' src='http://img8.ontheroadstore.com/upload/180528/5acb7cf36ae709c144a79e596519f438.png' class='cloes_prize'  data-status="1"></image>
+        <view class='title'>我的奖品</view>
+        <view class='item' wx:if="{{noSingleNum != 0}}">
+          <image src='http://img8.ontheroadstore.com/upload/180528/0fd090ebb1b08e956290cef213c661cd.png'></image>
+          <view class='scroll_user' bindtap='scrollUser'></view>
+          <text wx:if="{{noSingleNum >= 10}}">x{{noSingleNum}}</text>
+          <text wx:if="{{noSingleNum < 10}}">x {{noSingleNum}}</text>
+        </view>
+        <view class='remark' wx:if="{{noSingleNum != 0}}">随单附赠券累积次数将在每日0点更新清零。</view>
+      </view>
+    </view>
     <!-- 抽签图片 -->
     <image src='/images/activity_png.png' class='activity_png'></image>
     <!-- 延时 老虎机亮 -->
@@ -71,22 +80,44 @@
     <button wx:if="{{authorization}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
     
     <!-- 抽中奖品显示 -->
-    <view class="selected {{isIphoneX ? 'isIphone_selected' : ''}}" wx:if="{{selectedImage && paymentStatus == 0}}">
+    <view class="selected {{isIphoneX ? 'isIphone_selected' : ''}}" wx:if="{{selectedImage}}">
       <view class='select_content'>
         <image src='{{selectedImage}}'></image>
         <view class='buy' bindtap='buyBtn'></view>
-        <view class='close'  bindtap='closeBtn'></view>
+        <button class='share_btn share' open-type="share">转发</button>
+        <view class='share_btn'></view>
+        <view class='close'  bindtap='resetDraw'></view>
       </view>
     </view>
 
     <!-- 没中奖品显示 -->
     <view class="no_selected {{isIphoneX ? 'isIphone_no_selected' : ''}}" wx:if="{{isSuccess}}">
       <view class='select_content'>
-        <image src='http://img8.ontheroadstore.com/upload/180512/bfc0099fd2ddf769f223f645eb54e4f6.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180528/6849164efabad8481ee88e4066e810da.png'></image>
         <button class='share_btn share' open-type="share">转发</button>
         <view class='share_btn'></view>
-        <view class='return_index' bindtap='navigateToIndex' data-type="0"></view>
-        <view class='close' bindtap='noSelectedCloseBtn'></view>
+        <view class='try_again' bindtap='tryAgain'></view>
+        <view class='close' bindtap='resetDraw'></view>
+      </view>
+    </view>
+
+    <!-- 最后一次抽奖结束后 -->
+    <view class="no_draw {{isIphoneX ? 'isIphone_no_draw' : ''}}" wx:if="{{lastResult}}">
+      <view class='select_content'>
+        <image src='http://img8.ontheroadstore.com/upload/180528/d2946fd2afeeb877ae01fdb9fccb2fac.png'></image>
+        <button class='share_btn share' open-type="share">转发</button>
+        <view class='share_btn'></view>
+        <view class='close' bindtap='resetDraw'></view>
+      </view>
+    </view>
+    <!-- 没有抽奖次数 -->
+    <view class="no_selected {{isIphoneX ? 'isIphone_no_draw' : ''}}" wx:if="{{noDraw}}">
+      <view class='select_content'>
+        <image src='http://img8.ontheroadstore.com/upload/180528/0b052bdc25c5f6d747306d357ef60f7e.png'></image>
+        <button class='share_btn share' open-type="share">转发</button>
+        <view class='share_btn'></view>
+        <view class='return_index' bindtap='navigateToIndex'></view>
+        <view class='close' bindtap='resetDraw'></view>
       </view>
     </view>
 
@@ -98,48 +129,40 @@
       <button class='share_btn' open-type="share">转发</button> 
     </view> 
 
-    <!-- 没有抽奖次数提示 -->
-    <view class="no_draw {{isIphoneX ? 'isIphone_no_draw' : ''}}" wx:if="{{noDraw}}">
-      <view class='select_content'>
-        <image src='http://img8.ontheroadstore.com/upload/180513/10f0960498ef828a9e7f47e7e4ebf83a.png'></image>
-        <button class='share_btn share' open-type="share">转发</button>
-        <view class='share_btn'></view>
-        <view class='return_index' bindtap='navigateToIndex'  data-type="0"></view>
-        <view class='close' bindtap='noSelectedCloseBtn'></view>
-      </view>
-    </view>
 
     <!-- 联系客服 -->
     <image class='activity1' src='http://img8.ontheroadstore.com/upload/180511/f531e052a1627faa355a6093c14542f2.png'></image>
-    <view class='activity2'>上滑查看更多活动内容
-      <!-- <text>回复 '复眼' 了解更多</text> -->
-      <!-- <button class='contact' open-type="contact">在线客服</button> -->
+    <view class='activity2'>
+      <text>戳此了解更多新奇狠货</text> 
+      <button class='contact' open-type="contact">在线客服</button> 
     </view>
-
+    <image class='activity3' src='http://img8.ontheroadstore.com/upload/180529/0ae0740db33bb44666c18a8234badde1.png'></image>
     <!-- 联系客服 -->
-    <image lazy-load class='activity5' src='http://img8.ontheroadstore.com/upload/180511/be6e9081d1e0b97f73194b0505ccd5b3.png'></image>
-    <view class='activity6'>
+    <view class='activity4'>
       <text>点击咨询客服</text>
       <button class='contact' open-type="contact">在线客服</button>
     </view>
-    <image class='activity7' src='http://img8.ontheroadstore.com/upload/180511/daacdd81ef6798512b316fcf88352ee7.png'></image>
-
-    <!-- 卖家推荐 -->
-    <view class='activity10_content'>
-      <image lazy-load class='activity10' src='http://img8.ontheroadstore.com/upload/180512/6e99d8d72309f8ae329438212466ad51.png'></image>
-      <view class='navigateTo_user1 user' bindtap='navigateToUser' data-id="559934" data-name="惠同学"></view>
-      <view class='navigateTo_user2 user' bindtap='navigateToUser' data-id="22911" data-name="大鱼"></view>
-      <view class='navigateTo_user3 user' bindtap='navigateToUser' data-id="243832" data-name="浅野"></view>
-      <view class='navigateTo_user4 user' bindtap='navigateToUser' data-id="1252392" data-name="香氛艺廊"></view>
-      <view class='navigateTo_user5 user' bindtap='navigateToUser' data-id="1225185" data-name="回忆制造机"></view>
-      <view class='navigateTo_user6 user' bindtap='navigateToUser' data-id="524014" data-name="爆炸美丁"></view>
-      <view class='navigateTo_user7 user' bindtap='navigateToUser' data-id="240" data-name="Oldwave"></view>
+    <image lazy-load id="activity5" class='activity5' src='http://img8.ontheroadstore.com/upload/180528/133e4142ed703b120b8bef400a84c27c.png'></image>
+    <view class='activity6'>
+      <image lazy-load src='http://img8.ontheroadstore.com/upload/180529/35d04953e5da9b5ea913b6318d195013.png'></image>
+      <view class='navigateTo_user1 user' bindtap='navigateToUser' data-id="1423877" data-name="在地拾用"></view>
+      <view class='navigateTo_user2 user' bindtap='navigateToUser' data-id="769411" data-name="日本TENGA"></view>
+      <view class='navigateTo_user3 user' bindtap='navigateToUser' data-id="559934" data-name="惠同学"></view>
+      <view class='navigateTo_user4 user' bindtap='navigateToUser' data-id="280083" data-name="老辛"></view>
+      <view class='navigateTo_user5 user' bindtap='navigateToUser' data-id="54139" data-name="岳小超"></view>
+      <view class='navigateTo_user6 user' bindtap='navigateToUser' data-id="88565" data-name="最猛是我飞机"></view>
+      <view class='navigateTo_user7 user' bindtap='navigateToUser' data-id="962211" data-name="黑夜烟具"></view>
       <view class='navigateTo_user8 user' bindtap='navigateToUser' data-id="5368" data-name="ocb滨"></view>
-      <view class='navigateTo_user9 user' bindtap='navigateToUser' data-id="401621" data-name="lomo小强"></view>
+      <view class='navigateTo_user9 user' bindtap='navigateToUser' data-id="63736" data-name="大梦一场"></view>
+      <view class='navigateTo_user10 user' bindtap='navigateToUser' data-id="1225185" data-name="回忆制造机"></view>
+      <view class='navigateTo_user11 user' bindtap='navigateToUser' data-id="1427474" data-name="VAVENUE"></view>
+      <view class='navigateTo_user12 user' bindtap='navigateToUser' data-id="335150" data-name="林子"></view>
     </view>
-    <image lazy-load class='activity11' src='http://img8.ontheroadstore.com/upload/180511/fb90bb88c1dbff000341a6febdad08ab.png'></image> 
+    <image class='activity7' src='http://img8.ontheroadstore.com/upload/180529/d2a5215da59443bf3a3d022eba70334b.png'></image>
+
   </view>
 
   <!-- 首页动画 -->
-  <image src="http://img8.ontheroadstore.com/upload/180513/e1073f320065053d223ba6038a031287.png" class="supernatant_image"></image>
+  <image bindtap='navigateToIndex' src="http://img8.ontheroadstore.com/upload/180513/e1073f320065053d223ba6038a031287.png" class="supernatant_image"></image>
+  <image src='http://img8.ontheroadstore.com/upload/180528/3b7b4161ab2690f9fe8b10188cbedeff.png' class='share_img'></image>
 </view>

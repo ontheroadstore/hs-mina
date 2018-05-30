@@ -9,34 +9,87 @@
 .main_loading{
   opacity: 0;
 }
-.streamer{
-  position: absolute;
-  top: 24rpx;
-  left: 24rpx;
-  min-width: 320rpx;
-  height: 48rpx;
-  background: rgba(0,0,0,0.5);
-  border-radius: 48rpx;
-  z-index: 10;
-  overflow: hidden; 
-  color: #FFF;
-  text-align: center;
-  line-height: 48rpx;
-  font-size: 22rpx;
-}
-.streamer view{
-  padding: 48rpx 20rpx 0;
-  min-width: 320rpx;
-  height: 48rpx;
-  opacity: 0.7;
-}
 .my_prize{
   position: absolute;
   top: 24rpx;
-  left: 24rpx;
+  left: 26rpx;
   z-index: 10;
   overflow: hidden;
   color: #FFF;
+  width: 144rpx;
+  height: 56rpx;
+  background: none;
+}
+.prize_content{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 1002;
+  background: rgba(0,0,0,0.5);
+}
+.prize_list{
+  position: absolute;
+  top: 300rpx;
+  left: 66rpx;
+  width: 620rpx;
+  background: #FFF;
+  border-radius: 32rpx;
+  min-height: 668rpx;
+}
+.no_prize_list{
+  min-height: 580rpx;
+  width: 576rpx;
+  left: 88rpx;
+}
+.prize_list .title{
+  font-size: 32rpx;
+  padding-top: 38rpx;
+  text-align: center;
+  line-height: 1em;
+}
+.prize_list .cloes_prize{
+  width: 32rpx;
+  height: 32rpx;
+  padding: 8rpx;
+  background: none;
+  position: absolute;
+  top: 30rpx;
+  right: 52rpx;
+}
+.prize_list .item{
+  margin-top: 40rpx;
+  position: relative;
+}
+.prize_list .item image{
+  width: 540rpx;
+  height: 150rpx;
+  background: none;
+  margin-left: 8rpx;
+  float: left;
+}
+.prize_list .item text{
+  float: left;
+  line-height: 150rpx;
+  font-weight: 900;
+  color: #202123;
+  position: absolute;
+  top: 0;
+  left: 540rpx;
+  width: 100rpx;
+}
+.prize_list .item .scroll_user{
+  position: absolute;
+  top: 0;
+  left: 420rpx;
+  height: 150rpx;
+  width: 120rpx;
+}
+.prize_list .remark{
+  clear: both;
+  color: #999999;
+  font-size: 20rpx;
+  margin-top: 14rpx;
+  margin-left: 52rpx;
 }
 
 .activity_png{
@@ -243,11 +296,11 @@
   background: none;
 }
 .selected .buy{
-  width: 300rpx;
-  height: 100rpx;
+  width: 200rpx;
+  height: 150rpx;
   position: absolute;
-  top: 900rpx;
-  left: 225rpx;
+  top: 850rpx;
+  left: 150rpx;
   opacity: 0;
 }
 .no_draw .close,
@@ -265,11 +318,12 @@
 .isIphone_no_selected{
   padding-top: 80rpx;
 }
+.selected .share,
 .no_draw .share,
 .no_selected .share{
   z-index: 10;
 }
-.no_draw .share_btn,
+.selected .share_btn,
 .no_selected .share_btn{
   width: 200rpx;
   height: 150rpx;
@@ -278,13 +332,28 @@
   right: 150rpx;
   opacity: 0;
 }
-.no_draw .return_index,
+.no_selected .try_again{
+  width: 200rpx;
+  height: 150rpx;
+  position: absolute;
+  top: 850rpx;
+  left: 150rpx;
+  opacity: 0;
+}
 .no_selected .return_index{
   width: 200rpx;
   height: 150rpx;
   position: absolute;
   top: 850rpx;
   left: 150rpx;
+  opacity: 0;
+}
+.no_draw .share_btn{
+  width: 400rpx;
+  height: 150rpx;
+  position: absolute;
+  top: 850rpx;
+  left: 175rpx;
   opacity: 0;
 }
 
@@ -339,7 +408,7 @@
 }
 .activity2{
   width: 750rpx;
-  height: 62rpx;
+  height: 92rpx;
   line-height: 62rpx;
   background: #21140f;
   overflow: hidden;
@@ -368,20 +437,20 @@
   top: 0;
   left: 0;
 }
-.activity5{
-  width: 750rpx;
-  height: 203rpx;
+.activity3{
+  height: 574rpx;
+  width: 100%;
 }
 
 
-.activity6{
+.activity4{
   width: 750rpx;
   height: 85rpx;
   background: #21140f;
   overflow: hidden;
   position: relative;
 }
-.activity6 text{
+.activity4 text{
   display: block;
   width: 235rpx;
   height: 40rpx;
@@ -393,7 +462,7 @@
   margin: 18rpx auto 0;
   text-align: center;
 }
-.activity6 .contact{
+.activity4 .contact{
   position: absolute;
   width: 100%;
   height: 100%;
@@ -401,73 +470,73 @@
   top: 0;
   left: 0;
 }
-.activity7{
+.activity5{
   width: 750rpx;
-  height: 194rpx;
+  height: 160rpx;
 }
-.activity8{
+.activity6{
   width: 750rpx;
-  height: 340rpx;
-}
-
-.activity10{
-  width: 750rpx;
-  height: 821rpx;
-}
-.activity10_content{
-  width: 750rpx;
-  height: 821rpx;
+  height: 1016rpx;
   position: relative;
 }
-.activity10_content .user{
+.activity6 image{
+  width: 100%;
+  height: 100%;
+}
+.activity6 .user{
+  position: absolute;
   width: 250rpx;
   height: 250rpx;
-  position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
 }
-.activity10_content .navigateTo_user2{
+.activity6 .navigateTo_user2{
   left: 250rpx;
 }
-.activity10_content .navigateTo_user3{
+.activity6 .navigateTo_user3{
   left: 500rpx;
 }
-.activity10_content .navigateTo_user4{
+.activity6 .navigateTo_user4{
   left: 0;
   top: 250rpx;
-  height: 300rpx;
 }
-.activity10_content .navigateTo_user5{
+.activity6 .navigateTo_user5{
   top: 250rpx;
   left: 250rpx;
-  height: 300rpx;
-  
 }
-.activity10_content .navigateTo_user6{
+.activity6 .navigateTo_user6{
   top: 250rpx;
   left: 500rpx;
-  height: 300rpx;
 }
-.activity10_content .navigateTo_user7{
-  top: 550rpx;
+.activity6 .navigateTo_user7{
+  top: 500rpx;
   left: 0;
 }
-.activity10_content .navigateTo_user8{
-  top: 550rpx;
+.activity6 .navigateTo_user8{
+  top: 500rpx;
   left: 250rpx;
 }
-.activity10_content .navigateTo_user9{
-  top: 550rpx;
+.activity6 .navigateTo_user9{
+  top: 500rpx;
   left: 500rpx;
 }
-.activity11{
+.activity6 .navigateTo_user10{
+  top: 750rpx;
+  left: 0;
+}
+.activity6 .navigateTo_user11{
+  top: 750rpx;
+  left: 250rpx;
+}
+.activity6 .navigateTo_user12{
+  top: 750rpx;
+  left: 500rpx;
+}
+.activity7{
   width: 750rpx;
-  height: 730rpx;
+  height: 983rpx;
 }
-
-
-
 
 
 .supernatant_image{
@@ -491,245 +560,10 @@
     right: -25rpx;
   }
 }
-.supernatant_image_active{
-  position: fixed;
-  right: -90rpx;
-  top: 860rpx;
-  z-index: 1002;
-  background: none;
-  animation: supernatant 600ms ease-out infinite alternate;
-  border-radius: 50%;
-  height: 0;
-  width: 0;
-  margin-right: -20rpx;
-}
-.supernatant{
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  background: rgba(0,0,0,0.6);
-}
 
-.supernatant_circle{
-  position: absolute;
-  border-radius: 50%;
-  border: 3rpx solid rgba(255,255,255,0.6);
-}
-.supernatant_circle1{
-  top: 266rpx;
-  right: -183rpx;
-  width: 0;
-  height: 0;
-}
-.supernatant_circle2{
-  top: 420rpx;
-  right: -216rpx;
-  width: 0;
-  height: 0;
-}
-.supernatant_circle3{
-  top: 646rpx;
-  right: -169rpx;
-  width: 0;
-  height: 0;
-}
-.supernatant_circle4{
-  top: 636rpx;
-  right: -176rpx;
-  width: 0;
-  height: 0;
-}
-
-.classify1{
-  /* top: 217rpx; */
-  top: 157rpx;
-  right: 158rpx;
-  animation: classify_animation1 620ms ease-out infinite alternate;
-}
-.classify2{
-  /* top: 329rpx; */
-  top: 269rpx;
-  right:380rpx;
-  animation: classify_animation2 650ms ease-out infinite alternate;
-}
-.classify3{
-  /* top: 552rpx; */
-  top: 492rpx;
-  right: 488rpx;
-  animation: classify_animation3 610ms ease-out infinite alternate;
-}
-.classify4{
-  /* top: 828rpx; */
-  top: 768rpx;
-  right: 395rpx;
-  animation: classify_animation4 600ms ease-out infinite alternate;
-}
-.classify5{
-  /* top: 617rpx; */
-  top: 557rpx;
-  right:252rpx;
-  animation: classify_animation5 680ms ease-out infinite alternate;
-}
-.classify6{
-  /* top: 1043rpx; */
-  top: 983rpx;
-  right: 330rpx;
-  animation: classify_animation6 660ms ease-out infinite alternate;
-}
-.classify7{
-  /* top: 449rpx; */
-  top: 389rpx;
-  right: 149rpx;
-  animation: classify_animation7 670ms ease-out infinite alternate;
-}
-.classify8{
-  /* top: 927rpx; */
-  top: 867rpx;
-  right: 149rpx;
-  animation: classify_animation8 630ms ease-out infinite alternate;
-}
-.classify9{
-  /* top: 612rpx; */
-  top: 552rpx;
-  right: 16rpx;
-  animation: classify_animation9 700ms ease-out infinite alternate;
-}
-.supernatant .classify{
-  position: absolute;
-  width: 100rpx;
-  height: 100rpx;
-  background: none;
+.share_img{
   opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-
-.classify_text1{
-  top: 157rpx;
-  right: 278rpx;
-  animation: classify_animation1 620ms ease-out infinite alternate;
-}
-.classify_text2{
-  top: 269rpx;
-  right: 500rpx;
-  animation: classify_animation2 650ms ease-out infinite alternate;
-}
-.classify_text3{
-  top: 492rpx;
-  right: 608rpx;
-  animation: classify_animation3 610ms ease-out infinite alternate;
-}
-.classify_text4{
-  top: 768rpx;
-  right: 515rpx;
-  animation: classify_animation4 600ms ease-out infinite alternate;
-}
-.classify_text5{
-  top: 557rpx;
-  right: 372rpx;
-  animation: classify_animation5 680ms ease-out infinite alternate;
-}
-.classify_text6{
-  top: 983rpx;
-  right: 450rpx;
-  animation: classify_animation6 660ms ease-out infinite alternate;
-}
-.classify_text7{
-  top: 389rpx;
-  right: 269rpx;
-  animation: classify_animation7 670ms ease-out infinite alternate;
-}
-.classify_text8{
-  top: 867rpx;
-  right: 269rpx;
-  animation: classify_animation8 630ms ease-out infinite alternate;
-}
-.classify_text9{
-  top: 552rpx;
-  right: 136rpx;
-  animation: classify_animation9 700ms ease-out infinite alternate;
-}
-.supernatant .classify_text{
-  position: absolute;
-  font-size: 32rpx;
-  color: #FFF;
-  line-height: 100rpx;
-  opacity: 0;
-}
-
-
-@keyframes classify_animation1{
-  from {
-    padding-top: 10rpx;
-  }
-  to {
-    padding-top: 0;
-  }
-}
-
-@keyframes classify_animation2{
-  from {
-    padding-top: 10rpx;
-  }
-  to {
-    padding-top: 0;
-  }
-}
-@keyframes classify_animation3{
-  from {
-    padding-top: 10rpx;
-  }
-  to {
-    padding-top: 0;
-  }
-}
-@keyframes classify_animation4{
-  from {
-    padding-top: 10rpx;
-  }
-  to {
-    padding-top: 0;
-  }
-}
-@keyframes classify_animation5{
-  from {
-    padding-top: 10rpx;
-  }
-  to {
-    padding-top: 0;
-  }
-}
-@keyframes classify_animation6{
-  from {
-    padding-top: 10rpx;
-  }
-  to {
-    padding-top: 0;
-  }
-}
-@keyframes classify_animation7{
-  from {
-    padding-top: 10rpx;
-  }
-  to {
-    padding-top: 0;
-  }
-}
-@keyframes classify_animation8{
-  from {
-    padding-top: 10rpx;
-  }
-  to {
-    padding-top: 0;
-  }
-}
-@keyframes classify_animation9{
-  from {
-    padding-top: 10rpx;
-  }
-  to {
-    padding-top: 0;
-  }
-}

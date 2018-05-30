@@ -8,7 +8,7 @@
 <view class='activity_dialog' wx:if="{{activityDialogStatus}}">
   <view class='activity_content' bindtap="navigateToActivity">
     <image src='http://img8.ontheroadstore.com/upload/180514/8b8e19cb452773c87544e8d38ce7940d.png@640w_1l'></image>
-    <text>狠货天天抽,最高价值￥588</text>
+    <text>狠货天天抽,最高价值￥2399</text>
     <view>玩一把</view>
   </view>
   <image class='close_activity_dialog' bindtap='closeActivityDialog' src='/images/closeWhite.png'></image>
@@ -16,7 +16,7 @@
 <view class='main'> 
   <view class="content_index {{tabIndex == 0 ? 'active':''}}">
     <swiper class='advert' indicator-dots="true" indicator-active-color="#FFF" indicator-color="rgba(255, 255, 255, 0.3)" autoplay="true" interval="3000" circular="true">
-      <swiper-item wx:if="{{true}}">
+      <swiper-item wx:if="{{activityStatus}}">
         <image bindtap="navigateToActivity" lazy-load mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180513/4d55b18f31236dfdb4e3883db178ee26.png'></image>
       </swiper-item>
       <swiper-item wx:for="{{bannerItem}}" wx:key="{{item.id}}">

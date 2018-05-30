@@ -6,14 +6,13 @@ Page({
   data: {
     loading: true,                      // 延迟加载
     authorization: false,               // 授权
-    gameCurrency: 9,                    // 抽奖次数
-    winLogId: 0,                        // 抽奖Id
+    gameCurrency: 0,                    // 抽奖次数
+    prizeContentStatus: false,          // 我的奖品列表
+    noSingleNum: 0,                     // 免单卷数量
     drawStatus: false,                  // 抽奖状态 true 进行中
     isSuccess: false,                   // 是否显示未中奖
     noDraw: false,                      // 没有抽奖次数图 显示状态
     selectedImage: null,                // 奖品图
-    paymentInfo: null,                  // 生成打赏订单数据 后台返回
-    prizeIntroduce: 0,                  // 奖品介绍 切换状态
     facility: null,                     // 老虎机动画
     lightArr: null,                     // 随机灯
     scrollImage1: null,                 // 滚动动画
@@ -32,29 +31,31 @@ Page({
         loading: false
       })
     }, 1000)
+    var onReady = this.onReady
     wx.getUserInfo({
       success: function () {
         req(app.globalData.bastUrl, 'appv5_1/tigger/getStatus', {}).then(res => {
           // 活动是否到期
           if (res.data) {
-            req(app.globalData.bastUrl, 'appv5_1/tigger/getCoin', {}).then(res => {
+            req(app.globalData.bastUrl, 'appv5_1/tigger/getCoin', {}, 'GET', false, onReady).then(res => {
               that.setData({
-                gameCurrency: res.data
+                gameCurrency: res.data.coin,
+                noSingleNum: res.data.winNum
               })
             })
           } else {
-            // wx.showModal({
-            //   title: '提示',
-            //   content: '活动已结束',
-            //   showCancel: false,
-            //   success: function (data) {
-            //     if (data.confirm) {
-            //       wx.reLaunch({
-            //         url: '/pages/index/index'
-            //       })
-            //     }
-            //   }
-            // })
+            wx.showModal({
+              title: '提示',
+              content: '活动已结束',
+              showCancel: false,
+              success: function (data) {
+                if (data.confirm) {
+                  wx.reLaunch({
+                    url: '/pages/index/index'
+                  })
+                }
+              }
+            })
           }
         })
       },
@@ -78,6 +79,8 @@ Page({
         facility: facility.export()
       })
     }, 2000)
+    // 检测session_key 是否过期
+    this.checkSession()
   },
   // 随机 灯
   lightRandom: function () {
@@ -143,12 +146,6 @@ Page({
     if (this.data.drawStatus) {
       return false
     }
-    if (this.data.gameCurrency == 0) {
-      this.setData({
-        noDraw: true
-      })
-      return false
-    }
     this.setData({
       drawStatus: true
     })
@@ -176,35 +173,57 @@ Page({
         })
       }
     }, 20)
+    if (this.data.gameCurrency == 0) {
+      setTimeout(function () {
+        that.setData({
+          noDraw: true
+        })
+      }, 200)
+      return false
+    }
     setTimeout(function () {
       that.lightRandom()
       that.scrollImage()
     }, 400)
     setTimeout(function () {
       that.draw()
-    }, 2800)
+    }, 2400)
   },
   draw: function () {
     const that = this
-    req(app.globalData.bastUrl, 'appv5_1/tigger/tiggerRun', {}).then(res => {
+    // 刷新token后回调
+    const activityError = function () {
+      that.resetDraw()
+      wx.showToast({
+        title: '拉杆断了。重拉一次',
+        icon: 'none',
+        duration: 2000
+      })
+    }
+    req(app.globalData.bastUrl, 'appv5_1/tigger/tiggerRun', {}, 'GET', false, activityError).then(res => {
       if (res.data.status == 0) {
         that.setData({
           noDraw: true
         })
       }
-      if (res.data.isSuccess == 0) {
+      if (res.data.isSuccess == 1) {
+        // 中奖后 记录打赏信息 抽奖ID selectedImage orderImage
+        that.setData({
+          gameCurrency: res.data.coin,
+          noSingleNum: res.data.winNum,
+          selectedImage: res.data.giftInfo.img2
+        })
+      }
+      if (res.data.isSuccess == 0 && res.data.coin != 0) {
         that.setData({
           gameCurrency: res.data.coin,
           isSuccess: true
         })
-      } else if (res.data.isSuccess == 1) {
-        // 中奖后 记录打赏信息 抽奖ID selectedImage orderImage
-        res.data.payment_info.tiggerWinId = res.data.winLogId
+      }
+      if (res.data.isSuccess == 0 && res.data.coin == 0) {
         that.setData({
           gameCurrency: res.data.coin,
-          selectedImage: res.data.giftInfo.img2,
-          paymentInfo: res.data.payment_info,
-          winLogId: res.data.winLogId
+          lastResult: true
         })
       }
       setTimeout(function () {
@@ -214,46 +233,18 @@ Page({
       }, 100)
     })
   },
-  // 取消下单
-  closeBtn: function () {
-    const that = this
-    wx.showModal({
-      title: '提示',
-      content: '取消视为放弃本次中奖资格',
-      cancelText: '放弃奖品',
-      confirmText: '继续下单',
-      success: function (res) {
-        if (res.confirm) {
-        } else if (res.cancel) {
-          that.resetDraw()
-        }
-      }
-    })
-  },
-  // 未中奖
-  noSelectedCloseBtn: function () {
+  // 立即购买 定位到卖家列表
+  buyBtn: function () {
     this.resetDraw()
+    this.scrollUser()
   },
-
-  // 奖品介绍
-  activityContent: function (e) {
-    const num = e.target.dataset.num
-    this.setData({
-      prizeIntroduce: num
-    })
-  },
-  activityHide: function () {
-    this.setData({
-      prizeIntroduce: 0
-    })
-  },
-  // 商品跳转article
-  navigateToGoods: function (e) {
-    let id = e.target.dataset.id
-    const url = '/pages/article/article?id=' + id
-    wx.navigateTo({
-      url: url
-    })
+  // 未中奖 再抽一次
+  tryAgain: function () {
+    this.resetDraw()
+    const that = this
+    setTimeout(function() {
+      that.handShank()
+    },300)    
   },
   // 跳转首页
   navigateToIndex: function () {
@@ -280,47 +271,102 @@ Page({
       app.login(that.onReady)
     }
   },
+  // 我的奖品
+  prizeContent: function (e) {
+    const status = e.target.dataset.status
+    if (this.data.noSingleNum == 0) {
+      wx.showToast({
+        title: '现在毛也没有，还不赶紧去抽！',
+        icon: 'none',
+        duration: 2000
+      })
+      return false
+    }
+    if (status == 0) {
+      this.setData({
+        prizeContentStatus: true
+      })
+    } else {
+      this.setData({
+        prizeContentStatus: false
+      })
+    }
+    
+  },
+  // 定位到卖家列表
+  scrollUser: function () {
+    var query = wx.createSelectorQuery()
+    query.select('#activity5').boundingClientRect()
+    query.selectViewport().scrollOffset()
+    query.exec(function (res) {
+      wx.pageScrollTo({
+        scrollTop: res[0].top,
+        duration: 200
+      })
+    })
+    this.setData({
+      prizeContentStatus: false
+    })
+  },
   // 重置抽奖
   resetDraw: function () {
     this.setData({
-      winLogId: 0,
       drawStatus: false,
       isSuccess: false,
       selectedImage: null,
-      noDraw: false
+      lastResult: false,
+      noDraw: false,
+      handShankStatus: [false, true, true, true, true]
     })
   },
   // 分享加金币
   onShareAppMessage: function (res) {
     const that = this
     return {
-      title: '狠货天天抽，最高价值¥588，次数上不封顶',
+      title: '狠货天天抽，最高价值¥2399，次数上不封顶',
       path: '/pages/activity/activity',
-      imageUrl: 'http://img8.ontheroadstore.com/upload/180513/e8f735fc23f386c411a16855ab263cf4.png',
+      imageUrl: 'http://img8.ontheroadstore.com/upload/180528/3b7b4161ab2690f9fe8b10188cbedeff.png',
       success: function (res) {
-        console.log(res)
-        wx.getShareInfo({
-          shareTicket: res.shareTickets[0],
-          success: function (data) {
-            // 将获取的encryptedData 传入后台
-            console.log(data)
-          }
-        })
-        // 转发成功
-        req(app.globalData.bastUrl, 'appv5_1/tigger/shareIncrCoin', {}, 'GET', true).then(res => {
-          that.resetDraw()
-          that.setData({
-            gameCurrency: res.data.coin
+        // 用户未授权分享不去请求接口
+        if (res.shareTickets && !that.data.authorization) {
+          wx.getShareInfo({
+            shareTicket: res.shareTickets[0],
+            success: function (data) {
+              // 将获取的encryptedData 传入后台
+              that.addShareIncrCoin(data)
+            }
           })
-          if (res.data.status == 1) {
-            wx.showToast({
-              title: '分享成功，获得一次抽奖',
-              icon: 'none',
-              duration: 2000
-            })
-          }
-        })
+        } else if (!that.data.authorization) {
+          that.addShareIncrCoin()
+        }
       }
     }
+  },
+  // 分享增加抽奖
+  addShareIncrCoin: function (code) {
+    const that = this
+    req(app.globalData.bastUrl, 'appv5_1/tigger/shareIncrCoin', {
+      code: code
+    }, 'POST', true).then(res => {
+      that.resetDraw()
+      that.setData({
+        gameCurrency: res.data.coin
+      })
+      if (res.data.status == 1) {
+        wx.showToast({
+          title: '分享成功，获得一次抽奖',
+          icon: 'none',
+          duration: 2000
+        })
+      }k
+    })
+  },
+  // 检测checkSession
+  checkSession: function () {
+    wx.checkSession({
+      fail: function () {
+        app.login()
+      }
+    })
   }
 })

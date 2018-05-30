@@ -62,7 +62,7 @@ const wx_login = (baseUrl) => {
   })
 }
 // 封装请求接口
-const req = (baseUrl, url, data, method, showLoadingStatus) => {
+const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
   return new Promise(function (resolve, reject) {
     if (!showLoadingStatus){
       wx.showNavigationBarLoading()
@@ -70,6 +70,9 @@ const req = (baseUrl, url, data, method, showLoadingStatus) => {
         title: '加载中',
         mask: true
       })
+    }
+    if (call) {
+      var callback = call
     }
     request({
       url: baseUrl + url,
@@ -79,6 +82,10 @@ const req = (baseUrl, url, data, method, showLoadingStatus) => {
         'Authorization': wx.getStorageSync('token')
       }
     }).then(res => {
+      if (!showLoadingStatus) {
+        wx.hideNavigationBarLoading()
+        wx.hideLoading()
+      }
       if (res.statusCode == 200) {
         switch (res.data.status) {
           case 1:
@@ -90,16 +97,17 @@ const req = (baseUrl, url, data, method, showLoadingStatus) => {
       } else if (res.statusCode == 401) {
         // 请求登陆
         wx_login(baseUrl)
-        
+        // 在用户登录过期后，需要回调更新页面状态
+        if (callback) {
+          callback()
+        }
       }
     }).catch(error => {
       reject(error)
-    }).then(res => {
-      if (!showLoadingStatus){
+      if (!showLoadingStatus) {
         wx.hideNavigationBarLoading()
         wx.hideLoading()
       }
-      
     })
   })
 }

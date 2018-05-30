@@ -3,7 +3,7 @@
   <view class='order_info'>运单编号： <text>{{expressInfo.mailNo}}</text></view>
   <view class='order_info'>承运来源： {{expressInfo.expTextName}}</view>
   <view class='order_info'>官方电话： <text>{{expressInfo.tel}}</text></view>
-  <view class='express_details'>
+  <view class='express_details' wx:if="{{expressData.length != 0}}">
     <view class='title'>物流跟踪</view>
     <view class='express_content'>
       <view class="express_item {{expressData.length-1 == index? 'clearBorder': ''}}" wx:key="key" wx:if="{{expressData.length!=0}}" wx:for="{{expressData}}">
@@ -15,7 +15,7 @@
         <image class='up_icon' src='/images/upNow.png' wx:if="{{index == 0}}"></image>
         <view class="details  float_left  {{index == 0 ? 'active':''}}">{{item.context}}</view>
       </view>
-      <view class='no_data' wx:if="{{expressData.length==0}}">{{expressInfo.msg}}</view>
+      <view class='no_data' wx:if="{{}}">{{expressInfo.msg}}</view>
     </view>
   </view>
   <!-- 猜你喜欢待添加 -->
