@@ -84,8 +84,6 @@
       <view class='select_content'>
         <image src='{{selectedImage}}'></image>
         <view class='buy' bindtap='buyBtn'></view>
-        <button class='share_btn share' open-type="share">转发</button>
-        <view class='share_btn'></view>
         <view class='close'  bindtap='resetDraw'></view>
       </view>
     </view>
@@ -93,9 +91,7 @@
     <!-- 没中奖品显示 -->
     <view class="no_selected {{isIphoneX ? 'isIphone_no_selected' : ''}}" wx:if="{{isSuccess}}">
       <view class='select_content'>
-        <image src='http://img8.ontheroadstore.com/upload/180528/6849164efabad8481ee88e4066e810da.png'></image>
-        <button class='share_btn share' open-type="share">转发</button>
-        <view class='share_btn'></view>
+        <image src='http://img8.ontheroadstore.com/upload/180530/7131b9884309cf202002d3b7155c0ca9.png'></image>
         <view class='try_again' bindtap='tryAgain'></view>
         <view class='close' bindtap='resetDraw'></view>
       </view>
@@ -104,7 +100,7 @@
     <!-- 最后一次抽奖结束后 -->
     <view class="no_draw {{isIphoneX ? 'isIphone_no_draw' : ''}}" wx:if="{{lastResult}}">
       <view class='select_content'>
-        <image src='http://img8.ontheroadstore.com/upload/180528/d2946fd2afeeb877ae01fdb9fccb2fac.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180530/d25e2a1fdef6f3f3860090f4190f88e5.png'></image>
         <button class='share_btn share' open-type="share">转发</button>
         <view class='share_btn'></view>
         <view class='close' bindtap='resetDraw'></view>
@@ -113,7 +109,7 @@
     <!-- 没有抽奖次数 -->
     <view class="no_selected {{isIphoneX ? 'isIphone_no_draw' : ''}}" wx:if="{{noDraw}}">
       <view class='select_content'>
-        <image src='http://img8.ontheroadstore.com/upload/180528/0b052bdc25c5f6d747306d357ef60f7e.png'></image>
+        <image src='http://img8.ontheroadstore.com/upload/180530/8631eaddb1629efb402d00981c7a5a02.png'></image>
         <button class='share_btn share' open-type="share">转发</button>
         <view class='share_btn'></view>
         <view class='return_index' bindtap='navigateToIndex'></view>
@@ -132,9 +128,9 @@
 
     <!-- 联系客服 -->
     <image class='activity1' src='http://img8.ontheroadstore.com/upload/180511/f531e052a1627faa355a6093c14542f2.png'></image>
-    <view class='activity2'>
+    <view class='activity2' bindtap='navigateToIndex'>
       <text>戳此了解更多新奇狠货</text> 
-      <button class='contact' open-type="contact">在线客服</button> 
+      <!-- <button class='contact' open-type="contact">在线客服</button>  -->
     </view>
     <image class='activity3' src='http://img8.ontheroadstore.com/upload/180529/0ae0740db33bb44666c18a8234badde1.png'></image>
     <!-- 联系客服 -->
@@ -144,7 +140,7 @@
     </view>
     <image lazy-load id="activity5" class='activity5' src='http://img8.ontheroadstore.com/upload/180528/133e4142ed703b120b8bef400a84c27c.png'></image>
     <view class='activity6'>
-      <image lazy-load src='http://img8.ontheroadstore.com/upload/180529/35d04953e5da9b5ea913b6318d195013.png'></image>
+      <image lazy-load src='http://img8.ontheroadstore.com/upload/180530/db72a54f188f2d8cf1e0935467c8eb57.png'></image>
       <view class='navigateTo_user1 user' bindtap='navigateToUser' data-id="1423877" data-name="在地拾用"></view>
       <view class='navigateTo_user2 user' bindtap='navigateToUser' data-id="769411" data-name="日本TENGA"></view>
       <view class='navigateTo_user3 user' bindtap='navigateToUser' data-id="559934" data-name="惠同学"></view>
@@ -165,4 +161,12 @@
   <!-- 首页动画 -->
   <image bindtap='navigateToIndex' src="http://img8.ontheroadstore.com/upload/180513/e1073f320065053d223ba6038a031287.png" class="supernatant_image"></image>
   <image src='http://img8.ontheroadstore.com/upload/180528/3b7b4161ab2690f9fe8b10188cbedeff.png' class='share_img'></image>
+  <!-- 提示窗 -->
+  <view class='toast' catchtouchmove='toast' wx:if="{{toastStatus}}">
+    <view class='toast_content'>
+      <image class='toast_img' src='http://img8.ontheroadstore.com/upload/180530/36b886014839d9a0e314a6fd90dc5d3f.png'></image>
+      <view class='close_toast' catchtap='closeToast'></view>
+      <view class='navigate_user' catchtap='navigateToUser' data-status="true" data-id="{{selectUserId}}" data-name="{{selectUserName}}"></view>
+    </view>
+  </view>
 </view>

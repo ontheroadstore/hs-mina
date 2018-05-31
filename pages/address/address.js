@@ -118,16 +118,28 @@ Page({
           }
         })
       },
-      fail: function(res) {
-        if (res.errMsg == 'chooseAddress:fail auth deny'){
-          wx.openSetting({
-            success: function () {
-              that.addAddress()
+      fail: function () {
+        wx.getSetting({
+          success: function (res) {
+            if (!res.authSetting['scope.address']) {
+              wx.openSetting({
+                success: function () {
+                  wx.getSetting({
+                    success: function (res) {
+                      if (res.authSetting['scope.address']) {
+                        that.addAddress()
+                      }
+                    }
+                  })
+                }
+              })
             }
-          })
-        }
+          }
+        })
+
       }
     })
+    
   },
   getAddr: function () {
     req(app.globalData.bastUrl, 'appv2/useraddress').then(res => {

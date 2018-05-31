@@ -19,7 +19,13 @@ Page({
     scrollImage2: null,                 // 滚动动画
     scrollImage3: null,                 // 滚动动画
     handShankStatus: [false, true, true, true, true],                 // 杠杆动画
+    selectUserId: null,                 // 选中的用户ID
+    selectUserName: null,               // 选中的用户name
+    toastStatus: false,                 // 提示窗显示状态
     isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
+  },
+  onShow: function () {
+    this.closeToast()
   },
   onReady: function () {
     wx.showShareMenu({
@@ -256,10 +262,28 @@ Page({
   navigateToUser: function (e) {
     let id = e.target.dataset.id
     let name = e.target.dataset.name
+    let status = e.target.dataset.status
     const url = '/pages/user/user?id=' + id + '&name=' + name
+    if (this.data.noSingleNum == 0 && !status) {
+      this.setData({
+        toastStatus: true,
+        selectUserId: id,
+        selectUserName: name
+      })
+      return false
+    }
     wx.navigateTo({
       url: url
     })
+  },
+  closeToast: function () {
+    this.setData({
+      toastStatus: false,
+      selectUserId: null,
+      selectUserName: null
+    })
+  },
+  toast: function () {
   },
   // 授权
   bindgetuserinfo: function (res) {

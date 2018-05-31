@@ -295,14 +295,6 @@
   height: 1206rpx;
   background: none;
 }
-.selected .buy{
-  width: 200rpx;
-  height: 150rpx;
-  position: absolute;
-  top: 850rpx;
-  left: 150rpx;
-  opacity: 0;
-}
 .no_draw .close,
 .selected .close,
 .no_selected .close{
@@ -332,12 +324,13 @@
   right: 150rpx;
   opacity: 0;
 }
-.no_selected .try_again{
+.no_selected .try_again,
+.selected .buy{
   width: 200rpx;
-  height: 150rpx;
+  height: 80rpx;
   position: absolute;
   top: 850rpx;
-  left: 150rpx;
+  left: 280rpx;
   opacity: 0;
 }
 .no_selected .return_index{
@@ -565,5 +558,42 @@
   opacity: 0;
   width: 0;
   height: 0;
+}
+
+.toast{
+  position: fixed;
+  z-index: 3000;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  top: 0;
+  left: 0;
+}
+.toast_content{
+  width: 576rpx;
+  height: 320rpx;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.toast_content .toast_img{
+  width: 576rpx;
+  height: 320rpx;
+  background: none;
+}
+.toast_content .close_toast{
+  position: absolute;
+  width: 290rpx;
+  height: 100rpx;
+  bottom: 0;
+  left: 0;
+}
+.toast_content .navigate_user{
+  position: absolute;
+  width: 290rpx;
+  height: 100rpx;
+  bottom: 0;
+  right: 0;
 }
 
