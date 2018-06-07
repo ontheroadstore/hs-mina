@@ -18,7 +18,7 @@
         <block wx:if="{{item.process_status != 33 && item.order_status != 0 && item.process_status == 1}}">待收货</block>
         <block wx:if="{{item.process_status != 33 && item.order_status != 0 && item.process_status == 2}}">交易完成</block>
         <block wx:if="{{item.process_status != 33 && item.order_status != 0 && item.process_status == 33}}">交易关闭</block>
-        <block wx:if="{{item.process_status != 33 && item.order_status != 0&&item.process_status!=0&&item.process_status!=1&&item.process_status!=2&&item.process_status!=33}}">=老订单=</block>
+        <block wx:if="{{item.process_status != 33 && item.order_status != 0&&item.process_status!=0&&item.process_status!=1&&item.process_status!=2&&item.process_status!=33}}"></block>
         </view>
       </view>
 

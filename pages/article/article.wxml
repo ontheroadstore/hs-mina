@@ -97,8 +97,8 @@
     <view class='buy_btn float_left' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2">立即购买</view>
     <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
   </view>
-  <view class="select {{selectStatus ? 'show':''}}" bindtap='selectHide' data-status="true">
-    <view class="select_content {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}">
+  <view class="select {{selectStatus ? 'show':''}}" catchtap='selectHide' catchtouchmove='true' data-status="true">
+    <view class="select_content {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}" catchtouchmove='true'>
       <image class='cover' src='{{goodInfo.banner[0]}}@640w_1l'></image>
       <view class='title'>{{goodInfo.title}}</view>
       <view class='price' wx:if="{{styleNum == 1 && specialOfferStatus}}">
@@ -115,16 +115,20 @@
         <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
         <text class='now_price font_din'>￥{{selectStylePrice}}</text>
       </view>
-      <scroll-view class='styles_content' scroll-y>
-        <view class='styles_select clearBoth'>
-          <view class='label'>款式</view>
-          <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-postage="{{item.postage}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}">{{item.name}}</text>
-        </view>
-        <view class='good_num clearBoth'>
-          <view class='label'>数量</view>
-          <image src='/images/sub.png' class='sub float_left' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}">-</image>
-          <text class='num float_left'>{{selectStyleCount}}</text>
-          <image src='/images/add.png' class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}">+</image>
+      <scroll-view class='styles_content' scroll-y="{{selectScrollStatus}}">
+        <view id='styles_select'>
+          <view class='styles_select clearBoth'>
+            <view class='label'>款式</view>
+            <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-postage="{{item.postage}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}">{{item.name}}</text>
+            <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-postage="{{item.postage}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}">{{item.name}}</text>
+            <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-postage="{{item.postage}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}">{{item.name}}</text>
+          </view>
+          <view class='good_num clearBoth'>
+            <view class='label'>数量</view>
+            <image src='/images/sub.png' class='sub float_left' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}">-</image>
+            <text class='num float_left'>{{selectStyleCount}}</text>
+            <image src='/images/add.png' class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}">+</image>
+          </view>
         </view>
       </scroll-view>
         <view class='chart_btn' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}">加入购物车</view> 
@@ -134,5 +138,5 @@
       <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
     </view>
   </view>
-  <image src='/images/returnIndex.png' class='return_index' bindtap="returnIndex"></image>
+  <image src='/images/returnIndex.png' class="return_index {{isIphoneX ? 'iphoneX_return_index':''}}" bindtap="returnIndex"></image>
 </scroll-view>

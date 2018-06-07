@@ -25,6 +25,7 @@ Page({
     chartNum: 0,                  // 购物车数量
     addLikeStatus: false,         // 是否收藏
     selectStatus: false,          // 选择款式框显示状态
+    selectScrollStatus: false,    // 款式是否滚动
     selectType: 0,                // 调起选择框：0文中选择 1加入购物车 2立即购买 （单个款式不调起）
     isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
     authorizationStatus: false    //授权状态
@@ -174,6 +175,19 @@ Page({
   },
   // 显示款式选择框
   selectShow: function(e) {
+    // 查询款式高度 设置是否滚动
+    const that = this
+    var query = wx.createSelectorQuery()
+    query.select('#styles_select').boundingClientRect()
+    query.selectViewport().scrollOffset()
+    query.exec(function (res) {
+      if (res[0].height * 2 > 450) {
+        that.setData({
+          selectScrollStatus: true
+        })
+      }
+      console.log()
+    })
     // 调起选择框状态
     const selectType = e.target.dataset.type ? e.target.dataset.type : 0
     // 每次打开选择款式框 初始数量

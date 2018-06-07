@@ -423,7 +423,7 @@
 }
 .select_content{
   width: 100%;
-  height: 780rpx;
+  height: 968rpx;
   position: absolute;
   bottom: -900rpx;
   left: 0;
@@ -446,6 +446,7 @@
   position: absolute;
   top: -88rpx;
   left: 30rpx;
+  border-radius: 16rpx;
 }
 .select_content .title{
   padding: 154rpx 30rpx 0;
@@ -482,7 +483,7 @@
 
 .select_content .styles_content{
   padding: 30rpx 30rpx 100rpx;
-  max-height: 200rpx;
+  max-height: 450rpx;
   border-top: 2rpx solid #E8E8E8;
   width: 690rpx;
 }
@@ -494,16 +495,19 @@
   position: relative;
   padding-left: 86rpx;
 }
-.select_content .good_num .label,
+.select_content .good_num .label{
+  font-size: 28rpx;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
 .select_content .styles_select .label{
   font-size: 28rpx;
   position: absolute;
   left: 0;
-  top: 40%;
-  transform: translateY(-50%);
-}
-.select_content .good_num .label{
-  top: 50%;
+  top: 0;
+  line-height: 46rpx;
 }
 .select_content .styles_select text{
   border: 1rpx solid #E8E8E8;
@@ -582,6 +586,9 @@
 }
 .main .return_index{
   bottom: 178rpx;
+}
+.main .iphoneX_return_index{
+  bottom: 246rpx;
 }
 
 
