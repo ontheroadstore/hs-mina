@@ -1,172 +1,218 @@
-<view class="main {{drawStatus ? 'main_overflow' : ''}} {{loading ? 'main_loading' : ''}}">
-  <view class='activity'>
-    <!-- 我的奖品 -->
-    <image bindtap='prizeContent' class='my_prize' data-status="0" src='http://img8.ontheroadstore.com/upload/180528/56bbf8899d3684e5ea5226720c39817d.png'></image>
-    <view class='prize_content' wx:if="{{prizeContentStatus}}">
-      <view class="prize_list {{noSingleNum == 0 ? 'no_prize_list' : ''}}">
-        <image bindtap='prizeContent' src='http://img8.ontheroadstore.com/upload/180528/5acb7cf36ae709c144a79e596519f438.png' class='cloes_prize'  data-status="1"></image>
-        <view class='title'>我的奖品</view>
-        <view class='item' wx:if="{{noSingleNum != 0}}">
-          <image src='http://img8.ontheroadstore.com/upload/180528/0fd090ebb1b08e956290cef213c661cd.png'></image>
-          <view class='scroll_user' bindtap='scrollUser'></view>
-          <text wx:if="{{noSingleNum >= 10}}">x{{noSingleNum}}</text>
-          <text wx:if="{{noSingleNum < 10}}">x {{noSingleNum}}</text>
+<view class="main page" id="main" catchtouchmove='catchtouchmove'>
+  <!-- 开机动画 -->
+  <!-- <view class='starting_up' wx:if="{{startingUpStatus}}">
+    <image class='liquor_bg' id="liquorDg" style='right:{{liquorBgSize.right}}px;' animation="{{liquorBgAnimation}}" src='/images/liquorBg.png'></image> 
+    <view class='loading_content'>
+      <image class='logo' src='/images/logo.png'></image>
+      <image class='start_btn' wx:if="{{loadingSuccess}}" catchtouchstart='startActivity' src='http://img8.ontheroadstore.com/upload/180612/05cb59717e273a7bbfefdacdc2fdbfa4.png'></image>
+      <button open-type='getUserInfo' class='getUserInfo' wx:if="{{authorization}}" bindgetuserinfo="getuserinfo">授权</button>
+      <view class='loading_progress' wx:if="{{!loadingSuccess}}">
+        <image class='loading' src='/images/loading.png'></image>
+        <view class='progress_bar'>
+          <image class='progress1' src='/images/progress1.png' ></image>
+          <view class='progress2'>
+            <image src='/images/progress2.png' animation="{{progressAnimation}}"></image>
+          </view>
+          <image class='progress3' src='/images/progress3.png'></image>
         </view>
-        <view class='remark' wx:if="{{noSingleNum != 0}}">随单附赠券累积次数将在每日0点更新清零。</view>
       </view>
     </view>
-    <!-- 抽签图片 -->
-    <image src='/images/activity_png.png' class='activity_png'></image>
-    <!-- 延时 老虎机亮 -->
-    <image animation="{{facility}}" class='facility' src='http://img8.ontheroadstore.com/upload/180512/fb4588c1769e56a3dc98c8787c0ced9c.png'></image>
-    <!-- 抽奖闪灯 -->
-    <view class='light'>
-    <block wx:if="{{lightArr}}" wx:for="{{lightArr}}" wx:key="index">
-      <image  class="light{{item}}" src='http://img8.ontheroadstore.com/upload/180512/03fbefe35142a96fc25b252408330562.png'></image>
-    </block>
+  </view> -->
+  <view class='activity_content'>
+    <view class='start_animation'>
+      <image mode="aspectFill" bindload="loadStatic" wx:for="{{startAnimation}}" wx:key="item" class="animation_img {{startAnimationNum == index?'active':''}}" src='{{item}}'></image>
     </view>
-    <!-- 抽奖动画 -->
-    <view class='activity_bg'>
-      <view class='scroll_image scroll_image1' animation="{{scrollImage1}}">
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+    <view class="weave weave_show {{startAnimationStatus ? 'weave_show':''}}">
+      <!-- 背景切换 -->
+      <image class='bg1' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180608/2f6ea9815a50c6469fb7f7ecb1f03310.jpg'></image>
+      <image class='bg2' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180612/f08ae5f6d9d4e266823d110b370d44b9.png'></image>
+      <image class='bg3' hidden='{{!strikeStatus}}' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180611/890f979a6b55a7f80c82d00ca4f3a8c7.gif'></image>
+      <!-- 顶部信息 -->
+      <view class='damage' wx:if="{{strikeStatus}}">
+        <image class='jian' src='http://img8.ontheroadstore.com/upload/180611/38425a6c6954768f52a0b576aa452c56.png'></image>
+        <view class='damage_content'>
+          <view class='damage_num'>
+            <view class='damage_num_bg' style="width: {{damageNum == 0 ? '5' : damageNum }}%;"></view>
+          </view>
+        </view>
+        <image class='regulation' src='http://img8.ontheroadstore.com/upload/180611/760fe00ac3b261f66627ecb0ef575136.png'></image>
+        <image class='reset' catchtouchstart='resetGameShow' data-status="1" src='http://img8.ontheroadstore.com/upload/180611/2085b59674fde23e5ea7163fd9c0f19d.png'></image>
+        <view class='damage_text'>对酒保造成的伤害总数：{{damageNum}}(可优惠{{damageNum}}元)</view>
+        <view class='reset_text' catchtouchstart='resetGameShow' data-status="1">重玩</view>
       </view>
-      <view class='scroll_image scroll_image2' animation="{{scrollImage2}}">
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+      <!-- 底部按钮 -->
+      <view class='btns' wx:if="{{strikeStatus}}">
+        <image catchtouchstart='openBattlefield' class='btn_item battlefield' src='http://img8.ontheroadstore.com/upload/180611/d2465ba11ddd9ddf23987bae585f7e44.png'></image>
+        <image catchtouchstart='openWinelist' class='btn_item winelist' src='http://img8.ontheroadstore.com/upload/180611/b27aab2b27baac880f08e633b6f0d4a5.png'></image>
+        <image hidden='{{!(blowNum >= 3)}}' class='btn_item share' src='http://img8.ontheroadstore.com/upload/180611/e1e83e836c444a01c886ffe4eb8a16d6.png'></image>
+        <button hidden='{{!(blowNum >= 3)}}' class='share btn_item' open-type="share">分享</button>
       </view>
-      <view class='scroll_image scroll_image3' animation="{{scrollImage3}}">
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
-        <image src='http://img8.ontheroadstore.com/upload/180528/55210313538c9e0cc242b23ac762106a.png'></image>
+      <!-- 拳打脚踢 -->
+      <view class='blow' wx:if="{{blowStatus}}">
+        <image class='blow_fist' catchtouchstart='blow' data-type="0" src='http://img8.ontheroadstore.com/upload/180611/2dcd6449cbc146a26de27d0465c25b38.png'></image>
+        <image class='blow_foot' catchtouchstart='blow' data-type="1" src='http://img8.ontheroadstore.com/upload/180611/0a7612b02ba0425c99a9aaaa69d725c2.png'></image>
       </view>
-    </view>
-    <!-- 拉杆动画 -->
-    <view class='hand_shank'>
-        <image class='hand_shank1' catchtouchstart="handShank" hidden='{{handShankStatus[0]}}' src='http://img8.ontheroadstore.com/upload/180512/df9d78278feb4f88e30582980d2ec132.png'></image>  
-        <image class='hand_shank2' hidden='{{handShankStatus[1]}}' src='http://img8.ontheroadstore.com/upload/180512/babd0fa7b7fa045daa5ffb7ff952dc78.png'></image>  
-        <image class='hand_shank3' hidden='{{handShankStatus[2]}}' src='http://img8.ontheroadstore.com/upload/180512/5da4cec9f0effc3b3a3518f3893fd2bd.png'></image>  
-        <image class='hand_shank4' hidden='{{handShankStatus[3]}}' src='http://img8.ontheroadstore.com/upload/180512/52459419ccaa5f354dbc9fbdf7fa7f25.png'></image>  
-        <image class='hand_shank5' hidden='{{handShankStatus[4]}}' src='http://img8.ontheroadstore.com/upload/180512/fb923f0cacfee79a123ac65624be26fd.png'></image>  
-    </view> 
-
-    <!-- 拉杆抽奖 -->
-    <image class='hand_shank_image' src='http://img8.ontheroadstore.com/upload/180513/077c07ab4a03f720e5a523fbb37eb92a.png'></image>
-
-    <!-- 授权按钮  无法获取用户信息显示 -->
-    <button wx:if="{{authorization}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
-    
-    <!-- 抽中奖品显示 -->
-    <view class="selected {{isIphoneX ? 'isIphone_selected' : ''}}" wx:if="{{selectedImage}}">
-      <view class='select_content'>
-        <image src='{{selectedImage}}'></image>
-        <view class='buy' bindtap='buyBtn'></view>
-        <view class='close'  bindtap='resetDraw'></view>
+      <!-- 打击动画 -->
+      <view class='blow_animation' wx:if="{{dialogGifStatus}}">
+        <image src='http://img8.ontheroadstore.com/upload/180611/dfffa2a152dbafa24c42996883656836.gif'></image>
+        <view>你拿起酒瓶抡在酒保头上，造成了3 点伤害</view>
       </view>
-    </view>
 
-    <!-- 没中奖品显示 -->
-    <view class="no_selected {{isIphoneX ? 'isIphone_no_selected' : ''}}" wx:if="{{isSuccess}}">
-      <view class='select_content'>
-        <image src='http://img8.ontheroadstore.com/upload/180530/7131b9884309cf202002d3b7155c0ca9.png'></image>
-        <view class='try_again' bindtap='tryAgain'></view>
-        <view class='close' bindtap='resetDraw'></view>
+      <!-- 文字提示窗 -->
+      <view class='dialog'>
+        <!-- 提示窗1 -->
+        <view class='dialog1' hidden="{{!(dialogNum == 1)}}">
+          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180611/8ec779aedf80c9f90bd25b736c8eacd8.png'></image>
+          <view class='dialog_text'>
+            <view class='subtitle'>叮！你发现酒保在耍流氓 ！</view>
+            <view class='select_item' catchtouchstart='samaritan'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>见义勇为</view>
+            </view>
+            <view class='select_item' catchtouchstart='procedure'>
+              <image data-procedure="9" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view data-procedure="9">默不作声</view>
+            </view>
+          </view>
+        </view>
+        <!-- 提示窗2 围观群众对你见义勇为的行为表示认可，他们凑了15元给你买酒 -->
+        <view class='dialog2' hidden="{{!(dialogNum == 2)}}">
+          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/dc84190b980f6f68a1487da97307690b.png'></image>
+          <view class='dialog_text'>
+            <view class='subtitle'>围观群众对你见义勇为的行为表示认可，他们凑了15元给你买酒</view>
+            <view class='select_item' catchtouchstart='samaritan'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>老子还能再打</view>
+            </view>
+            <view class='select_item' catchtouchstart='openWinelist'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>去挑瓶酒</view>
+            </view>
+          </view>
+        </view>
+        <!-- 提示窗3 酒保叫来帮手，这是茬架啊，再想动手只能 -->
+        <view class='dialog3' hidden="{{!(dialogNum == 3)}}">
+          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/b47ab85f80eb92bd8b3b6e9a900d430d.png'></image>
+          <view class='dialog_text'>
+            <view class='subtitle'>酒保叫来帮手，这是茬架啊，再想动手只能叫人了</view>
+            <view class='select_item'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>叫人一起动手！</view>
+            </view>
+            <view class='select_item' catchtouchstart='openWinelist'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>怂了，不打了，拿酒走人</view>
+            </view>
+            <view class='desc'>好友伤害计入你的总伤害，打的越多，奖金越多</view>
+            <button class='share' open-type="share">分享</button>
+          </view>
+        </view>
+        <!-- 提示窗4 邀请成功，点击我的战报可随时查看朋友 造成的伤害，你可以动手了-->
+        <view class='dialog4' hidden="{{!(dialogNum == 4)}}">
+          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <view class='dialog_text'>
+            <view class='subtitle'>邀请成功，点击我的战报可随时查看朋友造成的伤害，你可以动手了</view>
+          </view>
+        </view>
+        <!-- 提示窗5  腿软了！赶紧叫人吧！-->
+        <view class='dialog5' hidden="{{!(dialogNum == 5)}}">
+          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <view class='dialog_text'>
+            <view class='subtitle'>腿软了！赶紧叫人吧！</view>
+          </view>
+        </view>
+        <!-- 提示窗6  酒保瘫倒在地上，再打就出人命了！-->
+        <view class='dialog6' hidden="{{!(dialogNum == 6)}}">
+          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <view class='dialog_text'>
+            <view class='subtitle'>酒保瘫倒在地上，再打就出人命了！</view>
+            <view class='select_item'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>见好就收，拿奖金买酒</view>
+            </view>
+            <view class='select_item'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>偏不！我TM就要搞死你丫的</view>
+            </view>
+          </view>
+        </view>
+        <!-- 提示窗7  都他妈说了不能打了你还打，请选择在小黑 屋中度过余生的方式-->
+        <view class='dialog7' hidden="{{!(dialogNum == 7)}}">
+          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <image class='ambulance' src='http://img8.ontheroadstore.com/upload/180612/025797ee639c2a38629eb0b4ae049d67.png'></image>
+          <image class='paddy_wagon' src='http://img8.ontheroadstore.com/upload/180612/a61dea0eb082d1679cef9f4a698fd25c.png'></image>
+          <view class='dialog_text'>
+            <view class='subtitle'>都他妈说了不能打了你还打，请选择在小黑屋中度过余生的方式</view>
+            <view class='select_item'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>拒不悔改</view>
+            </view>
+            <view class='select_item'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>悔不当初</view>
+            </view>
+          </view>
+        </view>
+        <!-- 提示窗8  狱友对你的硬气很赞扬，给你凑了20块钱 买酒-->
+        <view class='dialog8' hidden="{{!(dialogNum == 8)}}">
+          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <view class='dialog_text'>
+            <view class='subtitle'>狱友对你的硬气很赞扬，给你凑了20块钱买酒</view>
+            <view class='select_item'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>接受好意</view>
+            </view>
+          </view>
+        </view>
+        <!-- 提示窗9  酒保对你臭不要脸的行为表示认同，送了 你一张20元优惠券-->
+        <view class='dialog9' hidden="{{!(dialogNum == 9)}}">
+          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <view class='dialog_text'>
+            <view class='subtitle'>酒保对你臭不要脸的行为表示认同，送了你一张20元优惠券</view>
+            <view class='select_item' catchtouchstart='openWinelist'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>收下贿赂买瓶酒然后报警</view>
+            </view>
+            <view class='select_item' catchtouchstart='procedure'>
+              <image data-procedure="2" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view data-procedure="2">不行我后悔了，老子要干他丫的</view>
+            </view>
+          </view>
+        </view>
+
+        <!-- 重置窗 -->
+        <view class='reset_dialog' hidden="{{resetDialogStatus}}">
+          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/dc84190b980f6f68a1487da97307690b.png'></image>
+          <view class='dialog_text'>
+            <view class='subtitle'>重新开始会丢失当前所有奖励！</view>
+            <view class='select_item' catchtouchstart='resetGame'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>老子不在乎！就是要重玩</view>
+            </view>
+            <view class='select_item' catchtouchstart='resetGameShow'>
+              <image data-status="0" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view data-status="0">手抖了！不好意思</view>
+            </view>
+          </view>
+        </view>
+
+
+
+      </view> 
+      <!-- 我的战报 -->
+      <view class='user_battlefield' wx:if="{{battlefieldStatus}}">
+        <view class='battlefield_content'>
+          <view>我的战报</view>
+          <view catchtouchstart='closeWinelistBattlefield'>关闭</view>
+        </view>
       </view>
-    </view>
-
-    <!-- 最后一次抽奖结束后 -->
-    <view class="no_draw {{isIphoneX ? 'isIphone_no_draw' : ''}}" wx:if="{{lastResult}}">
-      <view class='select_content'>
-        <image src='http://img8.ontheroadstore.com/upload/180530/d25e2a1fdef6f3f3860090f4190f88e5.png'></image>
-        <button class='share_btn share' open-type="share">转发</button>
-        <view class='share_btn'></view>
-        <view class='close' bindtap='resetDraw'></view>
+      <!-- 酒单 -->
+      <view class='winelist_list' wx:if="{{winelistStatus}}">
+        <view class='winelist_content'>
+          <view>酒单</view>
+          <view catchtouchstart='closeWinelistBattlefield'>关闭</view>
+        </view>
       </view>
-    </view>
-    <!-- 没有抽奖次数 -->
-    <view class="no_selected {{isIphoneX ? 'isIphone_no_draw' : ''}}" wx:if="{{noDraw}}">
-      <view class='select_content'>
-        <image src='http://img8.ontheroadstore.com/upload/180530/8631eaddb1629efb402d00981c7a5a02.png'></image>
-        <button class='share_btn share' open-type="share">转发</button>
-        <view class='share_btn'></view>
-        <view class='return_index' bindtap='navigateToIndex'></view>
-        <view class='close' bindtap='resetDraw'></view>
-      </view>
-    </view>
-
-    <!-- 右上放抽奖数量显示 -->
-    <view class='right_content'>
-      <image class='draw' src='http://img8.ontheroadstore.com/upload/180512/9ca5946530f3e2c918c62cc37f3a4984.png'></image>
-       <view class='number font_din'>{{gameCurrency}}</view> 
-      <image class='share' src='http://img8.ontheroadstore.com/upload/180512/771836e654ff44b118932d38b079cdc7.png'></image> 
-      <button class='share_btn' open-type="share">转发</button> 
-    </view> 
-
-
-    <!-- 联系客服 -->
-    <image class='activity1' src='http://img8.ontheroadstore.com/upload/180511/f531e052a1627faa355a6093c14542f2.png'></image>
-    <view class='activity2' bindtap='navigateToIndex'>
-      <text>戳此了解更多新奇狠货</text> 
-      <!-- <button class='contact' open-type="contact">在线客服</button>  -->
-    </view>
-    <image class='activity3' src='http://img8.ontheroadstore.com/upload/180529/0ae0740db33bb44666c18a8234badde1.png'></image>
-    <!-- 联系客服 -->
-    <view class='activity4'>
-      <text>点击咨询客服</text>
-      <button class='contact' open-type="contact">在线客服</button>
-    </view>
-    <image lazy-load id="activity5" class='activity5' src='http://img8.ontheroadstore.com/upload/180528/133e4142ed703b120b8bef400a84c27c.png'></image>
-    <view class='activity6'>
-      <image lazy-load src='http://img8.ontheroadstore.com/upload/180530/db72a54f188f2d8cf1e0935467c8eb57.png'></image>
-      <view class='navigateTo_user1 user' bindtap='navigateToUser' data-id="1423877" data-name="在地拾用"></view>
-      <view class='navigateTo_user2 user' bindtap='navigateToUser' data-id="769411" data-name="日本TENGA"></view>
-      <view class='navigateTo_user3 user' bindtap='navigateToUser' data-id="559934" data-name="惠同学"></view>
-      <view class='navigateTo_user4 user' bindtap='navigateToUser' data-id="280083" data-name="老辛"></view>
-      <view class='navigateTo_user5 user' bindtap='navigateToUser' data-id="54139" data-name="岳小超"></view>
-      <view class='navigateTo_user6 user' bindtap='navigateToUser' data-id="88565" data-name="最猛是我飞机"></view>
-      <view class='navigateTo_user7 user' bindtap='navigateToUser' data-id="962211" data-name="黑夜烟具"></view>
-      <view class='navigateTo_user8 user' bindtap='navigateToUser' data-id="5368" data-name="ocb滨"></view>
-      <view class='navigateTo_user9 user' bindtap='navigateToUser' data-id="63736" data-name="大梦一场"></view>
-      <view class='navigateTo_user10 user' bindtap='navigateToUser' data-id="1225185" data-name="回忆制造机"></view>
-      <view class='navigateTo_user11 user' bindtap='navigateToUser' data-id="1427474" data-name="VAVENUE"></view>
-      <view class='navigateTo_user12 user' bindtap='navigateToUser' data-id="335150" data-name="林子"></view>
-    </view>
-    <image class='activity7' src='http://img8.ontheroadstore.com/upload/180529/d2a5215da59443bf3a3d022eba70334b.png'></image>
-
-  </view>
-
-  <!-- 首页动画 -->
-  <image bindtap='navigateToIndex' src="http://img8.ontheroadstore.com/upload/180513/e1073f320065053d223ba6038a031287.png" class="supernatant_image"></image>
-  <image src='http://img8.ontheroadstore.com/upload/180528/3b7b4161ab2690f9fe8b10188cbedeff.png' class='share_img'></image>
-  <!-- 提示窗 -->
-  <view class='toast' catchtouchmove='toast' wx:if="{{toastStatus}}">
-    <view class='toast_content'>
-      <image class='toast_img' src='http://img8.ontheroadstore.com/upload/180530/36b886014839d9a0e314a6fd90dc5d3f.png'></image>
-      <view class='close_toast' catchtap='closeToast'></view>
-      <view class='navigate_user' catchtap='navigateToUser' data-status="true" data-id="{{selectUserId}}" data-name="{{selectUserName}}"></view>
     </view>
   </view>
 </view>

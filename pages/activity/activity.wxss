@@ -1,599 +1,488 @@
 .main{
   width: 100vw;
-  height: auto;
-  position: relative;
-}
-.main_overflow{
-  overflow: hidden;
-}
-.main_loading{
-  opacity: 0;
-}
-.my_prize{
-  position: absolute;
-  top: 24rpx;
-  left: 26rpx;
-  z-index: 10;
-  overflow: hidden;
-  color: #FFF;
-  width: 144rpx;
-  height: 56rpx;
-  background: none;
-}
-.prize_content{
-  width: 100vw;
   height: 100vh;
-  position: fixed;
-  z-index: 1002;
-  background: rgba(0,0,0,0.5);
-}
-.prize_list{
-  position: absolute;
-  top: 300rpx;
-  left: 66rpx;
-  width: 620rpx;
-  background: #FFF;
-  border-radius: 32rpx;
-  min-height: 668rpx;
-}
-.no_prize_list{
-  min-height: 580rpx;
-  width: 576rpx;
-  left: 88rpx;
-}
-.prize_list .title{
-  font-size: 32rpx;
-  padding-top: 38rpx;
-  text-align: center;
-  line-height: 1em;
-}
-.prize_list .cloes_prize{
-  width: 32rpx;
-  height: 32rpx;
-  padding: 8rpx;
-  background: none;
-  position: absolute;
-  top: 30rpx;
-  right: 52rpx;
-}
-.prize_list .item{
-  margin-top: 40rpx;
-  position: relative;
-}
-.prize_list .item image{
-  width: 540rpx;
-  height: 150rpx;
-  background: none;
-  margin-left: 8rpx;
-  float: left;
-}
-.prize_list .item text{
-  float: left;
-  line-height: 150rpx;
-  font-weight: 900;
-  color: #202123;
-  position: absolute;
-  top: 0;
-  left: 540rpx;
-  width: 100rpx;
-}
-.prize_list .item .scroll_user{
-  position: absolute;
-  top: 0;
-  left: 420rpx;
-  height: 150rpx;
-  width: 120rpx;
-}
-.prize_list .remark{
-  clear: both;
-  color: #999999;
-  font-size: 20rpx;
-  margin-top: 14rpx;
-  margin-left: 52rpx;
-}
-
-.activity_png{
-  width: 750rpx;
-  height: 1034rpx;
-  background: none;
-}
-.activity_bg{
-  position: absolute;
-  z-index: -1;
-  background: #000;
-  width: 570rpx;
-  top: 0;
-  left: 100rpx;
-  height: 1034rpx;
   overflow: hidden;
+  background: #000;
 }
-.activity_bg .scroll_image{
-  width: 180rpx;
-  height: 11712rpx;
-  padding-left: 6rpx;
-  float: left;
-  position: relative;
-}
-.activity_bg .scroll_image image{
-  width: 180rpx;
-  height: 1952rpx;
-}
-.activity_bg .scroll_image1{
-  margin-top: 105rpx;
-}
-.activity_bg .scroll_image2{
-  margin-top: 278rpx;
-}
-.activity_bg .scroll_image3{
-  margin-top: -500rpx;
-}
-
-.facility{
+.starting_up{
+  width: 100%;
+  height: 100%;
   position: absolute;
-  z-index: 1;
-  width: 532rpx;
-  height: 268rpx;
-  top: 5rpx;
-  left: 120rpx;
-  background: none;
-}
-.light{
-  position: absolute;
-  z-index: 1;
   top: 0;
-  width: 750rpx;
+  z-index: 10;
 }
-.light image{
+.starting_up .liquor_bg{
   position: absolute;
-  width: 62rpx;
-  height: 62rpx;
-  background: none;
+  top: 0;
+  right: -214%;
+  height: 100%;
+  width: 314%;
 }
-.light1{
-  top: 44rpx;
-  left: 123rpx;
-}
-.light2{
-  top: 44rpx;
-  right: 123rpx;
-}
- .light3{
-  top: 120rpx;
-  left: 97rpx;
-}
-.light4{
-  top: 120rpx;
-  right: 90rpx;
-}
-.light5{
-  top: 199rpx;
-  left: 89rpx;
-}
-.light6{
-  top: 202rpx;
-  right: 80rpx;
-}
-.light7{
-  top: 254rpx;
-  left: 85rpx;
-}
-.light8{
-  top: 254rpx;
-  right: 83rpx;
-}
- .light9{
-  top: 254rpx;
-  left: 145rpx;
-}
-.light10{
-  top: 254rpx;
-  right: 140rpx;
-}
-.light11{
-  top: 254rpx;
-  left: 215rpx;
-}
-.light12{
-  top: 254rpx;
-  right: 210rpx;
-}
-.hand_shank{
-  position: absolute;
-  z-index: 100;
-  top: 1032rpx;
-  width: 0rpx;
-  height: 0rpx;
-  left: 373rpx;
-  background: red;
-}
-.hand_shank image{
-  position: absolute;
-  background: none;
-
-}
-.hand_shank1{
-  top: -230rpx;
-  left: -53rpx;
-  width: 126rpx;
-  height: 230rpx;
-  z-index: 100;
-}
-.hand_shank2{
-  top: -230rpx;
-  left: -55rpx;
-  width: 130rpx;
-  height: 234rpx;
-}
-.hand_shank3{
-  top: -196rpx;
-  left: -66rpx;
-  width: 150rpx;
-  height: 214rpx;
-}
-.hand_shank4{
-  top: -200rpx;
-  left: -66rpx;
-  width: 150rpx;
-  height: 214rpx;
-}
-.hand_shank5{
-  top: -110rpx;
-  left: -54rpx;
-  width: 126rpx;
-  height: 126rpx;
-}
-.hand_shank_image{
-  width: 60rpx;
-  height: 124rpx;
-  position: absolute;
-  top: 846rpx;
-  left: 490rpx;
-  background: none;
-  z-index: 101;
-  animation: hand_shank_animation 400ms linear infinite alternate; 
-}
-@keyframes hand_shank_animation{
-  from {
-    transform: scale(1.2, 1.2)
-  }
-  to {
-    transform: scale(1.3, 1.3)
-  }
-}
-
-
-
-
-.getUserInfo{
+.loading_content{
+  width: 100%;
+  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  width: 750rpx;
-  height: 1034rpx;
-  z-index: 999;
-  opacity: 0;
+  z-index: 1;
 }
-.no_draw,
-.no_selected,
-.selected{
-  width: 750rpx;
-  height: 100vh;
-  position: fixed;
-  z-index: 2000;
-  top: 0;
-  background: rgba(0,0,0,0.7);
-}
-.select_content{
-  width: 750rpx;
-  height: 100vh;
-  position: relative;
-}
-.no_draw image,
-.no_selected image,
-.selected image{
-  width: 750rpx;
-  height: 1206rpx;
+.loading_content .start_btn{
+  width: 118rpx;
+  height: 42rpx;
+  margin: 150rpx auto;
   background: none;
 }
-.no_draw .close,
-.selected .close,
-.no_selected .close{
-  width: 100rpx;
-  height: 100rpx;
+.loading_content .getUserInfo{
   position: absolute;
-  top: 200rpx;
-  right: 100rpx;
-  opacity: 0;
-}
-.isIphone_no_draw,
-.isIphone_selected,
-.isIphone_no_selected{
-  padding-top: 80rpx;
-}
-.selected .share,
-.no_draw .share,
-.no_selected .share{
-  z-index: 10;
-}
-.selected .share_btn,
-.no_selected .share_btn{
-  width: 200rpx;
-  height: 150rpx;
-  position: absolute;
-  top: 850rpx;
-  right: 150rpx;
-  opacity: 0;
-}
-.no_selected .try_again,
-.selected .buy{
-  width: 200rpx;
-  height: 80rpx;
-  position: absolute;
-  top: 850rpx;
-  left: 280rpx;
-  opacity: 0;
-}
-.no_selected .return_index{
-  width: 200rpx;
-  height: 150rpx;
-  position: absolute;
-  top: 850rpx;
-  left: 150rpx;
-  opacity: 0;
-}
-.no_draw .share_btn{
+  top: 572rpx;
   width: 400rpx;
-  height: 150rpx;
-  position: absolute;
-  top: 850rpx;
+  height: 86rpx;
   left: 175rpx;
   opacity: 0;
 }
+.loading_content .loading_progress{
+  width: 400rpx;
+  height: 86rpx;
+  margin: 200rpx auto;
+  position: relative;
+  z-index: 10;
+}
+.loading_content .logo{
+  width: 466rpx;
+  height: 192rpx;
+  background: none;
+  margin: 180rpx auto 0;
+}
+.loading_content .loading{
+  width: 100%;
+  height: 100%;
+  background: none;
+}
+.loading_content .progress_bar{
+  width: 370rpx;
+  height: 14rpx;
+  position: absolute;
+  bottom: 12rpx;
+  left: 15rpx;
+  overflow: hidden; 
+}
+.progress_bar .progress1{
+  background: none;
+  width: 5rpx;
+  height: 14rpx;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.progress_bar .progress2{
+  float: left;
+  width: auto;
+  overflow: hidden; 
+  height: 14rpx;
+  margin-left: 2rpx;
+}
+.progress_bar .progress2 image{
+  background: none;
+  width: 10rpx;
+}
+.progress_bar .progress3{
+  float: left;
+  background: none;
+  width: 2rpx;
+  display: block;
+  height: 14rpx;
+}
 
 
 
-.right_content{
+.activity_content{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2; 
+}
+
+.start_animation{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 10;
+}
+.start_animation .animation_img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.start_animation .active{
+  opacity: 1;
+}
+
+
+.weave{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.weave_show{
+  z-index: 99;
+}
+.weave .bg1,
+.weave .bg3,
+.weave .bg2{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.weave .bg2{
+  animation: bg2animation 2s linear infinite alternate;
+}
+.damage{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 150rpx;
+}
+.damage .jian{
+  width: 32rpx;
+  height: 54rpx;
+  position: absolute;
+  top: 20rpx;
+  left: 36rpx;
+}
+.damage_content{
+  width: 444rpx;
+  height: 46rpx;
+  box-sizing: border-box;
+  border: 4rpx solid #FFF;
+  border-radius: 8rpx;
+  position: absolute;
+  top: 28rpx;
+  left: 92rpx;
+}
+.damage_content .damage_num{
+  position: absolute;
+  top: 6rpx;
+  left: 8rpx;
+  width: 420rpx;
+  height: 26rpx;
+  overflow: hidden;
+}
+.damage_content .damage_num .damage_num_bg{
+  width: 0%;
+  height: 26rpx;
+  background: #FFF;
+}
+.damage .regulation{
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  top: 30rpx;
+  left: 556rpx;
+}
+.damage .reset{
+  width: 110rpx;
+  height: 56rpx;
   position: absolute;
   top: 24rpx;
-  right: 22rpx;
-  z-index: 10;
+  right: 24rpx;
 }
-.right_content .draw{
-  width: 112rpx;
-  height: 28rpx;
-  background: none;
+.damage .damage_text{
   position: absolute;
-  top: 0;
-  right: 0;
-}
-.right_content .number{
-  min-width: 112rpx; 
-  text-align: center; 
-  margin: 36rpx 0 84rpx;
-  font-size: 94rpx;
-  color: #FFF;
-  line-height: 1em;
-}
-.right_content .share{
-  width: 144rpx;
-  height: 56rpx;
-  background: none;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-}
-.right_content .share_btn{
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 144rpx;
-  height: 56rpx;
-  opacity: 0;
-}
-
-.activity1{
-  width: 750rpx;
-  height: 137rpx;
-  margin-top: -115rpx; 
-  position: relative;
-  z-index: 10;
-  background: none;
-}
-.activity2{
-  width: 750rpx;
-  height: 92rpx;
-  line-height: 62rpx;
-  background: #21140f;
-  overflow: hidden;
-  position: relative;
-  color: #AE9988;
+  top: 96rpx;
+  left: 0;
+  width: 85%;
   font-size: 24rpx;
+  height: 1em;
+  line-height: 1em;
   text-align: center;
+  color: #FFF;
 }
-.activity2 text{
-  display: block;
-  width: 330rpx;
-  height: 40rpx;
-  line-height: 40rpx;
-  font-size: 22rpx;
-  color: #79635a;
-  border-radius: 40rpx;
-  border: 2rpx solid #79635a;
-  margin: 7rpx auto;
+.damage .reset_text{
+  position: absolute;
+  top: 96rpx;
+  right: 24rpx;
+  width: 110rpx;
+  font-size: 24rpx;
+  height: 1em;
+  line-height: 1em;
   text-align: center;
+  color: #FFF;
 }
-.activity2 .contact{
+.weave .btns{
   position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  top: 0;
+  bottom: 0;
   left: 0;
-}
-.activity3{
-  height: 574rpx;
-  width: 100%;
-}
-
-
-.activity4{
-  width: 750rpx;
-  height: 85rpx;
-  background: #21140f;
-  overflow: hidden;
-  position: relative;
-}
-.activity4 text{
-  display: block;
-  width: 235rpx;
-  height: 40rpx;
-  line-height: 40rpx;
-  font-size: 22rpx;
-  color: #79635a;
-  border-radius: 40rpx;
-  border: 2rpx solid #79635a;
-  margin: 18rpx auto 0;
-  text-align: center;
-}
-.activity4 .contact{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  top: 0;
-  left: 0;
-}
-.activity5{
-  width: 750rpx;
-  height: 160rpx;
-}
-.activity6{
-  width: 750rpx;
-  height: 1016rpx;
-  position: relative;
-}
-.activity6 image{
-  width: 100%;
-  height: 100%;
-}
-.activity6 .user{
-  position: absolute;
-  width: 250rpx;
-  height: 250rpx;
-  top: 0;
-  left: 0;
-  opacity: 0;
-}
-.activity6 .navigateTo_user2{
-  left: 250rpx;
-}
-.activity6 .navigateTo_user3{
-  left: 500rpx;
-}
-.activity6 .navigateTo_user4{
-  left: 0;
-  top: 250rpx;
-}
-.activity6 .navigateTo_user5{
-  top: 250rpx;
-  left: 250rpx;
-}
-.activity6 .navigateTo_user6{
-  top: 250rpx;
-  left: 500rpx;
-}
-.activity6 .navigateTo_user7{
-  top: 500rpx;
-  left: 0;
-}
-.activity6 .navigateTo_user8{
-  top: 500rpx;
-  left: 250rpx;
-}
-.activity6 .navigateTo_user9{
-  top: 500rpx;
-  left: 500rpx;
-}
-.activity6 .navigateTo_user10{
-  top: 750rpx;
-  left: 0;
-}
-.activity6 .navigateTo_user11{
-  top: 750rpx;
-  left: 250rpx;
-}
-.activity6 .navigateTo_user12{
-  top: 750rpx;
-  left: 500rpx;
-}
-.activity7{
-  width: 750rpx;
-  height: 983rpx;
-}
-
-
-.supernatant_image{
-  position: fixed;
-  width: 24rpx;
-  padding: 17rpx 30rpx 17rpx 10rpx;
-  height: 54rpx;
-  right: -20rpx;
-  top: 860rpx;
-  z-index: 1001;
-  background: #584239;
-  border-radius: 8rpx;
-  animation: supernatant 600ms ease-out infinite alternate; 
-  
-}
-@keyframes supernatant{
-  from {
-    right: -20rpx;
-  }
-  to {
-    right: -25rpx;
-  }
-}
-
-.share_img{
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.toast{
-  position: fixed;
-  z-index: 3000;
+  z-index: 10;
   width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.5);
-  top: 0;
+  height: 94rpx;
+  box-sizing: border-box;
+  padding: 0 0 44rpx 36rpx;
+}
+.btns .btn_item{
+  position: absolute;
+  bottom: 44rpx;
+  left: 36rpx;
+  height: 54rpx;
+}
+.btns .battlefield{
+  width: 252rpx;
+}
+.btns .winelist{
+  width: 226rpx;
+  left: 288rpx;
+}
+.btns .share{
+  width: 218rpx;
+  left: 514rpx;
+}
+.btns button{
+  opacity: 0;
+}
+.weave .blow{
+  position: absolute;
+  bottom: 316rpx;
+  width: 606rpx;
+  height: 216rpx;
+  left: 72rpx;
+  right: 72rpx;
+}
+.blow image{
+  width: 216rpx;
+  height: 216rpx;
+  position: absolute;
+  bottom: 0;
+}
+.blow .blow_fist{
   left: 0;
 }
-.toast_content{
-  width: 576rpx;
-  height: 320rpx;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-}
-.toast_content .toast_img{
-  width: 576rpx;
-  height: 320rpx;
-  background: none;
-}
-.toast_content .close_toast{
-  position: absolute;
-  width: 290rpx;
-  height: 100rpx;
-  bottom: 0;
-  left: 0;
-}
-.toast_content .navigate_user{
-  position: absolute;
-  width: 290rpx;
-  height: 100rpx;
-  bottom: 0;
+.blow .blow_foot{
   right: 0;
 }
+.weave .blow_animation{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.6);
+}
+.blow_animation image{
+  width: 660rpx;
+  height: 516rpx;
+  margin: 40% auto 0;
+}
+.blow_animation view{
+  margin: 60rpx auto;
+  color: #FFF;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+
+.weave image{
+  background: none;
+}
+.weave .dialog{
+  color: #FFF;
+  font-size: 28rpx;
+}
+.weave .dialog9,
+.weave .dialog1{
+  position: absolute;
+  bottom: 104rpx;
+  left: 60rpx;
+  width: 628rpx;
+  height: 294rpx;
+}
+.dialog_text{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.dialog_text .subtitle{
+  padding: 54rpx 50rpx 30rpx 50rpx;
+  line-height: 1.4em;
+}
+.dialog_text .select_item{
+  width: 90%;
+  padding-left: 50rpx;
+  line-height: 38rpx;
+  height: 38rpx;
+  padding-bottom: 26rpx;
+}
+.dialog_text .select_item image{
+  width: 40rpx;
+  height: 38rpx;
+  display: inline-block;
+  float: left;
+}
+.dialog_text .select_item view{
+  line-height: 38rpx;
+  display: inline-block;
+  float: left;
+  margin-left: 30rpx;
+}
+.dialog_text .desc{
+  position: absolute;
+  bottom: 30rpx;
+  font-size: 24rpx;
+  font-weight: 200;
+  left: 50rpx;
+}
+.weave .dialog7,
+.weave .dialog8,
+.weave .dialog2{
+  position: absolute;
+  top: 468rpx;
+  left: 60rpx;
+  width: 628rpx;
+  height: 356rpx;
+}
+.dialog7 .dialog_text .subtitle,
+.dialog8 .dialog_text .subtitle,
+.dialog2 .dialog_text .subtitle{
+  padding: 56rpx 50rpx 40rpx;
+}
+.dialog7 .dialog_text .select_item,
+.dialog8 .dialog_text .select_item,
+.dialog2 .dialog_text .select_item{
+  padding-bottom: 60rpx;
+}
+.weave .dialog3{
+  position: absolute;
+  top: 410rpx;
+  left: 60rpx;
+  width: 628rpx;
+  height: 402rpx;
+}
+.dialog3 .dialog_text .subtitle{
+  padding: 72rpx 50rpx 40rpx;
+}
+.dialog3 .dialog_text .select_item{
+  padding-bottom: 54rpx;
+}
+.dialog3 .share{
+  position: absolute;
+  top: 0;
+  width: 90%;
+  height: 50rpx;
+  top: 180rpx;
+  left: 50rpx;
+  opacity: 0;
+}
+.weave .dialog5,
+.weave .dialog4{
+  position: absolute;
+  top: 468rpx;
+  left: 60rpx;
+  width: 628rpx;
+  height: 274rpx;
+}
+.dialog4 .dialog_text .subtitle{
+  padding: 96rpx 50rpx;
+}
+.dialog5 .dialog_text .subtitle{
+  padding: 0 50rpx;
+  line-height: 274rpx;
+}
+.dialog7 .ambulance{
+  position: absolute;
+  width: 466rpx;
+  height: 238rpx;
+  background: none;
+  top: -258rpx;
+  left: 81rpx;
+}
+.dialog7 .paddy_wagon{
+  position: absolute;
+  width: 502rpx;
+  height: 164rpx;
+  background: none;
+  bottom: -212rpx;
+  left: 63rpx;
+}
+.dialog9 .dialog_text .subtitle{
+  padding: 54rpx 0 32rpx 50rpx;
+}
+.dialog9 .dialog_text .select_item{
+  padding-bottom: 26rpx;
+}
+
+
+
+.weave .dialog6,
+.reset_dialog{
+  position: absolute;
+  top: 468rpx;
+  left: 60rpx;
+  width: 628rpx;
+  height: 356rpx;
+}
+.dialog6 .dialog_text .subtitle,
+.reset_dialog .dialog_text .subtitle{
+  padding: 70rpx 50rpx 48rpx;
+}
+.dialog6 .dialog_text .select_item,
+.reset_dialog .dialog_text .select_item{
+  padding-bottom: 60rpx;
+}
+
+.winelist_list,
+.user_battlefield{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.6);
+}
+.winelist_list .winelist_content,
+.user_battlefield .battlefield_content{
+  width: 688rpx;
+  height: 1076rpx;
+  background: #FFF;
+  margin: 20rpx 31rpx;
+}
+
+
+@keyframes bg2animation{
+  0%{
+    opacity: 1;
+  }
+
+  30%{
+    opacity: 1;
+  }
+  35%{
+    opacity: 0;
+  }
+  40%{
+    opacity: 1;
+  }
+  70%{
+    opacity: 1;
+  }
+  75%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+
 

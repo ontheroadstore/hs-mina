@@ -1,5 +1,5 @@
 <view class='main'>
-  <image class='status_image' src='/images/paySuccess.png'></image>
+  <image class='status_image' src='http://img8.ontheroadstore.com/upload/180612/bb684939cc6bd8d652ea2571d86b0c4e.png'></image>
   <view class='pay_status'>支付完成</view>
   <view class='pay_text'>支付成功，不相信你可以再购买一次</view>
   <view class='btns'>
