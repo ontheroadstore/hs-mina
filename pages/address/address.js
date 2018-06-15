@@ -19,8 +19,6 @@ Page({
     // options type参数 0：通过我的地址进入  1：确认订单页进入
     // 0情况下正常操作
     // 1情况在 设置默认后,微信添加地址(设为默认地址) 返回--确认订单页
-    options.orderType = 0
-    options.type = 0
     this.setData({
       orderType: options.orderType,
       addressType: options.type,
