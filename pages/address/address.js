@@ -12,19 +12,16 @@ Page({
   data: {
     isIphoneX: app.globalData.isIphoneX,    // 是否IphoneX
     addressItems: [],                       // 地址列表
-    addressType: 0,                         // 0：通过我的地址进入  1：确认订单页进入
+    addressType: 0,                         // 0：通过我的地址进入  1：确认订单页进入 2：活动页进入
     orderType: 0                            // 订单类型传入什么在返回什么(确认订单页)
   },
   onLoad: function (options) {
     // options type参数 0：通过我的地址进入  1：确认订单页进入
     // 0情况下正常操作
     // 1情况在 设置默认后,微信添加地址(设为默认地址) 返回--确认订单页
-    options.orderType = 0
-    options.type = 0
     this.setData({
       orderType: options.orderType,
-      addressType: options.type,
-      // addressItems: address.data
+      addressType: options.type
     })
     wx.setNavigationBarTitle({
       title: '收货地址'
@@ -59,12 +56,19 @@ Page({
   },
   // 设置默认地址
   setDefault: function (e) {
+    console.log(e)
     const id = e.target.dataset.id
-    // addressType=1 设置成功后返回
+    // addressType=1 设置成功后返回订单页
     if (this.data.addressType == 1) {
       const orderType = this.data.orderType
       wx.navigateTo({
-        url: '/pages/createOrder/createOrder?type=' + orderType,
+        url: '/pages/createOrder/createOrder?type=' + orderType
+      })
+    }
+    // addressType=2 设置成功后返回活动页
+    if (this.data.addressType == 2) {
+      wx.navigateTo({
+        url: '/pages/activity/activity'
       })
     }
     req(app.globalData.bastUrl, 'appv2/updateaddress', {
@@ -107,11 +111,17 @@ Page({
                 }
                 that.getAddr()
               })
-              // addressType=1 设置成功后返回
+              // addressType=1 设置成功后返回订单页
               if (that.data.addressType == 1) {
                 const orderType = that.data.orderType
                 wx.navigateTo({
-                  url: '/pages/createOrder/createOrder?type=' + orderType,
+                  url: '/pages/createOrder/createOrder?type=' + orderType
+                })
+              }
+              // addressType=2 设置成功后返回活动页
+              if (that.data.addressType == 2) {
+                wx.navigateTo({
+                  url: '/pages/activity/activity'
                 })
               }
             }

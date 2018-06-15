@@ -1,66 +1,64 @@
-// pages/activityShare/activityShare.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-  
+    blowStatus: false,                // 打击按钮
+    sceneStatus: false,               // 切换打击
+    damageNum: 10,                    // 朋友打击伤害
+    dialogGifStatus: false,           // 打击动画
+    dialogStatus: false               // 提示窗
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
   
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady: function () {
   
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow: function () {
   
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
   onShareAppMessage: function () {
   
-  }
+  },
+  // 我也要玩
+  ending: function () {
+    wx.redirectTo({
+      url: '/pages/activity/activity',
+    })
+  },
+  // 打击动画
+  blow: function () {
+    const that = this
+    this.setData({
+      dialogGifStatus: true,
+      blowStatus: false
+    })
+    setTimeout(function () {
+      that.setData({
+        dialogGifStatus: false,
+        dialogStatus: true
+      })
+    }, 2000)
+  },
+  // 切换场景
+  tabScene: function () {
+    this.setData({
+      blowStatus: true,
+      sceneStatus: true
+    })
+  },
+  // 活动规则
+  activityInfo: function (e) {
+    const status = e.target.dataset.status
+    if (status == 0) {
+      this.setData({
+        activityInfoStatus: false
+      })
+    } else {
+      this.setData({
+        activityInfoStatus: true
+      })
+    }
+  },
+  catchtouchmove: function () {
+    // console.log(1)
+  },
 })

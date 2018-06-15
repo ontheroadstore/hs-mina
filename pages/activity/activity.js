@@ -286,24 +286,33 @@ Page({
     dialogActive: 0,                          // 当前显示弹窗
     blowNum: 0,                               // 打击次数
     damageNum: 0,                             // 伤害总数
+    dialogText5: { title: '腿软了！赶紧叫人吧！'},
+    dialogText6: { title: '确认还要打？再打容易出事', subhead1: '打打打打打', subhead2: '不打了挑瓶酒' },
     battlefieldStatus: false,                 // 我的战报显示
+    battlefieldReportStatus: false,           // 战报图片
+    canvasData: null,                         // 生成战报的信息
+    activityInfoStatus: false,                // 活动规则
     winelistStatus: false,                    // 酒单显示
     resetDialogStatus: true,                  // 重置提示窗
+    goodsActive: 0,                           // 选中的酒单
+    orderDialogStatus: false,                 // 订单提示窗
+    goodList: null,                           // 商品列表
+    activeGood: null,                         // 选中的商品
     isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
-  onReady: function () {
+  onLoad: function () {
     this.setData({
       dialogNum: 1,
       dialogActive: 1
     })
     // 微信直接加载图片不能超150 大概 显示后在进行添加 且不能直接加载 startAnimation: images
-    for (var i = 0; i < 263; i++) {
-      var mmm = this.data.startAnimation
-      mmm.push(images[i])
-      this.setData({
-        startAnimation: mmm
-      })
-    }
+    // for (var i = 0; i < 263; i++) {
+    //   var mmm = this.data.startAnimation
+    //   mmm.push(images[i])
+    //   this.setData({
+    //     startAnimation: mmm
+    //   })
+    // }
     const that = this
     var onReady = this.onReady
     wx.getUserInfo({
@@ -347,39 +356,49 @@ Page({
   // 拳打脚踢
   blow: function (e) {
     const blowType = e.target.dataset.type
+    const that = this
     // 接口获取文字图片信息 blowType 打击类型 
 
 
     // 打击失败
-    const that = this
-    this.setData({
-      blowStatus: false,
-      dialogNum: 5,
-      dialogActive: 5,
-      damageNum: 10
-    })
-    setTimeout(function() {
-      that.setData({
-        blowStatus: false,
-        dialogNum: 5,
-        dialogActive: 5,
-        damageNum: 10
-      })
-    },2000)
-    return false
+    // this.setData({
+    //   blowStatus: false,
+    //   dialogNum: 5,
+    //   dialogActive: 5
+    // })
+    // setTimeout(function() {
+    //   that.setData({
+    //     blowStatus: true,
+    //     dialogNum: 0,
+    //     dialogActive: 0
+    //   })
+    // },2000)
+    // return false
+    // 超过5次后 
+    // if (that.data.blowNum > 5 && that.data.procedureState == 'fight') {
+    //   that.setData({
+    //     dialogNum: 6,
+    //     dialogActive: 6
+    //   })
+    // } else if (that.data.blowNum > 5 && that.data.procedureState != 'fight') {
+    //   that.setData({
+    //     dialogNum: 5,
+    //     dialogActive: 5
+    //   })
+    // }
     this.setData({
       blowNum: this.data.blowNum + 1,
       dialogGifStatus: true,
       blowStatus: false,
       damageNum: 10
     })
-    const that = this
+    // 设置文案
+    this.setDialogText5()
     setTimeout(function() {
       that.setData({
         dialogGifStatus: false
       })
-      console.log(that.data.blowNum)
-      if (that.data.blowNum == 1){
+      if (that.data.blowNum == 1 || that.data.blowNum == 4 || that.data.blowNum == 5){
         that.setData({
           blowStatus: true
         })
@@ -393,14 +412,76 @@ Page({
           dialogNum: 3,
           dialogActive: 3
         })
-      } else if (that.data.blowNum == 4) {
-
-      } else if (that.data.blowNum == 5) {
-
-      } else if (that.data.blowNum > 5) {
-
       }
     },2000)
+  },
+  // 结局
+  ending: function (e) {
+    const ending = e.target.dataset.ending
+    if (ending == 1){
+      this.setData({
+        procedureState: 'gameOver',
+        dialogNum: 0,
+        dialogActive: 0,
+        blowStatus: true,
+        winelistStatus: true
+      })
+    } else if (ending == 2) {
+      this.setData({
+        procedureState: 'die',
+        dialogNum: 8,
+        dialogActive: 8,
+      })
+      // 游戏结束，领取优惠卷
+
+    } else if (ending == 3){
+      this.setData({
+        dialogNum: 10,
+        dialogActive: 10
+      })
+    } else if (ending == 4) {
+      this.setData({
+        dialogNum: 0,
+        dialogActive: 0,
+        blowStatus: true
+      })
+    } else if (ending == 5) {
+      // 重置游戏
+      this.resetGame()
+    }
+    this.procedure()
+  },
+  // dialog3 文案切换
+  setDialogText5: function () {
+    var text = this.data.dialogText5
+    if (this.data.a > 5 && that.data.procedureState == 'die') {
+      text = { title: '都TM打死了你还鞭尸' }
+    } else {
+      text = { title: '腿软了！赶紧叫人吧！' }
+    }
+    this.setData({
+      dialogText5: text
+    })
+  },
+  // dialog6 文案切换
+  setDialogText6: function () {
+    var text = this.data.dialogText6
+    if (text.title == '确认还要打？再打容易出事'){
+      text = { title: '善意提醒，再打出现损失后果自负', subhead1: '我知道了别烦', subhead2: '算你厉害不打了' }
+    } else if (text.title == '善意提醒，再打出现损失后果自负'){
+      text = { title: '酒保瘫倒在地上，再打就出人命了！', subhead1: '偏不！我TM就要搞死你丫的', subhead2: '见好就收，拿奖金买酒' }
+    } else if (text.title == '酒保瘫倒在地上，再打就出人命了！'){
+      text = { title: '确认还要打？再打容易出事', subhead1: '打打打打打', subhead2: '不打了挑瓶酒' }
+      this.setData({
+        dialogNum: 7,
+        dialogActive: 7,
+        procedureState: 'dieChooice'
+      })
+      this.procedure()
+    }
+    this.setData({
+      dialogText6: text
+    })
   },
   // 选择见义勇为
   samaritan: function () {
@@ -413,6 +494,26 @@ Page({
     })
     this.procedure()
   },
+  // 选择默不作声
+  slienceChooice: function () {
+    this.setData({
+      procedureState: 'slienceChooice',
+      dialogNum: 9,
+      dialogActive: 9
+    })
+    this.procedure()
+  },
+  // 接受贿赂 购买
+  slience: function () {
+    this.setData({
+      procedureState: 'slience',
+      dialogNum: 0,
+      strikeStatus: true,
+      winelistStatus: true,
+      dialogActive: 0
+    })
+    this.procedure()
+  },
   // 存档
   procedure: function () {
     console.log(this.data.procedureState)
@@ -420,8 +521,8 @@ Page({
   // 打开酒单
   openWinelist: function () {
     this.setData({
+      battlefieldStatus: false,
       winelistStatus: true,
-      blowStatus: true,
       dialogNum: 0,
       dialogActive: 0
     })
@@ -430,16 +531,354 @@ Page({
   openBattlefield: function () {
     this.setData({
       battlefieldStatus: true,
-      blowStatus: true,
+      winelistStatus: false,
       dialogNum: 0,
       dialogActive: 0
     })
   },
-  closeWinelistBattlefield: function() {
+  closeWinelistBattlefield: function () {
     this.setData({
       winelistStatus: false,
       battlefieldStatus: false
     })
+  },
+  // 打开战报生成页
+  openBattlefieldReport: function (e) {
+    const status = e.target.dataset.status
+    if (status == 0){
+      this.setData({
+        battlefieldReportStatus: false
+      })
+    } else {
+      this.setData({
+        battlefieldReportStatus: true
+      })
+      // 请求数据
+      const data = {
+        imgUrl1: '/images/canvasBg.png',
+        imgUrl2: '/images/help.png',
+        imgUrl3: '/images/defraud.png',
+        userImgUrl1: 'https://thirdwx.qlogo.cn/mmopen/Hy1aD7zVQ9beaiaCRbbt4aJKc1ia5BialyDL3bMNmeh3ic4hAeaaz8sahUqe62aSgCQcFHu6Nu3nUVaTbshqOEMhX9cNzBDqYCQia/132',
+        userImgUrl2: 'https://thirdwx.qlogo.cn/mmopen/Jr43aXouWDh4FLYc1pUCrV5Puiaro3uf4QdKddWgibe2l0ZsYDIYNxDZP8MozM3vZsnDibEK7HvRZgeDXIn90YxfCCOkrgIQn2y/132',
+        userImgUrl3: 'https://thirdwx.qlogo.cn/mmopen/vi_32/l0rh6aAjq1RYv5aS9wLtVVJpAkIuuR0NYFPBMAWibSLaeWmcfCKibNFKpoibblJU3ZSyz1wlvDibWFC42wAvMl59VQ/132',
+        userImgUrl4: '/images/default_img.png',
+        codeImgUrl: 'https://img8.ontheroadstore.com/upload/180613/417e180140744f8f2afcf4fb7e9ce27b.png',
+        text1: '“猫奶奶家的奶酪”一怒之下蹦起来打在酒保膝盖上，酒保受到惊吓，造成1点伤害。',
+        text2: '“猫奶奶家的奶酪”一怒之下蹦上，酒保受到惊吓，造成1点伤害。',
+        spotArr: [50, 50, 50, 50, 50, 50]
+      }
+      this.creatCanvas(data)
+    }
+  },
+  // 加载战报信息
+  creatCanvas: function (data) {
+    wx.showLoading({
+      title: '生成中',
+      mask: true
+    })
+    var that = this
+    var num = 0
+    this.setData({
+      canvasData: data
+    })
+    wx.getImageInfo({
+      src: data.imgUrl1,
+      success: function (res) {
+        getImageInfoSuccess(data.imgUrl1, 'imgUrl1')
+      }
+    })
+    wx.getImageInfo({
+      src: data.imgUrl2,
+      success: function (res) {
+        getImageInfoSuccess(data.imgUrl2, 'imgUrl2')
+      }
+    })
+    wx.getImageInfo({
+      src: data.imgUrl3,
+      success: function (res) {
+        getImageInfoSuccess(data.imgUrl3, 'imgUrl3')
+      }
+    })
+    wx.getImageInfo({
+      src: data.userImgUrl1,
+      complete: function (res) {
+        getImageInfoSuccess(res.path, 'userImgUrl1')
+      }
+    })
+    wx.getImageInfo({
+      src: data.userImgUrl2,
+      complete: function (res) {
+        getImageInfoSuccess(res.path, 'userImgUrl2')
+      }
+    })
+    wx.getImageInfo({
+      src: data.userImgUrl3,
+      complete: function (res) {
+        getImageInfoSuccess(res.path, 'userImgUrl3')
+      }
+    })
+    // 默认用户头像 在获取用户头像失败时使用
+    wx.getImageInfo({
+      src: data.userImgUrl4,
+      success: function (res) {
+        getImageInfoSuccess(data.userImgUrl4, 'userImgUrl4')
+      }
+    })
+    wx.getImageInfo({
+      src: data.codeImgUrl,
+      complete: function (res) {
+        getImageInfoSuccess(res.path, 'codeImgUrl')
+      }
+    })
+
+    function getImageInfoSuccess(path, propertyName) {
+      var canvasData = that.data.canvasData
+      canvasData[propertyName] = path
+      that.setData({
+        canvasData: canvasData
+      })
+      num = num + 1
+      that.drawImage(num)
+    }
+  },
+  // 绘制战报
+  drawImage: function (num) {
+    if(num == 8){
+      const systemInfo = wx.getSystemInfoSync()
+      const ratio = systemInfo.windowWidth / 375
+      wx.hideLoading()
+      const canvasData = this.data.canvasData
+      // 五角点位置
+      var spotArr = canvasData.spotArr
+      
+      if (!canvasData.userImgUrl1){
+        canvasData.userImgUrl1 = canvasData.userImgUrl4
+      }
+      if (!canvasData.userImgUrl2) {
+        canvasData.userImgUrl2 = canvasData.userImgUrl4
+      }
+      if (!canvasData.userImgUrl3) {
+        canvasData.userImgUrl3 = canvasData.userImgUrl4
+      }
+      var showCanvas = wx.createCanvasContext('showCanvas')
+      showCanvas.clearRect(0, 0, 375, 603)
+      showCanvas.scale(0.81 * ratio, 0.81 * ratio)
+      showCanvas.drawImage(canvasData.imgUrl1, 0, 0, 375, 603)
+
+      var lineToArr1 = [{
+          left: 188,
+          top: 268
+        }, {
+          left: 188,
+          top: 268
+        }, {
+          left: 188,
+          top: 268
+        }, {
+          left: 188,
+          top: 268
+        }, {
+          left: 188,
+          top: 268
+        }, {
+          left: 188,
+          top: 268
+      }]
+      lineToArr1[0].top = parseInt(268 - 122 / 50 * spotArr[0])
+      lineToArr1[1].top = parseInt(268 - 59 / 50 * spotArr[1])
+      lineToArr1[1].left = parseInt(188 + 104 / 50 * spotArr[1])
+      lineToArr1[2].top = parseInt(268 + 62 / 50 * spotArr[2])
+      lineToArr1[2].left = parseInt(188 + 104 / 50 * spotArr[2])
+      lineToArr1[3].top = parseInt(268 + 122 / 50 * spotArr[3])
+      lineToArr1[4].top = parseInt(268 + 62 / 50 * spotArr[4])
+      lineToArr1[4].left = parseInt(188 - 106 / 50 * spotArr[4])
+      lineToArr1[5].top = parseInt(268 - 59 / 50 * spotArr[5])
+      lineToArr1[5].left = parseInt(188 - 106 / 50 * spotArr[5])
+
+      showCanvas.beginPath()
+      showCanvas.setStrokeStyle('#DF3C5E')
+      showCanvas.setFillStyle('rgba(185,51,83,0.51)')
+      showCanvas.setLineJoin('round')
+      showCanvas.setLineWidth(2)
+      // 默认点showCanvas.moveTo(188, 268)
+      // showCanvas.moveTo(188, 144)
+      // showCanvas.lineTo(292, 209)
+      // showCanvas.lineTo(292, 330)
+      // showCanvas.lineTo(188, 390)
+      // showCanvas.lineTo(82, 330)
+      // showCanvas.lineTo(82, 209)
+      showCanvas.moveTo(lineToArr1[0].left, lineToArr1[0].top)
+      showCanvas.lineTo(lineToArr1[1].left, lineToArr1[1].top)
+      showCanvas.lineTo(lineToArr1[2].left, lineToArr1[2].top)
+      showCanvas.lineTo(lineToArr1[3].left, lineToArr1[3].top)
+      showCanvas.lineTo(lineToArr1[4].left, lineToArr1[4].top)
+      showCanvas.lineTo(lineToArr1[5].left, lineToArr1[5].top)
+      showCanvas.closePath()
+      showCanvas.fill()
+      showCanvas.stroke()
+      showCanvas.beginPath()
+      showCanvas.stroke()
+      showCanvas.draw(true)
+      showCanvas.save()
+      // 用户头像
+      showCanvas.beginPath()
+      showCanvas.arc(188, 269, 31, 0, 2 * Math.PI)
+      showCanvas.closePath()
+      showCanvas.arc(36, 483, 24, 0, 2 * Math.PI)
+      showCanvas.closePath()
+      showCanvas.arc(337, 551, 24, 0, 2 * Math.PI)
+      showCanvas.clip()
+      showCanvas.drawImage(canvasData.userImgUrl1, 157, 238, 62, 62)
+      showCanvas.drawImage(canvasData.userImgUrl2, 12, 459, 48, 48)
+      showCanvas.drawImage(canvasData.userImgUrl3, 313, 527, 48, 48)
+      showCanvas.draw(true)
+      showCanvas.restore()
+      showCanvas.drawImage(canvasData.imgUrl2, 10, 497, 53, 20)
+      showCanvas.drawImage(canvasData.imgUrl3, 311, 565, 53, 20)
+      showCanvas.drawImage(canvasData.codeImgUrl, 316, 18, 49, 49)
+      showCanvas.setFontSize(12)
+      showCanvas.setFillStyle("#FFF")
+      showCanvas.setTextAlign('left')
+      const showCanvastextArr1 = textArr(showCanvas, canvasData.text1)
+      const showCanvastextArr2 = textArr(showCanvas, canvasData.text2)
+      showCanvas.fillText(showCanvastextArr1[0], 85, 484, 231)
+      showCanvas.fillText(showCanvastextArr1[1], 92, 504, 231)
+      showCanvas.fillText(showCanvastextArr2[0], 52, 552, 231)
+      showCanvas.fillText(showCanvastextArr2[1], 60, 572, 231)
+      showCanvas.draw(true)
+
+
+
+
+      var hiddenCanvas = wx.createCanvasContext('hiddenCanvas')
+      hiddenCanvas.clearRect(0, 0, 375 * 2, 603 * 2)
+      hiddenCanvas.drawImage(canvasData.imgUrl1, 0, 0, 375 * 2, 603 * 2)
+      var lineToArr2 = [{
+          left: 188 * 2,
+          top: 268 * 2
+        }, {
+            left: 188 * 2,
+            top: 268 * 2
+        }, {
+            left: 188 * 2,
+            top: 268 * 2
+        }, {
+            left: 188 * 2,
+            top: 268 * 2
+        }, {
+            left: 188 * 2,
+            top: 268 * 2
+        }, {
+          left: 188 * 2,
+          top: 268 * 2
+      }]
+      lineToArr2[0].top = parseInt(268 - 122 / 50 * spotArr[0]) * 2
+      lineToArr2[1].top = parseInt(268 - 59 / 50 * spotArr[1]) * 2
+      lineToArr2[1].left = parseInt(188 + 104 / 50 * spotArr[1]) * 2
+      lineToArr2[2].top = parseInt(268 + 62 / 50 * spotArr[2]) * 2
+      lineToArr2[2].left = parseInt(188 + 104 / 50 * spotArr[2]) * 2
+      lineToArr2[3].top = parseInt(268 + 122 / 50 * spotArr[3]) * 2
+      lineToArr2[4].top = parseInt(268 + 62 / 50 * spotArr[4]) * 2
+      lineToArr2[4].left = parseInt(188 - 106 / 50 * spotArr[4]) * 2
+      lineToArr2[5].top = parseInt(268 - 59 / 50 * spotArr[5]) * 2
+      lineToArr2[5].left = parseInt(188 - 106 / 50 * spotArr[5]) * 2
+      hiddenCanvas.beginPath()
+      hiddenCanvas.setStrokeStyle('#DF3C5E')
+      hiddenCanvas.setFillStyle('rgba(185,51,83,0.51)')
+      hiddenCanvas.setLineJoin('round')
+      hiddenCanvas.setLineWidth(2)
+      hiddenCanvas.moveTo(lineToArr2[0].left, lineToArr2[0].top)
+      hiddenCanvas.lineTo(lineToArr2[1].left, lineToArr2[1].top)
+      hiddenCanvas.lineTo(lineToArr2[2].left, lineToArr2[2].top)
+      hiddenCanvas.lineTo(lineToArr2[3].left, lineToArr2[3].top)
+      hiddenCanvas.lineTo(lineToArr2[4].left, lineToArr2[4].top)
+      hiddenCanvas.lineTo(lineToArr2[5].left, lineToArr2[5].top)
+      hiddenCanvas.closePath()
+      hiddenCanvas.fill()
+      hiddenCanvas.stroke()
+      hiddenCanvas.beginPath()
+      hiddenCanvas.stroke()
+      hiddenCanvas.draw(true)
+      hiddenCanvas.save()
+      // 用户头像
+      hiddenCanvas.beginPath()
+      hiddenCanvas.arc(188 * 2, 269 * 2, 31 * 2, 0, 2 * Math.PI)
+      hiddenCanvas.closePath()
+      hiddenCanvas.arc(36 * 2, 483 * 2, 24 * 2, 0, 2 * Math.PI)
+      hiddenCanvas.closePath()
+      hiddenCanvas.arc(337 * 2, 551 * 2, 24 * 2, 0, 2 * Math.PI)
+      hiddenCanvas.clip()
+      hiddenCanvas.drawImage(canvasData.userImgUrl1, 157 * 2, 238 * 2, 62 * 2, 62 * 2)
+      hiddenCanvas.drawImage(canvasData.userImgUrl2, 12 * 2, 459 * 2, 48 * 2, 48 * 2)
+      hiddenCanvas.drawImage(canvasData.userImgUrl3, 313 * 2, 527 * 2, 48 * 2, 48 * 2)
+      hiddenCanvas.draw(true)
+      hiddenCanvas.restore()
+      hiddenCanvas.drawImage(canvasData.imgUrl2, 10 * 2, 497 * 2, 53 * 2, 20 * 2)
+      hiddenCanvas.drawImage(canvasData.imgUrl3, 311 * 2, 565 * 2, 53 * 2, 20 * 2)
+      hiddenCanvas.drawImage(canvasData.codeImgUrl, 316 * 2, 18 * 2, 49 * 2, 49 * 2)
+      hiddenCanvas.setFontSize(24)
+      hiddenCanvas.setFillStyle("#FFF")
+      hiddenCanvas.setTextAlign('left')
+      const hiddenCanvastextArr1 = textArr(showCanvas, canvasData.text1)
+      const hiddenCanvastextArr2 = textArr(showCanvas, canvasData.text2)
+      hiddenCanvas.fillText(hiddenCanvastextArr1[0], 85 * 2, 484 * 2, 231 * 2)
+      hiddenCanvas.fillText(hiddenCanvastextArr1[1], 92 * 2, 504 * 2, 231 * 2)
+      hiddenCanvas.fillText(hiddenCanvastextArr2[0], 52 * 2, 552 * 2, 231 * 2)
+      hiddenCanvas.fillText(hiddenCanvastextArr2[1], 60 * 2, 572 * 2, 231 * 2)
+      hiddenCanvas.draw(true)
+    }
+  },
+  // 保存相册
+  preserveImg: function () {
+    const that = this
+    wx.canvasToTempFilePath({
+      x: 0,
+      y: 0,
+      width: 750,
+      height: 1206,
+      destWidth: 750,
+      destHeight: 1206,
+      canvasId: 'hiddenCanvas',
+      success: function (res) {
+        wx.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success: function() {
+            that.setData({
+              battlefieldReportStatus: false
+            })
+            wx.showToast({
+              title: '保存成功',
+              icon: 'success',
+              duration: 2000
+            })
+            
+          },
+          fail: function (res){
+            wx.getSetting({
+              success: function (res) {
+                console.log(res)
+                if (!res.authSetting['scope.writePhotosAlbum']){
+                  wx.openSetting()
+                }
+              }
+            })
+          }
+        })
+      }
+    })
+  },
+  // 关闭活动规则
+  activityInfo: function (e) {
+    const status = e.target.dataset.status
+    if (status == 0){
+      this.setData({
+        activityInfoStatus: false
+      })
+    } else {
+      this.setData({
+        activityInfoStatus: true
+      })
+    }
   },
   // 重置提示窗显示
   resetGameShow: function (e) {
@@ -453,7 +892,7 @@ Page({
     } else {
       this.setData({
         resetDialogStatus: true,
-        blowStatus: true,
+        blowStatus: this.data.dialogActive == 0 ? true : false,
         dialogNum: this.data.dialogActive
       })
     }
@@ -477,11 +916,21 @@ Page({
       dialogActive: 0,
       blowNum: 0,
       damageNum: 0,
+      dialogText5: { title: '腿软了！赶紧叫人吧！' },
+      dialogText6: { title: '确认还要打？再打容易出事', subhead1: '打打打打打', subhead2: '不打了挑瓶酒' },
       battlefieldStatus: false,
+      battlefieldReportStatus: false,
+      activityInfoStatus: false,
+      canvasData: null,
       winelistStatus: false,
+      orderDialogStatus: false,
+      goodsActive: 0,
+      goodList: null,
+      activeGood: null,
       resetDialogStatus: true
     })
     this.bgLoadingProgressBar('reset')
+    // 重置接口
   },
   // 活动开始
   startActivity: function () {
@@ -497,7 +946,6 @@ Page({
         })
       }else{
         clearInterval(time)
-        // 存档1
         that.procedure()
         that.setData({
           dialogNum: 1,
@@ -619,3 +1067,28 @@ Page({
     // console.log(1)
   },
 })
+
+function textArr(context, text){
+  var text1 = text
+  var chr = text1.split("")
+  var temp = ""
+  var row = []
+  for (var a = 0; a < chr.length; a++) {
+    if (context.measureText(temp).width < 231) {
+      temp += chr[a]
+    }
+    else {
+      row.push(temp)
+      temp = ""
+    }
+  }
+  row.push(temp)
+  if (row.length == 1){
+    row.push('')
+  } else if (row.length == 3){
+    row[2] = ''
+  }
+  return row
+}
+
+

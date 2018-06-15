@@ -26,24 +26,24 @@
       <!-- 背景切换 -->
       <image class='bg1' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180608/2f6ea9815a50c6469fb7f7ecb1f03310.jpg'></image>
       <image class='bg2' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180612/f08ae5f6d9d4e266823d110b370d44b9.png'></image>
-      <image class='bg3' hidden='{{!strikeStatus}}' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180611/890f979a6b55a7f80c82d00ca4f3a8c7.gif'></image>
+      <image class='bg3' hidden="{{!blowStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180611/890f979a6b55a7f80c82d00ca4f3a8c7.gif'></image>
       <!-- 顶部信息 -->
       <view class='damage' wx:if="{{strikeStatus}}">
-        <image class='jian' src='http://img8.ontheroadstore.com/upload/180611/38425a6c6954768f52a0b576aa452c56.png'></image>
-        <view class='damage_content'>
+        <image class='jian' wx:if="{{procedureState != 'slience'}}" src='http://img8.ontheroadstore.com/upload/180611/38425a6c6954768f52a0b576aa452c56.png'></image>
+        <view class='damage_content' wx:if="{{procedureState != 'slience'}}">
           <view class='damage_num'>
             <view class='damage_num_bg' style="width: {{damageNum == 0 ? '5' : damageNum }}%;"></view>
           </view>
         </view>
-        <image class='regulation' src='http://img8.ontheroadstore.com/upload/180611/760fe00ac3b261f66627ecb0ef575136.png'></image>
+        <image class='regulation' data-status="1" catchtouchstart='activityInfo' src='http://img8.ontheroadstore.com/upload/180611/760fe00ac3b261f66627ecb0ef575136.png'></image>
         <image class='reset' catchtouchstart='resetGameShow' data-status="1" src='http://img8.ontheroadstore.com/upload/180611/2085b59674fde23e5ea7163fd9c0f19d.png'></image>
-        <view class='damage_text'>对酒保造成的伤害总数：{{damageNum}}(可优惠{{damageNum}}元)</view>
+        <view class='damage_text' wx:if="{{procedureState != 'slience'}}">对酒保造成的伤害总数：{{damageNum}}(可优惠{{damageNum}}元)</view>
         <view class='reset_text' catchtouchstart='resetGameShow' data-status="1">重玩</view>
       </view>
       <!-- 底部按钮 -->
       <view class='btns' wx:if="{{strikeStatus}}">
-        <image catchtouchstart='openBattlefield' class='btn_item battlefield' src='http://img8.ontheroadstore.com/upload/180611/d2465ba11ddd9ddf23987bae585f7e44.png'></image>
-        <image catchtouchstart='openWinelist' class='btn_item winelist' src='http://img8.ontheroadstore.com/upload/180611/b27aab2b27baac880f08e633b6f0d4a5.png'></image>
+        <image wx:if="{{procedureState != 'slience'}}" catchtouchstart='openBattlefield' class='btn_item battlefield' src='http://img8.ontheroadstore.com/upload/180611/d2465ba11ddd9ddf23987bae585f7e44.png'></image>
+        <image catchtouchstart='openWinelist' class="btn_item winelist {{procedureState == 'slience' ? 'winelist_slience' : ''}}" src='http://img8.ontheroadstore.com/upload/180611/b27aab2b27baac880f08e633b6f0d4a5.png'></image>
         <image hidden='{{!(blowNum >= 3)}}' class='btn_item share' src='http://img8.ontheroadstore.com/upload/180611/e1e83e836c444a01c886ffe4eb8a16d6.png'></image>
         <button hidden='{{!(blowNum >= 3)}}' class='share btn_item' open-type="share">分享</button>
       </view>
@@ -69,9 +69,9 @@
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>见义勇为</view>
             </view>
-            <view class='select_item' catchtouchstart='procedure'>
-              <image data-procedure="9" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
-              <view data-procedure="9">默不作声</view>
+            <view class='select_item' catchtouchstart='slienceChooice'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>默不作声</view>
             </view>
           </view>
         </view>
@@ -109,80 +109,93 @@
         </view>
         <!-- 提示窗4 邀请成功，点击我的战报可随时查看朋友 造成的伤害，你可以动手了-->
         <view class='dialog4' hidden="{{!(dialogNum == 4)}}">
-          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
           <view class='dialog_text'>
             <view class='subtitle'>邀请成功，点击我的战报可随时查看朋友造成的伤害，你可以动手了</view>
           </view>
         </view>
         <!-- 提示窗5  腿软了！赶紧叫人吧！-->
         <view class='dialog5' hidden="{{!(dialogNum == 5)}}">
-          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
           <view class='dialog_text'>
-            <view class='subtitle'>腿软了！赶紧叫人吧！</view>
+            <view class='subtitle'>{{dialogText5.title}}</view>
           </view>
         </view>
         <!-- 提示窗6  酒保瘫倒在地上，再打就出人命了！-->
         <view class='dialog6' hidden="{{!(dialogNum == 6)}}">
-          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
           <view class='dialog_text'>
-            <view class='subtitle'>酒保瘫倒在地上，再打就出人命了！</view>
-            <view class='select_item'>
+            <view class='subtitle'>{{dialogText6.title}}</view>
+            <view class='select_item' catchtouchstart='setDialogText6'>
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
-              <view>见好就收，拿奖金买酒</view>
+              <view>{{dialogText6.subhead1}}</view>
             </view>
-            <view class='select_item'>
-              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
-              <view>偏不！我TM就要搞死你丫的</view>
+            <view class='select_item' catchtouchstart='ending' data-ending="1">
+              <image data-ending="1" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view data-ending="1">{{dialogText6.subhead2}}</view>
             </view>
           </view>
         </view>
         <!-- 提示窗7  都他妈说了不能打了你还打，请选择在小黑 屋中度过余生的方式-->
         <view class='dialog7' hidden="{{!(dialogNum == 7)}}">
-          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
           <image class='ambulance' src='http://img8.ontheroadstore.com/upload/180612/025797ee639c2a38629eb0b4ae049d67.png'></image>
           <image class='paddy_wagon' src='http://img8.ontheroadstore.com/upload/180612/a61dea0eb082d1679cef9f4a698fd25c.png'></image>
           <view class='dialog_text'>
             <view class='subtitle'>都他妈说了不能打了你还打，请选择在小黑屋中度过余生的方式</view>
-            <view class='select_item'>
-              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
-              <view>拒不悔改</view>
+            <view class='select_item' catchtouchstart='ending' data-ending="2">
+              <image data-ending="2" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view data-ending="2">拒不悔改</view>
             </view>
-            <view class='select_item'>
-              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
-              <view>悔不当初</view>
+            <view class='select_item' catchtouchstart='ending' data-ending="3">
+              <image data-ending="3" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view data-ending="3">悔不当初</view>
             </view>
           </view>
         </view>
         <!-- 提示窗8  狱友对你的硬气很赞扬，给你凑了20块钱 买酒-->
         <view class='dialog8' hidden="{{!(dialogNum == 8)}}">
-          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
           <view class='dialog_text'>
             <view class='subtitle'>狱友对你的硬气很赞扬，给你凑了20块钱买酒</view>
-            <view class='select_item'>
-              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
-              <view>接受好意</view>
+            <view class='select_item' catchtouchstart='ending' data-ending="4">
+              <image data-ending="4" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view data-ending="4">接受好意</view>
             </view>
           </view>
         </view>
         <!-- 提示窗9  酒保对你臭不要脸的行为表示认同，送了 你一张20元优惠券-->
         <view class='dialog9' hidden="{{!(dialogNum == 9)}}">
-          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
           <view class='dialog_text'>
             <view class='subtitle'>酒保对你臭不要脸的行为表示认同，送了你一张20元优惠券</view>
-            <view class='select_item' catchtouchstart='openWinelist'>
+            <view class='select_item' catchtouchstart='slience'>
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>收下贿赂买瓶酒然后报警</view>
             </view>
-            <view class='select_item' catchtouchstart='procedure'>
-              <image data-procedure="2" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
-              <view data-procedure="2">不行我后悔了，老子要干他丫的</view>
+            <view class='select_item' catchtouchstart='samaritan'>
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>不行我后悔了，老子要干他丫的</view>
             </view>
           </view>
         </view>
-
+        <!-- 提示窗10  那个！这页面我没时间做，你要不重来吧-->
+        <view class='dialog10' hidden="{{!(dialogNum == 10)}}"> 
+          <image class='dialog10_bg' src='http://img8.ontheroadstore.com/upload/180613/062f383647a33c990294b20c570ef475.png'></image>
+          <view class='dialog10_content'>
+          <image src='http://img8.ontheroadstore.com/upload/180613/54adb8156707ec164d59d0fc4d4a5d03.png'></image>
+            <view class='dialog_text'>
+              <view class='subtitle'>那个！这页面我没时间做，你要不重来吧</view>
+              <view class='select_item'  catchtouchstart='ending' data-ending="5">
+                <image data-ending="5" src='http://img8.ontheroadstore.com/upload/180613/9a48b9c4a4fb9008015cf48e054eb146.png'></image>
+                <view data-ending="5">保重！兄弟</view>
+              </view>
+            </view>
+          </view>
+        </view>
         <!-- 重置窗 -->
         <view class='reset_dialog' hidden="{{resetDialogStatus}}">
-          <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/dc84190b980f6f68a1487da97307690b.png'></image>
+          <image src='http://img8.ontheroadstore.com/upload/180612/dc84190b980f6f68a1487da97307690b.png'></image>
           <view class='dialog_text'>
             <view class='subtitle'>重新开始会丢失当前所有奖励！</view>
             <view class='select_item' catchtouchstart='resetGame'>
@@ -195,24 +208,177 @@
             </view>
           </view>
         </view>
-
+        <!-- 活动介绍 -->
+        <view class='activity_info' wx:if="{{activityInfoStatus}}">
+          <view class='activity_info_bg'>
+            <image src='http://img8.ontheroadstore.com/upload/180613/df8dc7a8ba24281f95ba82292676b4d2.png'></image>
+            <view class='activity_info_text'>
+              <image catchtouchstart='activityInfo' data-status="0" class='close' src='http://img8.ontheroadstore.com/upload/180613/a3ae194cc6c5362bc72ffa7b0daae7f4.png'></image>
+              <view class='title'>活动规则</view>
+              <view class='subhead'>购买</view>
+              <view class='item'>1.点击“拳打”或“飞腿”进行攻击，对酒保造成的伤害数值等同与优惠金额。</view>
+              <view class='item'>2.可根据自己的伤害值（即优惠金额），以优惠 价格买酒，不同商品优惠力度不同。</view>
+              <view class='item'>3.当可用优惠金额高于已选商品的最大优惠值是 ，剩余的优惠金额可在下次购买使用。</view>
+              <view class='subhead'>分享</view>
+              <view class='item'>1.可通过邀请好友解锁更多攻击次数</view>
+              <view class='item'>2.邀请成功后，朋友造成的伤害计入个人总伤害 ，朋友越多优惠金额越高。</view>
+              <view class='annotation'>本活动截止至1月1日。活动最终解释权归公路商店所有</view>
+            </view>
+          </view>
+        </view>
 
 
       </view> 
       <!-- 我的战报 -->
+      <!-- <view class='user_battlefield'  wx:if="{{battlefieldStatus}}"> -->
       <view class='user_battlefield' wx:if="{{battlefieldStatus}}">
         <view class='battlefield_content'>
-          <view>我的战报</view>
-          <view catchtouchstart='closeWinelistBattlefield'>关闭</view>
+          <image src='http://img8.ontheroadstore.com/upload/180613/f1456d689c5709307e82be208495e782.png'></image>
+          <view class='battlefield_info'>
+            <image class='close' catchtouchstart='closeWinelistBattlefield' src='http://img8.ontheroadstore.com/upload/180613/a3ae194cc6c5362bc72ffa7b0daae7f4.png'></image>
+            <view class='title'>我的战报</view> 
+            <view class='user_info'>
+              <image class='cover_img' src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
+              <view class='user_name'>爱因斯坦他爹的舅舅</view>
+              <view class='user_damage'>我的伤害： 30  朋友的伤害：30</view>
+            </view>
+            <view class='total_damage'>共对酒保造成297点伤害，可优惠297元</view>
+            <view class='discounts'>已使用:XX 剩余优惠:XX</view>
+            <view class='combat_title'>战斗记录</view>
+            <view class='combats'>
+              <view class='item'>
+                <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
+                <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
+              </view>
+              <view class='item'>
+                <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
+                <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
+              </view>
+              <view class='item'>
+                <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
+                <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
+              </view>
+              <view class='item'>
+                <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
+                <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
+              </view>
+              <view class='item'>
+                <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
+                <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
+              </view>
+            </view>
+            <view class='page'>
+              <view class='up'>
+                <image src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
+                <text>上一页</text>
+              </view>
+              <view class='next'>
+                <text>下一页</text>
+                <image src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
+              </view>
+            </view>
+            <view class='operate'>
+              <view class='buy_liquor' catchtouchstart='openWinelist'>
+                <image src='http://img8.ontheroadstore.com/upload/180613/47f43d8e8ae17dee5df717a5a7a20d00.png'></image>
+                <view>打够了挑瓶</view>
+              </view>
+              <view class='create_img' catchtouchstart='openBattlefieldReport' data-status="1">
+                <image data-status="1" src='http://img8.ontheroadstore.com/upload/180613/47f43d8e8ae17dee5df717a5a7a20d00.png'></image>
+                <view data-status="1">生成战报图</view>
+              </view>
+            </view>
+          </view>
         </view>
+      </view>
+      <!-- 战报图片 -->
+      <view class='battlefield_report' wx:if="{{battlefieldReportStatus}}">
+        <canvas canvas-id="showCanvas" class='show_canvas'></canvas>
+        <canvas canvas-id="hiddenCanvas" class='hidden_canvas'></canvas>
+         <view class='close'  catchtouchstart='openBattlefieldReport' data-status="0">取消</view> 
+         <view class='preserve' catchtouchstart='preserveImg'>保存相册</view> 
       </view>
       <!-- 酒单 -->
+      <!-- <view class='winelist_list' wx:if="{{winelistStatus}}"> -->
       <view class='winelist_list' wx:if="{{winelistStatus}}">
         <view class='winelist_content'>
-          <view>酒单</view>
-          <view catchtouchstart='closeWinelistBattlefield'>关闭</view>
+          <image src='http://img8.ontheroadstore.com/upload/180613/f1456d689c5709307e82be208495e782.png'></image>
+          <view class='good_list'>
+            <image class='close' catchtouchstart='closeWinelistBattlefield' src='http://img8.ontheroadstore.com/upload/180613/a3ae194cc6c5362bc72ffa7b0daae7f4.png'></image>
+            <view class='title'>酒单</view>
+            <view class='good_title'>
+              <view class="{{goodsActive == 0 ? 'active' : ''}}">另类酒</view>
+              <view class="{{goodsActive == 1 ? 'active' : ''}}">烈酒</view>
+              <view class="{{goodsActive == 2 ? 'active' : ''}}">葡萄酒</view>
+              <view class="{{goodsActive == 3 ? 'active' : ''}}">啤酒</view>
+            </view>
+            <scroll-view class='items' scroll-y='true'>
+              <view class='item'>
+                <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
+                <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
+                <view class='discounts'>最高可减10元</view>
+                <view class='price font_din'>￥ 258</view>
+                <view class='buy_btn'>购买</view>
+              </view>
+              <view class='item'>
+                <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
+                <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
+                <view class='discounts'>最高可减10元</view>
+                <view class='price'>￥ 258</view>
+                <view class='buy_btn'>购买</view>
+              </view>
+              <view class='item'>
+                <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
+                <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
+                <view class='discounts'>最高可减10元</view>
+                <view class='price'>￥ 258</view>
+                <view class='buy_btn'>购买</view>
+              </view>
+              <view class='item'>
+                <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
+                <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
+                <view class='discounts'>最高可减10元</view>
+                <view class='price'>￥ 258</view>
+                <view class='buy_btn'>购买</view>
+              </view>
+              <view class='item'>
+                <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
+                <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
+                <view class='discounts'>最高可减10元</view>
+                <view class='price font_din'>￥ 258</view>
+                <view class='buy_btn'>购买</view>
+              </view>
+            </scroll-view>
+            <view class='discounts_num'>可用优惠： 20</view>
+          </view>
         </view>
       </view>
+      <!-- 选择地址购买 -->
+      <view class='payment' wx:if="{{orderDialogStatus}}">
+        <view class='payment_dialog'>
+          <image src='http://img8.ontheroadstore.com/upload/180615/4dc446fc68e787463f2029174b4fc3d3.png'></image>
+          <view class='payment_content'>
+            <image class='close' src='http://img8.ontheroadstore.com/upload/180613/a3ae194cc6c5362bc72ffa7b0daae7f4.png'></image>
+            <view class='title'>选择收获地址</view>
+            <view class='address'>
+              <image class='icon' src='/images/addressWhite.png'></image>
+              <view class='no_address'>选择地址</view>
+              <!-- <view class='address_info'></view> -->
+              <image class='gt' src='/images/gtWhite.png'></image>
+            </view>
+            <view class='good_info'>
+              <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
+              <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
+              <view class='price font_din'>￥ 258 <text class='font_din'>￥ 258</text></view>
+            </view>
+            <view class='desc'>优惠金额会随好友助拳实时变化，具体金额以支付时为准</view>
+            <view class='payment_btn'>
+              <image src='http://img8.ontheroadstore.com/upload/180614/b77d6fd8262e0a4ffbd0d1ef66bc4923.png'></image>
+              <view catchtouchstart='tabScene'>确认购买</view>
+            </view>
+          </view>
+        </view>
+      </view>
+
     </view>
   </view>
 </view>

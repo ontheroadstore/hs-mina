@@ -241,6 +241,9 @@
   width: 226rpx;
   left: 288rpx;
 }
+.btns .winelist_slience{
+  left: 36rpx;
+}
 .btns .share{
   width: 218rpx;
   left: 514rpx;
@@ -283,7 +286,7 @@
   margin: 40% auto 0;
 }
 .blow_animation view{
-  margin: 60rpx auto;
+  margin-top: -114rpx;
   color: #FFF;
   font-size: 28rpx;
   text-align: center;
@@ -326,12 +329,10 @@
 .dialog_text .select_item image{
   width: 40rpx;
   height: 38rpx;
-  display: inline-block;
   float: left;
 }
 .dialog_text .select_item view{
   line-height: 38rpx;
-  display: inline-block;
   float: left;
   margin-left: 30rpx;
 }
@@ -376,7 +377,6 @@
 }
 .dialog3 .share{
   position: absolute;
-  top: 0;
   width: 90%;
   height: 50rpx;
   top: 180rpx;
@@ -420,8 +420,88 @@
 .dialog9 .dialog_text .select_item{
   padding-bottom: 26rpx;
 }
+.dialog10{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #FFF;
+  z-index: 999;
+}
+.dialog10 .dialog10_bg{
+  width: 634rpx;
+  height: 334rpx;
+  margin: 48rpx 0 0 22rpx;
+}
+.dialog10 .dialog10_content{
+  position: absolute;
+  top: 472rpx;
+  left: 60rpx;
+  width: 628rpx;
+  height: 294rpx;
+  color: #000;
+}
 
-
+.activity_info{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+}
+.activity_info .activity_info_bg{
+  width: 688rpx;
+  height: 936rpx;
+  position: absolute;
+  top: 120rpx;
+  left: 30rpx;
+}
+.activity_info .activity_info_text{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.activity_info_text .close{
+  width: 32rpx;
+  height: 32rpx;
+  padding: 8rpx;
+  position: absolute;
+  top: 72rpx;
+  right: 50rpx;
+}
+.activity_info_text .title{
+  line-height: 1em;
+  width: 100%;
+  padding: 80rpx 0 64rpx 0;
+  text-align: center;
+  font-size: 32rpx;
+}
+.activity_info_text .subhead{
+  width: 588rpx;
+  margin: 0 auto;
+  line-height: 1.4em;
+  font-size: 28rpx;
+  padding-top: 42rpx;
+}
+.activity_info_text .item{
+  width: 588rpx;
+  margin: 0 auto;
+  line-height: 1.4em;
+  font-size: 28rpx;
+}
+.activity_info_text .annotation{
+  position: absolute;
+  bottom: 80rpx;
+  width: 100%;
+  line-height: 1.4em;
+  font-size: 24rpx;
+  text-align: center;
+}
 
 .weave .dialog6,
 .reset_dialog{
@@ -440,6 +520,7 @@
   padding-bottom: 60rpx;
 }
 
+.payment,
 .winelist_list,
 .user_battlefield{
   width: 100%;
@@ -450,15 +531,395 @@
   left: 0;
   background: rgba(0,0,0,0.6);
 }
+.winelist_list image,
+.user_battlefield image{
+  background: none;
+}
 .winelist_list .winelist_content,
 .user_battlefield .battlefield_content{
   width: 688rpx;
   height: 1076rpx;
+  margin: 60rpx auto;
+  position: relative;
+}
+.payment_content,
+.good_list,
+.battlefield_info{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #FFF;
+}
+.payment_content .close,
+.good_list .close,
+.battlefield_info .close{
+  width: 32rpx;
+  height: 32rpx;
+  padding: 8rpx;
+  position: absolute;
+  top: 30rpx;
+  right: 30rpx;
+}
+.payment_content .title,
+.good_list .title,
+.battlefield_info .title{
+  font-size: 32rpx;
+  text-align: center;
+  padding: 30rpx;
+  line-height: 48rpx;
+}
+.battlefield_info .user_info{
+  position: relative;
+  margin: 0 34rpx;
+  height: 132rpx;
+}
+.battlefield_info .user_info .cover_img{
+  position: absolute;
+  top: 0;
+  width: 120rpx;
+  height: 120rpx;
+  border: 4rpx solid #FFF;
+}
+.battlefield_info .user_info .user_name{
+  position: absolute;
+  top: 0;
+  line-height: 1.4em;
+  left: 180rpx;
+  font-size: 28rpx;
+}
+.battlefield_info .user_info .user_damage{
+  position: absolute;
+  bottom: 0;
+  line-height: 1.4em;
+  left: 180rpx;
+  font-size: 26rpx;
+}
+.battlefield_info .total_damage,
+.battlefield_info .discounts{
+  padding: 8rpx 0 0 38rpx;
+  font-size: 26rpx;
+  color: #F8E71C;
+}
+.battlefield_info .combat_title{
+  font-size: 32rpx;
+  text-align: center;
+  margin: 40rpx 0 44rpx 0;
+  line-height: 32rpx;
+  position: relative;
+}
+.battlefield_info .combat_title::after{
+  content: "";
+  width: 60rpx;
+  height: 4rpx;
   background: #FFF;
-  margin: 20rpx 31rpx;
+  position: absolute;
+  top: 48rpx;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.battlefield_info .combats{
+  margin: 0 34rpx;
+  height: 460rpx;
+  overflow: hidden;
+}
+.battlefield_info .combats .item{
+  position: relative;
+  width: 100%;
+  height: 68rpx;
+  margin-bottom: 26rpx;
+  overflow: hidden;
+}
+.battlefield_info .combats .item image{
+  width: 52rpx;
+  height: 52rpx;
+  border: 6rpx solid #FFF;
+}
+.battlefield_info .combats .item view{
+  position: absolute;
+  line-height: 34rpx;
+  top: 0;
+  left: 100rpx;
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+.battlefield_info .page{
+  height: 28rpx;
+  line-height: 28rpx;
+  margin: 8rpx 34rpx 40rpx 34rpx;
+  font-size: 28rpx;
+  position: relative;
+}
+.battlefield_info .page image{
+  width: 24rpx;
+  height: 28rpx;
+  float: left;
+}
+.battlefield_info .page .up{
+  position: absolute;
+  left: 0;
+}
+.battlefield_info .page .next{
+  position: absolute;
+  right: 0;
+}
+.battlefield_info .page .up image{
+  float: left;
+  margin-right: 20rpx;
+  transform: rotate(180deg);
+}
+.battlefield_info .page .next image{
+  float: right;
+  margin-left: 20rpx;
+}
+.battlefield_info .operate{
+  height: 80rpx;
+  font-size: 28rpx;
+  color: #000;
+  position: relative;
+}
+.battlefield_info .operate image{
+  height: 80rpx;
+  width: 288rpx;
+}
+.battlefield_info .operate view{
+  position: absolute;
+  top: 0;
+  line-height: 80rpx;
+  width: 288rpx;
+  text-align: center;
+}
+.battlefield_info .operate .buy_liquor{
+  width: 288rpx;
+  position: absolute;
+  top: 0;
+  left: 40rpx;
+}
+.battlefield_info .operate .create_img{
+  width: 288rpx;
+  position: absolute;
+  top: 0;
+  right: 40rpx;
+}
+.battlefield_report{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: #1C142D;
+}
+.battlefield_report .show_canvas{  
+  width: 608rpx;
+  height: 976rpx;
+  left: 70rpx;
+  top: 50rpx;  
+  position: absolute;
+  z-index: 10;
+}
+.battlefield_report .hidden_canvas{  
+  width: 1500rpx;
+  height: 2412rpx;
+  left: 0;
+  top: -2412rpx;  
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.battlefield_report .preserve,
+.battlefield_report .close{
+  width: 184rpx;
+  height: 72rpx;
+  border-radius: 40rpx;
+  border: 4rpx solid #691755;
+  background: #40315F;
+  color: #FFF;
+  position: absolute;
+  z-index: 10;
+  top: 1066rpx;
+  font-size: 32rpx;
+  line-height: 72rpx;
+  text-align: center;
+}
+.battlefield_report .close{
+  left: 140rpx;
+}
+.battlefield_report .preserve{
+  right: 140rpx;
+}
+.good_list .good_title{
+  height: 32rpx;
+  line-height: 1em;
+  font-size: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60rpx;
+  padding: 0 40rpx;
+}
+.good_list .good_title .active{
+  position: relative;
+}
+.good_list .good_title .active::before{
+  content: "";
+  position: absolute;
+  bottom: -16rpx;
+  width: 38rpx;
+  height: 6rpx;
+  background: #FFF;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.good_list .items{
+  height: 800rpx;
+  margin: 0 40rpx 40rpx 40rpx;
+  width: 608rpx;
+}
+.payment_content .good_info,
+.good_list .item{
+  width: 608rpx;
+  height: 172rpx;
+  margin-bottom: 40rpx;
+  position: relative;
+}
+.payment_content .good_info image,
+.good_list .item image{
+  height: 172rpx;
+  width: 172rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.payment_content .good_info .post_title,
+.good_list .item .post_title{
+  height: 2.5em;
+  line-height: 1.25em;
+  width: 416rpx;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 192rpx;
+  font-size: 32rpx;
+}
+.good_list .item .discounts{
+  height: 1em;
+  line-height: 1em;
+  width: 416rpx;
+  position: absolute;
+  top: 86rpx;
+  left: 192rpx;
+  font-size: 24rpx;
+  color: #F8E71C;
+}
+.payment_content .good_info .price,
+.good_list .item .price{
+  height: 1em;
+  line-height: 1em;
+  width: 416rpx;
+  position: absolute;
+  bottom: 0;
+  left: 192rpx;
+  font-size: 40rpx;
+}
+.good_list .item .buy_btn{
+  height: 1em;
+  line-height: 1em;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 28rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid #FFF;
+}
+.discounts_num{
+  position: absolute;
+  bottom: 30rpx;
+  left: 40rpx;
+  font-size: 26rpx;
+}
+.payment .payment_dialog{
+  width: 688rpx;
+  height: 634rpx;
+  position: absolute;
+  bottom: 66rpx;
+  left: 30rpx;
 }
 
-
+.payment_content .address{
+  height: 128rpx;
+  margin: 0 42rpx;
+  width: 604rpx;
+  position: relative;
+  border-top: 2rpx solid rgba(255,255,255,0.25);
+  border-bottom: 2rpx solid rgba(255,255,255,0.25);
+}
+.payment_content .address .icon{
+  width: 48rpx;
+  height: 48rpx;
+  position: absolute;
+  top: 40rpx;
+  left: 0;
+}
+.payment_content .address .gt{
+  width: 26rpx;
+  height: 26rpx;
+  position: absolute;
+  top: 52rpx;
+  right: 0;
+}
+.payment_content .address .no_address{
+  line-height: 128rpx;
+  padding-left: 74rpx;
+  font-size: 30rpx;
+}
+.payment_content .good_info{
+  width: 604rpx;
+  margin: 42rpx 42rpx 20rpx 42rpx;
+  height: 172rpx;
+}
+.payment_content .good_info .price{
+  font-size: 32rpx;
+}
+.payment_content .good_info text{
+  opacity: 0.43;
+  margin-left: 30rpx;
+  position: relative;
+  font-size: 28rpx;
+  height: 28rpx;
+  line-height: 1em;
+}
+.payment_content .good_info text::after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 110%;
+  height: 4rpx;
+  background: #FFF;
+}
+.payment_content .desc{
+  font-size: 24rpx;
+  margin: 0 42rpx;
+}
+.payment_content .payment_btn{
+  font-size: 28rpx;
+  width: 604rpx;
+  height: 80rpx;
+  position: absolute;
+  bottom: 30rpx;
+  left: 42rpx;
+}
+.payment_content .payment_btn view{
+  position: absolute;
+  top: 0;
+  line-height: 80rpx;
+  text-align: center;
+  width: 100%;
+  color: #000;
+}
 @keyframes bg2animation{
   0%{
     opacity: 1;

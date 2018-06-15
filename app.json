@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/activity/activity",
+    "pages/activityShare/activityShare",
     "pages/paySuccess/paySuccess",
     "pages/createOrder/createOrder",
     "pages/chart/chart",
@@ -16,8 +17,7 @@
     "pages/relevanceTel/relevanceTel",
     "pages/user/user",
     "pages/secondLevelChart/secondLevelChart",
-    "pages/webView/webView",
-    "pages/activityShare/activityShare"
+    "pages/webView/webView"
   ],
   "window": {
     "backgroundTextStyle": "light",

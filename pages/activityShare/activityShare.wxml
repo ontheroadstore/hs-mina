@@ -1,2 +1,92 @@
-<!--pages/activityShare/activityShare.wxml-->
-<text>pages/activityShare/activityShare.wxml</text>
+<view class="main page" id="main" catchtouchmove='catchtouchmove'>
+  <view class='scene'>
+    <image class='bg1' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180608/2f6ea9815a50c6469fb7f7ecb1f03310.jpg'></image>
+    <image class='bg2' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180612/f08ae5f6d9d4e266823d110b370d44b9.png'></image>
+    <image class='bg3' hidden="{{!sceneStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180611/890f979a6b55a7f80c82d00ca4f3a8c7.gif'></image>
+    <view class='friend_combat' hidden="{{sceneStatus}}">
+      <image src='http://img8.ontheroadstore.com/upload/180614/34a60c2b3b45d47bd9754555a48a8c04.png'></image>
+      <view class='friend_info'>
+        <view class='user_info'>
+          <image class='cover_img' src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
+          <view class='user_name'>爱因斯坦他爹的舅舅</view>
+          <view class='user_damage'>SB酒保调戏姑娘，忍不了了，一起干他丫的！</view>
+        </view>
+        <view class='damage'>
+          <image class='jian' src='http://img8.ontheroadstore.com/upload/180611/38425a6c6954768f52a0b576aa452c56.png'></image>
+          <view class='damage_content'>
+            <view class='damage_num'>
+              <view class='damage_num_bg' style="width: {{damageNum == 0 ? '5' : damageNum }}%;"></view>
+            </view>
+          </view>
+          <image class='regulation' data-status="1" catchtouchstart='activityInfo' src='http://img8.ontheroadstore.com/upload/180611/760fe00ac3b261f66627ecb0ef575136.png'></image>
+        </view>
+        <view class='total_damage'>对酒保造成的伤害总数：XXX(可优惠XX元)</view>
+        <view class='combat_title'>战斗记录</view>
+        <view class='combats'>
+          <view class='item'>
+            <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
+            <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
+          </view>
+          <view class='item'>
+            <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
+            <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
+          </view>
+          <view class='item'>
+            <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
+            <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
+          </view>
+        </view>
+        <view class='page'>
+          <view class='up'>
+            <image src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
+            <text>上一页</text>
+          </view>
+          <view class='next'>
+            <text>下一页</text>
+            <image src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
+          </view>
+        </view>
+        <view class='operate'>
+          <image src='http://img8.ontheroadstore.com/upload/180614/b77d6fd8262e0a4ffbd0d1ef66bc4923.png'></image>
+          <view catchtouchstart='tabScene'>干他丫的</view>
+        </view>
+      </view>
+    </view>
+    <view class='blow' hidden="{{!blowStatus}}">
+      <image class='blow_fist' catchtouchstart='blow' data-type="0" src='http://img8.ontheroadstore.com/upload/180611/2dcd6449cbc146a26de27d0465c25b38.png'></image>
+      <image class='blow_foot' catchtouchstart='blow' data-type="1" src='http://img8.ontheroadstore.com/upload/180611/0a7612b02ba0425c99a9aaaa69d725c2.png'></image>
+    </view>
+    <!-- 打击动画 -->
+    <view class='blow_animation' wx:if="{{dialogGifStatus}}">
+      <image src='http://img8.ontheroadstore.com/upload/180611/dfffa2a152dbafa24c42996883656836.gif'></image>
+      <view>你拿起酒瓶抡在酒保头上，造成了3 点伤害</view>
+    </view>
+    <view class='dialog' hidden="{{!dialogStatus}}">
+      <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+      <view class='dialog_text'>
+        <view class='subtitle'>你对酒保造成了20点伤害，帮XXX挣了20元奖金！</view>
+        <view class='select_item' catchtouchstart='ending'>
+          <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+          <view>我也要玩</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='activity_info' wx:if="{{activityInfoStatus}}">
+    <view class='activity_info_bg'>
+      <image src='http://img8.ontheroadstore.com/upload/180613/df8dc7a8ba24281f95ba82292676b4d2.png'></image>
+      <view class='activity_info_text'>
+        <image catchtouchstart='activityInfo' data-status="0" class='close' src='http://img8.ontheroadstore.com/upload/180613/a3ae194cc6c5362bc72ffa7b0daae7f4.png'></image>
+        <view class='title'>活动规则</view>
+        <view class='subhead'>购买</view>
+        <view class='item'>1.点击“拳打”或“飞腿”进行攻击，对酒保造成的伤害数值等同与优惠金额。</view>
+        <view class='item'>2.可根据自己的伤害值（即优惠金额），以优惠 价格买酒，不同商品优惠力度不同。</view>
+        <view class='item'>3.当可用优惠金额高于已选商品的最大优惠值是 ，剩余的优惠金额可在下次购买使用。</view>
+        <view class='subhead'>分享</view>
+        <view class='item'>1.可通过邀请好友解锁更多攻击次数</view>
+        <view class='item'>2.邀请成功后，朋友造成的伤害计入个人总伤害 ，朋友越多优惠金额越高。</view>
+        <view class='annotation'>本活动截止至1月1日。活动最终解释权归公路商店所有</view>
+      </view>
+    </view>
+  </view>
+</view>

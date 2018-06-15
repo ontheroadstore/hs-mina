@@ -3,10 +3,6 @@ const app = getApp()
 const util = require('../../utils/util.js')
 import { req } from '../../utils/api.js'
 
-
-//假数据
-const order = require('../../data/order.js')
-
 Page({
 
   data: {

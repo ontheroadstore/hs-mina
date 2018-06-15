@@ -1,1 +1,366 @@
-/* pages/activityShare/activityShare.wxss */
+.main{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+.main image{
+  background: none;
+}
+.scene{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+.scene .bg1,
+.scene .bg3,
+.scene .bg2{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.scene .bg2{
+  animation: bg2animation 2s linear infinite alternate;
+}
+.friend_combat{
+  width: 688rpx;
+  height: 916rpx;
+  position: absolute;
+  top: 80rpx;
+  left: 30rpx;
+}
+.friend_info{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 616rpx;
+  height: 828rpx;
+  padding: 56rpx 36rpx 32rpx 36rpx;
+  color: #FFF;
+}
+.friend_info .user_info{
+  position: relative;
+  height: 132rpx;
+}
+.friend_info .user_info .cover_img{
+  position: absolute;
+  top: 0;
+  width: 120rpx;
+  height: 120rpx;
+  border: 4rpx solid #FFF;
+}
+.friend_info .user_info .user_name{
+  position: absolute;
+  top: 0;
+  line-height: 1.4em;
+  left: 180rpx;
+  font-size: 28rpx;
+}
+.friend_info .user_info .user_damage{
+  position: absolute;
+  bottom: 0;
+  line-height: 1.4em;
+  left: 180rpx;
+  font-size: 24rpx;
+}
+.friend_info .total_damage{
+  padding: 20rpx 0 32rpx;
+  font-size: 24rpx;
+  text-align: center;
+}
+.friend_info .damage{
+  width: 616rpx;
+  height: 46rpx;
+  position: relative;
+  margin-top: 42rpx;
+}
+.friend_info .damage .jian{
+  height: 46rpx;
+  width: 28rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.friend_info .damage .damage_content{
+  height: 38rpx;
+  width: 482rpx;
+  border-radius: 8rpx;
+  border: 4rpx solid #FFF;
+  position: absolute;
+  top: 0;
+  left: 54rpx;
+}
+.friend_info .damage .damage_content .damage_num{
+  height: 26rpx;
+  width: 466rpx;
+  margin: 6rpx 8rpx;
+}
+.friend_info .damage .damage_content .damage_num_bg{
+  height: 26rpx;
+  width: 100%;
+  background: #FFF;
+}
+.friend_info .regulation{
+  height: 46rpx;
+  width: 46rpx;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.friend_info .combat_title{
+  font-size: 32rpx;
+  text-align: center;
+  margin-bottom: 44rpx;
+  line-height: 32rpx;
+  position: relative;
+}
+.friend_info .combat_title::after{
+  content: "";
+  width: 60rpx;
+  height: 4rpx;
+  background: #FFF;
+  position: absolute;
+  top: 48rpx;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.friend_info .combats{
+  height: 300rpx;
+  overflow: hidden;
+}
+.friend_info .combats .item{
+  position: relative;
+  width: 100%;
+  height: 68rpx;
+  margin-bottom: 26rpx;
+  overflow: hidden;
+}
+.friend_info .combats .item image{
+  width: 52rpx;
+  height: 52rpx;
+  border: 6rpx solid #FFF;
+}
+.friend_info .combats .item view{
+  position: absolute;
+  line-height: 34rpx;
+  top: 0;
+  left: 100rpx;
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+.friend_info .page{
+  height: 28rpx;
+  line-height: 28rpx;
+  margin: 8rpx 0 30rpx 0;
+  font-size: 28rpx;
+  position: relative;
+}
+.friend_info .page image{
+  width: 24rpx;
+  height: 28rpx;
+  float: left;
+}
+.friend_info .page .up{
+  position: absolute;
+  left: 0;
+}
+.friend_info .page .next{
+  position: absolute;
+  right: 0;
+}
+.friend_info .page .up image{
+  float: left;
+  margin-right: 20rpx;
+  transform: rotate(180deg);
+}
+.friend_info .page .next image{
+  float: right;
+  margin-left: 20rpx;
+}
+.friend_info .operate{
+  height: 80rpx;
+  font-size: 28rpx;
+  color: #000;
+  position: relative;
+}
+.friend_info .operate view{
+  position: absolute;
+  top: 0;
+  line-height: 80rpx;
+  text-align: center;
+  width: 100%;
+}
+.blow{
+  position: absolute;
+  bottom: 316rpx;
+  width: 606rpx;
+  height: 216rpx;
+  left: 72rpx;
+  right: 72rpx;
+}
+.blow image{
+  width: 216rpx;
+  height: 216rpx;
+  position: absolute;
+  bottom: 0;
+}
+.blow .blow_fist{
+  left: 0;
+}
+.blow .blow_foot{
+  right: 0;
+}
+.blow_animation{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.6);
+}
+.blow_animation image{
+  width: 660rpx;
+  height: 516rpx;
+  margin: 40% auto 0;
+}
+.blow_animation view{
+  color: #FFF;
+  font-size: 28rpx;
+  text-align: center;
+  margin-top: -114rpx;
+}
+.dialog{
+  position: absolute;
+  top: 468rpx;
+  left: 60rpx;
+  width: 628rpx;
+  height: 356rpx;
+  color: #FFF;
+  font-size: 28rpx;
+}
+.dialog_text{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.dialog_text .subtitle{
+  padding: 56rpx 50rpx 40rpx;
+  line-height: 1.4em;
+}
+.dialog_text .select_item{
+  width: 90%;
+  padding-left: 50rpx;
+  line-height: 38rpx;
+  height: 38rpx;
+  padding-bottom: 60rpx;
+}
+.dialog_text .select_item image{
+  width: 40rpx;
+  height: 38rpx;
+  float: left;
+}
+.dialog_text .select_item view{
+  line-height: 38rpx;
+  float: left;
+  margin-left: 30rpx;
+}
+.dialog_text .desc{
+  position: absolute;
+  bottom: 30rpx;
+  font-size: 24rpx;
+  font-weight: 200;
+  left: 50rpx;
+}
+
+
+
+.activity_info{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+  color: #FFF;
+}
+.activity_info .activity_info_bg{
+  width: 688rpx;
+  height: 936rpx;
+  position: absolute;
+  top: 120rpx;
+  left: 30rpx;
+}
+.activity_info .activity_info_text{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.activity_info_text .close{
+  width: 32rpx;
+  height: 32rpx;
+  padding: 8rpx;
+  position: absolute;
+  top: 72rpx;
+  right: 50rpx;
+}
+.activity_info_text .title{
+  line-height: 1em;
+  width: 100%;
+  padding: 80rpx 0 64rpx 0;
+  text-align: center;
+  font-size: 32rpx;
+}
+.activity_info_text .subhead{
+  width: 588rpx;
+  margin: 0 auto;
+  line-height: 1.4em;
+  font-size: 28rpx;
+  padding-top: 42rpx;
+}
+.activity_info_text .item{
+  width: 588rpx;
+  margin: 0 auto;
+  line-height: 1.4em;
+  font-size: 28rpx;
+}
+.activity_info_text .annotation{
+  position: absolute;
+  bottom: 80rpx;
+  width: 100%;
+  line-height: 1.4em;
+  font-size: 24rpx;
+  text-align: center;
+}
+@keyframes bg2animation{
+  0%{
+    opacity: 1;
+  }
+
+  30%{
+    opacity: 1;
+  }
+  35%{
+    opacity: 0;
+  }
+  40%{
+    opacity: 1;
+  }
+  70%{
+    opacity: 1;
+  }
+  75%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
