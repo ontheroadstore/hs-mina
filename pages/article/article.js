@@ -102,12 +102,12 @@ Page({
         req(app.globalData.bastUrl, 'wxapp/winedoit/getIsSell', {
           goodsIds: this.data.articleId
         }, 'POST').then(res => {
-          if (res.data.isCanSell && res.data.userCanBy) {
+          if (res.data.isCanSell && res.data.userCanBy == '1') {
             this.setData({
               goodCanSell: true,
               activityCanBy: true
             })
-          } else if (res.data.isCanSell && !res.data.userCanBy) {
+          } else if (res.data.isCanSell && res.data.userCanBy == '0') {
             this.setData({
               activityCanBy: true
             })

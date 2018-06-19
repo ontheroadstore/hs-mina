@@ -92,7 +92,7 @@ Page({
         req(app.globalData.bastUrl, 'wxapp/winedoit/getIsSell', {
           goodsIds: this.data.singleOrder.articleId
         }, 'POST').then(res => {
-          if (res.data.isCanSell && res.data.userCanBy) {
+          if (res.data.isCanSell && res.data.userCanBy == '1') {
             this.setData({
               goodCanSell: true
             })
@@ -268,9 +268,27 @@ Page({
           that.paymentSuccess(prepayId)
         },
         fail: function () {
+          if (that.data.goodCanSell) {
+            wx.showToast({ 
+              title: '优惠已使用，请再次分享获取优惠资格',
+              icon: 'none',
+              duration: 3000
+            })
+            that.setData({
+              goodCanSell: false
+            })
+            // 修改显示价格
+            var singleOrder = that.data.singleOrder
+            singleOrder.newType[0].price = singleOrder.newType[0].price + 5
+            const countPrice = countTotalPrice(singleOrder, 0)
+            that.setData({
+              singleOrder: singleOrder,
+              totalPrice: countPrice.totalPrice
+            })
+          }
           req(app.globalData.bastUrl, 'appv2_1/buyfailed', {
             order_number: orderNumber
-          }, 'POST')
+          }, 'POST', true)
         }
       })
     })
