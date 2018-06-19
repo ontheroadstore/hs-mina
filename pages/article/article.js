@@ -28,7 +28,9 @@ Page({
     selectScrollStatus: false,    // 款式是否滚动
     selectType: 0,                // 调起选择框：0文中选择 1加入购物车 2立即购买 （单个款式不调起）
     isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
-    authorizationStatus: false    //授权状态
+    authorizationStatus: false,   //授权状态
+    goodCanSell: false,           // 用户是否优惠
+    activityCanBy: false          // 显示 参与优惠活动按钮
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
@@ -87,8 +89,32 @@ Page({
       }
     })
   },
+  // 跳转
+  activityToast: function () {
+    wx.navigateTo({
+      url: "/pages/webView/webView?url=" + app.globalData.bastUrl + "appv5_1/wxapp/adPage/17&title=夏日饮酒专场" 
+    })
+  },
   onShow: function() {
-    // console.log(this.data.goodInfo)
+    // 获取活动状态
+    req(app.globalData.bastUrl, 'wxapp/winedoit/status').then(res => {
+      if (res.data) {
+        req(app.globalData.bastUrl, 'wxapp/winedoit/getIsSell', {
+          goodsIds: this.data.articleId
+        }, 'POST').then(res => {
+          if (res.data.isCanSell && res.data.userCanBy) {
+            this.setData({
+              goodCanSell: true,
+              activityCanBy: true
+            })
+          } else if (res.data.isCanSell && !res.data.userCanBy) {
+            this.setData({
+              activityCanBy: true
+            })
+          }
+        })
+      }
+    })
   },
   // 分享
   onShareAppMessage: function (res) {

@@ -17,7 +17,7 @@
       <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
       <text class='now_price font_din'>￥{{selectStylePrice}}</text>
     </view>
-
+    <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view>
     <image class='share' src='/images/share.png' bindtap='share'></image>
     <button class='share_btn' open-type="share">转发</button>
   </view>
@@ -93,7 +93,8 @@
       <image src='/images/likeSelected.png' wx:else></image>
       <text>收藏</text>
     </view>
-    <view class='chart_btn float_left' bindtap="{{styleNum > 1 ? 'selectShow':'addChart'}}" data-type="1">加入购物车</view>
+    <view class='chart_btn float_left' wx:if="{{!activityCanBy}}" bindtap="{{styleNum> 1?'selectShow':'addChart'}}" data-type="1">加入购物车</view>
+    <view class='chart_btn float_left' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
     <view class='buy_btn float_left' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2">立即购买</view>
     <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
   </view>
@@ -115,6 +116,7 @@
         <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
         <text class='now_price font_din'>￥{{selectStylePrice}}</text>
       </view>
+      <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view>
       <scroll-view class='styles_content' scroll-y="{{selectScrollStatus}}">
         <view id='styles_select'>
           <view class='styles_select clearBoth'>
@@ -129,7 +131,9 @@
           </view>
         </view>
       </scroll-view>
-        <view class='chart_btn' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}">加入购物车</view> 
+        <view class='chart_btn' wx:if="{{selectType==0&&!activityCanBy}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}">加入购物车</view> 
+        <view class='chart_btn' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
+
         <view class='buy_btn' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}">立即购买           </view>
       <view class='next_btn' wx:if="{{selectType==1}}" bindtap="{{selectStyleId?'addChart':'noSelect'}}">确认</view>
       <view class='next_btn' wx:if="{{selectType==2}}" bindtap="{{selectStyleId?'navigateToCreateOrder':'noSelect'}}">确认</view>

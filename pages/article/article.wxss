@@ -45,6 +45,18 @@
   transform: translateY(-50%);
   background: #888;
 }
+.share_content .activity_text{
+  font-size: 28rpx;
+  padding: 0 20rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  background: #AE2121;
+  color: #FFF;
+  position: absolute;
+  border-radius: 48rpx;
+  left: 220rpx;
+  top: 6rpx;
+}
 .share{
   width: 48rpx;
   height: 48rpx;
@@ -435,6 +447,18 @@
 }
 .iphoneX_select_content{
   padding-bottom: 68rpx;
+}
+.select_content .activity_text{
+  font-size: 28rpx;
+  padding: 0 20rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  background: #AE2121;
+  color: #FFF;
+  position: absolute;
+  border-radius: 48rpx;
+  left: 220rpx;
+  top: 269rpx;
 }
 .select_content.show{
   opacity: 1;

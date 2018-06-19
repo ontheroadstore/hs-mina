@@ -21,8 +21,7 @@ Page({
     bannerItem: [],               // banner列表
     newGoods: [],                 // 新品列表
     apiStatus: 0,                 // 顺序加载
-    activityStatus: false,        // 活动状态
-    activityDialogStatus: false   // 弹窗状态
+    activityStatus: false         // 活动状态
   },
   onLoad: function () {
     wx.showNavigationBarLoading()
@@ -32,22 +31,6 @@ Page({
     })
     // 更新今日推荐 副标题时间
     this.getTime()
-    // 查看活动是否结束
-    var time = new Date()
-    req(app.globalData.bastUrl, 'appv5_1/tigger/getStatus', {}, "GET", true).then(res => {
-      const tiggerGetStatus = wx.getStorageSync('tiggerGetStatus')
-      if (res.data) {
-        this.setData({
-          activityStatus: true
-        })
-        if (tiggerGetStatus == '' || tiggerGetStatus < time.getUTCDate().toString()) {
-          this.setData({
-            activityDialogStatus: true
-          })
-          wx.setStorageSync('tiggerGetStatus', time.getUTCDate().toString())
-        }
-      }
-    })
     // 获取分类
     req(app.globalData.bastUrl, 'appv3/categories', {
       level: 1,
@@ -168,12 +151,6 @@ Page({
       url: url
     })
   },
-  // 跳转到活动页
-  navigateToActivity: function() {
-    wx.navigateTo({
-      url: '/pages/activity/activity'
-    })
-  },
   // 卖家中心跳转user
   navigateToUser: function (e) {
     let id = e.target.dataset.id
@@ -250,12 +227,6 @@ Page({
         apiStatus: 0
       })
     }
-  },
-  // 关闭活动提示
-  closeActivityDialog: function() {
-    this.setData({
-      activityDialogStatus: false
-    })
   },
   //getTime
   getTime: function() {
