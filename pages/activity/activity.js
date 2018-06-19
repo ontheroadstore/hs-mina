@@ -279,9 +279,9 @@ Page({
     startAnimationNum: 0,                     // 动画图片显示顺序
     startAnimationStatus: false,              // 动画进行状态
     dialogGifStatus: false,                   // gif弹窗显示
-    combatGifStatus: false,                   // 打斗gif
+    combatGifStatus: false,                   // 打斗背景gif
     blowStatus: false,                        // 拳打脚踢按钮显示
-    strikeStatus: false,                      // 打击按钮显示
+    strikeStatus: false,                      // 上下按钮栏
     procedureState: 0,                        // 存档参数
     dialogNum: 0,                             // 弹窗显示
     dialogActive: 0,                          // 当前显示弹窗
@@ -304,19 +304,18 @@ Page({
     shareUrl: null,                           // 分享地址
     isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
-  onLoad: function () {
-    // 微信直接加载图片不能超150 大概 显示后在进行添加 且不能直接加载 startAnimation: images
-    // for (var i = 0; i < 263; i++) {
-    //   var mmm = this.data.startAnimation
-    //   mmm.push(images[i])
-    //   this.setData({
-    //     startAnimation: mmm
-    //   })
-    // }
-  },
   onReady: function () {
+    this.audio()
     const that = this
     var onReady = this.onReady
+    // 微信直接加载图片不能超150 大概 显示后在进行添加 且不能直接加载 startAnimation: images
+    for (var i = 0; i < 263; i++) {
+      var mmm = this.data.startAnimation
+      mmm.push(images[i])
+      this.setData({
+        startAnimation: mmm
+      })
+    }
     wx.getUserInfo({
       success: function () {
         req(app.globalData.bastUrl, 'wxapp/wine/getStatus', {} ,'GET', true).then(res => {
@@ -338,8 +337,6 @@ Page({
               that.setData({
                 loadingSuccess: true,
                 startingUpStatus: false,
-                dialogNum: 1,
-                dialogActive: 1,
                 startAnimationStatus: true,
                 strikeStatus: true,
                 blowStatus: true,
@@ -351,8 +348,6 @@ Page({
               that.setData({
                 loadingSuccess: true,
                 startingUpStatus: false,
-                dialogNum: 1,
-                dialogActive: 1,
                 startAnimationStatus: true,
                 dialogNum: 9,
                 dialogActive: 9
@@ -361,20 +356,53 @@ Page({
               that.setData({
                 loadingSuccess: true,
                 startingUpStatus: false,
-                dialogNum: 1,
-                dialogActive: 1,
                 startAnimationStatus: true,
-                dialogNum: 0,
                 strikeStatus: true,
                 winelistStatus: true,
+                dialogNum: 0,
                 dialogActive: 0
+              })
+            } else if (res.data == 'gameOver') {
+              that.setData({
+                loadingSuccess: true,
+                startingUpStatus: false,
+                startAnimationStatus: true,
+                strikeStatus: true,
+                blowStatus: true,
+                combatGifStatus: true,
+                dialogNum: 0,
+                dialogActive: 0,
+                dialogText5: { title: '都TM打死了你还鞭尸' }
+              })
+            } else if (res.data == 'dieChooice') {
+              that.setData({
+                loadingSuccess: true,
+                startingUpStatus: false,
+                startAnimationStatus: true,
+                strikeStatus: true,
+                blowStatus: false,
+                combatGifStatus: true,
+                dialogNum: 7,
+                dialogActive: 7,
+                dialogText5: { title: '都TM打死了你还鞭尸' }
+              })
+            } else if (res.data == 'die') {
+              that.setData({
+                loadingSuccess: true,
+                startingUpStatus: false,
+                startAnimationStatus: true,
+                strikeStatus: true,
+                blowStatus: true,
+                combatGifStatus: true,
+                dialogNum: 0,
+                dialogActive: 0,
+                dialogText5: { title: '都TM打死了你还鞭尸' }
               })
             }
           })
           // 活动是否到期
           if (res.data) {
             req(app.globalData.bastUrl, 'wxapp/wine/getInfo', {}, 'GET', true).then(res => {
-              console.log(res)
               that.setData({
                 blowNum: res.data.hexagon.justice ? res.data.hexagon.justice : 0,
                 damageNum: res.data.hexagon.hit,
@@ -423,11 +451,20 @@ Page({
       })
       return false
     } else if (that.data.blowNum >= 5 && that.data.procedureState != 'fight') {
+      console.log(this.data.dialogText5)
       that.setData({
         dialogGifStatus: false,
         dialogNum: 5,
         dialogActive: 5
       })
+      setTimeout(function(){
+        that.setData({
+          dialogGifStatus: false,
+          blowStatus: true,
+          dialogNum: 0,
+          dialogActive: 0
+        })
+      },2000)
       return false
     }
     // 接口获取文字图片信息 blowType 打击类型 
@@ -524,7 +561,7 @@ Page({
   // dialog3 文案切换
   setDialogText5: function () {
     var text = this.data.dialogText5
-    if (this.data.a > 5 && that.data.procedureState == 'die') {
+    if (this.data.blowNum >= 5 && that.data.procedureState == 'die') {
       text = { title: '都TM打死了你还鞭尸' }
     } else {
       text = { title: '腿软了！赶紧叫人吧！' }
@@ -611,7 +648,7 @@ Page({
     this.setData({
       battlefieldStatus: false,
       winelistStatus: true,
-      blowStatus: true,
+      blowStatus: this.data.procedureState == 'slience' ? false : true,
       dialogNum: 0,
       dialogActive: 0
     })
@@ -986,7 +1023,7 @@ Page({
     } else {
       this.setData({
         resetDialogStatus: true,
-        blowStatus: this.data.dialogActive == 0 ? true : false,
+        blowStatus: this.data.dialogActive == 0 && this.data.procedureState != 'slience' ? true : false,
         dialogNum: this.data.dialogActive
       })
     }
@@ -1038,28 +1075,23 @@ Page({
     this.setData({
       startingUpStatus: false
     })
-    // 点击开始则 开始记录
-    that.setData({
-      dialogNum: 1,
-      dialogActive: 1,
-      startAnimationStatus: true,
-      procedureState: 'start'
-    })
-    this.procedure()
-    // var time = setInterval(function () {
-     
-    //   if (that.data.startAnimationNum <= 263){
-    //     that.setData({
-    //       startAnimationNum: that.data.startAnimationNum + 1
-    //     })
-    //   }else{
-    //     clearInterval(time)
-    //     that.setData({
-    //       dialogNum: 1,
-    //       dialogActive: 1
-    //     })
-    //   }
-    // }, 40)
+    var time = setInterval(function () {
+      if (that.data.startAnimationNum <= 263){
+        that.setData({
+          startAnimationNum: that.data.startAnimationNum + 1
+        })
+      }else{
+        clearInterval(time)
+        // 点击开始则 开始记录
+        that.setData({
+          dialogNum: 1,
+          dialogActive: 1,
+          startAnimationStatus: true,
+          procedureState: 'start'
+        })
+        that.procedure()
+      }
+    }, 40)
   },
   // 背景移动动画
   bgLoadingProgressBar: function (reset) {
@@ -1125,7 +1157,6 @@ Page({
   getShareString: function () {
     const that = this
     req(app.globalData.bastUrl, 'wxapp/wine/getShareString', {}, 'GET', true).then(res => {
-      console.log(res)
       that.setData({
         shareUrl: '/pages/activityShare/activityShare?share=' + res.data
       })
@@ -1148,6 +1179,47 @@ Page({
         that.addShareIncrCoin()
       }
     }
+  },
+  // 音频处理
+  audio1: function () {
+    const url = 'https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3'    
+    const backgroundAudio = wx.createInnerAudioContext()
+    backgroundAudio.autoplay = true
+    backgroundAudio.currentTime = 0
+    backgroundAudio.startTime = 0
+    backgroundAudio.buffered = 20
+    backgroundAudio.paused = true
+    backgroundAudio.src = url
+  },
+  audio2: function () {
+    const url = 'https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3'
+    const backgroundAudio = wx.createInnerAudioContext()
+    backgroundAudio.autoplay = true
+    backgroundAudio.currentTime = 0
+    backgroundAudio.startTime = 0
+    backgroundAudio.buffered = 20
+    backgroundAudio.paused = true
+    backgroundAudio.src = url
+  },
+  audio3: function () {
+    const url = 'https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3'
+    const backgroundAudio = wx.createInnerAudioContext()
+    backgroundAudio.autoplay = true
+    backgroundAudio.currentTime = 0
+    backgroundAudio.startTime = 0
+    backgroundAudio.buffered = 20
+    backgroundAudio.paused = true
+    backgroundAudio.src = url
+  },
+  audio4: function () {
+    const url = 'https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3'
+    const backgroundAudio = wx.createInnerAudioContext()
+    backgroundAudio.autoplay = true
+    backgroundAudio.currentTime = 0
+    backgroundAudio.startTime = 0
+    backgroundAudio.buffered = 20
+    backgroundAudio.paused = true
+    backgroundAudio.src = url
   },
   // 分享增加抽奖
   addShareIncrCoin: function () {
