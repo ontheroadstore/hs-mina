@@ -305,7 +305,6 @@ Page({
     isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
   onReady: function () {
-    this.audio()
     const that = this
     var onReady = this.onReady
     // 微信直接加载图片不能超150 大概 显示后在进行添加 且不能直接加载 startAnimation: images
@@ -435,6 +434,7 @@ Page({
   },
   onShow: function () {
     this.bgLoadingProgressBar()
+    this.audio()
   },
   // 拳打脚踢
   blow: function (e) {
@@ -1181,45 +1181,20 @@ Page({
     }
   },
   // 音频处理
-  audio1: function () {
-    const url = 'https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3'    
-    const backgroundAudio = wx.createInnerAudioContext()
-    backgroundAudio.autoplay = true
-    backgroundAudio.currentTime = 0
-    backgroundAudio.startTime = 0
-    backgroundAudio.buffered = 20
-    backgroundAudio.paused = true
-    backgroundAudio.src = url
-  },
-  audio2: function () {
-    const url = 'https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3'
-    const backgroundAudio = wx.createInnerAudioContext()
-    backgroundAudio.autoplay = true
-    backgroundAudio.currentTime = 0
-    backgroundAudio.startTime = 0
-    backgroundAudio.buffered = 20
-    backgroundAudio.paused = true
-    backgroundAudio.src = url
-  },
-  audio3: function () {
-    const url = 'https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3'
-    const backgroundAudio = wx.createInnerAudioContext()
-    backgroundAudio.autoplay = true
-    backgroundAudio.currentTime = 0
-    backgroundAudio.startTime = 0
-    backgroundAudio.buffered = 20
-    backgroundAudio.paused = true
-    backgroundAudio.src = url
-  },
-  audio4: function () {
-    const url = 'https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3'
-    const backgroundAudio = wx.createInnerAudioContext()
-    backgroundAudio.autoplay = true
-    backgroundAudio.currentTime = 0
-    backgroundAudio.startTime = 0
-    backgroundAudio.buffered = 20
-    backgroundAudio.paused = true
-    backgroundAudio.src = url
+  audio: function () {
+    this.audioCtx = wx.createAudioContext('myAudio')
+    this.audioCtx.play()
+    // const url = 'https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3'    
+    // const backgroundAudio1 = wx.createInnerAudioContext()
+    // this.backgroundAudio1 = backgroundAudio1
+    // backgroundAudio1.autoplay = true
+    // backgroundAudio1.loop = true
+    // backgroundAudio1.obeyMuteSwitch = true
+    // backgroundAudio1.src = url
+    // backgroundAudio1.onError((res) => {
+    //   console.log(res.errMsg)
+    //   console.log(res.errCode)
+    // })
   },
   // 分享增加抽奖
   addShareIncrCoin: function () {

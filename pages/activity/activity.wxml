@@ -379,7 +379,7 @@
           </view>
         </view>
       </view>
-
+    <!-- <audio id="myAudio" loop src="https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3"></audio> -->
     </view>
   </view>
 </view>
