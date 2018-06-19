@@ -279,13 +279,16 @@ Page({
     startAnimationNum: 0,                     // 动画图片显示顺序
     startAnimationStatus: false,              // 动画进行状态
     dialogGifStatus: false,                   // gif弹窗显示
+    combatGifStatus: false,                   // 打斗gif
     blowStatus: false,                        // 拳打脚踢按钮显示
     strikeStatus: false,                      // 打击按钮显示
-    procedureState: 'start',                  // 存档参数
+    procedureState: 0,                        // 存档参数
     dialogNum: 0,                             // 弹窗显示
     dialogActive: 0,                          // 当前显示弹窗
     blowNum: 0,                               // 打击次数
     damageNum: 0,                             // 伤害总数
+    employCash: 0,                            // 优惠价格
+    msgData: null,                            // 打击文案图片
     dialogText5: { title: '腿软了！赶紧叫人吧！'},
     dialogText6: { title: '确认还要打？再打容易出事', subhead1: '打打打打打', subhead2: '不打了挑瓶酒' },
     battlefieldStatus: false,                 // 我的战报显示
@@ -298,13 +301,10 @@ Page({
     orderDialogStatus: false,                 // 订单提示窗
     goodList: null,                           // 商品列表
     activeGood: null,                         // 选中的商品
+    shareUrl: null,                           // 分享地址
     isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
   onLoad: function () {
-    this.setData({
-      dialogNum: 1,
-      dialogActive: 1
-    })
     // 微信直接加载图片不能超150 大概 显示后在进行添加 且不能直接加载 startAnimation: images
     // for (var i = 0; i < 263; i++) {
     //   var mmm = this.data.startAnimation
@@ -313,34 +313,90 @@ Page({
     //     startAnimation: mmm
     //   })
     // }
+  },
+  onReady: function () {
     const that = this
     var onReady = this.onReady
     wx.getUserInfo({
       success: function () {
-        // req(app.globalData.bastUrl, 'appv5_1/tigger/getStatus', {} ,'GET', true).then(res => {
-        //   // 活动是否到期
-        //   if (res.data) {
-        //     req(app.globalData.bastUrl, 'appv5_1/tigger/getCoin', {}, 'GET', true, onReady).then(res => {
-        //       that.setData({
-        //         gameCurrency: res.data.coin,
-        //         noSingleNum: res.data.winNum
-        //       })
-        //     })
-        //   } else {
-        //     // wx.showModal({
-        //     //   title: '提示',
-        //     //   content: '活动已结束',
-        //     //   showCancel: false,
-        //     //   success: function (data) {
-        //     //     if (data.confirm) {
-        //     //       wx.reLaunch({
-        //     //         url: '/pages/index/index'
-        //     //       })
-        //     //     }
-        //     //   }
-        //     // })
-        //   }
-        // })
+        req(app.globalData.bastUrl, 'wxapp/wine/getStatus', {} ,'GET', true).then(res => {
+          // 根据存档定位用户停留位置
+
+          req(app.globalData.bastUrl, 'wxapp/wine/getStep', {}, 'GET', true).then(res => {
+            that.setData({
+              procedureState: res.data
+            })
+            if (res.data == 'start'){
+              that.setData({
+                loadingSuccess: true,
+                startingUpStatus: false,
+                dialogNum: 1,
+                dialogActive: 1,
+                startAnimationStatus: true
+              })
+            } else if (res.data == 'fight') {
+              that.setData({
+                loadingSuccess: true,
+                startingUpStatus: false,
+                dialogNum: 1,
+                dialogActive: 1,
+                startAnimationStatus: true,
+                strikeStatus: true,
+                blowStatus: true,
+                combatGifStatus: true,
+                dialogNum: 0,
+                dialogActive: 0
+              })
+            } else if (res.data == 'slienceChooice') {
+              that.setData({
+                loadingSuccess: true,
+                startingUpStatus: false,
+                dialogNum: 1,
+                dialogActive: 1,
+                startAnimationStatus: true,
+                dialogNum: 9,
+                dialogActive: 9
+              })
+            } else if (res.data == 'slience') {
+              that.setData({
+                loadingSuccess: true,
+                startingUpStatus: false,
+                dialogNum: 1,
+                dialogActive: 1,
+                startAnimationStatus: true,
+                dialogNum: 0,
+                strikeStatus: true,
+                winelistStatus: true,
+                dialogActive: 0
+              })
+            }
+          })
+          // 活动是否到期
+          if (res.data) {
+            req(app.globalData.bastUrl, 'wxapp/wine/getInfo', {}, 'GET', true).then(res => {
+              console.log(res)
+              that.setData({
+                blowNum: res.data.hexagon.justice ? res.data.hexagon.justice : 0,
+                damageNum: res.data.hexagon.hit,
+                employCash: res.data.hexagon.cash
+              })
+            })
+          } else {
+            wx.showModal({
+              title: '提示',
+              content: '活动已结束',
+              showCancel: false,
+              success: function (data) {
+                if (data.confirm) {
+                  wx.reLaunch({
+                    url: '/pages/index/index'
+                  })
+                }
+              }
+            })
+          }
+        })
+        that.getShareString()
       },
       fail: function () {
         that.setData({
@@ -351,69 +407,83 @@ Page({
   },
   onShow: function () {
     this.bgLoadingProgressBar()
-    this.procedure()
   },
   // 拳打脚踢
   blow: function (e) {
-    const blowType = e.target.dataset.type
+    const blowType = parseInt(e.target.dataset.type)
     const that = this
-    // 接口获取文字图片信息 blowType 打击类型 
-
-
-    // 打击失败
-    // this.setData({
-    //   blowStatus: false,
-    //   dialogNum: 5,
-    //   dialogActive: 5
-    // })
-    // setTimeout(function() {
-    //   that.setData({
-    //     blowStatus: true,
-    //     dialogNum: 0,
-    //     dialogActive: 0
-    //   })
-    // },2000)
-    // return false
-    // 超过5次后 
-    // if (that.data.blowNum > 5 && that.data.procedureState == 'fight') {
-    //   that.setData({
-    //     dialogNum: 6,
-    //     dialogActive: 6
-    //   })
-    // } else if (that.data.blowNum > 5 && that.data.procedureState != 'fight') {
-    //   that.setData({
-    //     dialogNum: 5,
-    //     dialogActive: 5
-    //   })
-    // }
-    this.setData({
-      blowNum: this.data.blowNum + 1,
-      dialogGifStatus: true,
-      blowStatus: false,
-      damageNum: 10
-    })
     // 设置文案
-    this.setDialogText5()
-    setTimeout(function() {
+    that.setDialogText5()
+    // 超过5次后
+    if (that.data.blowNum >= 5 && that.data.procedureState == 'fight') {
       that.setData({
-        dialogGifStatus: false
+        dialogGifStatus: false,
+        dialogNum: 6,
+        dialogActive: 6
       })
-      if (that.data.blowNum == 1 || that.data.blowNum == 4 || that.data.blowNum == 5){
+      return false
+    } else if (that.data.blowNum >= 5 && that.data.procedureState != 'fight') {
+      that.setData({
+        dialogGifStatus: false,
+        dialogNum: 5,
+        dialogActive: 5
+      })
+      return false
+    }
+    // 接口获取文字图片信息 blowType 打击类型 
+    req(app.globalData.bastUrl, 'wxapp/wine/hit', {
+      hitType: blowType
+    }, 'POST', true).then(res => {
+      console.log(res)
+      // 缺少 打击次数，优惠价格，总伤害
+      if (res.data.status){
+        const blowNum = parseInt(that.data.blowNum) + 1
         that.setData({
-          blowStatus: true
+          blowNum: blowNum,
+          dialogGifStatus: true,
+          blowStatus: false,
+          damageNum: 10,
+          msgData: {
+            img: 'http://img8.ontheroadstore.com/upload/180611/dfffa2a152dbafa24c42996883656836.gif',
+            msg: res.data.msg
+          }
         })
-      } else if (that.data.blowNum == 2){
+        setTimeout(function () {
+          that.setData({
+            dialogGifStatus: false
+          })
+          console.log(that.data.blowNum)
+          if (that.data.blowNum == 1 || that.data.blowNum == 4 || that.data.blowNum == 5) {
+            that.setData({
+              blowStatus: true
+            })
+          } else if (that.data.blowNum == 2) {
+            that.setData({
+              dialogNum: 2,
+              dialogActive: 2
+            })
+          } else if (that.data.blowNum == 3) {
+            that.setData({
+              dialogNum: 3,
+              dialogActive: 3
+            })
+          }
+        }, 2000)
+      } else{
         that.setData({
-          dialogNum: 2,
-          dialogActive: 2
+          blowStatus: false,
+          dialogNum: 5,
+          dialogActive: 5
         })
-      } else if (that.data.blowNum == 3) {
-        that.setData({
-          dialogNum: 3,
-          dialogActive: 3
-        })
+        setTimeout(function () {
+          that.setData({
+            blowStatus: true,
+            dialogNum: 0,
+            dialogActive: 0
+          })
+        }, 2000)
       }
-    },2000)
+    })
   },
   // 结局
   ending: function (e) {
@@ -489,6 +559,7 @@ Page({
       procedureState: 'fight',
       strikeStatus: true,
       blowStatus: true,
+      combatGifStatus: true,
       dialogNum: 0,
       dialogActive: 0
     })
@@ -517,12 +588,30 @@ Page({
   // 存档
   procedure: function () {
     console.log(this.data.procedureState)
+    req(app.globalData.bastUrl, 'wxapp/wine/saveStep', {
+      step: this.data.procedureState
+    }, 'POST', true)
+  },
+  // 选择地址
+  selectAddress: function (e) {
+    // const status = e.target.dataset.status
+    // if (status == 0){
+
+    // }
+    // req(app.globalData.bastUrl, 'appv2/defaultaddress', {}).then(res => {
+    //   if (res.status == 1) {
+    //     this.setData({
+    //       addressInfo: res.data
+    //     })
+    //   }
+    // })
   },
   // 打开酒单
   openWinelist: function () {
     this.setData({
       battlefieldStatus: false,
       winelistStatus: true,
+      blowStatus: true,
       dialogNum: 0,
       dialogActive: 0
     })
@@ -532,6 +621,7 @@ Page({
     this.setData({
       battlefieldStatus: true,
       winelistStatus: false,
+      blowStatus: true,
       dialogNum: 0,
       dialogActive: 0
     })
@@ -553,6 +643,10 @@ Page({
       this.setData({
         battlefieldReportStatus: true
       })
+      // req(app.globalData.bastUrl, 'wxapp/wine/getShareJpeg', {}, 'GET', true).then(res => {
+      //   console.log(res)
+        
+      // })
       // 请求数据
       const data = {
         imgUrl1: '/images/canvasBg.png',
@@ -899,38 +993,44 @@ Page({
   },
   // 重置游戏
   resetGame: function () {
-    this.setData({
-      liquorBgSize: {},
-      liquorBgAnimation: null,
-      loadingStatic: 0,
-      progressAnimation: null,
-      loadingSuccess: false,
-      startingUpStatus: true,
-      startAnimationNum: 0,
-      startAnimationStatus: false,
-      dialogGifStatus: false,
-      blowStatus: false,
-      strikeStatus: false,
-      procedureState: 'start',
-      dialogNum: 0,
-      dialogActive: 0,
-      blowNum: 0,
-      damageNum: 0,
-      dialogText5: { title: '腿软了！赶紧叫人吧！' },
-      dialogText6: { title: '确认还要打？再打容易出事', subhead1: '打打打打打', subhead2: '不打了挑瓶酒' },
-      battlefieldStatus: false,
-      battlefieldReportStatus: false,
-      activityInfoStatus: false,
-      canvasData: null,
-      winelistStatus: false,
-      orderDialogStatus: false,
-      goodsActive: 0,
-      goodList: null,
-      activeGood: null,
-      resetDialogStatus: true
+    const that = this
+    req(app.globalData.bastUrl, 'wxapp/wine/replay', {}, 'GET').then(res => {
+      console.log(res)
+      that.setData({
+        liquorBgSize: {},
+        liquorBgAnimation: null,
+        loadingStatic: 0,
+        progressAnimation: null,
+        loadingSuccess: false,
+        startingUpStatus: true,
+        startAnimationNum: 0,
+        startAnimationStatus: false,
+        dialogGifStatus: false,
+        blowStatus: false,
+        combatGifStatus: false,
+        strikeStatus: false,
+        procedureState: 0,
+        dialogNum: 0,
+        dialogActive: 0,
+        blowNum: 0,
+        damageNum: 0,
+        employCash: 0,
+        msgData: null,
+        dialogText5: { title: '腿软了！赶紧叫人吧！' },
+        dialogText6: { title: '确认还要打？再打容易出事', subhead1: '打打打打打', subhead2: '不打了挑瓶酒' },
+        battlefieldStatus: false,
+        battlefieldReportStatus: false,
+        activityInfoStatus: false,
+        canvasData: null,
+        winelistStatus: false,
+        orderDialogStatus: false,
+        goodsActive: 0,
+        goodList: null,
+        activeGood: null,
+        resetDialogStatus: true
+      })
+      that.bgLoadingProgressBar('reset')
     })
-    this.bgLoadingProgressBar('reset')
-    // 重置接口
   },
   // 活动开始
   startActivity: function () {
@@ -938,21 +1038,28 @@ Page({
     this.setData({
       startingUpStatus: false
     })
-    var time = setInterval(function () {
+    // 点击开始则 开始记录
+    that.setData({
+      dialogNum: 1,
+      dialogActive: 1,
+      startAnimationStatus: true,
+      procedureState: 'start'
+    })
+    this.procedure()
+    // var time = setInterval(function () {
      
-      if (that.data.startAnimationNum <= 263){
-        that.setData({
-          startAnimationNum: that.data.startAnimationNum + 1
-        })
-      }else{
-        clearInterval(time)
-        that.procedure()
-        that.setData({
-          dialogNum: 1,
-          dialogActive: 1
-        })
-      }
-    }, 40)
+    //   if (that.data.startAnimationNum <= 263){
+    //     that.setData({
+    //       startAnimationNum: that.data.startAnimationNum + 1
+    //     })
+    //   }else{
+    //     clearInterval(time)
+    //     that.setData({
+    //       dialogNum: 1,
+    //       dialogActive: 1
+    //     })
+    //   }
+    // }, 40)
   },
   // 背景移动动画
   bgLoadingProgressBar: function (reset) {
@@ -1014,6 +1121,16 @@ Page({
       app.login(that.onReady)
     }
   },
+  // 获取分享hash
+  getShareString: function () {
+    const that = this
+    req(app.globalData.bastUrl, 'wxapp/wine/getShareString', {}, 'GET', true).then(res => {
+      console.log(res)
+      that.setData({
+        shareUrl: '/pages/activityShare/activityShare?share=' + res.data
+      })
+    })
+  },
   // 分享 默认分享是活动页 如果当前用户已经可以叫人代打 分享代打页
   onShareAppMessage: function () {
     const that = this
@@ -1025,7 +1142,7 @@ Page({
     // 在分享前生成哈希 在已经打完第三次 最好是每次打击都返回 前2次为null 3次后有哈希值
     return {
       title: '狠货天天抽，最高价值¥2399，次数上不封顶',
-      path: '/pages/activity/activity',
+      path: this.data.shareUrl,
       imageUrl: 'http://img8.ontheroadstore.com/upload/180528/3b7b4161ab2690f9fe8b10188cbedeff.png',
       success: function () {
         that.addShareIncrCoin()
@@ -1033,39 +1150,28 @@ Page({
     }
   },
   // 分享增加抽奖
-  addShareIncrCoin: function (code) {
+  addShareIncrCoin: function () {
     const that = this
-    that.setData({
-      dialogNum: 4,
-      dialogActive: 4,
-      blowStatus: false
-    })
-    setTimeout(function () {
-      that.setData({
-        dialogNum: 0,
-        dialogActive: 0,
-        blowStatus: true
+    if (that.data.blowNum < 5 && that.data.blowNum >= 3) {
+      req(app.globalData.bastUrl, 'wxapp/wine/share', {}, 'GET', true).then(res => {
+        that.setData({
+          dialogNum: 4,
+          dialogActive: 4,
+          blowStatus: false
+        })
+        setTimeout(function () {
+          that.setData({
+            dialogNum: 0,
+            dialogActive: 0,
+            blowStatus: true
+          })
+        }, 2000)
       })
-    }, 2000)
-    // req(app.globalData.bastUrl, 'appv5_1/tigger/shareIncrCoin', {
-    //   code: code
-    // }, 'POST', true).then(res => {
-    //   that.resetDraw()
-    //   that.setData({
-    //     gameCurrency: res.data.coin
-    //   })
-    //   if (res.data.status == 1) {
-    //     wx.showToast({
-    //       title: '分享成功，获得一次抽奖',
-    //       icon: 'none',
-    //       duration: 2000
-    //     })
-    //   }
-    // })
+    }
   },
   catchtouchmove: function () {
     // console.log(1)
-  },
+  }
 })
 
 function textArr(context, text){

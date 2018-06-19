@@ -34,7 +34,7 @@
 }
 .loading_content .getUserInfo{
   position: absolute;
-  top: 572rpx;
+  top: 502rpx;
   width: 400rpx;
   height: 86rpx;
   left: 175rpx;
@@ -286,7 +286,7 @@
   margin: 40% auto 0;
 }
 .blow_animation view{
-  margin-top: -114rpx;
+  margin:-114rpx 60rpx;
   color: #FFF;
   font-size: 28rpx;
   text-align: center;

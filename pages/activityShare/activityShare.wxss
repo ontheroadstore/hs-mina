@@ -231,7 +231,7 @@
   color: #FFF;
   font-size: 28rpx;
   text-align: center;
-  margin-top: -114rpx;
+  margin:-114rpx 60rpx;
 }
 .dialog{
   position: absolute;

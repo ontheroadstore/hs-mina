@@ -1,6 +1,6 @@
 <view class="main page" id="main" catchtouchmove='catchtouchmove'>
   <!-- 开机动画 -->
-  <!-- <view class='starting_up' wx:if="{{startingUpStatus}}">
+  <view class='starting_up' wx:if="{{startingUpStatus}}">
     <image class='liquor_bg' id="liquorDg" style='right:{{liquorBgSize.right}}px;' animation="{{liquorBgAnimation}}" src='/images/liquorBg.png'></image> 
     <view class='loading_content'>
       <image class='logo' src='/images/logo.png'></image>
@@ -17,27 +17,28 @@
         </view>
       </view>
     </view>
-  </view> -->
+  </view>
   <view class='activity_content'>
     <view class='start_animation'>
       <image mode="aspectFill" bindload="loadStatic" wx:for="{{startAnimation}}" wx:key="item" class="animation_img {{startAnimationNum == index?'active':''}}" src='{{item}}'></image>
     </view>
-    <view class="weave weave_show {{startAnimationStatus ? 'weave_show':''}}">
+    <!-- <view class="weave weave_show {{startAnimationStatus ? 'weave_show':''}}"> -->
+    <view class="weave {{startAnimationStatus ? 'weave_show':''}}"> 
       <!-- 背景切换 -->
       <image class='bg1' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180608/2f6ea9815a50c6469fb7f7ecb1f03310.jpg'></image>
       <image class='bg2' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180612/f08ae5f6d9d4e266823d110b370d44b9.png'></image>
-      <image class='bg3' hidden="{{!blowStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180611/890f979a6b55a7f80c82d00ca4f3a8c7.gif'></image>
+      <image class='bg3' hidden="{{!combatGifStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180611/890f979a6b55a7f80c82d00ca4f3a8c7.gif'></image>
       <!-- 顶部信息 -->
       <view class='damage' wx:if="{{strikeStatus}}">
         <image class='jian' wx:if="{{procedureState != 'slience'}}" src='http://img8.ontheroadstore.com/upload/180611/38425a6c6954768f52a0b576aa452c56.png'></image>
         <view class='damage_content' wx:if="{{procedureState != 'slience'}}">
           <view class='damage_num'>
-            <view class='damage_num_bg' style="width: {{damageNum == 0 ? '5' : damageNum }}%;"></view>
+            <view class='damage_num_bg' style="width: {{damageNum < 5 ? '5' : damageNum }}%;"></view>
           </view>
         </view>
         <image class='regulation' data-status="1" catchtouchstart='activityInfo' src='http://img8.ontheroadstore.com/upload/180611/760fe00ac3b261f66627ecb0ef575136.png'></image>
         <image class='reset' catchtouchstart='resetGameShow' data-status="1" src='http://img8.ontheroadstore.com/upload/180611/2085b59674fde23e5ea7163fd9c0f19d.png'></image>
-        <view class='damage_text' wx:if="{{procedureState != 'slience'}}">对酒保造成的伤害总数：{{damageNum}}(可优惠{{damageNum}}元)</view>
+        <view class='damage_text' wx:if="{{procedureState != 'slience'}}">对酒保造成的伤害总数：{{damageNum}}(可优惠{{employCash}}元)</view>
         <view class='reset_text' catchtouchstart='resetGameShow' data-status="1">重玩</view>
       </view>
       <!-- 底部按钮 -->
@@ -49,13 +50,13 @@
       </view>
       <!-- 拳打脚踢 -->
       <view class='blow' wx:if="{{blowStatus}}">
-        <image class='blow_fist' catchtouchstart='blow' data-type="0" src='http://img8.ontheroadstore.com/upload/180611/2dcd6449cbc146a26de27d0465c25b38.png'></image>
-        <image class='blow_foot' catchtouchstart='blow' data-type="1" src='http://img8.ontheroadstore.com/upload/180611/0a7612b02ba0425c99a9aaaa69d725c2.png'></image>
+        <image class='blow_fist' catchtouchstart='blow' data-type="1" src='http://img8.ontheroadstore.com/upload/180611/2dcd6449cbc146a26de27d0465c25b38.png'></image>
+        <image class='blow_foot' catchtouchstart='blow' data-type="2" src='http://img8.ontheroadstore.com/upload/180611/0a7612b02ba0425c99a9aaaa69d725c2.png'></image>
       </view>
       <!-- 打击动画 -->
       <view class='blow_animation' wx:if="{{dialogGifStatus}}">
-        <image src='http://img8.ontheroadstore.com/upload/180611/dfffa2a152dbafa24c42996883656836.gif'></image>
-        <view>你拿起酒瓶抡在酒保头上，造成了3 点伤害</view>
+        <image src='{{msgData.img}}'></image>
+        <view>{{msgData.msg}}</view>
       </view>
 
       <!-- 文字提示窗 -->
@@ -361,7 +362,7 @@
             <view class='title'>选择收获地址</view>
             <view class='address'>
               <image class='icon' src='/images/addressWhite.png'></image>
-              <view class='no_address'>选择地址</view>
+              <view class='no_address' catchtouchstart='selectAddress'>选择地址</view>
               <!-- <view class='address_info'></view> -->
               <image class='gt' src='/images/gtWhite.png'></image>
             </view>
