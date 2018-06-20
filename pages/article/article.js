@@ -107,7 +107,7 @@ Page({
               goodCanSell: true,
               activityCanBy: true
             })
-          } else if (res.data.isCanSell && res.data.userCanBy == '0') {
+          } else if (res.data.isCanSell && (!res.data.userCanBy || res.data.userCanBy == '0')) {
             this.setData({
               activityCanBy: true
             })

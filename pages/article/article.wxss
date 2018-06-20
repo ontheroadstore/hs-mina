@@ -54,7 +54,7 @@
   color: #FFF;
   position: absolute;
   border-radius: 48rpx;
-  left: 220rpx;
+  left: 250rpx;
   top: 6rpx;
 }
 .share{
@@ -457,7 +457,7 @@
   color: #FFF;
   position: absolute;
   border-radius: 48rpx;
-  left: 220rpx;
+  left: 250rpx;
   top: 269rpx;
 }
 .select_content.show{
