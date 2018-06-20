@@ -13,7 +13,7 @@
   </view>
   <image class='close_activity_dialog' bindtap='closeActivityDialog' src='/images/closeWhite.png'></image>
 </view>
-<view class='main'> 
+<view class='main'>
   <view class="content_index {{tabIndex == 0 ? 'active':''}}">
     <swiper class='advert' indicator-dots="true" indicator-active-color="#FFF" indicator-color="rgba(255, 255, 255, 0.3)" autoplay="true" interval="3000" circular="true">
       <swiper-item wx:if="{{activityStatus}}">

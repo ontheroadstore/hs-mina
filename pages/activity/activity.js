@@ -304,109 +304,95 @@ Page({
     shareUrl: null,                           // 分享地址
     isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
-  onReady: function () {
+  onLoad: function () {
     const that = this
-    var onReady = this.onReady
-    // 微信直接加载图片不能超150 大概 显示后在进行添加 且不能直接加载 startAnimation: images
-    for (var i = 0; i < 263; i++) {
-      var mmm = this.data.startAnimation
-      mmm.push(images[i])
-      this.setData({
-        startAnimation: mmm
-      })
-    }
+    var onLoad = this.onLoad
     wx.getUserInfo({
       success: function () {
         req(app.globalData.bastUrl, 'wxapp/wine/getStatus', {} ,'GET', true).then(res => {
-          // 根据存档定位用户停留位置
-
-          req(app.globalData.bastUrl, 'wxapp/wine/getStep', {}, 'GET', true).then(res => {
-            that.setData({
-              procedureState: res.data
-            })
-            if (res.data == 'start'){
-              that.setData({
-                loadingSuccess: true,
-                startingUpStatus: false,
-                dialogNum: 1,
-                dialogActive: 1,
-                startAnimationStatus: true
-              })
-            } else if (res.data == 'fight') {
-              that.setData({
-                loadingSuccess: true,
-                startingUpStatus: false,
-                startAnimationStatus: true,
-                strikeStatus: true,
-                blowStatus: true,
-                combatGifStatus: true,
-                dialogNum: 0,
-                dialogActive: 0
-              })
-            } else if (res.data == 'slienceChooice') {
-              that.setData({
-                loadingSuccess: true,
-                startingUpStatus: false,
-                startAnimationStatus: true,
-                dialogNum: 9,
-                dialogActive: 9
-              })
-            } else if (res.data == 'slience') {
-              that.setData({
-                loadingSuccess: true,
-                startingUpStatus: false,
-                startAnimationStatus: true,
-                strikeStatus: true,
-                winelistStatus: true,
-                dialogNum: 0,
-                dialogActive: 0
-              })
-            } else if (res.data == 'gameOver') {
-              that.setData({
-                loadingSuccess: true,
-                startingUpStatus: false,
-                startAnimationStatus: true,
-                strikeStatus: true,
-                blowStatus: true,
-                combatGifStatus: true,
-                dialogNum: 0,
-                dialogActive: 0,
-                dialogText5: { title: '都TM打死了你还鞭尸' }
-              })
-            } else if (res.data == 'dieChooice') {
-              that.setData({
-                loadingSuccess: true,
-                startingUpStatus: false,
-                startAnimationStatus: true,
-                strikeStatus: true,
-                blowStatus: false,
-                combatGifStatus: true,
-                dialogNum: 7,
-                dialogActive: 7,
-                dialogText5: { title: '都TM打死了你还鞭尸' }
-              })
-            } else if (res.data == 'die') {
-              that.setData({
-                loadingSuccess: true,
-                startingUpStatus: false,
-                startAnimationStatus: true,
-                strikeStatus: true,
-                blowStatus: true,
-                combatGifStatus: true,
-                dialogNum: 0,
-                dialogActive: 0,
-                dialogText5: { title: '都TM打死了你还鞭尸' }
-              })
-            }
-          })
           // 活动是否到期
           if (res.data) {
-            req(app.globalData.bastUrl, 'wxapp/wine/getInfo', {}, 'GET', true).then(res => {
+          // 根据存档定位用户停留位置
+            req(app.globalData.bastUrl, 'wxapp/wine/getStep', {}, 'GET', true, onLoad).then(res => {
               that.setData({
-                blowNum: res.data.hexagon.justice ? res.data.hexagon.justice : 0,
-                damageNum: res.data.hexagon.hit,
-                employCash: res.data.hexagon.cash
+                procedureState: res.data
               })
+              that.getInfo()
+              that.getShareString()
+              if (res.data == 'start') {
+                that.setData({
+                  loadingSuccess: true,
+                  startingUpStatus: false,
+                  dialogNum: 1,
+                  dialogActive: 1,
+                  startAnimationStatus: true
+                })
+              } else if (res.data == 'fight') {
+                that.setData({
+                  loadingSuccess: true,
+                  startingUpStatus: false,
+                  startAnimationStatus: true,
+                  strikeStatus: true,
+                  blowStatus: true,
+                  combatGifStatus: true,
+                  dialogNum: 0,
+                  dialogActive: 0
+                })
+              } else if (res.data == 'slienceChooice') {
+                that.setData({
+                  loadingSuccess: true,
+                  startingUpStatus: false,
+                  startAnimationStatus: true,
+                  dialogNum: 9,
+                  dialogActive: 9
+                })
+              } else if (res.data == 'slience') {
+                that.setData({
+                  loadingSuccess: true,
+                  startingUpStatus: false,
+                  startAnimationStatus: true,
+                  strikeStatus: true,
+                  winelistStatus: true,
+                  dialogNum: 0,
+                  dialogActive: 0
+                })
+              } else if (res.data == 'gameOver') {
+                that.setData({
+                  loadingSuccess: true,
+                  startingUpStatus: false,
+                  startAnimationStatus: true,
+                  strikeStatus: true,
+                  blowStatus: true,
+                  combatGifStatus: true,
+                  dialogNum: 0,
+                  dialogActive: 0,
+                  dialogText5: { title: '都TM打死了你还鞭尸' }
+                })
+              } else if (res.data == 'dieChooice') {
+                that.setData({
+                  loadingSuccess: true,
+                  startingUpStatus: false,
+                  startAnimationStatus: true,
+                  strikeStatus: true,
+                  blowStatus: false,
+                  combatGifStatus: true,
+                  dialogNum: 7,
+                  dialogActive: 7,
+                  dialogText5: { title: '都TM打死了你还鞭尸' }
+                })
+              } else if (res.data == 'die') {
+                that.setData({
+                  loadingSuccess: true,
+                  startingUpStatus: false,
+                  startAnimationStatus: true,
+                  strikeStatus: true,
+                  blowStatus: true,
+                  combatGifStatus: true,
+                  dialogNum: 0,
+                  dialogActive: 0,
+                  dialogText5: { title: '都TM打死了你还鞭尸' }
+                })
+              }
             })
           } else {
             wx.showModal({
@@ -423,7 +409,6 @@ Page({
             })
           }
         })
-        that.getShareString()
       },
       fail: function () {
         that.setData({
@@ -432,9 +417,35 @@ Page({
       }
     })
   },
+  onReady: function () {
+    // 微信直接加载图片不能超150 大概 显示后在进行添加 且不能直接加载 startAnimation: images
+    for (var i = 0; i < 263; i++) {
+      var mmm = this.data.startAnimation
+      mmm.push(images[i])
+      this.setData({
+        startAnimation: mmm
+      })
+    }
+  },
   onShow: function () {
     this.bgLoadingProgressBar()
-    this.audio()
+    // 获取酒单信息
+    req(app.globalData.bastUrl, 'wxapp/wine/getGoodsInfo', {}, 'GET', true).then(res => {
+      console.log(res)
+      this.setData({
+        goodList: res.data
+      })
+    })
+  },
+  // 获取用户 活动信息
+  getInfo: function () {
+    req(app.globalData.bastUrl, 'wxapp/wine/getInfo', {}, 'GET', true).then(res => {
+      this.setData({
+        blowNum: res.data.hexagon.justice ? res.data.hexagon.justice : 0,
+        damageNum: res.data.hit,
+        employCash: res.data.cash
+      })
+    })
   },
   // 拳打脚踢
   blow: function (e) {
@@ -451,7 +462,6 @@ Page({
       })
       return false
     } else if (that.data.blowNum >= 5 && that.data.procedureState != 'fight') {
-      console.log(this.data.dialogText5)
       that.setData({
         dialogGifStatus: false,
         dialogNum: 5,
@@ -471,40 +481,42 @@ Page({
     req(app.globalData.bastUrl, 'wxapp/wine/hit', {
       hitType: blowType
     }, 'POST', true).then(res => {
-      console.log(res)
-      // 缺少 打击次数，优惠价格，总伤害
       if (res.data.status){
-        const blowNum = parseInt(that.data.blowNum) + 1
         that.setData({
-          blowNum: blowNum,
           dialogGifStatus: true,
           blowStatus: false,
           damageNum: 10,
           msgData: {
-            img: 'http://img8.ontheroadstore.com/upload/180611/dfffa2a152dbafa24c42996883656836.gif',
-            msg: res.data.msg
+            img: res.data.msg.img,
+            msg: res.data.msg.msg
           }
         })
         setTimeout(function () {
-          that.setData({
-            dialogGifStatus: false
+          req(app.globalData.bastUrl, 'wxapp/wine/getInfo', {}, 'GET', true).then(res => {
+            that.setData({
+              blowNum: res.data.hexagon.justice ? res.data.hexagon.justice : 0,
+              damageNum: res.data.hit,
+              employCash: res.data.cash
+            })
+              that.setData({
+                dialogGifStatus: false
+              })
+              if (that.data.blowNum == 1 || that.data.blowNum == 4 || that.data.blowNum == 5) {
+                that.setData({
+                  blowStatus: true
+                })
+              } else if (that.data.blowNum == 2) {
+                that.setData({
+                  dialogNum: 2,
+                  dialogActive: 2
+                })
+              } else if (that.data.blowNum == 3) {
+                that.setData({
+                  dialogNum: 3,
+                  dialogActive: 3
+                })
+              }
           })
-          console.log(that.data.blowNum)
-          if (that.data.blowNum == 1 || that.data.blowNum == 4 || that.data.blowNum == 5) {
-            that.setData({
-              blowStatus: true
-            })
-          } else if (that.data.blowNum == 2) {
-            that.setData({
-              dialogNum: 2,
-              dialogActive: 2
-            })
-          } else if (that.data.blowNum == 3) {
-            that.setData({
-              dialogNum: 3,
-              dialogActive: 3
-            })
-          }
         }, 2000)
       } else{
         that.setData({
@@ -680,10 +692,13 @@ Page({
       this.setData({
         battlefieldReportStatus: true
       })
-      // req(app.globalData.bastUrl, 'wxapp/wine/getShareJpeg', {}, 'GET', true).then(res => {
-      //   console.log(res)
-        
-      // })
+      req(app.globalData.bastUrl, 'wxapp/wine/getShareJpeg', {}, 'GET', true).then(res => {
+        console.log(res)
+        var b = new Base64();
+        alert("base64 encode:" + str);
+        var str = b.decode(res.data);
+        console.log(str)
+      })
       // 请求数据
       const data = {
         imgUrl1: '/images/canvasBg.png',
@@ -1150,7 +1165,7 @@ Page({
       this.setData({
         authorization: false
       })
-      app.login(that.onReady)
+      app.login(that.onLoad)
     }
   },
   // 获取分享hash
@@ -1164,37 +1179,18 @@ Page({
   },
   // 分享 默认分享是活动页 如果当前用户已经可以叫人代打 分享代打页
   onShareAppMessage: function () {
-    const that = this
     this.setData({
       dialogNum: 0,
       dialogActive: 0,
       blowStatus: true
     })
+    this.addShareIncrCoin()
     // 在分享前生成哈希 在已经打完第三次 最好是每次打击都返回 前2次为null 3次后有哈希值
     return {
       title: '狠货天天抽，最高价值¥2399，次数上不封顶',
       path: this.data.shareUrl,
-      imageUrl: 'http://img8.ontheroadstore.com/upload/180528/3b7b4161ab2690f9fe8b10188cbedeff.png',
-      success: function () {
-        that.addShareIncrCoin()
-      }
+      imageUrl: 'http://img8.ontheroadstore.com/upload/180528/3b7b4161ab2690f9fe8b10188cbedeff.png'
     }
-  },
-  // 音频处理
-  audio: function () {
-    this.audioCtx = wx.createAudioContext('myAudio')
-    this.audioCtx.play()
-    // const url = 'https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3'    
-    // const backgroundAudio1 = wx.createInnerAudioContext()
-    // this.backgroundAudio1 = backgroundAudio1
-    // backgroundAudio1.autoplay = true
-    // backgroundAudio1.loop = true
-    // backgroundAudio1.obeyMuteSwitch = true
-    // backgroundAudio1.src = url
-    // backgroundAudio1.onError((res) => {
-    //   console.log(res.errMsg)
-    //   console.log(res.errCode)
-    // })
   },
   // 分享增加抽奖
   addShareIncrCoin: function () {

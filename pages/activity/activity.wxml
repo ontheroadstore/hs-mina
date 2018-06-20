@@ -307,7 +307,7 @@
             <image class='close' catchtouchstart='closeWinelistBattlefield' src='http://img8.ontheroadstore.com/upload/180613/a3ae194cc6c5362bc72ffa7b0daae7f4.png'></image>
             <view class='title'>酒单</view>
             <view class='good_title'>
-              <view class="{{goodsActive == 0 ? 'active' : ''}}">另类酒</view>
+              <view class="{{goodsActive == index ? 'active' : ''}}" wx:for="{{goodList}}" wx:key="item">{{item.mm}}</view>
               <view class="{{goodsActive == 1 ? 'active' : ''}}">烈酒</view>
               <view class="{{goodsActive == 2 ? 'active' : ''}}">葡萄酒</view>
               <view class="{{goodsActive == 3 ? 'active' : ''}}">啤酒</view>
@@ -379,7 +379,7 @@
           </view>
         </view>
       </view>
-    <!-- <audio id="myAudio" loop src="https://hspublic.oss-cn-beijing.aliyuncs.com/bg.mp3"></audio> -->
+
     </view>
   </view>
 </view>
