@@ -302,6 +302,10 @@ Page({
     goodList: null,                           // 商品列表
     activeGood: null,                         // 选中的商品
     shareUrl: null,                           // 分享地址
+
+    battlefieldInfo: null,                    // 战报信息
+
+
     isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
   onLoad: function () {
@@ -436,6 +440,30 @@ Page({
         goodList: res.data
       })
     })
+    // wx.downloadFile({
+    //   url: 'http://img8.ontheroadstore.com/wine/music/bg2.mp3', //仅为示例，并非真实的资源
+    //   success: function (res) {
+    //     console.log(res)
+    //     // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
+    //     if (res.statusCode === 200) {
+    //       wx.playVoice({
+    //         filePath: res.tempFilePath
+    //       })
+    //       const innerAudioContext = wx.createInnerAudioContext()
+    //       innerAudioContext.autoplay = true
+    //       innerAudioContext.src = res.tempFilePath
+
+    //       innerAudioContext.onPlay(() => {
+    //         console.log('开始播放')
+    //       })
+    //       innerAudioContext.onError((res) => {
+    //         console.log(res.errMsg)
+    //         console.log(res.errCode)
+    //       })
+    //     }
+    //   }
+    // })
+    
   },
   // 获取用户 活动信息
   getInfo: function () {
@@ -443,7 +471,8 @@ Page({
       this.setData({
         blowNum: res.data.hexagon.justice ? res.data.hexagon.justice : 0,
         damageNum: res.data.hit,
-        employCash: res.data.cash
+        employCash: res.data.cash,
+        battlefieldInfo: res.data
       })
     })
   },
@@ -452,7 +481,7 @@ Page({
     const blowType = parseInt(e.target.dataset.type)
     const that = this
     // 设置文案
-    that.setDialogText5()
+    this.setDialogText5()
     // 超过5次后
     if (that.data.blowNum >= 5 && that.data.procedureState == 'fight') {
       that.setData({
@@ -496,7 +525,8 @@ Page({
             that.setData({
               blowNum: res.data.hexagon.justice ? res.data.hexagon.justice : 0,
               damageNum: res.data.hit,
-              employCash: res.data.cash
+              employCash: res.data.cash,
+              battlefieldInfo: res.data
             })
               that.setData({
                 dialogGifStatus: false
@@ -573,7 +603,8 @@ Page({
   // dialog3 文案切换
   setDialogText5: function () {
     var text = this.data.dialogText5
-    if (this.data.blowNum >= 5 && that.data.procedureState == 'die') {
+    console.log(this.data.blowNum)
+    if (this.data.blowNum >= 5 && (this.data.procedureState == 'die' || this.data.procedureState == 'gameOver')) {
       text = { title: '都TM打死了你还鞭尸' }
     } else {
       text = { title: '腿软了！赶紧叫人吧！' }
@@ -674,6 +705,7 @@ Page({
       dialogNum: 0,
       dialogActive: 0
     })
+    this.getInfo()
   },
   closeWinelistBattlefield: function () {
     this.setData({
@@ -1182,6 +1214,7 @@ Page({
   },
   // 分享 默认分享是活动页 如果当前用户已经可以叫人代打 分享代打页
   onShareAppMessage: function () {
+    const that = this
     this.setData({
       dialogNum: 0,
       dialogActive: 0,
@@ -1192,13 +1225,16 @@ Page({
     return {
       title: '狠货天天抽，最高价值¥2399，次数上不封顶',
       path: this.data.shareUrl,
-      imageUrl: 'http://img8.ontheroadstore.com/upload/180528/3b7b4161ab2690f9fe8b10188cbedeff.png'
+      imageUrl: 'http://img8.ontheroadstore.com/upload/180528/3b7b4161ab2690f9fe8b10188cbedeff.png',
+      success: function (res) {
+        that.addShareIncrCoin()
+      }
     }
   },
   // 分享增加抽奖
   addShareIncrCoin: function () {
     const that = this
-    if (that.data.blowNum == 4 && that.data.blowNum == 3) {
+    if (that.data.blowNum == 4 || that.data.blowNum == 3) {
       req(app.globalData.bastUrl, 'wxapp/wine/share', {}, 'GET', true).then(res => {
         that.setData({
           dialogNum: 4,
