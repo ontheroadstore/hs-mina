@@ -684,6 +684,7 @@ Page({
   // 打开战报生成页
   openBattlefieldReport: function (e) {
     const status = e.target.dataset.status
+    const that = this
     if (status == 0){
       this.setData({
         battlefieldReportStatus: false
@@ -694,26 +695,21 @@ Page({
       })
       req(app.globalData.bastUrl, 'wxapp/wine/getShareJpeg', {}, 'GET', true).then(res => {
         console.log(res)
-        var b = new Base64();
-        alert("base64 encode:" + str);
-        var str = b.decode(res.data);
-        console.log(str)
+        const data = {
+          imgUrl1: '/images/canvasBg.png',
+          imgUrl2: '/images/help.png',
+          imgUrl3: '/images/defraud.png',
+          userImgUrl1: 'https://thirdwx.qlogo.cn/mmopen/Hy1aD7zVQ9beaiaCRbbt4aJKc1ia5BialyDL3bMNmeh3ic4hAeaaz8sahUqe62aSgCQcFHu6Nu3nUVaTbshqOEMhX9cNzBDqYCQia/132',
+          userImgUrl2: 'https://thirdwx.qlogo.cn/mmopen/Jr43aXouWDh4FLYc1pUCrV5Puiaro3uf4QdKddWgibe2l0ZsYDIYNxDZP8MozM3vZsnDibEK7HvRZgeDXIn90YxfCCOkrgIQn2y/132',
+          userImgUrl3: 'https://thirdwx.qlogo.cn/mmopen/vi_32/l0rh6aAjq1RYv5aS9wLtVVJpAkIuuR0NYFPBMAWibSLaeWmcfCKibNFKpoibblJU3ZSyz1wlvDibWFC42wAvMl59VQ/132',
+          userImgUrl4: '/images/default_img.png',
+          codeImgUrl: res.data,
+          text1: '“猫奶奶家的奶酪”一怒之下蹦起来打在酒保膝盖上，酒保受到惊吓，造成1点伤害。',
+          text2: '“猫奶奶家的奶酪”一怒之下蹦上，酒保受到惊吓，造成1点伤害。',
+          spotArr: [50, 50, 50, 50, 50, 50]
+        }
+        that.creatCanvas(data)
       })
-      // 请求数据
-      const data = {
-        imgUrl1: '/images/canvasBg.png',
-        imgUrl2: '/images/help.png',
-        imgUrl3: '/images/defraud.png',
-        userImgUrl1: 'https://thirdwx.qlogo.cn/mmopen/Hy1aD7zVQ9beaiaCRbbt4aJKc1ia5BialyDL3bMNmeh3ic4hAeaaz8sahUqe62aSgCQcFHu6Nu3nUVaTbshqOEMhX9cNzBDqYCQia/132',
-        userImgUrl2: 'https://thirdwx.qlogo.cn/mmopen/Jr43aXouWDh4FLYc1pUCrV5Puiaro3uf4QdKddWgibe2l0ZsYDIYNxDZP8MozM3vZsnDibEK7HvRZgeDXIn90YxfCCOkrgIQn2y/132',
-        userImgUrl3: 'https://thirdwx.qlogo.cn/mmopen/vi_32/l0rh6aAjq1RYv5aS9wLtVVJpAkIuuR0NYFPBMAWibSLaeWmcfCKibNFKpoibblJU3ZSyz1wlvDibWFC42wAvMl59VQ/132',
-        userImgUrl4: '/images/default_img.png',
-        codeImgUrl: 'https://img8.ontheroadstore.com/upload/180613/417e180140744f8f2afcf4fb7e9ce27b.png',
-        text1: '“猫奶奶家的奶酪”一怒之下蹦起来打在酒保膝盖上，酒保受到惊吓，造成1点伤害。',
-        text2: '“猫奶奶家的奶酪”一怒之下蹦上，酒保受到惊吓，造成1点伤害。',
-        spotArr: [50, 50, 50, 50, 50, 50]
-      }
-      this.creatCanvas(data)
     }
   },
   // 加载战报信息
@@ -1168,6 +1164,13 @@ Page({
       app.login(that.onLoad)
     }
   },
+  // 商品切换
+  tabGoods: function (e) {
+    const active = e.target.dataset.active
+    this.setData({
+      goodsActive: active
+    })
+  },
   // 获取分享hash
   getShareString: function () {
     const that = this
@@ -1195,7 +1198,7 @@ Page({
   // 分享增加抽奖
   addShareIncrCoin: function () {
     const that = this
-    if (that.data.blowNum < 5 && that.data.blowNum >= 3) {
+    if (that.data.blowNum == 4 && that.data.blowNum == 3) {
       req(app.globalData.bastUrl, 'wxapp/wine/share', {}, 'GET', true).then(res => {
         that.setData({
           dialogNum: 4,
@@ -1239,5 +1242,3 @@ function textArr(context, text){
   }
   return row
 }
-
-

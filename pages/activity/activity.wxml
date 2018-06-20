@@ -307,10 +307,7 @@
             <image class='close' catchtouchstart='closeWinelistBattlefield' src='http://img8.ontheroadstore.com/upload/180613/a3ae194cc6c5362bc72ffa7b0daae7f4.png'></image>
             <view class='title'>酒单</view>
             <view class='good_title'>
-              <view class="{{goodsActive == index ? 'active' : ''}}" wx:for="{{goodList}}" wx:key="item">{{item.mm}}</view>
-              <view class="{{goodsActive == 1 ? 'active' : ''}}">烈酒</view>
-              <view class="{{goodsActive == 2 ? 'active' : ''}}">葡萄酒</view>
-              <view class="{{goodsActive == 3 ? 'active' : ''}}">啤酒</view>
+              <view catchtouchstart='tabGoods' data-active="{{index}}" class="{{goodsActive == index ? 'active' : ''}}" wx:for="{{goodList}}" wx:key="item">{{item.type}}</view>
             </view>
             <scroll-view class='items' scroll-y='true'>
               <view class='item'>
