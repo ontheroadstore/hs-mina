@@ -23,7 +23,7 @@ Page({
     req(app.globalData.bastUrl, 'wxapp/winedoit/status').then(res => {
       if (res.data) {
         req(app.globalData.bastUrl, 'wxapp/winedoit/getIsSell', {
-          goodsIds: 1095535
+          goodsIds: 17016
         }, 'POST').then(res => {
           if (res.data.isCanSell && res.data.userCanBy == '1') {
             that.setData({
