@@ -193,6 +193,17 @@
   text-align: center;
   width: 100%;
 }
+.friend_info .getUserInfo{
+  position: absolute;
+  top: 0;
+  line-height: 80rpx;
+  text-align: center;
+  width: 100%;
+  z-index: 1;
+  opacity: 0;
+}
+
+
 .blow{
   position: absolute;
   bottom: 316rpx;

@@ -12,7 +12,7 @@ Page({
   data: {
     isIphoneX: app.globalData.isIphoneX,    // 是否IphoneX
     addressItems: [],                       // 地址列表
-    addressType: 0,                         // 0：通过我的地址进入  1：确认订单页进入 2：活动页进入
+    addressType: 0,                         // 0：通过我的地址进入  1：确认订单页进入
     orderType: 0                            // 订单类型传入什么在返回什么(确认订单页)
   },
   onLoad: function (options) {
@@ -65,12 +65,6 @@ Page({
         url: '/pages/createOrder/createOrder?type=' + orderType
       })
     }
-    // addressType=2 设置成功后返回活动页
-    if (this.data.addressType == 2) {
-      wx.navigateTo({
-        url: '/pages/activity/activity'
-      })
-    }
     req(app.globalData.bastUrl, 'appv2/updateaddress', {
       target_address_id: id,
       is_default: 1
@@ -116,12 +110,6 @@ Page({
                 const orderType = that.data.orderType
                 wx.navigateTo({
                   url: '/pages/createOrder/createOrder?type=' + orderType
-                })
-              }
-              // addressType=2 设置成功后返回活动页
-              if (that.data.addressType == 2) {
-                wx.navigateTo({
-                  url: '/pages/activity/activity'
                 })
               }
             }

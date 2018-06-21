@@ -120,6 +120,17 @@
 .start_animation .active{
   opacity: 1;
 }
+.start_animation .skip{
+  position: absolute;
+  top: 30rpx;
+  right: 30rpx;
+  z-index: 11;
+  width: 132rpx;
+  height: 60rpx;
+  background: none;
+}
+
+
 
 
 .weave{
@@ -134,6 +145,7 @@
 }
 .weave .bg1,
 .weave .bg3,
+.weave .bg4,
 .weave .bg2{
   width: 100%;
   height: 100%;
@@ -838,6 +850,7 @@
   bottom: 30rpx;
   left: 40rpx;
   font-size: 26rpx;
+  color: #F8E71C;
 }
 .payment .payment_dialog{
   width: 688rpx;
@@ -874,6 +887,29 @@
   padding-left: 74rpx;
   font-size: 30rpx;
 }
+.payment_content .address_info{
+  position: relative;
+  height: 128rpx;
+  color: #FFF;
+  overflow: hidden;
+}
+.payment_content .address_info .user_tel{
+  font-size: 26rpx;
+  position: absolute;
+  top: 20rpx;
+  right: 30rpx;
+}
+.payment_content .address_info .user_name{
+  font-size: 26rpx;
+  line-height: 1em;
+  margin-bottom: 20rpx;
+  margin: 20rpx 0 20rpx 74rpx;
+}
+.payment_content .address_info .details{
+  font-size: 26rpx;
+  line-height: 32rpx;
+  padding: 0 30rpx 0 74rpx;
+}
 .payment_content .good_info{
   width: 604rpx;
   margin: 42rpx 42rpx 20rpx 42rpx;
@@ -899,6 +935,13 @@
   width: 110%;
   height: 4rpx;
   background: #FFF;
+}
+.payment_content .good_info .good_desc{
+  position: absolute;
+  bottom: 40rpx;
+  left: 192rpx;
+  font-size: 24rpx;
+  color: #F8E71C;
 }
 .payment_content .desc{
   font-size: 24rpx;

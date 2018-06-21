@@ -21,6 +21,7 @@
   <view class='activity_content'>
     <view class='start_animation'>
       <image mode="aspectFill" bindload="loadStatic" wx:for="{{startAnimation}}" wx:key="item" class="animation_img {{startAnimationNum == index?'active':''}}" src='{{item}}'></image>
+      <image class='skip' catchtouchstart='skipAnimation' src='http://img8.ontheroadstore.com/upload/180621/1da1fb71a521603fb91ec4941a17c03c.png'></image>
     </view>
     <!-- <view class="weave weave_show {{startAnimationStatus ? 'weave_show':''}}"> -->
     <view class="weave {{startAnimationStatus ? 'weave_show':''}}"> 
@@ -28,6 +29,7 @@
       <image class='bg1' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180608/2f6ea9815a50c6469fb7f7ecb1f03310.jpg'></image>
       <image class='bg2' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180612/f08ae5f6d9d4e266823d110b370d44b9.png'></image>
       <image class='bg3' hidden="{{!combatGifStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180611/890f979a6b55a7f80c82d00ca4f3a8c7.gif'></image>
+      <image class='bg4' hidden="{{!(procedureState == 'die')}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180621/a38e4eb3eb68466d3774fca550f81385.png'></image>
       <!-- 顶部信息 -->
       <view class='damage' wx:if="{{strikeStatus}}">
         <image class='jian' wx:if="{{procedureState != 'slience'}}" src='http://img8.ontheroadstore.com/upload/180611/38425a6c6954768f52a0b576aa452c56.png'></image>
@@ -38,7 +40,8 @@
         </view>
         <image class='regulation' data-status="1" catchtouchstart='activityInfo' src='http://img8.ontheroadstore.com/upload/180611/760fe00ac3b261f66627ecb0ef575136.png'></image>
         <image class='reset' catchtouchstart='resetGameShow' data-status="1" src='http://img8.ontheroadstore.com/upload/180611/2085b59674fde23e5ea7163fd9c0f19d.png'></image>
-        <view class='damage_text' wx:if="{{procedureState != 'slience'}}">对酒保造成的伤害总数：{{damageNum}}(可优惠{{employCash}}元)</view>
+        <view class='damage_text' wx:if="{{procedureState != 'slience'&&procedureState!='die'}}">对酒保造成的伤害总数：{{damageNum}}(可优惠{{employCash}}元)</view>
+        <view class='damage_text' wx:if="{{procedureState!='slience'&&procedureState=='die'}}">已经进小黑屋了，拿着狱友给的20块钱忏悔吧</view>
         <view class='reset_text' catchtouchstart='resetGameShow' data-status="1">重玩</view>
       </view>
       <!-- 底部按钮 -->
@@ -80,7 +83,7 @@
         <view class='dialog2' hidden="{{!(dialogNum == 2)}}">
           <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/dc84190b980f6f68a1487da97307690b.png'></image>
           <view class='dialog_text'>
-            <view class='subtitle'>围观群众对你见义勇为的行为表示认可，他们凑了15元给你买酒</view>
+            <view class='subtitle'>围观群众对你见义勇为的行为表示认可，他们凑了{{employCash}}元给你买酒</view>
             <view class='select_item' catchtouchstart='samaritan'>
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>老子还能再打</view>
@@ -218,8 +221,8 @@
               <view class='title'>活动规则</view>
               <view class='subhead'>购买</view>
               <view class='item'>1.点击“拳打”或“飞腿”进行攻击，对酒保造成的伤害数值等同与优惠金额。</view>
-              <view class='item'>2.可根据自己的伤害值（即优惠金额），以优惠 价格买酒，不同商品优惠力度不同。</view>
-              <view class='item'>3.当可用优惠金额高于已选商品的最大优惠值是 ，剩余的优惠金额可在下次购买使用。</view>
+              <view class='item'>2.可根据自己的伤害值（即优惠金额），以优惠价格买酒，不同商品优惠力度不同。</view>
+              <view class='item'>3.当可用优惠金额高于已选商品的最大优惠值时，剩余的优惠金额可在下次购买使用。</view>
               <view class='subhead'>分享</view>
               <view class='item'>1.可通过邀请好友解锁更多攻击次数</view>
               <view class='item'>2.邀请成功后，朋友造成的伤害计入个人总伤害 ，朋友越多优惠金额越高。</view>
@@ -239,49 +242,34 @@
             <image class='close' catchtouchstart='closeWinelistBattlefield' src='http://img8.ontheroadstore.com/upload/180613/a3ae194cc6c5362bc72ffa7b0daae7f4.png'></image>
             <view class='title'>我的战报</view> 
             <view class='user_info'>
-              <image class='cover_img' src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
-              <view class='user_name'>爱因斯坦他爹的舅舅</view>
-              <view class='user_damage'>我的伤害： 30  朋友的伤害：30</view>
+              <image class='cover_img' src='{{battlefieldInfo.user.avatar}}'></image>
+              <view class='user_name'>{{battlefieldInfo.user.wx_name}}</view>
+              <view class='user_damage'>我的伤害： {{battlefieldInfo.myHurt}}  朋友的伤害：{{battlefieldInfo.myFriendHurt}}</view>
             </view>
-            <view class='total_damage'>共对酒保造成297点伤害，可优惠297元</view>
-            <view class='discounts'>已使用:XX 剩余优惠:XX</view>
+            <view class='total_damage'>共对酒保造成{{battlefieldInfo.hit}}点伤害</view>
+            <view class='discounts'>可使用优惠： {{battlefieldInfo.cash}}</view>
             <view class='combat_title'>战斗记录</view>
             <view class='combats'>
-              <view class='item'>
-                <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
-                <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
+              <view class='item' wx:for="{{activerecordLog}}" wx:key="item">
+                <image src='{{item.avatar}}'></image>
+                <view>{{item.msg}}</view>
               </view>
-              <view class='item'>
-                <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
-                <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
-              </view>
-              <view class='item'>
-                <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
-                <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
-              </view>
-              <view class='item'>
-                <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
-                <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
-              </view>
-              <view class='item'>
-                <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
-                <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
-              </view>
+              
             </view>
             <view class='page'>
-              <view class='up'>
-                <image src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
-                <text>上一页</text>
+              <view class='up' wx:if="{{activeRecordLogPage != 0}}" catchtouchstart='tabRecordLogPage' data-page="up">
+                <image data-page="up" src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
+                <text data-page="up">上一页</text>
               </view>
-              <view class='next'>
-                <text>下一页</text>
-                <image src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
+              <view class='next' wx:if="{{activeRecordLogPage != recordLogPage && recordLogPage != 0}}" catchtouchstart='tabRecordLogPage' data-page="next">
+                <text data-page="next">下一页</text>
+                <image data-page="next" src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
               </view>
             </view>
             <view class='operate'>
               <view class='buy_liquor' catchtouchstart='openWinelist'>
                 <image src='http://img8.ontheroadstore.com/upload/180613/47f43d8e8ae17dee5df717a5a7a20d00.png'></image>
-                <view>打够了挑瓶</view>
+                <view>打够了挑瓶酒</view>
               </view>
               <view class='create_img' catchtouchstart='openBattlefieldReport' data-status="1">
                 <image data-status="1" src='http://img8.ontheroadstore.com/upload/180613/47f43d8e8ae17dee5df717a5a7a20d00.png'></image>
@@ -307,46 +295,18 @@
             <image class='close' catchtouchstart='closeWinelistBattlefield' src='http://img8.ontheroadstore.com/upload/180613/a3ae194cc6c5362bc72ffa7b0daae7f4.png'></image>
             <view class='title'>酒单</view>
             <view class='good_title'>
-              <view catchtouchstart='tabGoods' data-active="{{index}}" class="{{goodsActive == index ? 'active' : ''}}" wx:for="{{goodList}}" wx:key="item">{{item.type}}</view>
+              <view catchtouchstart='tabGoods' data-active="{{index}}" class="{{goodsActive==index?'active':''}}" wx:for="{{goodList}}" wx:key="item">{{item.type}}</view>
             </view>
             <scroll-view class='items' scroll-y='true'>
-              <view class='item'>
+              <view class='item' wx:for="{{goodList[goodsActive]['item']}}" wx:key="item">
                 <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
-                <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
-                <view class='discounts'>最高可减10元</view>
-                <view class='price font_din'>￥ 258</view>
-                <view class='buy_btn'>购买</view>
-              </view>
-              <view class='item'>
-                <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
-                <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
-                <view class='discounts'>最高可减10元</view>
-                <view class='price'>￥ 258</view>
-                <view class='buy_btn'>购买</view>
-              </view>
-              <view class='item'>
-                <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
-                <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
-                <view class='discounts'>最高可减10元</view>
-                <view class='price'>￥ 258</view>
-                <view class='buy_btn'>购买</view>
-              </view>
-              <view class='item'>
-                <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
-                <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
-                <view class='discounts'>最高可减10元</view>
-                <view class='price'>￥ 258</view>
-                <view class='buy_btn'>购买</view>
-              </view>
-              <view class='item'>
-                <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
-                <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
-                <view class='discounts'>最高可减10元</view>
-                <view class='price font_din'>￥ 258</view>
-                <view class='buy_btn'>购买</view>
+                <view class='post_title'>{{item.post_title}}</view>
+                <view class='discounts'>最高可减{{item.max}}元</view>
+                <view class='price font_din'>￥ {{item.price}}</view>
+                <view class='buy_btn' data-id="{{item.id}}" data-mid="{{item.mid}}" data-uid="{{item.seller_uid}}" data-uname="{{item.seller_name}}" catchtouchstart='paymentBtn' data-img="{{item.img}}" data-post_title="{{item.post_title}}" data-max="{{item.max}}" data-price="{{item.price}}" data-desc="酒精度：{{item.capacity}} 净含量：{{item.concentration}}">购买</view>
               </view>
             </scroll-view>
-            <view class='discounts_num'>可用优惠： 20</view>
+            <view class='discounts_num'>可用优惠： {{employCash}}</view>
           </view>
         </view>
       </view>
@@ -355,18 +315,23 @@
         <view class='payment_dialog'>
           <image src='http://img8.ontheroadstore.com/upload/180615/4dc446fc68e787463f2029174b4fc3d3.png'></image>
           <view class='payment_content'>
-            <image class='close' src='http://img8.ontheroadstore.com/upload/180613/a3ae194cc6c5362bc72ffa7b0daae7f4.png'></image>
-            <view class='title'>选择收获地址</view>
-            <view class='address'>
+            <image class='close' catchtouchstart='closePayment' src='http://img8.ontheroadstore.com/upload/180613/a3ae194cc6c5362bc72ffa7b0daae7f4.png'></image>
+            <view class='title'>选择收货地址</view>
+            <view class='address' catchtouchstart='selectAddress'>
               <image class='icon' src='/images/addressWhite.png'></image>
-              <view class='no_address' catchtouchstart='selectAddress'>选择地址</view>
-              <!-- <view class='address_info'></view> -->
+              <view class='no_address' wx:if="{{!addressInfo}}">选择地址</view>
+              <view class='address_info'>
+                <view class='user_name'>{{addressInfo.name}}</view>
+                <view class='user_tel'>{{addressInfo.telphone}}</view>
+                <view class='details'>{{addressInfo.province}}{{addressInfo.city}}{{addressInfo.county}}{{addressInfo.detail}}</view>
+              </view>
               <image class='gt' src='/images/gtWhite.png'></image>
             </view>
             <view class='good_info'>
-              <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
-              <view class='post_title'>Villa Sparina 斯巴琳娜小手榴弹|意大利干白葡萄酒</view>
-              <view class='price font_din'>￥ 258 <text class='font_din'>￥ 258</text></view>
+              <image src='{{activeGood.img}}'></image>
+              <view class='post_title'>{{activeGood.post_title}}</view>
+              <view class='good_desc'>{{activeGood.desc}}</view>
+              <view class='price font_din'>￥ {{activeGood.max}} <text class='font_din'>￥ {{activeGood.price}}</text></view>
             </view>
             <view class='desc'>优惠金额会随好友助拳实时变化，具体金额以支付时为准</view>
             <view class='payment_btn'>

@@ -7,8 +7,8 @@
       <image src='http://img8.ontheroadstore.com/upload/180614/34a60c2b3b45d47bd9754555a48a8c04.png'></image>
       <view class='friend_info'>
         <view class='user_info'>
-          <image class='cover_img' src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
-          <view class='user_name'>爱因斯坦他爹的舅舅</view>
+          <image class='cover_img' src='{{battlefieldInfo.user.avatar}}'></image>
+          <view class='user_name'>{{battlefieldInfo.user.wx_name}}</view>
           <view class='user_damage'>SB酒保调戏姑娘，忍不了了，一起干他丫的！</view>
         </view>
         <view class='damage'>
@@ -20,35 +20,28 @@
           </view>
           <image class='regulation' data-status="1" catchtouchstart='activityInfo' src='http://img8.ontheroadstore.com/upload/180611/760fe00ac3b261f66627ecb0ef575136.png'></image>
         </view>
-        <view class='total_damage'>对酒保造成的伤害总数：XXX(可优惠XX元)</view>
+        <view class='total_damage'>对酒保造成的伤害总数：{{battlefieldInfo.hit}}(可优惠{{battlefieldInfo.cash}}元)</view>
         <view class='combat_title'>战斗记录</view>
         <view class='combats'>
-          <view class='item'>
-            <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
-            <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
-          </view>
-          <view class='item'>
-            <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
-            <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
-          </view>
-          <view class='item'>
-            <image src='http://thirdwx.qlogo.cn/mmopen/BA8GZZ2EGwWxO6kHR4SeEo9B09vUEkFHpW0Aeic16jxqdyBLiafjL114TCwicF5LL7icbydsbDPG7jJsjsfmQy6b9LRXvkcJNtWB/132'></image>
-            <view>无敌美少女一怒之下蹦起来打在酒保膝盖上，酒 保受到惊吓，造成1点伤害。</view>
+          <view class='item' wx:for="{{activerecordLog}}" wx:key="item">
+            <image src='{{item.avatar}}'></image>
+            <view>{{item.msg}}</view>
           </view>
         </view>
         <view class='page'>
-          <view class='up'>
-            <image src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
-            <text>上一页</text>
+          <view class='up' wx:if="{{activeRecordLogPage != 0}}" catchtouchstart='tabRecordLogPage' data-page="up">
+            <image data-page="up" src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
+            <text data-page="up">上一页</text>
           </view>
-          <view class='next'>
-            <text>下一页</text>
-            <image src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
+          <view class='next' wx:if="{{activeRecordLogPage != recordLogPage && recordLogPage != 0}}" catchtouchstart='tabRecordLogPage' data-page="next">
+            <text data-page="next">下一页</text>
+            <image data-page="next" src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
           </view>
         </view>
         <view class='operate'>
           <image src='http://img8.ontheroadstore.com/upload/180614/b77d6fd8262e0a4ffbd0d1ef66bc4923.png'></image>
           <view catchtouchstart='tabScene'>干他丫的</view>
+          <button open-type='getUserInfo' class='getUserInfo' wx:if="{{authorization}}" bindgetuserinfo="getuserinfo">授权</button>
         </view>
       </view>
     </view>
@@ -58,13 +51,13 @@
     </view>
     <!-- 打击动画 -->
     <view class='blow_animation' wx:if="{{dialogGifStatus}}">
-      <image src='http://img8.ontheroadstore.com/upload/180611/dfffa2a152dbafa24c42996883656836.gif'></image>
-      <view>你拿起酒瓶抡在酒保头上，造成了3 点伤害</view>
+      <image src='{{dialogGif.msg.msg}}'></image>
+      <view>{{dialogGif.msg.img}}</view>
     </view>
     <view class='dialog' hidden="{{!dialogStatus}}">
       <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
       <view class='dialog_text'>
-        <view class='subtitle'>你对酒保造成了20点伤害，帮XXX挣了20元奖金！</view>
+        <view class='subtitle'>{{dialoText}}</view>
         <view class='select_item' catchtouchstart='ending'>
           <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
           <view>我也要玩</view>

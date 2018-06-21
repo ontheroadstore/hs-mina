@@ -1,13 +1,57 @@
+const app = getApp()
+const util = require('../../utils/util.js')
+import { req } from '../../utils/api.js'
+
 Page({
   data: {
-    blowStatus: false,                // 打击按钮
-    sceneStatus: false,               // 切换打击
-    damageNum: 10,                    // 朋友打击伤害
-    dialogGifStatus: false,           // 打击动画
-    dialogStatus: false               // 提示窗
+    authorization: false,                     // 授权
+    shareString: null,                        // 分享串
+    blowStatus: false,                        // 打击按钮
+    sceneStatus: false,                       // 切换打击
+    damageNum: 10,                            // 朋友打击伤害
+    dialogGifStatus: false,                   // 打击动画
+    dialogStatus: false,                      // 提示窗
+    dialogGif: null,                          // 打击动画
+    dialoText: null,                          // 提示文案
+
+    battlefieldInfo: null,                    // 战报信息
+    recordLog: null,                          // 战斗记录
+    activerecordLog: null,                    // 当前战斗记录
+    recordLogPage: 1,                         // 战斗记录页数
+    activeRecordLogPage: 0,                   // 当前页
   },
   onLoad: function (options) {
-  
+    console.log(options)
+    const that = this
+    this.setData({
+      shareString: 'c3ccKsZ//Qz5YOYyuyOKBAwr7Rm8cT/XknR658EtaN4'
+    })
+    wx.getUserInfo({
+      success: function () {
+        req(app.globalData.bastUrl, 'wxapp/wine/getShareInfo', {
+          shareString: that.data.shareString
+        }, 'POST', true).then( res => {
+          if(res.data == 0){
+            wx.redirectTo({
+              url: '/pages/activity/activity',
+            })
+          }
+          const recordLogPage = res.data.log.length / 3 != parseInt(res.data.log.length / 3) ? parseInt(res.data.log.length / 3) : res.data.log.length / 3 - 1
+          that.setData({
+            battlefieldInfo: res.data,
+            recordLog: res.data.log,
+            activerecordLog: res.data.log.slice(0, 3),
+            recordLogPage: recordLogPage,
+            damageNum: res.data.hit
+          })
+        })
+      },
+      fail: function () {
+        that.setData({
+          authorization: true
+        })
+      }
+    })
   },
   onReady: function () {
   
@@ -18,6 +62,15 @@ Page({
   onShareAppMessage: function () {
   
   },
+  getuserinfo: function (res) {
+    const that = this
+    if (res.detail.errMsg == 'getUserInfo:ok') {
+      this.setData({
+        authorization: false
+      })
+      app.login(that.onLoad)
+    }
+  },
   // 我也要玩
   ending: function () {
     wx.redirectTo({
@@ -25,18 +78,38 @@ Page({
     })
   },
   // 打击动画
-  blow: function () {
+  blow: function (e) {
     const that = this
-    this.setData({
-      dialogGifStatus: true,
-      blowStatus: false
+    const blowType = parseInt(e.target.dataset.type)
+
+    req(app.globalData.bastUrl, 'wxapp/wine/shareHit', {
+      hitType: blowType,
+      shareString: that.data.shareString
+    }, 'POST', true).then(res => {
+      if (res.data.status){
+        const text = '你对酒保造成了20点伤害，帮' + that.data.battlefieldInfo.user.wx_name+'挣了20元奖金！'
+        this.setData({
+          dialoText: text,
+          dialogGif: res.data,
+          dialogGifStatus: true,
+          blowStatus: false
+        })
+        setTimeout(function () {
+          that.setData({
+            dialogGifStatus: false,
+            dialogStatus: true
+          })
+        }, 2000)
+      } else {
+        const text = res.data.msg
+        that.setData({
+          dialoText: text,
+          dialogGifStatus: false,
+          dialogStatus: true
+        })
+      }
     })
-    setTimeout(function () {
-      that.setData({
-        dialogGifStatus: false,
-        dialogStatus: true
-      })
-    }, 2000)
+    
   },
   // 切换场景
   tabScene: function () {
@@ -44,6 +117,26 @@ Page({
       blowStatus: true,
       sceneStatus: true
     })
+  },
+  // 战斗记录翻页
+  tabRecordLogPage: function (e) {
+    const page = e.target.dataset.page
+    const activeRecordLogPage = this.data.activeRecordLogPage
+    if (page == 'up') {
+      const page = (activeRecordLogPage - 1) * 3
+      const num = (activeRecordLogPage - 1) * 3 + 3
+      this.setData({
+        activeRecordLogPage: activeRecordLogPage - 1,
+        activerecordLog: this.data.recordLog.slice(page, num)
+      })
+    } else if (page == 'next') {
+      const page = (activeRecordLogPage + 1) * 3
+      const num = (activeRecordLogPage + 1) * 3 + 3
+      this.setData({
+        activeRecordLogPage: activeRecordLogPage + 1,
+        activerecordLog: this.data.recordLog.slice(page, num)
+      })
+    }
   },
   // 活动规则
   activityInfo: function (e) {
