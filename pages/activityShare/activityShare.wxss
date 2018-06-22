@@ -233,17 +233,25 @@
   left: 0;
   background: rgba(0,0,0,0.6);
 }
-.blow_animation image{
+.blow_animation .blow_gif{
   width: 660rpx;
   height: 516rpx;
   margin: 40% auto 0;
 }
+.blow_animation .foot,
+.blow_animation .fist{
+  width: 300rpx;
+  height: 300rpx;
+  margin: 50% auto 0;
+  opacity: 0;
+}
 .blow_animation view{
+  margin: 20rpx 130rpx;
   color: #FFF;
   font-size: 28rpx;
   text-align: center;
-  margin:-114rpx 60rpx;
 }
+
 .dialog{
   position: absolute;
   top: 468rpx;
@@ -351,6 +359,13 @@
   font-size: 24rpx;
   text-align: center;
 }
+.shareImg{
+  position: absolute;
+  top: 200vh;
+  left: 200vw;
+  opacity: 0;
+}
+
 @keyframes bg2animation{
   0%{
     opacity: 1;

@@ -203,7 +203,6 @@ Page({
     this.setData({
       orderNumber: ordernumber
     })
-    console.log(ordernumber)
     req(app.globalData.bastUrl, 'appv2_1/buychecking', {
       order_number: ordernumber,
       payment_type: 3

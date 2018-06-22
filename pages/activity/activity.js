@@ -151,8 +151,12 @@ Page({
     startAnimationNum: 0,                     // 动画图片显示顺序
     startAnimationStatus: false,              // 动画进行状态
     dialogGifStatus: false,                   // gif弹窗显示
+    dialogAnimationStatus: false,             // gif显示
+    blowType: 0,                              // 拳打 脚踢
+    opacityAnimstion: null,                   // 拳打 脚踢 渐变动画
     combatGifStatus: false,                   // 打斗背景gif
     blowStatus: false,                        // 拳打脚踢按钮显示
+    blowLoading: false,                       // 是否打击中
     strikeStatus: false,                      // 上下按钮栏
     procedureState: 0,                        // 存档参数
     dialogNum: 0,                             // 弹窗显示
@@ -180,7 +184,7 @@ Page({
     activerecordLog: null,                    // 当前战斗记录
     recordLogPage: 1,                         // 战斗记录页数
     activeRecordLogPage: 0,                   // 当前页
-
+    audioNum: 0,                              // 
     isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
   onLoad: function () {
@@ -311,6 +315,7 @@ Page({
         startAnimation: startAnimation.concat(images3)
       })
     }, 2500)
+    this.audioLoading()
   },
   onShow: function () {
     this.bgLoadingProgressBar()
@@ -320,37 +325,13 @@ Page({
         goodList: res.data
       })
     })
-    // wx.downloadFile({
-    //   url: 'http://img8.ontheroadstore.com/wine/music/bg2.mp3', //仅为示例，并非真实的资源
-    //   success: function (res) {
-    //     console.log(res)
-    //     // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
-    //     if (res.statusCode === 200) {
-    //       wx.playVoice({
-    //         filePath: res.tempFilePath
-    //       })
-    //       const innerAudioContext = wx.createInnerAudioContext()
-    //       innerAudioContext.autoplay = true
-    //       innerAudioContext.src = res.tempFilePath
-
-    //       innerAudioContext.onPlay(() => {
-    //         console.log('开始播放')
-    //       })
-    //       innerAudioContext.onError((res) => {
-    //         console.log(res.errMsg)
-    //         console.log(res.errCode)
-    //       })
-    //     }
-    //   }
-    // })
-    
   },
   // 获取用户 活动信息
   getInfo: function () {
     req(app.globalData.bastUrl, 'wxapp/wine/getInfo', {}, 'GET', true).then(res => {
       const recordLogPage = res.data.log.length / 5 != parseInt(res.data.log.length / 5) ? parseInt(res.data.log.length / 5) : res.data.log.length / 5 - 1
       this.setData({
-        blowNum: res.data.hexagon.justice ? res.data.hexagon.justice : 0,
+        blowNum: res.data.hitNum,
         damageNum: res.data.hit,
         employCash: res.data.cash,
         battlefieldInfo: res.data,
@@ -362,7 +343,13 @@ Page({
   },
   // 拳打脚踢
   blow: function (e) {
-    const blowType = parseInt(e.target.dataset.type)
+    if (this.data.blowLoading){
+      return false
+    }
+    this.setData({
+      blowLoading: true,
+      blowType: parseInt(e.target.dataset.type)
+    })
     const that = this
     // 设置文案
     this.setDialogText5()
@@ -392,7 +379,7 @@ Page({
     }
     // 接口获取文字图片信息 blowType 打击类型 
     req(app.globalData.bastUrl, 'wxapp/wine/hit', {
-      hitType: blowType
+      hitType: this.data.blowType
     }, 'POST', true).then(res => {
       if (res.data.status){
         that.setData({
@@ -405,27 +392,23 @@ Page({
         })
         setTimeout(function () {
           req(app.globalData.bastUrl, 'wxapp/wine/getInfo', {}, 'GET', true).then(res => {
+            const opacityAnimstion = wx.createAnimation({
+              duration: 200,
+              timingFunction: "ease",
+              delay: 0
+            })
+            that.opacityAnimstion = opacityAnimstion
+            opacityAnimstion.opacity(1).step()
             that.setData({
               blowNum: res.data.hitNum,
               damageNum: res.data.hit,
               employCash: res.data.cash,
-              dialogGifStatus: false
+              blowLoading: false,
+              dialogAnimationStatus: true
             })
-            if (that.data.blowNum == 1 || that.data.blowNum == 4 || that.data.blowNum == 5) {
-              that.setData({
-                blowStatus: true
-              })
-            } else if (that.data.blowNum == 2) {
-              that.setData({
-                dialogNum: 2,
-                dialogActive: 2
-              })
-            } else if (that.data.blowNum == 3) {
-              that.setData({
-                dialogNum: 3,
-                dialogActive: 3
-              })
-            }
+            that.setData({
+              opacityAnimstion: opacityAnimstion.export()
+            })
           })
         }, 2000)
       } else{
@@ -442,6 +425,29 @@ Page({
           })
         }, 2000)
       }
+    })
+  },
+  // 关闭打击动画
+  closeDialogGif: function () {
+    if (this.data.blowNum == 1 || this.data.blowNum == 4 || this.data.blowNum == 5) {
+      this.setData({
+        blowStatus: true
+      })
+    } else if (this.data.blowNum == 2) {
+      this.setData({
+        dialogNum: 2,
+        dialogActive: 2
+      })
+    } else if (this.data.blowNum == 3) {
+      this.setData({
+        dialogNum: 3,
+        dialogActive: 3
+      })
+    }
+    this.setData({
+      dialogGifStatus: false,
+      blowType: 0,
+      dialogAnimationStatus: false
     })
   },
   // 结局
@@ -593,27 +599,27 @@ Page({
       this.setData({
         battlefieldReportStatus: false
       })
+      return false
     } else {
       this.setData({
         battlefieldReportStatus: true
       })
       req(app.globalData.bastUrl, 'wxapp/wine/getShareJpeg', {}, 'GET', true).then(res => {
-        console.log(res)
-        console.log(that.data.battlefieldInfo.hexagon)
         var text1 = '招募给力队友和我一起惩治流氓酒保！'
         var text2 = '来试试看谁会是帮倒忙让酒保回血的坑货！'
-        var userImgUrl1 = that.data.battlefieldInfo.user.avatar
+        var userImgUrl1 = replaceStr(that.data.battlefieldInfo.user.avatar)
         var userImgUrl2 = '/images/zhugong.png'
         var userImgUrl3 = '/images/keng.png'
         var userImgUrl2Status = false
         var userImgUrl3Status = false
+        console.log(replaceStr(that.data.battlefieldInfo.user.avatar))
         // if (that.data.battlefieldInfo.hexagon.best){
 
         // }
         // if (that.data.battlefieldInfo.hexagon.worst) {
 
         // }
-        const num = parseInt(Math.random() * 50) + 20
+        const num = parseInt(Math.random() * 30) + 20
         const data = {
           imgUrl1: '/images/canvasBg.png',
           imgUrl2: '/images/help.png',
@@ -624,7 +630,7 @@ Page({
           userImgUrl2Status: userImgUrl2Status,
           userImgUrl3Status: userImgUrl3Status,
           userImgUrl4: '/images/default_img.png',
-          codeImgUrl: res.data,
+          codeImgUrl: replaceStr(res.data),
           text1: text1,
           text2: text2,
           spotArr: [that.data.battlefieldInfo.hexagon.hit, that.data.battlefieldInfo.hexagon.justice, that.data.battlefieldInfo.hexagon.cash, num, that.data.battlefieldInfo.hexagon.glamour, that.data.battlefieldInfo.hexagon.luck]
@@ -981,6 +987,9 @@ Page({
         startAnimationNum: 0,
         startAnimationStatus: false,
         dialogGifStatus: false,
+        blowType: 0,
+        opacityAnimstion: null,
+        dialogAnimationStatus: false,
         blowStatus: false,
         combatGifStatus: false,
         strikeStatus: false,
@@ -988,6 +997,7 @@ Page({
         dialogNum: 0,
         dialogActive: 0,
         blowNum: 0,
+        blowLoading: false,
         damageNum: 0,
         employCash: 0,
         msgData: null,
@@ -1008,7 +1018,8 @@ Page({
         recordLogPage: 1,
         activeRecordLogPage: 0,
         activeGood: null,
-        resetDialogStatus: true
+        resetDialogStatus: true,
+        audioNum: 0,
       })
       that.bgLoadingProgressBar('reset')
       req(app.globalData.bastUrl, 'wxapp/wine/getGoodsInfo', {}, 'GET', true).then(res => {
@@ -1024,6 +1035,7 @@ Page({
     this.setData({
       startAnimationNum: 132
     })
+    this.audioBg1.stop()
   },
   // 活动开始
   startActivity: function () {
@@ -1031,6 +1043,7 @@ Page({
     this.setData({
       startingUpStatus: false
     })
+    this.audioBg1.play()
     var time = setInterval(function () {
       if (that.data.startAnimationNum <= 131){
         that.setData({
@@ -1077,7 +1090,7 @@ Page({
     } else {
       var that = this
       setTimeout(function () {
-        if (that.data.loadingStatic >= 263) {
+        if (that.data.loadingStatic >= 263 && that.data.audioNum == 1) {
           that.setData({
             loadingSuccess: true
           })
@@ -1229,6 +1242,76 @@ Page({
       }
     })
   },
+  // 支付
+  payment: function (order) {
+    console.log(this.data.activeGood)
+    req(app.globalData.bastUrl, 'appv3_1/createorder', {
+      address_id: this.data.activeGood.address_id,
+      type: 1,
+      orders: this.data.activeGood.orders,
+      payment_type: 3
+    }, 'POST').then(res => {
+      if (res.code == 1) {
+        this.buychecking(res.data)
+      }
+    })
+  },
+  buychecking: function (ordernumber) {
+    // 订单号
+    this.setData({
+      orderNumber: ordernumber
+    })
+    req(app.globalData.bastUrl, 'appv2_1/buychecking', {
+      order_number: ordernumber,
+      payment_type: 3
+    }, 'POST', true).then(res => {
+      this.wxpayment(res.data)
+    })
+  },
+  // 微信支付方法
+  // 文档：https://developers.weixin.qq.com/miniprogram/dev/api/api-pay.html
+  wxpayment: function (prepayId) {
+    const orderNumber = this.data.orderNumber
+    const that = this
+    req(app.globalData.bastUrl, 'appv5_1/payment/getWxPaymentParam', {
+      package: 'prepay_id=' + prepayId
+    }, 'POST').then(res => {
+      wx.requestPayment({
+        timeStamp: res.data.timeStamp,
+        nonceStr: res.data.nonceStr,
+        package: res.data.package,
+        signType: res.data.signType,
+        paySign: res.data.paySign,
+        success: function () {
+          // 推送 appv5_1/wxapp/payment/action
+          req(app.globalData.bastUrl, 'appv2_1/buysuccess', {
+            order_number: orderNumber
+          }, 'POST')
+          that.paymentSuccess(prepayId)
+        },
+        fail: function () {
+          req(app.globalData.bastUrl, 'appv2_1/buyfailed', {
+            order_number: orderNumber
+          }, 'POST')
+        }
+      })
+    })
+  },
+  // 支付成功后回调
+  paymentSuccess: function (prepayId) {
+    const orderNumber = this.data.orderNumber
+    const activityStatus = this.data.activityStatus
+    req(app.globalData.bastUrl, 'appv5_1/wxapp/payment/action', {
+      order_number: orderNumber,
+      prepay_id: prepayId
+    }, 'POST', true).then(res => {
+      wx.showToast({
+        title: '购买成功',
+        icon: 'success',
+        duration: 2000
+      })
+    })
+  },
   // 关闭支付
   closePayment: function () {
     this.setData({
@@ -1257,10 +1340,11 @@ Page({
     this.addShareIncrCoin()
     this.setProcedureState()
     // 在分享前生成哈希 在已经打完第三次 最好是每次打击都返回 前2次为null 3次后有哈希值
+    const title = '酒保耍流氓，我已经打了他' + this.data.damageNum + '点血，快一起来打这孙子！'
     return {
-      title: '狠货天天抽，最高价值¥2399，次数上不封顶',
+      title: title,
       path: this.data.shareUrl,
-      imageUrl: 'http://img8.ontheroadstore.com/upload/180528/3b7b4161ab2690f9fe8b10188cbedeff.png',
+      imageUrl: 'http://img8.ontheroadstore.com/upload/180622/c56c8d58d9e36fbe34740d7753843671.png',
       success: function (res) {
         that.addShareIncrCoin()
       }
@@ -1286,6 +1370,52 @@ Page({
       })
     }
   },
+  // 音频加载
+  audioLoading: function () {
+    const that = this
+    wx.downloadFile({
+      url: 'https://img8.ontheroadstore.com/wine/music/bg2.mp3',
+      success: function (res) {
+        if (res.statusCode === 200) {
+          that.setData({
+            audioNum: that.data.audioNum + 1
+          })
+          wx.playVoice({
+            filePath: res.tempFilePath
+          })
+          const bg1 = wx.createInnerAudioContext()
+          that.audioBg1 = bg1
+          bg1.src = res.tempFilePath
+          bg1.obeyMuteSwitch = true
+          bg1.onError = function (res) {
+            console.log(res)
+          }
+        }
+      }
+    })
+  },
+  // 循环添加加载视频
+  // circulationAudioLoading: function () {
+  //   const that = this
+  //   wx.downloadFile({
+  //     url: 'https://img8.ontheroadstore.com/wine/music/bg2.mp3',
+  //     success: function (res) {
+  //       if (res.statusCode === 200) {
+  //         that.setData({
+  //           audioNum: that.data.audioNum + 1
+  //         })
+  //         wx.playVoice({
+  //           filePath: res.tempFilePath
+  //         })
+  //         const bg1 = wx.createInnerAudioContext()
+  //         that.audioBg1 = bg1
+  //         bg1.src = res.tempFilePath
+  //         bg1.obeyMuteSwitch = true
+  //         bg1.src = res.tempFilePath
+  //       }
+  //     }
+  //   })
+  // },  
   catchtouchmove: function () {
     // console.log(1)
   }
@@ -1312,4 +1442,9 @@ function textArr(context, text){
     row[2] = ''
   }
   return row
+}
+function replaceStr(url) {
+  var str = url
+  var newStr = str.replace('http', 'https')
+  return newStr
 }

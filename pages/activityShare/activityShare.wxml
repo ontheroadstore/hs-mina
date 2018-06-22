@@ -1,4 +1,4 @@
-<view class="main page" id="main" catchtouchmove='catchtouchmove'>
+<view class="main page" id="main" catchtouchmove='catchtouchmove' wx:if="{{mainStatus}}">
   <view class='scene'>
     <image class='bg1' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180608/2f6ea9815a50c6469fb7f7ecb1f03310.jpg'></image>
     <image class='bg2' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180612/f08ae5f6d9d4e266823d110b370d44b9.png'></image>
@@ -33,7 +33,7 @@
             <image data-page="up" src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
             <text data-page="up">上一页</text>
           </view>
-          <view class='next' wx:if="{{activeRecordLogPage != recordLogPage && recordLogPage != 0}}" catchtouchstart='tabRecordLogPage' data-page="next">
+          <view class='next' wx:if="{{activeRecordLogPage != recordLogPage && recordLogPage != 0&&recordLog.length!=0}}" catchtouchstart='tabRecordLogPage' data-page="next">
             <text data-page="next">下一页</text>
             <image data-page="next" src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
           </view>
@@ -50,10 +50,13 @@
       <image class='blow_foot' catchtouchstart='blow' data-type="1" src='http://img8.ontheroadstore.com/upload/180611/0a7612b02ba0425c99a9aaaa69d725c2.png'></image>
     </view>
     <!-- 打击动画 -->
-    <view class='blow_animation' wx:if="{{dialogGifStatus}}">
-      <image src='{{dialogGif.msg.msg}}'></image>
-      <view>{{dialogGif.msg.img}}</view>
+    <view class='blow_animation' wx:if="{{dialogGifStatus}}" catchtouchstart="{{dialogAnimationStatus? 'closeDialogGif':''}}">
+      <image src='{{dialogGif.msg.img}}' class='blow_gif' wx:if="{{!dialogAnimationStatus}}"></image>
+      <image animation="{{opacityAnimstion}}" src='/images/fist.png' class='fist' wx:if="{{dialogAnimationStatus && blowType == 1}}"></image>
+      <image animation="{{opacityAnimstion}}" src='/images/foot.png' class='foot' wx:if="{{dialogAnimationStatus && blowType == 2}}"></image>
+      <view wx:if="{{dialogAnimationStatus}}">{{dialogGif.msg.msg}}</view>
     </view>
+
     <view class='dialog' hidden="{{!dialogStatus}}">
       <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
       <view class='dialog_text'>
@@ -73,8 +76,8 @@
         <view class='title'>活动规则</view>
         <view class='subhead'>购买</view>
         <view class='item'>1.点击“拳打”或“飞腿”进行攻击，对酒保造成的伤害数值等同与优惠金额。</view>
-        <view class='item'>2.可根据自己的伤害值（即优惠金额），以优惠 价格买酒，不同商品优惠力度不同。</view>
-        <view class='item'>3.当可用优惠金额高于已选商品的最大优惠值是 ，剩余的优惠金额可在下次购买使用。</view>
+        <view class='item'>2.可根据自己的伤害值（即优惠金额），以优惠价格买酒，不同商品优惠力度不同。</view>
+        <view class='item'>3.当可用优惠金额高于已选商品的最大优惠值时，剩余的优惠金额可在下次购买使用。</view>
         <view class='subhead'>分享</view>
         <view class='item'>1.可通过邀请好友解锁更多攻击次数</view>
         <view class='item'>2.邀请成功后，朋友造成的伤害计入个人总伤害 ，朋友越多优惠金额越高。</view>
@@ -82,4 +85,5 @@
       </view>
     </view>
   </view>
+  <image src='http://img8.ontheroadstore.com/upload/180622/c56c8d58d9e36fbe34740d7753843671.png' class='shareImg'></image>
 </view>

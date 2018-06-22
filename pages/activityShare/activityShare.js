@@ -4,6 +4,7 @@ import { req } from '../../utils/api.js'
 
 Page({
   data: {
+    mainStatus: false,                        // 加载
     authorization: false,                     // 授权
     shareString: null,                        // 分享串
     blowStatus: false,                        // 打击按钮
@@ -13,18 +14,23 @@ Page({
     dialogStatus: false,                      // 提示窗
     dialogGif: null,                          // 打击动画
     dialoText: null,                          // 提示文案
-
     battlefieldInfo: null,                    // 战报信息
     recordLog: null,                          // 战斗记录
     activerecordLog: null,                    // 当前战斗记录
     recordLogPage: 1,                         // 战斗记录页数
     activeRecordLogPage: 0,                   // 当前页
+    dialogAnimationStatus: false,
+    opacityAnimstion: null
   },
   onLoad: function (options) {
-    console.log(options)
+    if (options.scene){
+      var shareString = decodeURIComponent(options.scene)
+    } else {
+      var shareString = options.share
+    }
     const that = this
     this.setData({
-      shareString: 'c3ccKsZ//Qz5YOYyuyOKBAwr7Rm8cT/XknR658EtaN4'
+      shareString: '1737vJhp3Fx4cyvO/ZtdNL1EN6ZwTy1bXExiZP+ZvOw'
     })
     wx.getUserInfo({
       success: function () {
@@ -38,6 +44,7 @@ Page({
           }
           const recordLogPage = res.data.log.length / 3 != parseInt(res.data.log.length / 3) ? parseInt(res.data.log.length / 3) : res.data.log.length / 3 - 1
           that.setData({
+            mainStatus: true,
             battlefieldInfo: res.data,
             recordLog: res.data.log,
             activerecordLog: res.data.log.slice(0, 3),
@@ -48,6 +55,7 @@ Page({
       },
       fail: function () {
         that.setData({
+          mainStatus: true,
           authorization: true
         })
       }
@@ -60,7 +68,11 @@ Page({
   
   },
   onShareAppMessage: function () {
-  
+    return {
+      title: '狠货天天抽，最高价值¥2399，次数上不封顶',
+      path: '/pages/activityShare/activityShare?share=' + this.data.shareString,
+      imageUrl: 'http://img8.ontheroadstore.com/upload/180622/c56c8d58d9e36fbe34740d7753843671.png'
+    }
   },
   getuserinfo: function (res) {
     const that = this
@@ -71,6 +83,14 @@ Page({
       app.login(that.onLoad)
     }
   },
+  closeDialogGif: function () {
+    this.setData({
+      dialogGifStatus: false,
+      blowType: 0,
+      dialogAnimationStatus: false,
+      dialogStatus: true
+    })
+  },
   // 我也要玩
   ending: function () {
     wx.redirectTo({
@@ -80,14 +100,16 @@ Page({
   // 打击动画
   blow: function (e) {
     const that = this
-    const blowType = parseInt(e.target.dataset.type)
-
+    this.setData({
+      blowType: parseInt(e.target.dataset.type)
+    })
     req(app.globalData.bastUrl, 'wxapp/wine/shareHit', {
-      hitType: blowType,
+      hitType: this.data.blowType,
       shareString: that.data.shareString
     }, 'POST', true).then(res => {
+      console.log(res)
       if (res.data.status){
-        const text = '你对酒保造成了20点伤害，帮' + that.data.battlefieldInfo.user.wx_name+'挣了20元奖金！'
+        const text = '你对酒保造成了' + res.data.hitNum + '点伤害，帮' + that.data.battlefieldInfo.user.wx_name + '挣了' + res.data.hitNum +'元奖金！'
         this.setData({
           dialoText: text,
           dialogGif: res.data,
@@ -96,8 +118,17 @@ Page({
         })
         setTimeout(function () {
           that.setData({
-            dialogGifStatus: false,
-            dialogStatus: true
+            dialogAnimationStatus: true
+          })
+          const opacityAnimstion = wx.createAnimation({
+            duration: 200,
+            timingFunction: "ease",
+            delay: 0
+          })
+          that.opacityAnimstion = opacityAnimstion
+          opacityAnimstion.opacity(1).step()
+          that.setData({
+            opacityAnimstion: opacityAnimstion.export()
           })
         }, 2000)
       } else {

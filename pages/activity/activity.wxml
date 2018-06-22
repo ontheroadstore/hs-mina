@@ -28,7 +28,7 @@
       <!-- 背景切换 -->
       <image class='bg1' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180608/2f6ea9815a50c6469fb7f7ecb1f03310.jpg'></image>
       <image class='bg2' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180612/f08ae5f6d9d4e266823d110b370d44b9.png'></image>
-      <image class='bg3' hidden="{{!combatGifStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180611/890f979a6b55a7f80c82d00ca4f3a8c7.gif'></image>
+      <image class='bg3' hidden="{{!combatGifStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180622/3027991c49c5a42a07b9bc5ba8998b0c.gif'></image>
       <image class='bg4' hidden="{{!(procedureState == 'die')}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180621/a38e4eb3eb68466d3774fca550f81385.png'></image>
       <!-- 顶部信息 -->
       <view class='damage' wx:if="{{strikeStatus}}">
@@ -57,9 +57,11 @@
         <image class='blow_foot' catchtouchstart='blow' data-type="2" src='http://img8.ontheroadstore.com/upload/180611/0a7612b02ba0425c99a9aaaa69d725c2.png'></image>
       </view>
       <!-- 打击动画 -->
-      <view class='blow_animation' wx:if="{{dialogGifStatus}}">
-        <image src='{{msgData.img}}'></image>
-        <view>{{msgData.msg}}</view>
+      <view class='blow_animation' wx:if="{{dialogGifStatus}}" catchtouchstart="{{dialogAnimationStatus? 'closeDialogGif':''}}">
+        <image src='{{msgData.img}}' class='blow_gif' wx:if="{{!dialogAnimationStatus}}"></image>
+        <image animation="{{opacityAnimstion}}" src='/images/fist.png' class='fist' wx:if="{{dialogAnimationStatus && blowType == 1}}"></image>
+        <image animation="{{opacityAnimstion}}" src='/images/foot.png' class='foot' wx:if="{{dialogAnimationStatus && blowType == 2}}"></image>
+        <view wx:if="{{dialogAnimationStatus}}">{{msgData.msg}}</view>
       </view>
 
       <!-- 文字提示窗 -->
@@ -261,7 +263,7 @@
                 <image data-page="up" src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
                 <text data-page="up">上一页</text>
               </view>
-              <view class='next' wx:if="{{activeRecordLogPage != recordLogPage && recordLogPage != 0}}" catchtouchstart='tabRecordLogPage' data-page="next">
+              <view class='next' wx:if="{{activeRecordLogPage != recordLogPage && recordLogPage != 0 && recordLog.length!=0}}" catchtouchstart='tabRecordLogPage' data-page="next">
                 <text data-page="next">下一页</text>
                 <image data-page="next" src='http://img8.ontheroadstore.com/upload/180613/755c460e9b154a02119c267b671f9753.png'></image>
               </view>
@@ -336,12 +338,12 @@
             <view class='desc'>优惠金额会随好友助拳实时变化，具体金额以支付时为准</view>
             <view class='payment_btn'>
               <image src='http://img8.ontheroadstore.com/upload/180614/b77d6fd8262e0a4ffbd0d1ef66bc4923.png'></image>
-              <view catchtouchstart='tabScene'>确认购买</view>
+              <view catchtouchstart='payment'>确认购买</view>
             </view>
           </view>
         </view>
       </view>
-
+    <image src='http://img8.ontheroadstore.com/upload/180622/c56c8d58d9e36fbe34740d7753843671.png' class='shareImg'></image>
     </view>
   </view>
 </view>
