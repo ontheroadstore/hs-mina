@@ -2,7 +2,7 @@
   <view class='scene'>
     <image class='bg1' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180608/2f6ea9815a50c6469fb7f7ecb1f03310.jpg'></image>
     <image class='bg2' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180612/f08ae5f6d9d4e266823d110b370d44b9.png'></image>
-    <image class='bg3' hidden="{{!sceneStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180611/890f979a6b55a7f80c82d00ca4f3a8c7.gif'></image>
+    <image class='bg3' hidden="{{!sceneStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180622/3027991c49c5a42a07b9bc5ba8998b0c.gif'></image>
     <view class='friend_combat' hidden="{{sceneStatus}}">
       <image src='http://img8.ontheroadstore.com/upload/180614/34a60c2b3b45d47bd9754555a48a8c04.png'></image>
       <view class='friend_info'>
@@ -46,8 +46,8 @@
       </view>
     </view>
     <view class='blow' hidden="{{!blowStatus}}">
-      <image class='blow_fist' catchtouchstart='blow' data-type="0" src='http://img8.ontheroadstore.com/upload/180611/2dcd6449cbc146a26de27d0465c25b38.png'></image>
-      <image class='blow_foot' catchtouchstart='blow' data-type="1" src='http://img8.ontheroadstore.com/upload/180611/0a7612b02ba0425c99a9aaaa69d725c2.png'></image>
+      <image class='blow_fist' catchtouchstart='blow' data-type="1" src='http://img8.ontheroadstore.com/upload/180611/2dcd6449cbc146a26de27d0465c25b38.png'></image>
+      <image class='blow_foot' catchtouchstart='blow' data-type="2" src='http://img8.ontheroadstore.com/upload/180611/0a7612b02ba0425c99a9aaaa69d725c2.png'></image>
     </view>
     <!-- 打击动画 -->
     <view class='blow_animation' wx:if="{{dialogGifStatus}}" catchtouchstart="{{dialogAnimationStatus? 'closeDialogGif':''}}">

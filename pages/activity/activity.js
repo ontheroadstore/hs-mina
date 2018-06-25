@@ -183,7 +183,9 @@ Page({
     activerecordLog: null,                    // 当前战斗记录
     recordLogPage: 1,                         // 战斗记录页数
     activeRecordLogPage: 0,                   // 当前页
-    audioNum: 0,                              // 
+    audioNum: 0,                              // 加载音频数
+    textArr: [],                              // 文字显示列表
+    activeText: -1,                           // 当前显示文字
     isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
   onLoad: function () {
@@ -314,7 +316,26 @@ Page({
         startAnimation: startAnimation.concat(images3)
       })
     }, 2500)
-    // this.audioLoading()
+    this.audioLoading()
+    // wx.downloadFile({
+    //   url: 'https://img8.ontheroadstore.com/wine/music/1.mp3',
+    //   success: function (res) {
+    //     if (res.statusCode === 200) {
+    //       const bg = wx.createInnerAudioContext()
+    //       bg.src = res.tempFilePath
+    //       bg.loop = true
+    //       bg.obeyMuteSwitch = true
+    //       bg.play()
+    //       bg.onPlay(() => {
+    //         console.log('开始播放')
+    //       })
+    //       bg.onError((res) => {
+    //         console.log(res.errMsg)
+    //         console.log(res.errCode)
+    //       })
+    //     }
+    //   }
+    // })
   },
   onShow: function () {
     this.bgLoadingProgressBar()
@@ -342,6 +363,9 @@ Page({
   },
   // 拳打脚踢
   blow: function (e) {
+    const num = parseInt(Math.random() * 6) + 1
+    console.log(num)
+    this['attack' + num].play()
     if (this.data.blowLoading){
       return false
     }
@@ -360,6 +384,7 @@ Page({
         dialogNum: 6,
         dialogActive: 6
       })
+      this.textShow(3)
       return false
     } else if (that.data.blowNum >= 5 && that.data.procedureState != 'fight') {
       that.setData({
@@ -441,11 +466,13 @@ Page({
         dialogNum: 2,
         dialogActive: 2
       })
+      this.textShow(1)
     } else if (this.data.blowNum == 3) {
       this.setData({
         dialogNum: 3,
         dialogActive: 3
       })
+      this.textShow(2)
     }
     this.setData({
       dialogGifStatus: false,
@@ -471,13 +498,14 @@ Page({
         dialogActive: 8,
         employCash: 20
       })
-      // 游戏结束，领取优惠卷
-
+      this.textShow(5)
     } else if (ending == 3){
       this.setData({
+        procedureState: 0,
         dialogNum: 10,
         dialogActive: 10
       })
+      this.textShow(6)
     } else if (ending == 4) {
       this.setData({
         dialogNum: 0,
@@ -490,6 +518,7 @@ Page({
       this.resetGame()
     }
     this.procedure()
+    this.select.play()
   },
   // dialog3 文案切换
   setDialogText5: function () {
@@ -513,6 +542,8 @@ Page({
       procedureState: 'dieChooice'
     })
     this.procedure()
+    this.select.play()
+    this.textShow(4)
   },
   // 选择见义勇为
   samaritan: function () {
@@ -525,6 +556,10 @@ Page({
       dialogActive: 0
     })
     this.procedure()
+    this.select.play()
+    if (this.back2){
+      this.back2.play()
+    }
   },
   // 选择默不作声
   slienceChooice: function () {
@@ -534,6 +569,8 @@ Page({
       dialogActive: 9
     })
     this.procedure()
+    this.select.play()
+    this.textShow(7)
   },
   // 接受贿赂 购买
   slience: function () {
@@ -547,6 +584,7 @@ Page({
       dialogActive: 0
     })
     this.procedure()
+    this.select.play()
   },
   // 存档
   procedure: function () {
@@ -565,6 +603,7 @@ Page({
       dialogActive: 0
     })
     this.setProcedureState()
+    this.menu.play()
   },
   // 打开战报
   openBattlefield: function () {
@@ -577,6 +616,7 @@ Page({
     })
     this.setProcedureState()
     this.getInfo()
+    this.menu.play()
   },
   closeWinelistBattlefield: function () {
     this.setData({
@@ -605,13 +645,14 @@ Page({
         var userImgUrl3 = '/images/keng.png'
         var userImgUrl2Status = false
         var userImgUrl3Status = false
-        console.log(replaceStr(that.data.battlefieldInfo.user.avatar))
-        // if (that.data.battlefieldInfo.hexagon.best){
-
-        // }
-        // if (that.data.battlefieldInfo.hexagon.worst) {
-
-        // }
+        if (that.data.battlefieldInfo.hexagon.best){
+          userImgUrl2 = that.data.battlefieldInfo.hexagon.best.avatar
+          text1 = that.data.battlefieldInfo.hexagon.best.msg
+        }
+        if (that.data.battlefieldInfo.hexagon.worst) {
+          userImgUrl3 = that.data.battlefieldInfo.hexagon.worst.avatar
+          text2 = that.data.battlefieldInfo.hexagon.worst.msg
+        }
         const num = parseInt(Math.random() * 30) + 20
         const data = {
           imgUrl1: '/images/canvasBg.png',
@@ -716,7 +757,6 @@ Page({
     if(num == 8){
       const systemInfo = wx.getSystemInfoSync()
       const ratio = systemInfo.windowWidth / 375
-      wx.hideLoading()
       const canvasData = this.data.canvasData
       // 五角点位置
       var spotArr = canvasData.spotArr
@@ -810,10 +850,10 @@ Page({
       showCanvas.setTextAlign('left')
       const showCanvastextArr1 = textArr(showCanvas, canvasData.text1)
       const showCanvastextArr2 = textArr(showCanvas, canvasData.text2)
-      showCanvas.fillText(showCanvastextArr1[0], 85, 484, 231)
-      showCanvas.fillText(showCanvastextArr1[1], 92, 504, 231)
-      showCanvas.fillText(showCanvastextArr2[0], 52, 552, 231)
-      showCanvas.fillText(showCanvastextArr2[1], 60, 572, 231)
+      showCanvas.fillText(showCanvastextArr1[0], 87, 484, 231)
+      showCanvas.fillText(showCanvastextArr1[1], 87, 504, 231)
+      showCanvas.fillText(showCanvastextArr2[0], 54, 552, 231)
+      showCanvas.fillText(showCanvastextArr2[1], 54, 572, 231)
       showCanvas.draw(true)
 
 
@@ -888,17 +928,22 @@ Page({
       hiddenCanvas.setFontSize(24)
       hiddenCanvas.setFillStyle("#FFF")
       hiddenCanvas.setTextAlign('left')
-      const hiddenCanvastextArr1 = textArr(showCanvas, canvasData.text1)
-      const hiddenCanvastextArr2 = textArr(showCanvas, canvasData.text2)
+      const hiddenCanvastextArr1 = textArr(hiddenCanvas, canvasData.text1)
+      const hiddenCanvastextArr2 = textArr(hiddenCanvas, canvasData.text2)
       hiddenCanvas.fillText(hiddenCanvastextArr1[0], 85 * 2, 484 * 2, 231 * 2)
-      hiddenCanvas.fillText(hiddenCanvastextArr1[1], 92 * 2, 504 * 2, 231 * 2)
+      hiddenCanvas.fillText(hiddenCanvastextArr1[1], 85 * 2, 504 * 2, 231 * 2)
       hiddenCanvas.fillText(hiddenCanvastextArr2[0], 52 * 2, 552 * 2, 231 * 2)
-      hiddenCanvas.fillText(hiddenCanvastextArr2[1], 60 * 2, 572 * 2, 231 * 2)
+      hiddenCanvas.fillText(hiddenCanvastextArr2[1], 52 * 2, 572 * 2, 231 * 2)
       hiddenCanvas.draw(true)
+      wx.hideLoading()
     }
   },
   // 保存相册
   preserveImg: function () {
+    wx.showLoading({
+      title: '保存中',
+      mask: true
+    })
     const that = this
     wx.canvasToTempFilePath({
       x: 0,
@@ -920,7 +965,6 @@ Page({
               icon: 'success',
               duration: 2000
             })
-            
           },
           fail: function (res){
             wx.getSetting({
@@ -958,17 +1002,20 @@ Page({
         blowStatus: false,
         dialogNum: 0
       })
+      this.menu.play()
     } else {
       this.setData({
         resetDialogStatus: true,
         blowStatus: this.data.dialogActive == 0 && this.data.procedureState != 'slience' ? true : false,
         dialogNum: this.data.dialogActive
       })
+      this.select.play()
     }
   },
   // 重置游戏
   resetGame: function () {
     const that = this
+    this.select.play()
     req(app.globalData.bastUrl, 'wxapp/wine/replay', {}, 'GET').then(res => {
       that.setData({
         liquorBgSize: {},
@@ -1012,6 +1059,7 @@ Page({
         activeGood: null,
         resetDialogStatus: true,
         audioNum: 0,
+        activeText: -1
       })
       that.bgLoadingProgressBar('reset')
       req(app.globalData.bastUrl, 'wxapp/wine/getGoodsInfo', {}, 'GET', true).then(res => {
@@ -1027,7 +1075,9 @@ Page({
     this.setData({
       startAnimationNum: 132
     })
-    // this.audioBg1.stop()
+    if (this.back1){
+      this.back1.stop()
+    }
   },
   // 活动开始
   startActivity: function () {
@@ -1035,7 +1085,9 @@ Page({
     this.setData({
       startingUpStatus: false
     })
-    // this.audioBg1.play()
+    if (this.back1){
+      this.back1.play()
+    }
     var time = setInterval(function () {
       if (that.data.startAnimationNum <= 131){
         that.setData({
@@ -1043,6 +1095,8 @@ Page({
         })
       }else{
         clearInterval(time)
+        that.textShow(0)
+        
         // 点击开始则 开始记录
         that.setData({
           dialogNum: 1,
@@ -1082,8 +1136,8 @@ Page({
     } else {
       var that = this
       setTimeout(function () {
-        // if (that.data.loadingStatic >= 263 && that.data.audioNum == 1) {
-        if (that.data.loadingStatic >= 263) {
+        if (that.data.loadingStatic >= 263 && that.data.audioNum == 12) {
+        // if (that.data.loadingStatic >= 263) {
           that.setData({
             loadingSuccess: true
           })
@@ -1286,6 +1340,9 @@ Page({
           req(app.globalData.bastUrl, 'appv2_1/buyfailed', {
             order_number: orderNumber
           }, 'POST')
+          req(app.globalData.bastUrl, 'wxapp/wine/returnDiscount', {
+            order_number: orderNumber
+          }, 'POST')
         }
       })
     })
@@ -1310,6 +1367,7 @@ Page({
         activeGood: null,
         addressInfo: null
       })
+      that.getInfo()
     })
   },
   // 关闭支付
@@ -1331,6 +1389,7 @@ Page({
   },
   // 分享 默认分享是活动页 如果当前用户已经可以叫人代打 分享代打页
   onShareAppMessage: function () {
+    this.menu.play()
     const that = this
     this.setData({
       dialogNum: 0,
@@ -1372,52 +1431,143 @@ Page({
   },
   // 音频加载
   audioLoading: function () {
+    const audioArr = [{
+      url: 'https://img8.ontheroadstore.com/wine/music/back1.mp3',
+      name: 'back1'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/back2.mp3',
+      name: 'back2',
+      loop: true
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/select.mp3',
+      name: 'select'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/menu.mp3',
+      name: 'menu'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/font1.mp3',
+      name: 'font',
+      loop: true
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/1.mp3',
+      name: 'attack1'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/2.mp3',
+      name: 'attack2'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/3.mp3',
+      name: 'attack3'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/4.mp3',
+      name: 'attack4'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/5.mp3',
+      name: 'attack5'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/6.mp3',
+      name: 'attack6'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/7.mp3',
+      name: 'attack7'
+    }]
+    for (var i = 0; i < audioArr.length; i++){
+      this.circulationAudioLoading(audioArr[i])
+    }
+  },
+  // 循环添加加载视频
+  circulationAudioLoading: function (audio) {
     const that = this
     wx.downloadFile({
-      url: 'https://img8.ontheroadstore.com/wine/music/bg2.mp3',
+      url: audio.url,
       success: function (res) {
         if (res.statusCode === 200) {
-          console.log(res)
           that.setData({
             audioNum: that.data.audioNum + 1
           })
-          wx.playVoice({
-            filePath: res.tempFilePath
-          })
-          const bg1 = wx.createInnerAudioContext()
-          // bg1.loop = true
-          // bg1.autoplay = true
-          bg1.src = res.tempFilePath
-          bg1.onTimeUpdate = function (res) {
-            console.log(res)
+          const bg = wx.createInnerAudioContext()
+          that[audio.name] = bg
+          bg.src = res.tempFilePath
+          bg.obeyMuteSwitch = true
+          if (audio.loop) {
+            bg.loop = true
           }
-          that.audioBg1 = bg1
         }
       }
     })
   },
-  // 循环添加加载视频
-  // circulationAudioLoading: function () {
-  //   const that = this
-  //   wx.downloadFile({
-  //     url: 'https://img8.ontheroadstore.com/wine/music/bg2.mp3',
-  //     success: function (res) {
-  //       if (res.statusCode === 200) {
-  //         that.setData({
-  //           audioNum: that.data.audioNum + 1
-  //         })
-  //         wx.playVoice({
-  //           filePath: res.tempFilePath
-  //         })
-  //         const bg1 = wx.createInnerAudioContext()
-  //         that.audioBg1 = bg1
-  //         bg1.src = res.tempFilePath
-  //         bg1.obeyMuteSwitch = true
-  //         bg1.src = res.tempFilePath
-  //       }
-  //     }
-  //   })
-  // },  
+  // 文字显示
+  textShow: function (num) {
+    this.setText()
+    this.setData({
+      activeText: num
+    })
+    this.font.play()
+    const that = this
+    var textArr = this.data.textArr
+    const activeTextArr = textArr[num]['title'].split('')
+    const activeTextLength = activeTextArr.length
+    var textNum = 0
+    const activeText = activeTextArr[textNum]
+    textArr[num].title = activeText
+    that.setData({
+      textArr: textArr
+    })
+    var time = setInterval(function(){
+      textNum = textNum + 1
+      if (textNum >= activeTextLength){
+        clearInterval(time)
+        that.font.stop()
+        const activeText = activeTextArr[textNum]
+        textArr[num].selectShwo = true
+        that.setData({
+          textArr: textArr
+        })
+      } else {
+        const activeText = activeTextArr[textNum]
+        textArr[num].title = textArr[num].title + activeText
+        that.setData({
+          textArr: textArr
+        })
+      }
+      
+    },100)
+  },
+  // 设置文字
+  setText: function () {
+    this.setData({
+      textArr: [{
+        title: '叮！你发现酒保在耍流氓 ！',
+        selectShwo: false
+      }, {
+        title: '围观群众对你见义勇为的行为表示认可，他们凑了' + this.data.employCash + '元给你买酒',
+        selectNum: false
+      }, {
+        title: '酒保叫来帮手，这是茬架啊，再想动手只能叫人了',
+        selectNum: false
+      }, {
+        title: '酒保瘫倒在地上，再打就出人命了！',
+        selectNum: false
+      }, {
+        title: '都他妈说了不能打了你还打，请选择在小黑屋中度过余生的方式',
+        selectNum: false
+      }, {
+        title: '狱友对你的硬气很赞扬，给你凑了20块钱买酒',
+        selectNum: false
+      }, {
+        title: '那个！这页面我没时间做，你要不重来吧 ',
+        selectNum: false
+      }, {
+        title: '酒保对你臭不要脸的行为表示认同，送了你一张20元优惠券',
+        selectNum: false
+      }]
+    })
+  },
+  // 返回首页
+  returnIndex: function () {
+    wx.reLaunch({
+      url: '/pages/index/index'
+    })
+  },
   catchtouchmove: function () {
     // console.log(1)
   }
@@ -1433,6 +1583,7 @@ function textArr(context, text){
       temp += chr[a]
     }
     else {
+      a--
       row.push(temp)
       temp = ""
     }

@@ -1,4 +1,5 @@
-<view class="main page" id="main" catchtouchmove='catchtouchmove'>
+<!-- <view class="main page" id="main" catchtouchmove='catchtouchmove'> -->
+<view class="main page" id="main">
   <!-- 开机动画 -->
   <view class='starting_up' wx:if="{{startingUpStatus}}">
     <image class='liquor_bg' id="liquorDg" style='right:{{liquorBgSize.right}}px;' animation="{{liquorBgAnimation}}" src='/images/liquorBg.png'></image> 
@@ -63,19 +64,19 @@
         <image animation="{{opacityAnimstion}}" src='/images/foot.png' class='foot' wx:if="{{dialogAnimationStatus && blowType == 2}}"></image>
         <view wx:if="{{dialogAnimationStatus}}">{{msgData.msg}}</view>
       </view>
-
       <!-- 文字提示窗 -->
       <view class='dialog'>
         <!-- 提示窗1 -->
         <view class='dialog1' hidden="{{!(dialogNum == 1)}}">
           <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180611/8ec779aedf80c9f90bd25b736c8eacd8.png'></image>
           <view class='dialog_text'>
-            <view class='subtitle'>叮！你发现酒保在耍流氓 ！</view>
-            <view class='select_item' catchtouchstart='samaritan'>
+            <view class='subtitle' wx:if="{{activeText == -1}}">叮！你发现酒保在耍流氓 ！</view>
+            <view class='subtitle' wx:if="{{activeText == 0}}">{{textArr[0].title}}</view>
+            <view class='select_item' catchtouchstart='samaritan' wx:if="{{activeText==-1||(activeText==0&&textArr[0].selectShwo)}}">
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>见义勇为</view>
             </view>
-            <view class='select_item' catchtouchstart='slienceChooice'>
+          <view class='select_item' catchtouchstart='slienceChooice' wx:if="{{activeText==-1||(activeText==0&&textArr[0].selectShwo)}}">
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>默不作声</view>
             </view>
@@ -85,12 +86,13 @@
         <view class='dialog2' hidden="{{!(dialogNum == 2)}}">
           <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/dc84190b980f6f68a1487da97307690b.png'></image>
           <view class='dialog_text'>
-            <view class='subtitle'>围观群众对你见义勇为的行为表示认可，他们凑了{{employCash}}元给你买酒</view>
-            <view class='select_item' catchtouchstart='samaritan'>
+            <view class='subtitle' wx:if="{{activeText == -1}}">围观群众对你见义勇为的行为表示认可，他们凑了{{employCash}}元给你买酒</view>
+            <view class='subtitle' wx:if="{{activeText == 1}}">{{textArr[1].title}}</view>
+            <view class='select_item' catchtouchstart='samaritan' wx:if="{{activeText==1&&textArr[1].selectShwo}}">
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>老子还能再打</view>
             </view>
-            <view class='select_item' catchtouchstart='openWinelist'>
+            <view class='select_item' catchtouchstart='openWinelist' wx:if="{{activeText==1&&textArr[1].selectShwo}}">
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>去挑瓶酒</view>
             </view>
@@ -100,17 +102,18 @@
         <view class='dialog3' hidden="{{!(dialogNum == 3)}}">
           <image bindload="loadStatic" src='http://img8.ontheroadstore.com/upload/180612/b47ab85f80eb92bd8b3b6e9a900d430d.png'></image>
           <view class='dialog_text'>
-            <view class='subtitle'>酒保叫来帮手，这是茬架啊，再想动手只能叫人了</view>
-            <view class='select_item'>
+            <view class='subtitle' wx:if="{{activeText == -1}}">酒保叫来帮手，这是茬架啊，再想动手只能叫人了</view>
+            <view class='subtitle' wx:if="{{activeText == 2}}">{{textArr[2].title}}</view>
+            <view class='select_item' wx:if="{{activeText==2&&textArr[2].selectShwo}}">
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>叫人一起动手！</view>
             </view>
-            <view class='select_item' catchtouchstart='openWinelist'>
+            <view class='select_item' catchtouchstart='openWinelist' wx:if="{{activeText==2&&textArr[2].selectShwo}}">
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>怂了，不打了，拿酒走人</view>
             </view>
             <view class='desc'>(好友伤害计入你的总伤害，打的越多，奖金越多)</view>
-            <button class='share' open-type="share">分享</button>
+            <button class='share' open-type="share" wx:if="{{activeText==2&&textArr[2].selectShwo}}">分享</button>
           </view>
         </view>
         <!-- 提示窗4 邀请成功，点击我的战报可随时查看朋友 造成的伤害，你可以动手了-->
@@ -131,12 +134,13 @@
         <view class='dialog6' hidden="{{!(dialogNum == 6)}}">
           <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
           <view class='dialog_text'>
-            <view class='subtitle'>酒保瘫倒在地上，再打就出人命了！</view>
-            <view class='select_item' catchtouchstart='setDialogText6'>
+            <view class='subtitle' wx:if="{{activeText == -1}}">酒保瘫倒在地上，再打就出人命了！</view>
+            <view class='subtitle' wx:if="{{activeText == 3}}">{{textArr[3].title}}</view>
+            <view class='select_item' catchtouchstart='setDialogText6' wx:if="{{activeText==3&&textArr[3].selectShwo}}">
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>偏不！我TM就要搞死你丫的</view>
             </view>
-            <view class='select_item' catchtouchstart='ending' data-ending="1">
+            <view class='select_item' catchtouchstart='ending' data-ending="1" wx:if="{{activeText==3&&textArr[3].selectShwo}}">
               <image data-ending="1" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view data-ending="1">见好就收，拿奖金买酒</view>
             </view>
@@ -148,12 +152,13 @@
           <image class='ambulance' src='http://img8.ontheroadstore.com/upload/180612/025797ee639c2a38629eb0b4ae049d67.png'></image>
           <image class='paddy_wagon' src='http://img8.ontheroadstore.com/upload/180612/a61dea0eb082d1679cef9f4a698fd25c.png'></image>
           <view class='dialog_text'>
-            <view class='subtitle'>都他妈说了不能打了你还打，请选择在小黑屋中度过余生的方式</view>
-            <view class='select_item' catchtouchstart='ending' data-ending="2">
+            <view class='subtitle' wx:if="{{activeText == -1}}">都他妈说了不能打了你还打，请选择在小黑屋中度过余生的方式</view>
+            <view class='subtitle' wx:if="{{activeText == 4}}">{{textArr[4].title}}</view>
+            <view class='select_item' catchtouchstart='ending' data-ending="2" wx:if="{{activeText==-1||(activeText==4&&textArr[4].selectShwo)}}">
               <image data-ending="2" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view data-ending="2">拒不悔改</view>
             </view>
-            <view class='select_item' catchtouchstart='ending' data-ending="3">
+            <view class='select_item' catchtouchstart='ending' data-ending="3" wx:if="{{activeText==-1||(activeText==4&&textArr[4].selectShwo)}}">
               <image data-ending="3" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view data-ending="3">悔不当初</view>
             </view>
@@ -163,8 +168,9 @@
         <view class='dialog8' hidden="{{!(dialogNum == 8)}}">
           <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
           <view class='dialog_text'>
-            <view class='subtitle'>狱友对你的硬气很赞扬，给你凑了20块钱买酒</view>
-            <view class='select_item' catchtouchstart='ending' data-ending="4">
+            <view class='subtitle' wx:if="{{activeText == -1}}">狱友对你的硬气很赞扬，给你凑了20块钱买酒</view>
+            <view class='subtitle' wx:if="{{activeText == 5}}">{{textArr[5].title}}</view>
+            <view class='select_item' catchtouchstart='ending' data-ending="4" wx:if="{{activeText==5&&textArr[5].selectShwo}}">
               <image data-ending="4" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view data-ending="4">接受好意</view>
             </view>
@@ -174,12 +180,13 @@
         <view class='dialog9' hidden="{{!(dialogNum == 9)}}">
           <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
           <view class='dialog_text'>
-            <view class='subtitle'>酒保对你臭不要脸的行为表示认同，送了你一张20元优惠券</view>
-            <view class='select_item' catchtouchstart='slience'>
+            <view class='subtitle' wx:if="{{activeText == -1}}">酒保对你臭不要脸的行为表示认同，送了你一张20元优惠券</view>
+            <view class='subtitle' wx:if="{{activeText == 7}}">{{textArr[7].title}}</view>
+            <view class='select_item' catchtouchstart='slience' wx:if="{{activeText==-1||(activeText==7&&textArr[7].selectShwo)}}">
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>收下贿赂买瓶酒然后报警</view>
             </view>
-            <view class='select_item' catchtouchstart='samaritan'>
+            <view class='select_item' catchtouchstart='samaritan' wx:if="{{activeText==-1||(activeText==7&&textArr[7].selectShwo)}}">
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>不行我后悔了，老子要干他丫的</view>
             </view>
@@ -191,8 +198,9 @@
           <view class='dialog10_content'>
           <image src='http://img8.ontheroadstore.com/upload/180613/54adb8156707ec164d59d0fc4d4a5d03.png'></image>
             <view class='dialog_text'>
-              <view class='subtitle'>那个！这页面我没时间做，你要不重来吧</view>
-              <view class='select_item'  catchtouchstart='ending' data-ending="5">
+              <view class='subtitle' wx:if="{{activeText == -1}}">那个！这页面我没时间做，你要不重来吧</view>
+              <view class='subtitle' wx:if="{{activeText == 6}}">{{textArr[6].title}}</view>
+              <view class='select_item'  catchtouchstart='ending' data-ending="5" wx:if="{{activeText==6&&textArr[6].selectShwo}}">
                 <image data-ending="5" src='http://img8.ontheroadstore.com/upload/180613/9a48b9c4a4fb9008015cf48e054eb146.png'></image>
                 <view data-ending="5">保重！兄弟</view>
               </view>
@@ -301,7 +309,7 @@
             </view>
             <scroll-view class='items' scroll-y='true'>
               <view class='item' wx:for="{{goodList[goodsActive]['item']}}" wx:key="item">
-                <image src='http://img8.ontheroadstore.com/upload/180606/cf919f41ba9414a06f5184928438db7c.png@!320x320'></image>
+                <image src='{{item.img}}'></image>
                 <view class='post_title'>{{item.post_title}}</view>
                 <view class='discounts'>最高可减{{item.max}}元</view>
                 <view class='price font_din'>￥ {{item.price}}</view>
@@ -344,7 +352,7 @@
         </view>
       </view>
       <image src='http://img8.ontheroadstore.com/upload/180622/c56c8d58d9e36fbe34740d7753843671.png' class='shareImg'></image>
-      <image src='http://img8.ontheroadstore.com/upload/180625/4e494cc1a10955965bc5fd92cc1ae909.png' class='returnIndex'></image>
+      <image src='http://img8.ontheroadstore.com/upload/180625/4e494cc1a10955965bc5fd92cc1ae909.png' catchtouchstart='returnIndex' class='returnIndex'></image>
     </view>
   </view>
 </view>
