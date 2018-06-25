@@ -166,7 +166,6 @@ Page({
     employCash: 0,                            // 优惠价格
     msgData: null,                            // 打击文案图片
     dialogText5: { title: '腿软了！赶紧叫人吧！'},
-    dialogText6: { title: '确认还要打？再打容易出事', subhead1: '打打打打打', subhead2: '不打了挑瓶酒' },
     battlefieldStatus: false,                 // 我的战报显示
     battlefieldReportStatus: false,           // 战报图片
     canvasData: null,                         // 生成战报的信息
@@ -315,7 +314,7 @@ Page({
         startAnimation: startAnimation.concat(images3)
       })
     }, 2500)
-    this.audioLoading()
+    // this.audioLoading()
   },
   onShow: function () {
     this.bgLoadingProgressBar()
@@ -356,6 +355,7 @@ Page({
     // 超过5次后
     if (that.data.blowNum >= 5 && that.data.procedureState == 'fight') {
       that.setData({
+        blowLoading: false,
         dialogGifStatus: false,
         dialogNum: 6,
         dialogActive: 6
@@ -363,6 +363,7 @@ Page({
       return false
     } else if (that.data.blowNum >= 5 && that.data.procedureState != 'fight') {
       that.setData({
+        blowLoading: false,
         dialogGifStatus: false,
         dialogNum: 5,
         dialogActive: 5
@@ -413,12 +414,14 @@ Page({
         }, 2000)
       } else{
         that.setData({
+          blowLoading: false,
           blowStatus: false,
           dialogNum: 5,
           dialogActive: 5
         })
         setTimeout(function () {
           that.setData({
+            blowLoading: false,
             blowStatus: true,
             dialogNum: 0,
             dialogActive: 0
@@ -481,6 +484,7 @@ Page({
         dialogActive: 0,
         blowStatus: true
       })
+      this.openWinelist()
     } else if (ending == 5) {
       // 重置游戏
       this.resetGame()
@@ -503,23 +507,12 @@ Page({
   },
   // dialog6 文案切换
   setDialogText6: function () {
-    var text = this.data.dialogText6
-    if (text.title == '确认还要打？再打容易出事'){
-      text = { title: '善意提醒，再打出现损失后果自负', subhead1: '我知道了别烦', subhead2: '算你厉害不打了' }
-    } else if (text.title == '善意提醒，再打出现损失后果自负'){
-      text = { title: '酒保瘫倒在地上，再打就出人命了！', subhead1: '偏不！我TM就要搞死你丫的', subhead2: '见好就收，拿奖金买酒' }
-    } else if (text.title == '酒保瘫倒在地上，再打就出人命了！'){
-      text = { title: '确认还要打？再打容易出事', subhead1: '打打打打打', subhead2: '不打了挑瓶酒' }
-      this.setData({
-        dialogNum: 7,
-        dialogActive: 7,
-        procedureState: 'dieChooice'
-      })
-      this.procedure()
-    }
     this.setData({
-      dialogText6: text
+      dialogNum: 7,
+      dialogActive: 7,
+      procedureState: 'dieChooice'
     })
+    this.procedure()
   },
   // 选择见义勇为
   samaritan: function () {
@@ -605,8 +598,8 @@ Page({
         battlefieldReportStatus: true
       })
       req(app.globalData.bastUrl, 'wxapp/wine/getShareJpeg', {}, 'GET', true).then(res => {
-        var text1 = '招募给力队友和我一起惩治流氓酒保！'
-        var text2 = '来试试看谁会是帮倒忙让酒保回血的坑货！'
+        var text1 = '招募给力队友一起惩治流氓酒保，做酒吧正义小宝贝~'
+        var text2 = '来试试看谁会是帮倒忙让酒保回血的百无一用添乱壮士~'
         var userImgUrl1 = replaceStr(that.data.battlefieldInfo.user.avatar)
         var userImgUrl2 = '/images/zhugong.png'
         var userImgUrl3 = '/images/keng.png'
@@ -1002,7 +995,6 @@ Page({
         employCash: 0,
         msgData: null,
         dialogText5: { title: '腿软了！赶紧叫人吧！' },
-        dialogText6: { title: '确认还要打？再打容易出事', subhead1: '打打打打打', subhead2: '不打了挑瓶酒' },
         battlefieldStatus: false,
         battlefieldReportStatus: false,
         activityInfoStatus: false,
@@ -1035,7 +1027,7 @@ Page({
     this.setData({
       startAnimationNum: 132
     })
-    this.audioBg1.stop()
+    // this.audioBg1.stop()
   },
   // 活动开始
   startActivity: function () {
@@ -1043,7 +1035,7 @@ Page({
     this.setData({
       startingUpStatus: false
     })
-    this.audioBg1.play()
+    // this.audioBg1.play()
     var time = setInterval(function () {
       if (that.data.startAnimationNum <= 131){
         that.setData({
@@ -1090,7 +1082,8 @@ Page({
     } else {
       var that = this
       setTimeout(function () {
-        if (that.data.loadingStatic >= 263 && that.data.audioNum == 1) {
+        // if (that.data.loadingStatic >= 263 && that.data.audioNum == 1) {
+        if (that.data.loadingStatic >= 263) {
           that.setData({
             loadingSuccess: true
           })
@@ -1245,7 +1238,7 @@ Page({
   // 支付
   payment: function (order) {
     console.log(this.data.activeGood)
-    req(app.globalData.bastUrl, 'appv3_1/createorder', {
+    req(app.globalData.bastUrl, 'wxapp/wine/createOrder', {
       address_id: this.data.activeGood.address_id,
       type: 1,
       orders: this.data.activeGood.orders,
@@ -1299,6 +1292,7 @@ Page({
   },
   // 支付成功后回调
   paymentSuccess: function (prepayId) {
+    const that = this
     const orderNumber = this.data.orderNumber
     const activityStatus = this.data.activityStatus
     req(app.globalData.bastUrl, 'appv5_1/wxapp/payment/action', {
@@ -1309,6 +1303,12 @@ Page({
         title: '购买成功',
         icon: 'success',
         duration: 2000
+      })
+      that.setData({
+        orderDialogStatus: false,
+        winelistStatus: true,
+        activeGood: null,
+        addressInfo: null
       })
     })
   },
@@ -1339,8 +1339,8 @@ Page({
     })
     this.addShareIncrCoin()
     this.setProcedureState()
-    // 在分享前生成哈希 在已经打完第三次 最好是每次打击都返回 前2次为null 3次后有哈希值
-    const title = '酒保耍流氓，我已经打了他' + this.data.damageNum + '点血，快一起来打这孙子！'
+    // 在分享前生成哈希 在已经打完第三次 最好是每次打击都返回 前2次为null 3次后有哈希值x！
+    const title = '酒保耍流氓，我打了他' + this.data.damageNum + '点血，快一起来打这孙子！'
     return {
       title: title,
       path: this.data.shareUrl,
@@ -1377,6 +1377,7 @@ Page({
       url: 'https://img8.ontheroadstore.com/wine/music/bg2.mp3',
       success: function (res) {
         if (res.statusCode === 200) {
+          console.log(res)
           that.setData({
             audioNum: that.data.audioNum + 1
           })
@@ -1384,12 +1385,13 @@ Page({
             filePath: res.tempFilePath
           })
           const bg1 = wx.createInnerAudioContext()
-          that.audioBg1 = bg1
+          // bg1.loop = true
+          // bg1.autoplay = true
           bg1.src = res.tempFilePath
-          bg1.obeyMuteSwitch = true
-          bg1.onError = function (res) {
+          bg1.onTimeUpdate = function (res) {
             console.log(res)
           }
+          that.audioBg1 = bg1
         }
       }
     })

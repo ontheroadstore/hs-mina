@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/activity/activity",
     "pages/index/index",
+    "pages/activity/activity",
     "pages/activityShare/activityShare",
     "pages/paySuccess/paySuccess",
     "pages/createOrder/createOrder",

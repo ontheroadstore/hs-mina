@@ -13,20 +13,11 @@ Page({
     totalPostage: 0,              // 总邮费
     addressInfo: null,            // 默认地址 在支付时，addressInfo不能为空
     orderNumber: null,            // 订单号 HS20180510144319VWW33O
-    isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
-    activityStatus: false
+    isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: '确认订单'
-    })
-    // 查看活动是否结束
-    req(app.globalData.bastUrl, 'appv5_1/tigger/getStatus', {}, "GET", true).then(res => {
-      if (res.data) {
-        this.setData({
-          activityStatus: true
-        })
-      }
     })
     // options.type = 0
     // type 0 直接购买， 1购物车购买 缓存数据头像已经处理
@@ -246,27 +237,13 @@ Page({
   // 支付成功后回调
   paymentSuccess: function (prepayId) {
     const orderNumber = this.data.orderNumber
-    const activityStatus = this.data.activityStatus
     req(app.globalData.bastUrl, 'appv5_1/wxapp/payment/action', {
       order_number: orderNumber,
       prepay_id: prepayId
     }, 'POST', true).then(res => {
-      // 活动期间 跳转至商品
-      if (activityStatus){
-        req(app.globalData.bastUrl, 'appv5_1/tigger/payIncrCoin', {
-          order: orderNumber
-        }, 'POST').then(data => {
-          if (data.data) {
-            wx.reLaunch({
-              url: '/pages/activity/activity',
-            })
-          }
-        })
-      }else{
-        wx.reLaunch({
-          url: '/pages/paySuccess/paySuccess',
-        })
-      }
+      wx.reLaunch({
+        url: '/pages/paySuccess/paySuccess',
+      })
     })
   },
   // 跳转添加地址

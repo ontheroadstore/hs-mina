@@ -22,7 +22,6 @@ Page({
     newGoods: [],                 // 新品列表
     apiStatus: 0,                 // 顺序加载
     activityStatus: false,        // 活动状态
-    activityDialogStatus: false   // 弹窗状态
   },
   onLoad: function () {
     wx.showNavigationBarLoading()
@@ -33,19 +32,11 @@ Page({
     // 更新今日推荐 副标题时间
     this.getTime()
     // 查看活动是否结束
-    var time = new Date()
-    req(app.globalData.bastUrl, 'appv5_1/tigger/getStatus', {}, "GET", true).then(res => {
-      const tiggerGetStatus = wx.getStorageSync('tiggerGetStatus')
+    req(app.globalData.bastUrl, 'wxapp/wine/getStatus', {}, "GET", true).then(res => {
       if (res.data) {
         this.setData({
           activityStatus: true
         })
-        if (tiggerGetStatus == '' || tiggerGetStatus < time.getUTCDate().toString()) {
-          this.setData({
-            activityDialogStatus: true
-          })
-          wx.setStorageSync('tiggerGetStatus', time.getUTCDate().toString())
-        }
       }
     })
     // 获取分类
@@ -250,12 +241,6 @@ Page({
         apiStatus: 0
       })
     }
-  },
-  // 关闭活动提示
-  closeActivityDialog: function() {
-    this.setData({
-      activityDialogStatus: false
-    })
   },
   //getTime
   getTime: function() {

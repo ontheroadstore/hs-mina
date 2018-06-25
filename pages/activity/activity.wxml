@@ -109,7 +109,7 @@
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
               <view>怂了，不打了，拿酒走人</view>
             </view>
-            <view class='desc'>好友伤害计入你的总伤害，打的越多，奖金越多</view>
+            <view class='desc'>(好友伤害计入你的总伤害，打的越多，奖金越多)</view>
             <button class='share' open-type="share">分享</button>
           </view>
         </view>
@@ -131,14 +131,14 @@
         <view class='dialog6' hidden="{{!(dialogNum == 6)}}">
           <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
           <view class='dialog_text'>
-            <view class='subtitle'>{{dialogText6.title}}</view>
+            <view class='subtitle'>酒保瘫倒在地上，再打就出人命了！</view>
             <view class='select_item' catchtouchstart='setDialogText6'>
               <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
-              <view>{{dialogText6.subhead1}}</view>
+              <view>偏不！我TM就要搞死你丫的</view>
             </view>
             <view class='select_item' catchtouchstart='ending' data-ending="1">
               <image data-ending="1" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
-              <view data-ending="1">{{dialogText6.subhead2}}</view>
+              <view data-ending="1">见好就收，拿奖金买酒</view>
             </view>
           </view>
         </view>
@@ -249,7 +249,7 @@
               <view class='user_damage'>我的伤害： {{battlefieldInfo.myHurt}}  朋友的伤害：{{battlefieldInfo.myFriendHurt}}</view>
             </view>
             <view class='total_damage'>共对酒保造成{{battlefieldInfo.hit}}点伤害</view>
-            <view class='discounts'>可使用优惠： {{battlefieldInfo.cash}}</view>
+            <view class='discounts'>可使用优惠： {{battlefieldInfo.cash}} 元</view>
             <view class='combat_title'>战斗记录</view>
             <view class='combats'>
               <view class='item' wx:for="{{activerecordLog}}" wx:key="item">
@@ -308,7 +308,7 @@
                 <view class='buy_btn' data-id="{{item.id}}" data-mid="{{item.mid}}" data-uid="{{item.seller_uid}}" data-uname="{{item.seller_name}}" catchtouchstart='paymentBtn' data-img="{{item.img}}" data-post_title="{{item.post_title}}" data-max="{{item.max}}" data-price="{{item.price}}" data-desc="酒精度：{{item.capacity}} 净含量：{{item.concentration}}">购买</view>
               </view>
             </scroll-view>
-            <view class='discounts_num'>可用优惠： {{employCash}}</view>
+            <view class='discounts_num'>可用优惠： {{employCash}} 元</view>
           </view>
         </view>
       </view>
@@ -343,7 +343,8 @@
           </view>
         </view>
       </view>
-    <image src='http://img8.ontheroadstore.com/upload/180622/c56c8d58d9e36fbe34740d7753843671.png' class='shareImg'></image>
+      <image src='http://img8.ontheroadstore.com/upload/180622/c56c8d58d9e36fbe34740d7753843671.png' class='shareImg'></image>
+      <image src='http://img8.ontheroadstore.com/upload/180625/4e494cc1a10955965bc5fd92cc1ae909.png' class='returnIndex'></image>
     </view>
   </view>
 </view>

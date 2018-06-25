@@ -30,7 +30,7 @@ Page({
     }
     const that = this
     this.setData({
-      shareString: '1737vJhp3Fx4cyvO/ZtdNL1EN6ZwTy1bXExiZP+ZvOw'
+      shareString: shareString
     })
     wx.getUserInfo({
       success: function () {
@@ -68,8 +68,9 @@ Page({
   
   },
   onShareAppMessage: function () {
+    const title = '酒保耍流氓，我已经把他打到残血了，快一起来打这孙子！'
     return {
-      title: '狠货天天抽，最高价值¥2399，次数上不封顶',
+      title: title,
       path: '/pages/activityShare/activityShare?share=' + this.data.shareString,
       imageUrl: 'http://img8.ontheroadstore.com/upload/180622/c56c8d58d9e36fbe34740d7753843671.png'
     }
@@ -109,7 +110,7 @@ Page({
     }, 'POST', true).then(res => {
       console.log(res)
       if (res.data.status){
-        const text = '你对酒保造成了' + res.data.hitNum + '点伤害，帮' + that.data.battlefieldInfo.user.wx_name + '挣了' + res.data.hitNum +'元奖金！'
+        const text = '你的帮忙让好友取得了压倒性的优势，现在开始玩自己的吧！！！！'
         this.setData({
           dialoText: text,
           dialogGif: res.data,
