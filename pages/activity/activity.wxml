@@ -29,7 +29,7 @@
       <!-- 背景切换 -->
       <image class='bg1' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180608/2f6ea9815a50c6469fb7f7ecb1f03310.jpg'></image>
       <image class='bg2' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180612/f08ae5f6d9d4e266823d110b370d44b9.png'></image>
-      <image class='bg3' hidden="{{!combatGifStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180622/3027991c49c5a42a07b9bc5ba8998b0c.gif'></image>
+      <image class='bg3' animation="{{bgAnimation1}}" hidden="{{!combatGifStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180622/3027991c49c5a42a07b9bc5ba8998b0c.gif'></image>
       <image class='bg4' hidden="{{!(procedureState == 'die')}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180621/a38e4eb3eb68466d3774fca550f81385.png'></image>
       <!-- 顶部信息 -->
       <view class='damage' wx:if="{{strikeStatus}}">
@@ -236,7 +236,7 @@
               <view class='subhead'>分享</view>
               <view class='item'>1.可通过邀请好友解锁更多攻击次数</view>
               <view class='item'>2.邀请成功后，朋友造成的伤害计入个人总伤害 ，朋友越多优惠金额越高。</view>
-              <view class='annotation'>本活动截止至1月1日。活动最终解释权归公路商店所有</view>
+              <view class='annotation'>本活动截止至7月5日。活动最终解释权归公路商店所有</view>
             </view>
           </view>
         </view>

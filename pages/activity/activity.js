@@ -364,8 +364,10 @@ Page({
   // 拳打脚踢
   blow: function (e) {
     const num = parseInt(Math.random() * 6) + 1
-    console.log(num)
     this['attack' + num].play()
+    if (this.back2) {
+      this.back2.play()
+    }
     if (this.data.blowLoading){
       return false
     }
@@ -381,6 +383,7 @@ Page({
       that.setData({
         blowLoading: false,
         dialogGifStatus: false,
+        blowStatus: false,
         dialogNum: 6,
         dialogActive: 6
       })
@@ -496,12 +499,14 @@ Page({
         procedureState: 'die',
         dialogNum: 8,
         dialogActive: 8,
+        blowStatus: false,
         employCash: 20
       })
       this.textShow(5)
     } else if (ending == 3){
       this.setData({
         procedureState: 0,
+        blowStatus: true,
         dialogNum: 10,
         dialogActive: 10
       })
@@ -588,7 +593,6 @@ Page({
   },
   // 存档
   procedure: function () {
-    console.log(this.data.procedureState)
     req(app.globalData.bastUrl, 'wxapp/wine/saveStep', {
       step: this.data.procedureState
     }, 'POST', true)
@@ -646,12 +650,14 @@ Page({
         var userImgUrl2Status = false
         var userImgUrl3Status = false
         if (that.data.battlefieldInfo.hexagon.best){
-          userImgUrl2 = that.data.battlefieldInfo.hexagon.best.avatar
+          userImgUrl2 = replaceStr(that.data.battlefieldInfo.hexagon.best.avatar)
           text1 = that.data.battlefieldInfo.hexagon.best.msg
+          userImgUrl2Status = true
         }
         if (that.data.battlefieldInfo.hexagon.worst) {
-          userImgUrl3 = that.data.battlefieldInfo.hexagon.worst.avatar
+          userImgUrl3 = replaceStr(that.data.battlefieldInfo.hexagon.worst.avatar)
           text2 = that.data.battlefieldInfo.hexagon.worst.msg
+          userImgUrl3Status = true
         }
         const num = parseInt(Math.random() * 30) + 20
         const data = {
@@ -770,6 +776,7 @@ Page({
         canvasData.userImgUrl3 = canvasData.userImgUrl4
       }
       var showCanvas = wx.createCanvasContext('showCanvas')
+      showCanvas.closePath()
       showCanvas.clearRect(0, 0, 375, 603)
       showCanvas.scale(0.81 * ratio, 0.81 * ratio)
       showCanvas.drawImage(canvasData.imgUrl1, 0, 0, 375, 603)
@@ -860,6 +867,7 @@ Page({
 
 
       var hiddenCanvas = wx.createCanvasContext('hiddenCanvas')
+      hiddenCanvas.closePath()
       hiddenCanvas.clearRect(0, 0, 375 * 2, 603 * 2)
       hiddenCanvas.drawImage(canvasData.imgUrl1, 0, 0, 375 * 2, 603 * 2)
       var lineToArr2 = [{
@@ -928,8 +936,8 @@ Page({
       hiddenCanvas.setFontSize(24)
       hiddenCanvas.setFillStyle("#FFF")
       hiddenCanvas.setTextAlign('left')
-      const hiddenCanvastextArr1 = textArr(hiddenCanvas, canvasData.text1)
-      const hiddenCanvastextArr2 = textArr(hiddenCanvas, canvasData.text2)
+      const hiddenCanvastextArr1 = textArr(showCanvas, canvasData.text1)
+      const hiddenCanvastextArr2 = textArr(showCanvas, canvasData.text2)
       hiddenCanvas.fillText(hiddenCanvastextArr1[0], 85 * 2, 484 * 2, 231 * 2)
       hiddenCanvas.fillText(hiddenCanvastextArr1[1], 85 * 2, 504 * 2, 231 * 2)
       hiddenCanvas.fillText(hiddenCanvastextArr2[0], 52 * 2, 552 * 2, 231 * 2)
@@ -1016,6 +1024,9 @@ Page({
   resetGame: function () {
     const that = this
     this.select.play()
+    if (this.back2){
+      this.back2.stop()
+    }
     req(app.globalData.bastUrl, 'wxapp/wine/replay', {}, 'GET').then(res => {
       that.setData({
         liquorBgSize: {},
@@ -1291,7 +1302,6 @@ Page({
   },
   // 支付
   payment: function (order) {
-    console.log(this.data.activeGood)
     req(app.globalData.bastUrl, 'wxapp/wine/createOrder', {
       address_id: this.data.activeGood.address_id,
       type: 1,
@@ -1396,7 +1406,6 @@ Page({
       dialogActive: 0,
       blowStatus: true
     })
-    this.addShareIncrCoin()
     this.setProcedureState()
     // 在分享前生成哈希 在已经打完第三次 最好是每次打击都返回 前2次为null 3次后有哈希值x！
     const title = '酒保耍流氓，我打了他' + this.data.damageNum + '点血，快一起来打这孙子！'
@@ -1564,6 +1573,9 @@ Page({
   },
   // 返回首页
   returnIndex: function () {
+    if (this.back2){
+      this.back2.stop()
+    }
     wx.reLaunch({
       url: '/pages/index/index'
     })
