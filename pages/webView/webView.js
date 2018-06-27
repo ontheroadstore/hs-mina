@@ -20,19 +20,22 @@ Page({
       shareTitle: options.title
     })
     const that = this
-    req(app.globalData.bastUrl, 'wxapp/winedoit/status').then(res => {
-      if (res.data) {
-        req(app.globalData.bastUrl, 'wxapp/winedoit/getIsSell', {
-          goodsIds: 17016
-        }, 'POST').then(res => {
-          if (res.data.isCanSell && res.data.userCanBy == '1') {
-            that.setData({
-              url: app.globalData.bastUrl + 'appv5_1/wxapp/adPage/18',
-            })
-          }
-        })
-      }
-    })
+    if (options.url == 'https://apitest.ontheroadstore.com/appv5_1/wxapp/adPage/17' || options.url == 'https://api.ontheroadstore.com/appv5_1/wxapp/adPage/17'){
+      req(app.globalData.bastUrl, 'wxapp/winedoit/status').then(res => {
+        if (res.data) {
+          req(app.globalData.bastUrl, 'wxapp/winedoit/getIsSell', {
+            goodsIds: 17016
+          }, 'POST').then(res => {
+            if (res.data.isCanSell && res.data.userCanBy == '1') {
+              that.setData({
+                url: app.globalData.bastUrl + 'appv5_1/wxapp/adPage/18',
+              })
+            }
+          })
+        }
+      })
+    }
+    
   },
   // 分享
   onShareAppMessage: function () {

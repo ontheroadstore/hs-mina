@@ -167,7 +167,7 @@ Page({
     damageNum: 0,                             // 伤害总数
     employCash: 0,                            // 优惠价格
     msgData: null,                            // 打击文案图片
-    dialogText5: { title: '腿软了！赶紧叫人吧！'},
+    dialogText5: { title: '腿软了！点击右下角“叫人助拳”找人帮忙吧!'},
     battlefieldStatus: false,                 // 我的战报显示
     battlefieldReportStatus: false,           // 战报图片
     canvasData: null,                         // 生成战报的信息
@@ -185,9 +185,9 @@ Page({
     activerecordLog: null,                    // 当前战斗记录
     recordLogPage: 1,                         // 战斗记录页数
     activeRecordLogPage: 0,                   // 当前页
-    audioNum: 0,                              // 加载音频数
     textArr: [],                              // 文字显示列表
     activeText: -1,                           // 当前显示文字
+    goodDetails: null,                        // 商品详情
     isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
   onLoad: function () {
@@ -252,7 +252,7 @@ Page({
                   combatGifStatus: true,
                   dialogNum: 0,
                   dialogActive: 0,
-                  dialogText5: { title: '都TM打死了你还鞭尸' }
+                  dialogText5: { title: '得饶人处且饶人，拿优惠买酒吧！多叫几个人，能得更多优惠！！！' }
                 })
               } else if (res.data == 'dieChooice') {
                 that.setData({
@@ -264,7 +264,7 @@ Page({
                   combatGifStatus: true,
                   dialogNum: 7,
                   dialogActive: 7,
-                  dialogText5: { title: '都TM打死了你还鞭尸' }
+                  dialogText5: { title: '都TM进小黑屋了，还不老实！想接着打就重玩吧！' }
                 })
               } else if (res.data == 'die') {
                 that.setData({
@@ -276,7 +276,7 @@ Page({
                   combatGifStatus: true,
                   dialogNum: 0,
                   dialogActive: 0,
-                  dialogText5: { title: '都TM打死了你还鞭尸' }
+                  dialogText5: { title: '都TM进小黑屋了，还不老实！想接着打就重玩吧！' }
                 })
               }
             })
@@ -319,27 +319,6 @@ Page({
       })
     }, 2500)
     this.audioLoading()
-    // wx.downloadFile({
-    //   url: 'https://img8.ontheroadstore.com/wine/music/jjs.mp3',
-    //   success: function (res) {
-    //     if (res.statusCode === 200) {
-    //       const bg = wx.createInnerAudioContext()
-    //       bg.src = res.tempFilePath
-    //       bg.obeyMuteSwitch = true
-    //       console.log(bg.duration)
-    //       console.log(bg.currentTime)
-    //       console.log(bg.paused)
-    //       console.log(bg.buffered)
-    //       bg.play()
-    //       bg.onPlay(() => {
-    //         console.log('开始播放')
-    //       })
-    //       bg.onTimeUpdate((mmm) => {
-    //         console.log(mmm)
-    //       })
-    //     }
-    //   }
-    // })
   },
   onShow: function () {
     this.bgLoadingProgressBar()
@@ -350,10 +329,64 @@ Page({
       })
     })
   },
+  onHide: function () {
+    if(this.back1){
+      this.back1.stop()
+    }
+    if (this.back2) {
+      this.back2.stop()
+    }
+    if (this.select) {
+      this.select.stop()
+    }
+    if (this.menu) {
+      this.menu.stop()
+    }
+    if (this.font1) {
+      this.font.stop()
+    }
+    if (this.attack1) {
+      this.attack1.stop()
+    }
+    if (this.attack2) {
+      this.attack2.stop()
+    }
+    if (this.attack3) {
+      this.attack3.stop()
+    }
+    if (this.attack4) {
+      this.attack4.stop()
+    }
+    if (this.attack5) {
+      this.attack5.stop()
+    }
+    if (this.attack6) {
+      this.attack6.stop()
+    }
+    if (this.attack7) {
+      this.attack7.stop()
+    }
+    if (this.jjs) {
+      this.jjs.stop()
+    }
+    if (this.deg) {
+      this.deg.stop()
+    }
+    if (this.clm) {
+      this.clm.stop()
+    }
+  },
   // 获取用户 活动信息
   getInfo: function () {
     req(app.globalData.bastUrl, 'wxapp/wine/getInfo', {}, 'GET', true).then(res => {
       const recordLogPage = res.data.log.length / 5 != parseInt(res.data.log.length / 5) ? parseInt(res.data.log.length / 5) : res.data.log.length / 5 - 1
+      for (let i = 0; i < res.data.log.length; i++){
+        if (res.data.log[i].msg.indexOf('损失了') == -1){
+          res.data.log[i].status = false
+        } else {
+          res.data.log[i].status = true
+        }
+      }
       this.setData({
         blowNum: res.data.hitNum,
         damageNum: res.data.hit,
@@ -390,10 +423,10 @@ Page({
         blowLoading: false,
         dialogGifStatus: false,
         blowStatus: false,
-        dialogNum: 6,
-        dialogActive: 6
+        dialogNum: 11,
+        dialogActive: 11
       })
-      this.textShow(3)
+      this.textShow(8)
       return false
     } else if (that.data.blowNum >= 5 && that.data.procedureState != 'fight') {
       that.setData({
@@ -539,28 +572,41 @@ Page({
   setDialogText5: function () {
     var text = this.data.dialogText5
     if (this.data.blowNum >= 5 && this.data.procedureState == 'gameOver') {
-      text = { title: '得饶人处且饶人，拿优惠买酒吧！' }
+      text = { title: '得饶人处且饶人，拿优惠买酒吧！多叫几个人，能得更多优惠！！！' }
     } else if (this.data.blowNum >= 5 && this.data.procedureState == 'die') {
-      text = { title: '都TM进小黑屋了，还不老实' }
+      text = { title: '都TM进小黑屋了，还不老实！想接着打就重玩吧！' }
     } else {
-      text = { title: '腿软了！赶紧叫人吧！' }
+      text = { title: '腿软了！点击右下角“叫人助拳”找人帮忙吧!' }
     }
     this.setData({
       dialogText5: text
     })
   },
   // dialog6 文案切换
-  setDialogText6: function () {
-    this.setData({
-      dialogNum: 7,
-      dialogActive: 7,
-      procedureState: 'dieChooice'
-    })
-    this.procedure()
-    if (this.select) {
-      this.select.play()
+  setDialogText6: function (e) {
+    const num = e.target.dataset.num
+    if (num == 1){
+      this.setData({
+        dialogNum: 6,
+        dialogActive: 6
+      })
+      if (this.select) {
+        this.select.play()
+      }
+      this.textShow(3)
+    } else {
+      this.setData({
+        dialogNum: 7,
+        dialogActive: 7,
+        procedureState: 'dieChooice'
+      })
+      this.procedure()
+      if (this.select) {
+        this.select.play()
+      }
+      this.textShow(4)
     }
-    this.textShow(4)
+    
   },
   // 选择见义勇为
   samaritan: function () {
@@ -873,7 +919,7 @@ Page({
       showCanvas.restore()
       showCanvas.drawImage(canvasData.imgUrl2, 10, 497, 53, 20)
       showCanvas.drawImage(canvasData.imgUrl3, 311, 565, 53, 20)
-      showCanvas.drawImage(canvasData.codeImgUrl, 316, 18, 49, 49)
+      showCanvas.drawImage(canvasData.codeImgUrl, 282, 18, 75, 75)
       showCanvas.setFontSize(12)
       showCanvas.setFillStyle("#FFF")
       showCanvas.setTextAlign('left')
@@ -954,7 +1000,7 @@ Page({
       hiddenCanvas.restore()
       hiddenCanvas.drawImage(canvasData.imgUrl2, 10 * 2, 497 * 2, 53 * 2, 20 * 2)
       hiddenCanvas.drawImage(canvasData.imgUrl3, 311 * 2, 565 * 2, 53 * 2, 20 * 2)
-      hiddenCanvas.drawImage(canvasData.codeImgUrl, 316 * 2, 18 * 2, 49 * 2, 49 * 2)
+      hiddenCanvas.drawImage(canvasData.codeImgUrl, 282 * 2, 18 * 2, 75 * 2, 75 * 2)
       hiddenCanvas.setFontSize(24)
       hiddenCanvas.setFillStyle("#FFF")
       hiddenCanvas.setTextAlign('left')
@@ -1083,7 +1129,7 @@ Page({
         damageNum: 0,
         employCash: 0,
         msgData: null,
-        dialogText5: { title: '腿软了！赶紧叫人吧！' },
+        dialogText5: { title: '腿软了！点击右下角“叫人助拳”找人帮忙吧!' },
         battlefieldStatus: false,
         battlefieldReportStatus: false,
         activityInfoStatus: false,
@@ -1099,8 +1145,8 @@ Page({
         recordLogPage: 1,
         activeRecordLogPage: 0,
         activeGood: null,
+        goodDetails: null,
         resetDialogStatus: true,
-        audioNum: 0,
         activeText: -1
       })
       that.bgLoadingProgressBar('reset')
@@ -1146,6 +1192,8 @@ Page({
           procedureState: 'start'
         })
         that.procedure()
+      } else if (that.data.startAnimationNum == 141) {
+        clearInterval(time)
       }else{
         clearInterval(time)
         that.hooliganism()
@@ -1236,7 +1284,7 @@ Page({
     } else {
       var that = this
       setTimeout(function () {
-        if (that.data.loadingStatic >= 263 && that.data.audioNum == 15) {
+        if (that.data.loadingStatic >= 263) {
         // if (that.data.loadingStatic >= 263) {
           that.setData({
             loadingSuccess: true
@@ -1497,13 +1545,16 @@ Page({
   },
   // 分享 默认分享是活动页 如果当前用户已经可以叫人代打 分享代打页
   onShareAppMessage: function () {
-    this.menu.play()
+    if (this.menu){
+      this.menu.play()
+    }
     const that = this
     this.setData({
       dialogNum: 0,
       dialogActive: 0,
       blowStatus: true
     })
+    // this.addShareIncrCoin()
     this.setProcedureState()
     req(app.globalData.bastUrl, 'wxapp/wine/countInfo/shareUid:' + this.data.battlefieldInfo.uid, {}, 'GET', true)
     // 在分享前生成哈希 在已经打完第三次 最好是每次打击都返回 前2次为null 3次后有哈希值x！
@@ -1541,9 +1592,6 @@ Page({
   // 音频加载
   audioLoading: function () {
     const audioArr = [{
-      url: 'https://img8.ontheroadstore.com/wine/music/back1.mp3',
-      name: 'back1'
-    }, {
       url: 'https://img8.ontheroadstore.com/wine/music/back2.mp3',
       name: 'back2',
       loop: true
@@ -1588,37 +1636,36 @@ Page({
       url: 'https://img8.ontheroadstore.com/wine/music/jjs.mp3',
       name: 'jjs'
     }]
+    const that = this
+    wx.downloadFile({
+      url: 'https://img8.ontheroadstore.com/wine/music/back1.mp3',
+      success: function (res) {
+        if (res.statusCode === 200) {
+          const bg = wx.createInnerAudioContext()
+          that.back1 = bg
+          bg.src = res.tempFilePath
+          bg.obeyMuteSwitch = true
+        }
+      }
+    })
     for (var i = 0; i < audioArr.length; i++){
       this.circulationAudioLoading(audioArr[i])
     }
   },
   // 循环添加加载视频
   circulationAudioLoading: function (audio) {
-    const that = this
-    wx.downloadFile({
-      url: audio.url,
-      success: function (res) {
-        if (res.statusCode === 200) {
-          that.setData({
-            audioNum: that.data.audioNum + 1
-          })
-          const bg = wx.createInnerAudioContext()
-          that[audio.name] = bg
-          bg.src = res.tempFilePath
-          bg.obeyMuteSwitch = true
-          if (audio.loop) {
-            bg.loop = true
-          }
-        }
-      }
-    })
+    const bg = wx.createInnerAudioContext()
+    bg.obeyMuteSwitch = true
+    if (audio.loop) {
+      bg.loop = true
+    }
+    bg.src = audio.url
+    this[audio.name] = bg
   },
   // 文字显示
   textShow: function (num) {
     this.setText()
-    this.setData({
-      activeText: num
-    })
+    
     if (this.font){
       this.font.play()
     }
@@ -1632,11 +1679,16 @@ Page({
     that.setData({
       textArr: textArr
     })
+    this.setData({
+      activeText: num
+    })
     var time = setInterval(function(){
       textNum = textNum + 1
       if (textNum >= activeTextLength){
         clearInterval(time)
-        that.font.stop()
+        if (that.font) {
+          that.font.stop()
+        }
         const activeText = activeTextArr[textNum]
         textArr[num].selectShwo = true
         that.setData({
@@ -1679,16 +1731,95 @@ Page({
       }, {
         title: '酒保对你臭不要脸的行为表示认同，送了你一张20元优惠券',
         selectNum: false
+      }, {
+          title: '自己打差不多就得了，多叫几个人才能拿更多优惠！！',
+        selectNum: false
       }]
     })
   },
   // 返回首页
   returnIndex: function () {
-    if (this.back2){
+    this.setData({
+      startAnimationNum: 141
+    })
+    if (this.back2) {
       this.back2.stop()
+    }
+    if (this.back1) {
+      this.back1.stop()
     }
     wx.reLaunch({
       url: '/pages/index/index'
+    })
+  },
+  // 获取商品详情
+  getGoodInfo: function (e) {
+    const goodinfo = e.target.dataset
+    var activeGood = {
+      "post_title": goodinfo.post_title,
+      "max": goodinfo.max > this.data.employCash ? goodinfo.price - this.data.employCash : goodinfo.price - goodinfo.max,
+      "img": goodinfo.img,
+      "price": goodinfo.price,
+      "desc": goodinfo.desc,
+      "address_id": 0,
+      "type": 1,
+      "orders": [{
+        "attach": "",
+        "items": [{ "counts": 1, "item_id": goodinfo.id, "mid": goodinfo.mid }],
+        "seller_name": goodinfo.uname,
+        "seller_uid": goodinfo.uid
+      }],
+      "payment_type": 3
+    }
+    this.setData({
+      activeGood: activeGood
+    })
+    req(app.globalData.bastUrl, 'appv3_1/goods/' + goodinfo.id).then(res => {
+      res.data.desc = util.replaceBr(res.data.desc)
+      res.data.content = util.replaceBr(res.data.content)
+      this.setData({
+        goodDetails: res.data
+      })
+    })
+  },
+  // 图片预览
+  previewImage: function (e) {
+    const url = e.target.dataset.url
+    // 图片加入预览列表
+    wx.previewImage({
+      current: url, // 当前显示图片的http链接
+      urls: this.data.goodDetails.images // 需要预览的图片http链接列表
+    })
+  },
+  // 打开，关闭商品详情
+  closeGoodDetails: function (e) {
+    const status = e.target.dataset.status
+    if(status == 1){
+      this.getGoodInfo(e)
+    } else if(status == 2){
+      this.setData({
+        goodDetails: null,
+        activeGood: null
+      })
+    }
+  },
+  // 商品详情立即购买
+  buyGoodDetails: function () {
+    this.setData({
+      goodDetails: null,
+      orderDialogStatus: true,
+      winelistStatus: false,
+    })
+    const that = this
+    var activeGood = this.data.activeGood
+    req(app.globalData.bastUrl, 'appv2/defaultaddress', {}, "GET", true).then(res => {
+      if (res.status == 1) {
+        activeGood.address_id = res.data.id
+        this.setData({
+          addressInfo: res.data,
+          activeGood: activeGood
+        })
+      }
     })
   },
   catchtouchmove: function () {

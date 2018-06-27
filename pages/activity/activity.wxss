@@ -18,6 +18,14 @@
   height: 100%;
   width: 314%;
 }
+.starting_up .hintText{
+  position: absolute;
+  left: 204rpx;
+  bottom: 50rpx;
+  height: 22rpx;
+  width: 342rpx;
+  background: none;
+}
 .loading_content{
   width: 100%;
   height: 100%;
@@ -354,7 +362,6 @@
 .dialog_text .subtitle{
   padding: 54rpx 50rpx 30rpx 50rpx;
   line-height: 1.4em;
-  width: 548rpx;
 }
 .dialog_text .select_item{
   width: 90%;
@@ -412,6 +419,9 @@
 .dialog3 .dialog_text .select_item{
   padding-bottom: 54rpx;
 }
+.dialog3 .desc{
+  color: #F8E71C;
+}
 .dialog3 .share{
   position: absolute;
   width: 90%;
@@ -431,9 +441,12 @@
 .dialog4 .dialog_text .subtitle{
   padding: 96rpx 50rpx;
 }
+.dialog5 .dialog_text{
+  padding-top: 100rpx;
+}
 .dialog5 .dialog_text .subtitle{
   padding: 0 50rpx;
-  line-height: 274rpx;
+  line-height: 1.4em;
 }
 .dialog7 .ambulance{
   position: absolute;
@@ -452,7 +465,7 @@
   left: 63rpx;
 }
 .dialog9 .dialog_text .subtitle{
-  padding: 54rpx 0 32rpx 50rpx;
+  padding: 54rpx 30rpx 32rpx 50rpx;
 }
 .dialog9 .dialog_text .select_item{
   padding-bottom: 26rpx;
@@ -478,6 +491,14 @@
   width: 628rpx;
   height: 294rpx;
   color: #000;
+}
+.dialog6 .share{
+  position: absolute;
+  width: 90%;
+  height: 50rpx;
+  top: 180rpx;
+  left: 50rpx;
+  opacity: 0;
 }
 
 .activity_info{
@@ -579,6 +600,7 @@
   margin: 60rpx auto;
   position: relative;
 }
+
 .payment_content,
 .good_list,
 .battlefield_info{
@@ -607,6 +629,9 @@
   padding: 30rpx;
   line-height: 48rpx;
 }
+
+
+
 .battlefield_info .user_info{
   position: relative;
   margin: 0 34rpx;
@@ -680,6 +705,9 @@
   left: 100rpx;
   font-size: 24rpx;
   opacity: 0.8;
+}
+.battlefield_info .combats .item .color{
+  color: #35f83f;
 }
 .battlefield_info .page{
   height: 28rpx;
@@ -869,6 +897,18 @@
   border-radius: 8rpx;
   border: 2rpx solid #FFF;
 }
+.good_list .item .open_good_details{
+  height: 1em;
+  line-height: 1em;
+  position: absolute;
+  bottom: 0;
+  right: 120rpx;
+  font-size: 28rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 8rpx;
+  border: 2rpx solid #FFF;
+}
+
 .discounts_num{
   position: absolute;
   bottom: 30rpx;
@@ -1002,6 +1042,79 @@
   width: 54rpx;
   height: 149rpx;
   z-index: 11;
+}
+.good_details{
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  background: #FFF;
+}
+.good_details .close{
+  width: 36rpx;
+  height: 36rpx;
+  background: rgba(0,0,0,0.6);
+  border-radius: 50%;
+  padding: 10rpx;
+  position: fixed;
+  top: 30rpx;
+  right: 30rpx;
+}
+.good_details .frontcover{
+  width: 100%;
+  height: 382rpx;
+}
+.good_details .good_title{
+  padding: 30rpx;
+  line-height: 40rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+.good_details .desc{
+  padding: 30rpx;
+  border-bottom: 16rpx solid #F5F5F5;
+}
+.good_details .content{
+  padding: 30rpx;
+}
+.good_details .desc .title,
+.good_details .content .title{
+  font-weight: 700;
+  font-size: 32rpx;
+  line-height: 32rpx;
+  margin-bottom: 20rpx;
+  display: block;
+}
+.good_details .desc .text_details,
+.good_details .content .text_details{
+  font-size: 30rpx;
+  line-height: 32rpx;
+  font-weight: 300;
+  font-family:  normal;
+}
+.good_details .images{
+  padding: 30rpx 0 0 30rpx;
+}
+.good_details .images image{
+  width: 216rpx;
+  height: 216rpx;
+  float: left;
+  margin-bottom: 20rpx;
+  margin-right: 21rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+.good_details .buy{
+  line-height: 80rpx;
+  width: 690rpx;
+  margin: 10rpx 30rpx 30rpx;
+  background: #ae2121;
+  border-radius: 16rpx;
+  text-align: center;
+  color: #FFF;
+  font-size: 28rpx;
 }
 @keyframes bg2animation{
   0%{

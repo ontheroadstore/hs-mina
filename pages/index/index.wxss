@@ -287,9 +287,17 @@
 .activity{
   position: fixed;
   bottom: 100rpx;
+  right: 16rpx;
+  width: 137rpx;
+  height: 120rpx;
+  background: none;
+}
+.activity_text{
+  position: fixed;
+  bottom: 60rpx;
   right: 0;
-  width: 117rpx;
-  height: 107rpx;
+  width: 204rpx;
+  height: 60rpx;
   background: none;
 }
 

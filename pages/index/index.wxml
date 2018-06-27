@@ -55,6 +55,7 @@
       </view>
     </view>
     <image src='/images/activityIcon.gif' class='activity' bindtap="navigateToActivity" wx:if="{{activityStatus}}"></image>
+    <image src='/images/activityIconText.png' class='activity_text' bindtap="navigateToActivity" wx:if="{{activityStatus}}"></image>
   </view>
   
   <view class="content_classify {{tabIndex != 0 ? 'active':''}}" id="contentClassify">

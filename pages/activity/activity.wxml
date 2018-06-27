@@ -1,7 +1,8 @@
 <view class="main page" id="main" catchtouchmove='catchtouchmove'> 
   <!-- 开机动画 -->
   <view class='starting_up' wx:if="{{startingUpStatus}}">
-    <image class='liquor_bg' id="liquorDg" style='right:{{liquorBgSize.right}}px;' animation="{{liquorBgAnimation}}" src='/images/liquorBg.png'></image> 
+    <image class='liquor_bg' id="liquorDg" style='right:{{liquorBgSize.right}}px;' animation="{{liquorBgAnimation}}" src='/images/liquorBg.png'></image>
+    <image class='hintText' src='/images/text.png'></image>
     <view class='loading_content'>
       <image class='logo' src='/images/logo.png'></image>
       <image class='start_btn' wx:if="{{loadingSuccess}}" catchtouchstart='startActivity' src='/images/start.png'></image>
@@ -140,9 +141,9 @@
           <view class='dialog_text'>
             <view class='subtitle' wx:if="{{activeText == -1}}">酒保瘫倒在地上，再打就出人命了！</view>
             <view class='subtitle' wx:if="{{activeText == 3}}">{{textArr[3].title}}</view>
-            <view class='select_item' catchtouchstart='setDialogText6' wx:if="{{activeText==3&&textArr[3].selectShwo}}">
-              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
-              <view>偏不！我TM就要搞死你丫的</view>
+            <view class='select_item' data-num='2' catchtouchstart='setDialogText6' wx:if="{{activeText==3&&textArr[3].selectShwo}}">
+              <image data-num='2' src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view data-num='2'>偏不！我TM就要搞死你丫的</view>
             </view>
             <view class='select_item' catchtouchstart='ending' data-ending="1" wx:if="{{activeText==3&&textArr[3].selectShwo}}">
               <image data-ending="1" src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
@@ -211,6 +212,28 @@
             </view>
           </view>
         </view>
+        <!-- 提示窗11  自己的力量是有限的，叫朋友助拳才可以拿到更高优惠 -->
+        <!-- <view class='dialog6' hidden="{{!(dialogNum == 11)}}"> -->
+        <view class='dialog3' hidden="{{!(dialogNum == 11)}}">
+          <image src='http://img8.ontheroadstore.com/upload/180612/ce681fd8595ae3fd5b127f9e1080ccde.png'></image>
+          <view class='dialog_text'>
+            <view class='subtitle' wx:if="{{activeText == -1}}"></view>
+            <view class='subtitle' wx:if="{{activeText == 8}}">{{textArr[8].title}}</view>
+            <view class='select_item' wx:if="{{activeText==-1||(activeText==8&&textArr[8].selectShwo)}}">
+              <image src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view>我去叫朋友助拳</view>
+            </view>
+            <view class='select_item' data-num='1' catchtouchstart='setDialogText6' wx:if="{{activeText==-1||(activeText==8&&textArr[8].selectShwo)}}">
+              <image data-num='1' src='http://img8.ontheroadstore.com/upload/180611/5c33da1f088c5f7149a0f0ca9b3dbef1.png'></image>
+              <view data-num='1'>别烦我还要接着打</view>
+            </view>
+            <view class='desc'>(点击左下角“我的战报”可查看好友带来的优惠)</view>
+            <button class='share' open-type="share" wx:if="{{activeText==-1||(activeText==8&&textArr[8].selectShwo)}}">分享</button>
+          </view>
+        </view>
+
+
+
         <!-- 重置窗 -->
         <view class='reset_dialog' hidden="{{resetDialogStatus}}">
           <image src='http://img8.ontheroadstore.com/upload/180612/dc84190b980f6f68a1487da97307690b.png'></image>
@@ -266,7 +289,7 @@
             <view class='combats'>
               <view class='item' wx:for="{{activerecordLog}}" wx:key="item">
                 <image src='{{item.avatar}}'></image>
-                <view>{{item.msg}}</view>
+                <view class="{{item.status ? 'color' : ''}}">{{item.msg}}</view>
               </view>
               
             </view>
@@ -313,10 +336,11 @@
             </view>
             <scroll-view class='items' scroll-y='true'>
               <view class='item' wx:for="{{goodList[goodsActive]['item']}}" wx:key="item">
-                <image src='{{item.img}}'></image>
-                <view class='post_title'>{{item.post_title}}</view>
+                <image src='{{item.img}}' data-status='1' catchtap='closeGoodDetails' data-id="{{item.id}}" data-mid="{{item.mid}}" data-uid="{{item.seller_uid}}" data-uname="{{item.seller_name}}" data-img="{{item.img}}" data-post_title="{{item.post_title}}" data-max="{{item.max}}" data-price="{{item.price}}" data-desc="酒精度：{{item.capacity}} 净含量：{{item.concentration}}"></image>
+                <view class='post_title' data-status='1' catchtap='closeGoodDetails' data-id="{{item.id}}" data-mid="{{item.mid}}" data-uid="{{item.seller_uid}}" data-uname="{{item.seller_name}}" data-img="{{item.img}}" data-post_title="{{item.post_title}}" data-max="{{item.max}}" data-price="{{item.price}}" data-desc="酒精度：{{item.capacity}} 净含量：{{item.concentration}}">{{item.post_title}}</view>
                 <view class='discounts'>最高可减{{item.max}}元</view>
                 <view class='price font_din'>￥ {{item.price}}</view>
+                <view class='open_good_details' data-status='1' catchtap='closeGoodDetails' data-id="{{item.id}}" data-mid="{{item.mid}}" data-uid="{{item.seller_uid}}" data-uname="{{item.seller_name}}" data-img="{{item.img}}" data-post_title="{{item.post_title}}" data-max="{{item.max}}" data-price="{{item.price}}" data-desc="酒精度：{{item.capacity}} 净含量：{{item.concentration}}">详情</view>
                 <view class='buy_btn' data-id="{{item.id}}" data-mid="{{item.mid}}" data-uid="{{item.seller_uid}}" data-uname="{{item.seller_name}}" catchtouchstart='paymentBtn' data-img="{{item.img}}" data-post_title="{{item.post_title}}" data-max="{{item.max}}" data-price="{{item.price}}" data-desc="酒精度：{{item.capacity}} 净含量：{{item.concentration}}">购买</view>
               </view>
             </scroll-view>
@@ -357,6 +381,23 @@
       </view>
       <image src='http://img8.ontheroadstore.com/upload/180622/c56c8d58d9e36fbe34740d7753843671.png' class='shareImg'></image>
       <image src='http://img8.ontheroadstore.com/upload/180625/4e494cc1a10955965bc5fd92cc1ae909.png' catchtouchstart='returnIndex' class='returnIndex'></image>
+      <scroll-view  class='good_details' scroll-y wx:if="{{goodDetails}}">
+        <image class='close' src='/images/closeWhite.png' data-status='2' catchtap='closeGoodDetails'></image>
+        <image class='frontcover' mode="aspectFill" src='{{goodDetails.banner[0]}}@640w_1l'></image>
+        <view class='good_title'>{{goodDetails.title}}</view>
+        <view class='desc' wx:if="{{goodDetails.desc}}">
+          <text class='title'>狠货简介</text>
+          <text class='text_details'>{{goodDetails.desc}}</text>
+        </view>
+        <view class='content' wx:if="{{goodDetails.content}}">
+          <text class='title'>狠人说</text>
+          <text class='text_details'>{{goodDetails.content}}</text>
+        </view>
+        <view class='images clearBoth'>
+          <image wx:key="key" bindtap='previewImage' data-url="{{item}}" mode="aspectFill" lazy-load wx:for="{{goodDetails.images}}" src='{{item}}@!320x320' data-original="{{item}}@!rel"></image>
+        </view>
+        <view class='buy' catchtap='buyGoodDetails'>立即购买</view>
+      </scroll-view>
     </view>
   </view>
 </view>

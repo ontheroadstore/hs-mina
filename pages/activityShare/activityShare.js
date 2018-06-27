@@ -28,16 +28,19 @@ Page({
     } else {
       var shareString = options.share
     }
-    const that = this
     this.setData({
       shareString: shareString
     })
+    
+  },
+  onShow: function () {
+    const that = this
     wx.getUserInfo({
       success: function () {
         req(app.globalData.bastUrl, 'wxapp/wine/getShareInfo', {
           shareString: that.data.shareString
-        }, 'POST', true).then( res => {
-          if(res.data == 0){
+        }, 'POST', true, that.onShow).then(res => {
+          if (res.data == 0) {
             wx.redirectTo({
               url: '/pages/activity/activity',
             })
@@ -60,12 +63,6 @@ Page({
         })
       }
     })
-  },
-  onReady: function () {
-  
-  },
-  onShow: function () {
-  
   },
   onShareAppMessage: function () {
     const title = '酒保耍流氓，我已经把他打到残血了，快一起来打这孙子！'
@@ -91,6 +88,12 @@ Page({
       dialogAnimationStatus: false,
       dialogStatus: true
     })
+    setTimeout(function(){
+      req(app.globalData.bastUrl, 'wxapp/wine/countInfo/save', {}, 'GET', true)
+      wx.redirectTo({
+        url: '/pages/activity/activity',
+      })
+    },2000)
   },
   // 我也要玩
   ending: function () {
@@ -109,7 +112,6 @@ Page({
       hitType: this.data.blowType,
       shareString: that.data.shareString
     }, 'POST', true).then(res => {
-      console.log(res)
       if (res.data.status){
         const text = '你的帮忙让好友取得了压倒性的优势，现在开始玩自己的吧！！！！'
         this.setData({
@@ -134,12 +136,18 @@ Page({
           })
         }, 2000)
       } else {
-        const text = res.data.msg
+        const text = '你已经动过手了，去玩自己的吧！！！'
         that.setData({
           dialoText: text,
           dialogGifStatus: false,
           dialogStatus: true
         })
+        setTimeout(function () {
+          req(app.globalData.bastUrl, 'wxapp/wine/countInfo/save', {}, 'GET', true)
+          wx.redirectTo({
+            url: '/pages/activity/activity',
+          })
+        }, 2000)
       }
     })
     

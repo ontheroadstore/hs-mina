@@ -97,6 +97,7 @@
   height: 26rpx;
   width: 466rpx;
   margin: 6rpx 8rpx;
+  overflow: hidden;
 }
 .friend_info .damage .damage_content .damage_num_bg{
   height: 26rpx;
