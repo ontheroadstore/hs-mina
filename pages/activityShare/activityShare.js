@@ -94,6 +94,7 @@ Page({
   },
   // 我也要玩
   ending: function () {
+    req(app.globalData.bastUrl, 'wxapp/wine/countInfo/save', {}, 'GET', true)
     wx.redirectTo({
       url: '/pages/activity/activity',
     })

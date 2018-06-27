@@ -1,4 +1,7 @@
 // pages/webView/webView.js
+const app = getApp()
+import { req } from '../../utils/api.js'
+
 Page({
 
   /**
@@ -16,16 +19,39 @@ Page({
       url: options.url,
       shareTitle: options.title
     })
+    const that = this
+    req(app.globalData.bastUrl, 'wxapp/winedoit/status').then(res => {
+      if (res.data) {
+        req(app.globalData.bastUrl, 'wxapp/winedoit/getIsSell', {
+          goodsIds: 17016
+        }, 'POST').then(res => {
+          if (res.data.isCanSell && res.data.userCanBy == '1') {
+            that.setData({
+              url: app.globalData.bastUrl + 'appv5_1/wxapp/adPage/18',
+            })
+          }
+        })
+      }
+    })
   },
   // 分享
   onShareAppMessage: function () {
-    const url = this.data.url
+    var url = this.data.url
     const shareTitle = this.data.shareTitle
-    console.log(url)
-    console.log(shareTitle)
     return {
       title: shareTitle,
-      path: '/pages/webView/webView?url=' + url
+      path: '/pages/webView/webView?url=' + url,
+      success: function () {
+        if (url == 'https://apitest.ontheroadstore.com/appv5_1/wxapp/adPage/17' || url == 'https://api.ontheroadstore.com/appv5_1/wxapp/adPage/17') {
+          req(app.globalData.bastUrl, 'wxapp/winedoit/share', {}, 'GET', true).then(res => {
+            wx.showToast({
+              title: '分享成功，活动商品下单立减5元/件',
+              icon: 'none',
+              duration: 2000
+            })
+          })
+        }
+      }
     }
   },
 })

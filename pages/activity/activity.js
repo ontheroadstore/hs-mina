@@ -150,6 +150,8 @@ Page({
     startAnimation: images1,                  // 开始动画图片列表
     startAnimationNum: 0,                     // 动画图片显示顺序
     startAnimationStatus: false,              // 动画进行状态
+    hooliganismStatus: false,                 // 流氓动画
+    hooliganismNum: 1,                        // 流氓动画
     dialogGifStatus: false,                   // gif弹窗显示
     dialogAnimationStatus: false,             // gif显示
     blowType: 0,                              // 拳打 脚踢
@@ -318,20 +320,22 @@ Page({
     }, 2500)
     this.audioLoading()
     // wx.downloadFile({
-    //   url: 'https://img8.ontheroadstore.com/wine/music/1.mp3',
+    //   url: 'https://img8.ontheroadstore.com/wine/music/jjs.mp3',
     //   success: function (res) {
     //     if (res.statusCode === 200) {
     //       const bg = wx.createInnerAudioContext()
     //       bg.src = res.tempFilePath
-    //       bg.loop = true
     //       bg.obeyMuteSwitch = true
+    //       console.log(bg.duration)
+    //       console.log(bg.currentTime)
+    //       console.log(bg.paused)
+    //       console.log(bg.buffered)
     //       bg.play()
     //       bg.onPlay(() => {
     //         console.log('开始播放')
     //       })
-    //       bg.onError((res) => {
-    //         console.log(res.errMsg)
-    //         console.log(res.errCode)
+    //       bg.onTimeUpdate((mmm) => {
+    //         console.log(mmm)
     //       })
     //     }
     //   }
@@ -364,7 +368,9 @@ Page({
   // 拳打脚踢
   blow: function (e) {
     const num = parseInt(Math.random() * 6) + 1
-    this['attack' + num].play()
+    if (this['attack' + num]){
+      this['attack' + num].play()
+    }
     if (this.back2) {
       this.back2.play()
     }
@@ -432,6 +438,7 @@ Page({
               blowNum: res.data.hitNum,
               damageNum: res.data.hit,
               employCash: res.data.cash,
+              battlefieldInfo: res.data,
               blowLoading: false,
               dialogAnimationStatus: true
             })
@@ -495,6 +502,7 @@ Page({
         winelistStatus: true
       })
     } else if (ending == 2) {
+      req(app.globalData.bastUrl, 'wxapp/wine/countInfo/eastEgg', {}, 'GET', true)
       this.setData({
         procedureState: 'die',
         dialogNum: 8,
@@ -523,7 +531,9 @@ Page({
       this.resetGame()
     }
     this.procedure()
-    this.select.play()
+    if (this.select){
+      this.select.play()
+    }
   },
   // dialog3 文案切换
   setDialogText5: function () {
@@ -547,7 +557,9 @@ Page({
       procedureState: 'dieChooice'
     })
     this.procedure()
-    this.select.play()
+    if (this.select) {
+      this.select.play()
+    }
     this.textShow(4)
   },
   // 选择见义勇为
@@ -561,7 +573,9 @@ Page({
       dialogActive: 0
     })
     this.procedure()
-    this.select.play()
+    if (this.select) {
+      this.select.play()
+    }
     if (this.back2){
       this.back2.play()
     }
@@ -574,7 +588,9 @@ Page({
       dialogActive: 9
     })
     this.procedure()
-    this.select.play()
+    if (this.select) {
+      this.select.play()
+    }
     this.textShow(7)
   },
   // 接受贿赂 购买
@@ -589,7 +605,9 @@ Page({
       dialogActive: 0
     })
     this.procedure()
-    this.select.play()
+    if (this.select) {
+      this.select.play()
+    }
   },
   // 存档
   procedure: function () {
@@ -607,7 +625,9 @@ Page({
       dialogActive: 0
     })
     this.setProcedureState()
-    this.menu.play()
+    if (this.menu){
+      this.menu.play()
+    }
   },
   // 打开战报
   openBattlefield: function () {
@@ -620,7 +640,9 @@ Page({
     })
     this.setProcedureState()
     this.getInfo()
-    this.menu.play()
+    if (this.menu){
+      this.menu.play()
+    }
   },
   closeWinelistBattlefield: function () {
     this.setData({
@@ -965,6 +987,7 @@ Page({
         wx.saveImageToPhotosAlbum({
           filePath: res.tempFilePath,
           success: function() {
+            req(app.globalData.bastUrl, 'wxapp/wine/countInfo/save', {}, 'GET', true)
             that.setData({
               battlefieldReportStatus: false
             })
@@ -1010,20 +1033,26 @@ Page({
         blowStatus: false,
         dialogNum: 0
       })
-      this.menu.play()
+      if (this.menu){
+        this.menu.play()
+      }
     } else {
       this.setData({
         resetDialogStatus: true,
         blowStatus: this.data.dialogActive == 0 && this.data.procedureState != 'slience' ? true : false,
         dialogNum: this.data.dialogActive
       })
-      this.select.play()
+      if (this.select) {
+        this.select.play()
+      }
     }
   },
   // 重置游戏
   resetGame: function () {
     const that = this
-    this.select.play()
+    if (this.select) {
+      this.select.play()
+    }
     if (this.back2){
       this.back2.stop()
     }
@@ -1037,6 +1066,8 @@ Page({
         startingUpStatus: true,
         startAnimationNum: 0,
         startAnimationStatus: false,
+        hooliganismStatus: false,
+        hooliganismNum: 1,
         dialogGifStatus: false,
         blowType: 0,
         opacityAnimstion: null,
@@ -1084,7 +1115,7 @@ Page({
   // 跳过动画
   skipAnimation: function () {
     this.setData({
-      startAnimationNum: 132
+      startAnimationNum: 140
     })
     if (this.back1){
       this.back1.stop()
@@ -1104,10 +1135,9 @@ Page({
         that.setData({
           startAnimationNum: that.data.startAnimationNum + 1
         })
-      }else{
+      } else if (that.data.startAnimationNum == 140){
         clearInterval(time)
         that.textShow(0)
-        
         // 点击开始则 开始记录
         that.setData({
           dialogNum: 1,
@@ -1116,8 +1146,67 @@ Page({
           procedureState: 'start'
         })
         that.procedure()
+      }else{
+        clearInterval(time)
+        that.hooliganism()
       }
     }, 80)
+    req(app.globalData.bastUrl, 'wxapp/wine/countInfo/startGame', {}, 'GET', true)
+  },
+  // 打击声音
+  hooliganism: function () {
+    const that = this
+    this.setData({
+      hooliganismStatus: true
+    })
+    if(this.jjs){
+      this.jjs.play()
+    }
+    setTimeout(function () {
+      that.setData({
+        hooliganismNum: 2
+      })
+      if (that.deg) {
+        that.deg.play()
+      }
+      setTimeout(function () {
+        that.setData({
+          hooliganismNum: 3
+        })
+        if (that.clm) {
+          that.clm.play()
+          that.clm.onEnded(() => {
+            that.setData({
+              hooliganismNum: 1,
+              hooliganismStatus: false
+            })
+            that.textShow(0)
+            // 点击开始则 开始记录
+            that.setData({
+              dialogNum: 1,
+              dialogActive: 1,
+              startAnimationStatus: true,
+              procedureState: 'start'
+            })
+            that.procedure()
+          })
+        } else{
+          that.setData({
+            hooliganismNum: 1,
+            hooliganismStatus: false
+          })
+          that.textShow(0)
+          // 点击开始则 开始记录
+          that.setData({
+            dialogNum: 1,
+            dialogActive: 1,
+            startAnimationStatus: true,
+            procedureState: 'start'
+          })
+          that.procedure()
+        }
+      }, 1200)
+    },1000)
   },
   // 背景移动动画
   bgLoadingProgressBar: function (reset) {
@@ -1147,7 +1236,7 @@ Page({
     } else {
       var that = this
       setTimeout(function () {
-        if (that.data.loadingStatic >= 263 && that.data.audioNum == 12) {
+        if (that.data.loadingStatic >= 263 && that.data.audioNum == 15) {
         // if (that.data.loadingStatic >= 263) {
           that.setData({
             loadingSuccess: true
@@ -1302,6 +1391,14 @@ Page({
   },
   // 支付
   payment: function (order) {
+    if (!this.data.addressInfo){
+      wx.showToast({
+        title: '请添加收货地址',
+        icon: 'none',
+        duration: 2000
+      })
+      return false
+    }
     req(app.globalData.bastUrl, 'wxapp/wine/createOrder', {
       address_id: this.data.activeGood.address_id,
       type: 1,
@@ -1366,6 +1463,7 @@ Page({
       order_number: orderNumber,
       prepay_id: prepayId
     }, 'POST', true).then(res => {
+      req(app.globalData.bastUrl, 'wxapp/wine/countInfo/order', {}, 'GET', true)
       wx.showToast({
         title: '购买成功',
         icon: 'success',
@@ -1407,6 +1505,7 @@ Page({
       blowStatus: true
     })
     this.setProcedureState()
+    req(app.globalData.bastUrl, 'wxapp/wine/countInfo/shareUid:' + this.data.battlefieldInfo.uid, {}, 'GET', true)
     // 在分享前生成哈希 在已经打完第三次 最好是每次打击都返回 前2次为null 3次后有哈希值x！
     const title = '酒保耍流氓，我打了他' + this.data.damageNum + '点血，快一起来打这孙子！'
     return {
@@ -1415,6 +1514,7 @@ Page({
       imageUrl: 'http://img8.ontheroadstore.com/upload/180622/c56c8d58d9e36fbe34740d7753843671.png',
       success: function (res) {
         that.addShareIncrCoin()
+        req(app.globalData.bastUrl, 'wxapp/wine/countInfo/shareUid:' + that.data.battlefieldInfo.uid, {}, 'GET', true)
       }
     }
   },
@@ -1478,6 +1578,15 @@ Page({
     }, {
       url: 'https://img8.ontheroadstore.com/wine/music/7.mp3',
       name: 'attack7'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/clm1.mp3',
+      name: 'clm'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/deg.mp3',
+      name: 'deg'
+    }, {
+      url: 'https://img8.ontheroadstore.com/wine/music/jjs.mp3',
+      name: 'jjs'
     }]
     for (var i = 0; i < audioArr.length; i++){
       this.circulationAudioLoading(audioArr[i])
@@ -1510,7 +1619,9 @@ Page({
     this.setData({
       activeText: num
     })
-    this.font.play()
+    if (this.font){
+      this.font.play()
+    }
     const that = this
     var textArr = this.data.textArr
     const activeTextArr = textArr[num]['title'].split('')

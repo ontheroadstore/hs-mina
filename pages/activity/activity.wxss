@@ -156,6 +156,23 @@
 .weave .bg2{
   animation: bg2animation 2s linear infinite alternate;
 }
+.weave .bg2_end{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  background: #000;
+}
+.weave .bg2_end image{
+  height: 157rpx;
+  width: 100%;
+  margin-top: 20%;
+}
+.hooliganism1{
+  margin-top: 50%;
+}
 .damage{
   position: absolute;
   top: 0;
@@ -337,6 +354,7 @@
 .dialog_text .subtitle{
   padding: 54rpx 50rpx 30rpx 50rpx;
   line-height: 1.4em;
+  width: 548rpx;
 }
 .dialog_text .select_item{
   width: 90%;

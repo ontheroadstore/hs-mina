@@ -28,7 +28,9 @@ Page({
     selectScrollStatus: false,    // 款式是否滚动
     selectType: 0,                // 调起选择框：0文中选择 1加入购物车 2立即购买 （单个款式不调起）
     isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
-    authorizationStatus: false    //授权状态
+    authorizationStatus: false,   //授权状态
+    goodCanSell: false,           // 用户是否优惠
+    activityCanBy: false          // 显示 参与优惠活动按钮
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
@@ -61,9 +63,9 @@ Page({
         specialOfferPrice = goodInfo.type[0].special_offer_price
       }
       // 添加/64
-      res.data.seller.avatar = res.data.seller.avatar 
+      res.data.seller.avatar = res.data.seller.avatar
       res.data.modules[0].data.result[0].avatar = res.data.modules[0].data.result[0].avatar
-      
+
       this.setData({
         presellTime: presellTime,
         styleNum: styleNum,
@@ -87,8 +89,32 @@ Page({
       }
     })
   },
-  onShow: function() {
-    // console.log(this.data.goodInfo)
+  // 跳转
+  activityToast: function () {
+    wx.navigateTo({
+      url: "/pages/webView/webView?url=" + app.globalData.bastUrl + "appv5_1/wxapp/adPage/17&title=夏日饮酒专场"
+    })
+  },
+  onShow: function () {
+    // 获取活动状态
+    req(app.globalData.bastUrl, 'wxapp/winedoit/status').then(res => {
+      if (res.data) {
+        req(app.globalData.bastUrl, 'wxapp/winedoit/getIsSell', {
+          goodsIds: this.data.articleId
+        }, 'POST').then(res => {
+          if (res.data.isCanSell && res.data.userCanBy == '1') {
+            this.setData({
+              goodCanSell: true,
+              activityCanBy: true
+            })
+          } else if (res.data.isCanSell && (!res.data.userCanBy || res.data.userCanBy == '0')) {
+            this.setData({
+              activityCanBy: true
+            })
+          }
+        })
+      }
+    })
   },
   // 分享
   onShareAppMessage: function (res) {
@@ -98,7 +124,7 @@ Page({
     }
     return {
       title: this.data.goodInfo.title,
-      path : '/pages/article/article?id=' + this.data.articleId,
+      path: '/pages/article/article?id=' + this.data.articleId,
       // imageUrl: this.data.goodInfo.banner[0],
       success: function (res) {
         // 转发成功
@@ -109,12 +135,12 @@ Page({
     }
   },
   // 获取购物车数量
-  getChartNum: function(n) {
+  getChartNum: function (n) {
     req(app.globalData.bastUrl, 'appv3_1/getcart/count', {}, 'GET', true).then(res => {
       this.setData({
         chartNum: res.data
       })
-      if(n == 1){
+      if (n == 1) {
         wx.showToast({
           title: '添加成功',
           icon: 'success',
@@ -125,7 +151,7 @@ Page({
 
   },
   // 图片预览
-  previewImage: function(e) {
+  previewImage: function (e) {
     const url = e.target.dataset.url
     // 图片加入预览列表
     wx.previewImage({
@@ -134,7 +160,7 @@ Page({
     })
   },
   // 收藏
-  addLike: function() {
+  addLike: function () {
     if (this.data.goodInfo.is_favorited == 0) {
       req(app.globalData.bastUrl, 'appv2/itemaddfavourite', {
         item_id: this.data.articleId
@@ -148,7 +174,7 @@ Page({
       req(app.globalData.bastUrl, 'appv2/itemdeletefavourite', {
         item_id: this.data.articleId
       }, 'POST').then(res => {
-        this.data.goodInfo.is_favorited = 0        
+        this.data.goodInfo.is_favorited = 0
         this.setData({
           goodInfo: this.data.goodInfo
         })
@@ -156,7 +182,7 @@ Page({
     }
   },
   // 加入购物车
-  addChart: function(e) {
+  addChart: function (e) {
     // appv2/additemintocart 接口参数商品id 款式id 数量
     // this.data.articleId 商品id 
     // this.data.selectStyleId 款式id
@@ -174,7 +200,7 @@ Page({
     })
   },
   // 显示款式选择框
-  selectShow: function(e) {
+  selectShow: function (e) {
     // 查询款式高度 设置是否滚动
     const that = this
     var query = wx.createSelectorQuery()
@@ -198,15 +224,15 @@ Page({
     })
   },
   // 关闭款式选择框
-  selectHide: function(e) {
-    if (e.target.dataset.status == 'true'){
+  selectHide: function (e) {
+    if (e.target.dataset.status == 'true') {
       this.setData({
         selectStatus: false
       })
     }
   },
   // 选中款式
-  selectedStyle: function(e) {
+  selectedStyle: function (e) {
     const id = e.target.dataset.typeid
     const postage = e.target.dataset.postage
     const name = e.target.dataset.name
@@ -215,7 +241,7 @@ Page({
     const specialOfferStatus = formTime(e.target.dataset.specialofferstart, e.target.dataset.specialofferend)
     const specialOfferPrice = e.target.dataset.specialofferprice
     const presellTime = e.target.dataset.preselltime ? util.formatTime(e.target.dataset.preselltime) : null
-    if (stock <= 0){
+    if (stock <= 0) {
       return false
     }
     // 每次切换款式 初始数量
@@ -232,7 +258,7 @@ Page({
     })
   },
   // 当没有选中款式时 点击加入购物车/立即购买
-  noSelect: function() {
+  noSelect: function () {
     wx.showToast({
       title: '请选择一个款式',
       icon: 'none',
@@ -240,8 +266,8 @@ Page({
     })
   },
   // 数量加减
-  subGoodNum: function() {
-    if (this.data.selectStyleCount <= 1){
+  subGoodNum: function () {
+    if (this.data.selectStyleCount <= 1) {
       return false
     }
     let m = this.data.selectStyleCount - 1
@@ -249,7 +275,7 @@ Page({
       selectStyleCount: m
     })
   },
-  addGoodNum: function() {
+  addGoodNum: function () {
     const stock = this.data.selectStyleStock
     if (this.data.selectStyleCount == stock) {
       return wx.showToast({
@@ -264,13 +290,13 @@ Page({
     })
   },
   // 授权
-  bindgetuserinfo: function(res) {
+  bindgetuserinfo: function (res) {
     const that = this
     if (res.detail.errMsg == 'getUserInfo:ok') {
       this.setData({
         authorizationStatus: false
       })
-      app.login(function(){
+      app.login(function () {
         wx.showToast({
           title: '授权成功',
           icon: 'success',
@@ -283,7 +309,7 @@ Page({
   // 跳转下订单
   navigateToCreateOrder: function (e) {
     const stock = e.target.dataset.stock
-    if (stock == 0){
+    if (stock == 0) {
       return wx.showToast({
         title: '当前商品暂无库存',
         icon: 'none',
@@ -293,18 +319,18 @@ Page({
     // 设置选择的款式，以及数量，进行数据缓存（没有款式，直接存储）
     let goodInfo = this.data.goodInfo
     goodInfo.articleId = parseInt(this.data.articleId)
-    if (this.data.styleNum == 1){
+    if (this.data.styleNum == 1) {
       let newType = goodInfo.type
       newType[0]['number'] = 1
       newType[0]['desc'] = null
       goodInfo.newType = newType
       wx.setStorageSync('orderData', goodInfo)
-    }else{
+    } else {
       let selectStyleId = this.data.selectStyleId
       let selectStyleCount = this.data.selectStyleCount
       let newType = []
-      goodInfo.type.forEach(function(item, index){
-        if (item.id == selectStyleId){
+      goodInfo.type.forEach(function (item, index) {
+        if (item.id == selectStyleId) {
           item['number'] = selectStyleCount
           item['desc'] = null
           newType.push(item)
@@ -319,7 +345,7 @@ Page({
     })
   },
   // 跳转购物车
-  navigateToChart: function() {
+  navigateToChart: function () {
     wx.navigateTo({
       url: "/pages/secondLevelChart/secondLevelChart"
     })
@@ -350,7 +376,7 @@ Page({
 })
 
 function formTime(start, end) {
-  if (!start || !end){
+  if (!start || !end) {
     return false
   }
   Date.prototype.toLocaleString = function () {

@@ -1,11 +1,10 @@
-<!-- <view class="main page" id="main" catchtouchmove='catchtouchmove'> -->
-<view class="main page" id="main">
+<view class="main page" id="main" catchtouchmove='catchtouchmove'> 
   <!-- 开机动画 -->
   <view class='starting_up' wx:if="{{startingUpStatus}}">
     <image class='liquor_bg' id="liquorDg" style='right:{{liquorBgSize.right}}px;' animation="{{liquorBgAnimation}}" src='/images/liquorBg.png'></image> 
     <view class='loading_content'>
       <image class='logo' src='/images/logo.png'></image>
-      <image class='start_btn' wx:if="{{loadingSuccess}}" catchtouchstart='startActivity' src='http://img8.ontheroadstore.com/upload/180612/05cb59717e273a7bbfefdacdc2fdbfa4.png'></image>
+      <image class='start_btn' wx:if="{{loadingSuccess}}" catchtouchstart='startActivity' src='/images/start.png'></image>
       <button open-type='getUserInfo' class='getUserInfo' wx:if="{{authorization}}" bindgetuserinfo="getuserinfo">授权</button>
       <view class='loading_progress' wx:if="{{!loadingSuccess}}">
         <image class='loading' src='/images/loading.png'></image>
@@ -29,6 +28,11 @@
       <!-- 背景切换 -->
       <image class='bg1' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180608/2f6ea9815a50c6469fb7f7ecb1f03310.jpg'></image>
       <image class='bg2' mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180612/f08ae5f6d9d4e266823d110b370d44b9.png'></image>
+      <view class='bg2_end' wx:if="{{hooliganismStatus}}">
+        <image class='hooliganism1' wx:if="{{hooliganismNum >= 1}}" src='http://img8.ontheroadstore.com/upload/180626/db09d0c5e7cf5369f75c85cd423ce133.png'></image>
+        <image class='hooliganism2' wx:if="{{hooliganismNum >= 2}}" src='http://img8.ontheroadstore.com/upload/180626/88c295fc36f20a4de314abb38cf1f36a.png'></image>
+        <image class='hooliganism3' wx:if="{{hooliganismNum >= 3}}" src='http://img8.ontheroadstore.com/upload/180626/ab29a5d2fc74d535b43abc8915bddfce.png'></image>
+      </view>
       <image class='bg3' animation="{{bgAnimation1}}" hidden="{{!combatGifStatus}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180622/3027991c49c5a42a07b9bc5ba8998b0c.gif'></image>
       <image class='bg4' hidden="{{!(procedureState == 'die')}}" mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180621/a38e4eb3eb68466d3774fca550f81385.png'></image>
       <!-- 顶部信息 -->
