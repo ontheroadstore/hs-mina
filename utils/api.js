@@ -80,7 +80,7 @@ const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
       method: method,
       header: {
         'Authorization': wx.getStorageSync('token'),
-        'use_source': 'wxapp' //设置用户来源是小程序
+        'UseSource': 'wxapp' //设置用户来源是小程序
       }
     }).then(res => {
       if (!showLoadingStatus) {
