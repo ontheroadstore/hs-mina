@@ -94,6 +94,7 @@ const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
             break;
           default:
             wx.showToast({ title: res.data.info.toString(), icon: 'none', duration: 2000 })
+            reject(res.data)
         }
       } else if (res.statusCode == 401) {
         // 请求登陆

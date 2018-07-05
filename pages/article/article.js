@@ -75,6 +75,10 @@ Page({
         specialOfferStatus: specialOfferStatus,
         specialOfferPrice: specialOfferPrice
       })
+    },(err)=>{
+      setTimeout(()=>{
+        wx.navigateBack();
+      },1000)
     })
     // 更新购物车图标数量
     const that = this
