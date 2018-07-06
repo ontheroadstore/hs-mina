@@ -94,7 +94,9 @@ const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
             break;
           default:
             wx.showToast({ title: res.data.info.toString(), icon: 'none', duration: 2000 })
-            reject(res.data)
+            if (typeof reject === "function"){
+              reject(res.data)
+            }
         }
       } else if (res.statusCode == 401) {
         // 请求登陆
@@ -105,7 +107,9 @@ const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
         }
       }
     }).catch(error => {
-      reject(error)
+      if (typeof reject === "function") {
+        reject(error)
+      }
       if (!showLoadingStatus) {
         wx.hideNavigationBarLoading()
         wx.hideLoading()
