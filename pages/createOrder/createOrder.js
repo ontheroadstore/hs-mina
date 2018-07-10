@@ -84,6 +84,8 @@ Page({
         this.setData({
           addressInfo: res.data
         })
+        //todo: 如果有地址就去发请求更新邮费
+        this.updateFreightFee(res.data); 
       }
     })
     // 获取活动状态
@@ -391,7 +393,68 @@ Page({
   // 修改订单信息进行付款（待付款订单进入付款）
   updatePayment: function () {
 
-  }
+  },
+  // 请求并更新邮费 @addr : 地址对象
+  updateFreightFee: function (addr) {
+    if(!addr) return;
+    let that = this;
+    let obj = {};
+    let orderType = this.data.orderType;
+    let modelIds = [];//款式id数组
+    let orderList = this.data.orderList;
+    let singleOrder = this.data.singleOrder;
+    if (orderType==0){
+      // 直接购买
+      // console.log('singleOrder: ', singleOrder.newType[0].postage)
+      modelIds.push(singleOrder.newType[0].id);
+      
+      // this.singleOrder.newType[0].postage;//单件商品运费
+      // this.totalPostage;//总运费
+    }else{
+      // 购物车购买
+      // 获取所有的款式id
+      // let oldPostage = [];
+      // console.log('orderlist: ',orderList)
+      orderList.forEach(function (li, i) {
+        if (li.childOrderShow){
+          li.item.forEach(function (it, j) {
+            if (it.selectStatus) {
+              modelIds.push(it.model_id);
+            }
+          })
+          // oldPostage.push(li.maxPostage);
+        }
+      })
+      // console.log('orderlist: ',oldPostage)
+      // this.orderList[i].maxPostage;//每件商品运费
+      // this.totalPostage;//总运费
+    }
+  
+    obj.data = JSON.stringify(modelIds);
+    obj.provice = addr.province;
+
+    req(app.globalData.bastUrl, 'appv5_2/getFreightFee', obj).then(res => {
+      if (res.status == 1) {
+        // console.log('新邮费： ', res.data)
+        if (orderType == 0) {
+          this.setData({
+            'singleOrder.newType[0].postage': res.data.freight_fee
+          })
+        }else{
+          //设置新邮费
+          orderList.forEach(function (li, i) {
+            if (li.childOrderShow) {
+              let uid = li.seller_user_id;
+              let prop = 'orderList[' + i +'].maxPostage';
+              that.setData({
+                prop: res.data[uid].freight_fee
+              })
+            }
+          })
+        }
+      }
+    })
+  },
 })
 
 function countTotalPrice(data, n) {
