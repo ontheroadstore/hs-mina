@@ -405,7 +405,6 @@ Page({
     let singleOrder = this.data.singleOrder;
     if (orderType==0){
       // 直接购买
-      // console.log('singleOrder: ', singleOrder.newType[0].postage)
       modelIds.push(singleOrder.newType[0].id);
       
       // this.singleOrder.newType[0].postage;//单件商品运费
@@ -414,7 +413,6 @@ Page({
       // 购物车购买
       // 获取所有的款式id
       // let oldPostage = [];
-      // console.log('orderlist: ',orderList)
       orderList.forEach(function (li, i) {
         if (li.childOrderShow){
           li.item.forEach(function (it, j) {
@@ -425,7 +423,6 @@ Page({
           // oldPostage.push(li.maxPostage);
         }
       })
-      // console.log('orderlist: ',oldPostage)
       // this.orderList[i].maxPostage;//每件商品运费
       // this.totalPostage;//总运费
     }
@@ -435,11 +432,22 @@ Page({
 
     req(app.globalData.bastUrl, 'appv5_2/getFreightFee', obj).then(res => {
       if (res.status == 1) {
-        // console.log('新邮费： ', res.data)
         if (orderType == 0) {
-          this.setData({
-            'singleOrder.newType[0].postage': res.data.freight_fee
+          let uid = singleOrder.seller.id;
+          let newPostage = res.data[uid].freight_fee
+          let postageTxt = 'singleOrder.newType[0].postage';
+          that.setData({
+            [postageTxt]: newPostage
           })
+
+          //更新总邮费和总价格
+          let totalPostage = newPostage
+          const countPrice = countTotalPrice(that.data.singleOrder, 0)
+          that.setData({
+            totalPostage: totalPostage,
+            totalPrice: countPrice.totalPrice
+          })
+
         }else{
           //设置新邮费
           orderList.forEach(function (li, i) {
@@ -447,16 +455,25 @@ Page({
               let uid = li.seller_user_id;
               let prop = 'orderList[' + i +'].maxPostage';
               that.setData({
-                prop: res.data[uid].freight_fee
+                [prop]: res.data[uid].freight_fee
               })
             }
+
+          })
+          //更新总邮费和总价格
+          const countPrice = countTotalPrice(orderList, 1)
+          that.setData({
+            totalPostage: countPrice.totalPostage,
+            totalPrice: countPrice.totalPrice
           })
         }
       }
     })
   },
+
 })
 
+// 重新计算运费和总价
 function countTotalPrice(data, n) {
   if (n == 1) {
     let totalPostage = 0

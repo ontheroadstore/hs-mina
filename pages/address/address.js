@@ -59,12 +59,12 @@ Page({
     console.log(e)
     const id = e.target.dataset.id
     // addressType=1 设置成功后返回订单页
-    if (this.data.addressType == 1) {
-      const orderType = this.data.orderType
-      wx.navigateTo({
-        url: '/pages/createOrder/createOrder?type=' + orderType
-      })
-    }
+    // if (this.data.addressType == 1) {
+    //   const orderType = this.data.orderType
+    //   wx.navigateTo({
+    //     url: '/pages/createOrder/createOrder?type=' + orderType
+    //   })
+    // }
     req(app.globalData.bastUrl, 'appv2/updateaddress', {
       target_address_id: id,
       is_default: 1
@@ -74,7 +74,14 @@ Page({
         icon: 'success',
         duration: 2000
       })
-      this.getAddr()
+      // addressType = 1 设置成功后返回订单页
+      if (this.data.addressType == 1) {
+        const orderType = this.data.orderType
+        wx.redirectTo({
+          url: '/pages/createOrder/createOrder?type=' + orderType
+        })
+      }
+      // this.getAddr()
     })
   },
   // 添加微信地址

@@ -42,14 +42,30 @@
     <text class='title'>狠货简介</text>
     <text class='text_details'>{{desc}}</text>
   </view>
-  <view class='content' wx:if="{{content}}">
-    <text class='title'>狠人说</text>
-    <text class='text_details'>{{content}}</text>
-  </view>
-  <view class='images clearBoth'>
-    <image wx:key="key" bindtap='previewImage' data-url="{{item}}" mode="aspectFill" lazy-load wx:for="{{goodInfo.images}}" src='{{item}}@!320x320' data-original="{{item}}@!rel"></image>
-  </view>
+  
 
+  <view wx:if="{{imgTxtArr.length>0}}">
+    <view class='content'>
+      <text class='title'>狠人说</text>
+      <view wx:for="{{imgTxtArr}}" wx:for-item="imgTxt" wx:key="imgTxt">
+        <text class='text_details' wx:if="{{imgTxt.type==0}}">{{imgTxt.txt}}</text>
+        <image class="img_txt_img" wx:if="{{imgTxt.type==1}}" mode="widthFix" lazy-load src="{{imgTxt.url}}" style="width: {{imgTxt.imgW}};height: {{imgTxt.imgH}};"></image>
+      </view>
+      
+    </view>
+  </view>
+  <view wx:else>
+  
+    <view class='content' wx:if="{{content}}">
+      <text class='title'>狠人说</text>
+      <text class='text_details'>{{content}}</text>
+    </view>
+    <view class='images clearBoth'>
+      <image wx:key="key" bindtap='previewImage' data-url="{{item}}" mode="aspectFill" lazy-load wx:for="{{goodInfo.images}}" src='{{item}}@!320x320' data-original="{{item}}@!rel"></image>
+    </view>
+
+  </view>
+  
    <!-- <view class='buy_users'>
     <view class='user_nums'>325个人已购买</view>
     <view class='user_avatars clearBoth'>

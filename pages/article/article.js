@@ -30,7 +30,8 @@ Page({
     isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
     authorizationStatus: false,   //授权状态
     goodCanSell: false,           // 用户是否优惠
-    activityCanBy: false          // 显示 参与优惠活动按钮
+    activityCanBy: false,          // 显示 参与优惠活动按钮
+    imgTxtArr: [],                //图文混排解析后的对象数组
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
@@ -75,6 +76,19 @@ Page({
         specialOfferStatus: specialOfferStatus,
         specialOfferPrice: specialOfferPrice
       })
+
+      // 设置图文混排
+      let postExcerpt = goodInfo.post_excerpt;
+      let imageText = goodInfo.image_text;
+      // console.log(imageText)
+      if (imageText instanceof Array && imageText.length>0){
+        let imgTxtArr = this.transImgTxt(postExcerpt,imageText,690);
+        this.setData({
+          imgTxtArr: imgTxtArr
+        })
+      }
+      
+
     },(err)=>{
       setTimeout(()=>{
         wx.navigateBack();
@@ -216,7 +230,7 @@ Page({
           selectScrollStatus: true
         })
       }
-      console.log()
+      // console.log()
     })
     // 调起选择框状态
     const selectType = e.target.dataset.type ? e.target.dataset.type : 0
@@ -376,7 +390,60 @@ Page({
     wx.switchTab({
       url: "/pages/index/index"
     })
-  }
+  },
+  // 图文混排处理
+  // @txt 图文混排的图文； @urls 图片的数组； @imgWidth 图片的宽度 单位rpx；
+  transImgTxt: function (txt, urls, imgWidth) {
+
+    let reg = /<img_[^>]*>/ig;
+    //获取图文中的文本数组
+    let txtArr = txt.split(reg);
+    //获取图文中的图片标签
+    let imgArr = [];
+    let temp;
+    while (temp = reg.exec(txt)) {
+      imgArr.push(temp[0])
+    }
+
+    let arr = [];//保存图文解析后的对象数组
+
+    for (let i = 0; i < txtArr.length; i++) {
+
+      //文本按换行分割
+      let txtTmp = txtArr[i].split(/\n|\r/g);
+      for (let j = 0; j < txtTmp.length; j++) {
+        arr.push({
+          type: 0,//txt
+          txt: txtTmp[j]
+        })
+      }
+
+      if (imgArr[i] && urls[i]) {
+        let imgTmp = imgArr[i].replace(/<img_|>/ig, '').split('_');
+        let imgW,imgH;
+        if(imgWidth){
+          imgW = imgWidth + 'rpx';
+          imgH = (imgWidth * imgTmp[1] / imgTmp[2]) + 'rpx';
+        }else{
+          imgW = '100%';
+          imgH = 'auto';
+        }
+        arr.push({
+          type: 1,//img
+          url: urls[i],
+          width: imgTmp[2],
+          height: imgTmp[1],
+          imgW : imgW,
+          imgH : imgH,
+        })
+      }
+
+    }
+
+    // console.log('图文：', arr);
+    return arr;
+  },
+
 })
 
 function formTime(start, end) {
