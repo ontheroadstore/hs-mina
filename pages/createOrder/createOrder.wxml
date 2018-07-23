@@ -29,7 +29,8 @@
         </view>
         <view class='postage_num clearBoth'>
           <view class='float_left label'>运费</view>
-          <view class='float_right postage_price'>￥ {{singleOrder.newType[0].postage}}</view>
+          <view class='float_right postage_price' wx:if="{{!addressInfo}}">请选择地址</view>
+          <view class='float_right postage_price' wx:else>￥ {{singleOrder.newType[0].postage}}</view>
         </view>
         <view class='desc clearBoth'>
           <view class='float_left label'>留言：</view>
@@ -58,7 +59,8 @@
         <view class='postage_num clearBoth'>
           <view class='float_left label'>运费</view>
           <!-- maxPostage获取数据后计算 -->
-          <view class='float_right postage_price'>￥ {{item.maxPostage}}</view>
+          <view class='float_right postage_price' wx:if="{{!addressInfo}}">请选择地址</view>
+          <view class='float_right postage_price' wx:else>￥ {{item.maxPostage}}</view>
         </view>
         <view class='desc clearBoth'>
           <view class='float_left label'>留言：</view>
@@ -68,7 +70,8 @@
     </view>
     <view class="buy {{isIphoneX ? 'buy_iphoneX' : ''}}">
       <view class='buy_btn float_right' bindtap='payment'>微信支付</view>
-      <view class='postage float_right'>含运费￥ {{totalPostage}}</view>
+      <view class='postage float_right' wx:if="{{!addressInfo}}">请选择地址</view>
+      <view class='postage float_right' wx:else>含运费￥ {{totalPostage}}</view>
       <view class='tatol float_right'>总计： <text>￥ {{totalPrice}}</text></view>
     </view>
   </view>

@@ -443,6 +443,14 @@ Page({
     // console.log('图文：', arr);
     return arr;
   },
+  //跳转到哆嗦列表
+  navigateToPurchaseList: function(){
+    const url = '/pages/purchaseList/purchaseList?articleId=' + this.data.articleId;
+    wx.redirectTo({
+      url: url
+    })
+    // console.log('navigate to : ', this.data.articleId)
+  },
 
 })
 

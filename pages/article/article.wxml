@@ -34,10 +34,10 @@
     <view class='label'>预售</view>
     <text>预计发货时间为 {{presellTime}}</text>
   </view>
-  <view class='presell' wx:if="{{selectStylePostage}}">
+  <!-- <view class='presell' wx:if="{{selectStylePostage}}">
     <view class='label'>运费</view>
     <text>{{selectStylePostage}} 元</text>
-  </view>
+  </view> -->
   <view class='desc' wx:if="{{desc}}">
     <text class='title'>狠货简介</text>
     <text class='text_details'>{{desc}}</text>
@@ -66,13 +66,14 @@
 
   </view>
   
-   <!-- <view class='buy_users'>
-    <view class='user_nums'>325个人已购买</view>
+    <view class='buy_users' wx:if="{{goodInfo.purchaseList.total_count>0}}">
+    <view class='user_nums'>牛逼的人已哆嗦{{goodInfo.purchaseList.total_count}}次</view>
     <view class='user_avatars clearBoth'>
-      <image  src='http://thirdwx.qlogo.cn/mmopen/DrfuYticfJSjp0wSwFJodNb5V02EkCEzwqsMlgPlkk8KKXiaUNbP19ebm4thdOHPjMdJEsHIRwcxhlib62QJaZwmfFTUvM2tytl/64'></image>
-      <image class='last_user_avatar' src='/images/more.png'></image>
+      <image wx:key="index" wx:for="{{goodInfo.purchaseList.userlist}}" wx:if="{{index<7 || (index==8 && goodInfo.purchaseList.userlist.length==8)}}" src='{{item.avatar}}'></image>
+                   
+      <image class='last_user_avatar' src='/images/more.png' wx:if="{{goodInfo.purchaseList.userlist && goodInfo.purchaseList.userlist.length>8}}" bindtap="navigateToPurchaseList"></image> 
     </view>
-  </view>  -->
+  </view>  
 
   <view class='user_goods'>
     <view class='user_info clearBoth'>

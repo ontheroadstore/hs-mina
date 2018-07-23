@@ -1,0 +1,49 @@
+/* pages/purchaseList/purchaseList.wxss */
+.purchase_list{
+  height: 100vh;
+  padding: 0 30rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+.list{
+  position: relative;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #E8E8E8;
+}
+.list::after{
+  content: '';
+  display: block;
+  clear: both;
+}
+.list .img{
+  float: left;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+}
+.time{
+  position: absolute;
+  right: 0;
+  font-size: 26rpx;
+  color: #888;
+}
+.list_right{
+  float: left;
+  width: 460rpx;
+  height: 80rpx;
+  padding-left: 30rpx;
+}
+.list_right .nickname{
+  display: block;
+  font-size: 26rpx;
+  color: #888;
+  line-height: 1;
+  padding-top: 6rpx;
+}
+.list_right .content{
+  display: block;
+  font-size: 28rpx;
+  color: #e03b29;
+  line-height: 1;
+  padding-top: 16rpx;
+}

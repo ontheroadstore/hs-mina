@@ -30,6 +30,10 @@ Page({
         orderData.newType[0].price = orderData.newType[0].special_offer_price
       }
       // 邮费
+      if (!this.data.addressInfo){
+        //*如果没有地址，设置邮费为0,防止未选择地址时总价格显示有误，暂时这样处理，应该后台接口直接返回0.
+        orderData.newType[0].postage = 0;
+      }
       let totalPostage = orderData.newType[0].postage
       // 总价
       const countPrice = countTotalPrice(orderData, 0)
@@ -43,13 +47,18 @@ Page({
 
     if (options.type == 1) {
       let orderList = wx.getStorageSync('chartData')
-
+      let that = this;
       orderList.forEach(function (item, index) {
         let maxPostage = 0
         var numItem = item.item.length
         item.item.forEach(function (good, i) {
           if (good.postage > maxPostage && good.selectStatus) {
             maxPostage = good.postage
+
+            if (!that.data.addressInfo) {
+              //*如果没有地址，设置邮费为0,防止未选择地址时总价格显示有误，暂时这样处理，应该后台接口直接返回0.
+              maxPostage = 0;
+            }
           }
           // 如果售罄 下架 直接设置隐藏
           if (good['is_sku_deleted'] != 0 || good['remain'] <= 0) {

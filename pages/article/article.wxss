@@ -182,8 +182,8 @@
   border-radius: 16rpx;
   overflow: hidden;
 }
-/* 暂时不上 */
-/* .buy_users{
+/* 购买者头像 */
+ .buy_users{
   margin: 30rpx;
   position: relative;
 }
@@ -210,16 +210,22 @@
   top: 14rpx;
   left: 0;
   z-index: -1;
-} */
+} 
 .user_avatars{
   padding: 30rpx 0;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 0;
 }
 .user_avatars image{
   width: 76rpx;
   height: 76rpx;
-  float: left;
+  display: inline-block;
   margin-right: 12rpx;
   border-radius: 50%;
+}
+.user_avatars image:last-child{
+    margin-right: 0;
 }
 .user_avatars .last_user_avatar{
   margin-right: 0;

@@ -1,0 +1,14 @@
+<!--pages/purchaseList/purchaseList.wxml-->
+<scroll-view class='purchase_list' scroll-y bindscrolltolower="evGetPurchaseList" lower-threshold="100"	>
+
+<view class='list' wx:key="index" wx:for="{{purchaseList}}">
+  <view class='time'>{{item.createtime}}</view>
+  <image class="img"  src="{{item.avatar}}"></image>
+  <view class='list_right'>
+    <text class='nickname'>{{item.nickname}}</text>
+    <text class='content'>{{item.content}}</text>
+  </view>
+</view>
+
+</scroll-view>
+

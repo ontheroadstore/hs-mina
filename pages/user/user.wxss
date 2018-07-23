@@ -36,3 +36,54 @@
 .main .return_top{
   bottom: 178rpx;
 }
+
+
+/* 分类 */
+
+.tabs{
+  padding: 0 30rpx;
+  height: 88rpx;
+  white-space: nowrap;
+  position: fixed;
+  z-index: 999;
+  background: #FFF;
+}
+.tabs .tab{
+  line-height: 88rpx;
+  height: 100%;
+}
+.tabs .tab{
+  display: inline-block;
+  margin-right: 50rpx;
+  font-size: 32rpx;
+  font-weight: 300;
+}
+.tabs .tab.tab_act{
+  color: #AE2121;
+  position: relative;
+  font-weight: 900;
+}
+.tabs .tab.tab_act:after{
+  content: "";
+  position: absolute;
+  width: 24rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 8rpx;
+  border-radius: 4rpx;
+  border-bottom: 7rpx solid #AE2121;
+  overflow: hidden;
+}
+
+.pages{
+  padding: 88rpx 0 0 0;
+  height: 100vh;
+  box-sizing: border-box;
+}
+.pages .page{
+  display: none;
+  height: 100%;
+}
+.pages .page.page_act{
+  display: block;
+}

@@ -17,7 +17,8 @@
     "pages/relevanceTel/relevanceTel",
     "pages/user/user",
     "pages/secondLevelChart/secondLevelChart",
-    "pages/webView/webView"
+    "pages/webView/webView",
+    "pages/purchaseList/purchaseList"
   ],
   "window": {
     "backgroundTextStyle": "light",
