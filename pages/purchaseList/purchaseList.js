@@ -93,6 +93,7 @@ Page({
   //调整日期
   transTime: function (timeTxt,nowTime){
     // 1分钟刚刚 1小时-几分钟前 n小时 n天 n周 n月 三月以上就显示年月日时分
+    timeTxt = timeTxt.replace(/-/g, "/");//ios 无法识别2018-07-23这样的格式，需要转换为2018/07/23这样的格式
     let oldTime = new Date(timeTxt).getTime();//获取13位时间戳
     nowTime = nowTime || new Date().getTime();//获取当前13位时间戳
     let diffTime = parseInt((nowTime - oldTime)/1000); //时间差，精度 : 秒

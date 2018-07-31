@@ -1,5 +1,7 @@
 <!--pages/purchaseList/purchaseList.wxml-->
+
 <scroll-view class='purchase_list' scroll-y bindscrolltolower="evGetPurchaseList" lower-threshold="100"	>
+<view class='list_wrap'>
 
 <view class='list' wx:key="index" wx:for="{{purchaseList}}">
   <view class='time'>{{item.createtime}}</view>
@@ -10,5 +12,6 @@
   </view>
 </view>
 
+</view>
 </scroll-view>
 

@@ -1,9 +1,11 @@
 /* pages/purchaseList/purchaseList.wxss */
 .purchase_list{
   height: 100vh;
-  padding: 0 30rpx;
   width: 100%;
   box-sizing: border-box;
+}
+.list_wrap{
+  padding: 0 30rpx;
 }
 .list{
   position: relative;

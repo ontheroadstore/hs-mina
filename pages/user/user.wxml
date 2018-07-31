@@ -1,12 +1,12 @@
 <scroll-view scroll-x class="tabs" wx:if="{{pageFlag==1}}">
-  <view class="tab {{actSort==index?'tab_act':''}}" wx:for="{{goodsSort}}" wx:for-item="sort" bindtap="evGoodsSortInfo" data-sort-id="{{sort.id}}" data-now-page="{{sort.nowPage}}" data-total-page="{{sort.totalPage}}" data-index="{{index}}" data-event-type="0">{{sort.sort_name}}</view>
+  <view class="tab {{actSort==index?'tab_act':''}}" wx:key="index" wx:for="{{goodsSort}}" wx:for-item="sort" bindtap="evGoodsSortInfo" data-sort-id="{{sort.id}}" data-now-page="{{sort.nowPage}}" data-total-page="{{sort.totalPage}}" data-index="{{index}}" data-event-type="0">{{sort.sort_name}}</view>
 </scroll-view>
 
 <view class="pages" wx:if="{{pageFlag==1}}">
 
-  <scroll-view scroll-y bindscrolltolower="evGoodsSortInfo" lower-threshold="100" class="page {{actSort==index?'page_act':''}}"  wx:for="{{goodsSort}}" wx:for-index="index" wx:for-item="sort" data-sort-id="{{sort.id}}" data-now-page="{{sort.nowPage}}" data-total-page="{{sort.totalPage}}" data-index="{{index}}" data-event-type="1">
+  <scroll-view scroll-y bindscrolltolower="evGoodsSortInfo" lower-threshold="100" class="page {{actSort==index?'page_act':''}}" wx:key="index" wx:for="{{goodsSort}}" wx:for-index="index" wx:for-item="sort" data-sort-id="{{sort.id}}" data-now-page="{{sort.nowPage}}" data-total-page="{{sort.totalPage}}" data-index="{{index}}" data-event-type="1">
   
-  <view class="user_goods clearBoth" wx:for="{{sort.goodsList}}" wx:for-index="idx" wx:for-item="goods">
+  <view class="user_goods clearBoth" wx:key="idx" wx:for="{{sort.goodsList}}" wx:for-index="idx" wx:for-item="goods">
     <image bindtap="navigateToGoods" data-id="{{goods.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{goods.cover}}@640w_1l" />
     <view bindtap="navigateToGoods" data-id="{{goods.id}}" class="article_title float_left">{{goods.title}}</view>
     <text class="price font_din float_left">{{goods.price}}</text>
