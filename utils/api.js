@@ -19,24 +19,25 @@ const wx_login = (baseUrl) => {
           lang: 'zh_CN',
           success: (res) => {
             request({
-              url: baseUrl + 'appv5_1/login/wechatapp',
-              data: {
-                code: code,
+              url: baseUrl + 'appv5_2/wechat/wechatAppLogin',
+              data:{
+                wxappcode: code,
                 user_info: {
-                  nickName: res.userInfo.nickName,
-                  avatarUrl: res.userInfo.avatarUrl,
-                  gender: res.userInfo.gender,
+                  user_name: res.userInfo.nickName  ,
+                  avatar: res.userInfo.avatarUrl,
+                  sex: res.userInfo.gender,
                   city: res.userInfo.city,
                   province: res.userInfo.province,
                   country: res.userInfo.country,
-                  language: res.userInfo.language
                 }
               },
               method: 'POST'
             }).then(res => {
+              let data = res.data.data;
               switch (res.data.status) {
                 case 1:
                   wx.setStorageSync('token', res.data.data.token)
+                  app.globalData.token = res.data.data.token
                   resolve()
                   break;
                 default:
@@ -46,6 +47,8 @@ const wx_login = (baseUrl) => {
             })
           },
           fail: (res) => {
+
+          //todo:::::拒绝授权处理
             // wx.showToast({
             //   title: '没有授权',
             //   icon: 'error',

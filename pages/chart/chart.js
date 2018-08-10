@@ -15,7 +15,8 @@ Page({
     randomGoods: null,          // 猜你喜欢商品列表
     scrollStatus: true,         // 是否禁止滚动
     totalPrice: 0,              // 总价
-    getUserInfoStatus: false    // 授权状态
+    getUserInfoStatus: false,    // 授权状态
+    ifGoBind: true, //未绑定是否去绑定页
   },
   onLoad: function () {
     wx.setNavigationBarTitle({
@@ -29,6 +30,21 @@ Page({
     this.animation = animation
   },
   onShow: function() {
+
+    //判断是否登录 
+    app.ifLogin(()=>{
+
+    },()=>{
+      if (this.data.ifGoBind === false) {
+        wx.switchTab({
+          url: '/pages/index/index',
+        })
+      }
+      this.setData({
+        ifGoBind: !this.data.ifGoBind,
+      })
+    },this.data.ifGoBind);
+
     const that = this
     that.setData({
       getUserInfoStatus: false

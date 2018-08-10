@@ -15,6 +15,7 @@ App({
         }
         // 判断当前环境，填写baseUrl
         this.globalData.bastUrl = res.platform == 'devtools' ? 'https://api.ontheroadstore.com/' : 'https://api.ontheroadstore.com/'
+        // this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://apitest.ontheroadstore.com/'
       }
     })
     this.login()
@@ -34,11 +35,36 @@ App({
       })
     })
   },
+  ifLogin: function (succback, failback, ifGoBind){
+    let globalUserInfo = this.globalData.userInfo;
+    if (globalUserInfo && globalUserInfo.telphone) {
+      if (succback){
+        succback(globalUserInfo);
+      }
+    } else {
+      if (failback){
+        failback();
+      }
+      if (ifGoBind) {
+        wx.navigateTo({
+          url: '/pages/relevanceTel/relevanceTel',
+        })
+      }
+    }
+  },
+  /*获取当前页url*/
+  getCurrentPageUrl: function (){
+    let pages = getCurrentPages()    //获取加载的页面
+    let currentPage = pages[pages.length - 1]    //获取当前页面的对象
+    let url = currentPage.route    //当前页面url
+    return url
+  },
   globalData: {
     bastUrl: null,
     isIphoneX: false,
     userInfo: null,
     systemInfo: null,
-    authorizationStatus: false
+    authorizationStatus: false,
+    token:'',
   }
 })

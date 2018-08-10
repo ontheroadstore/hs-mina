@@ -179,6 +179,10 @@ Page({
   },
   // 收藏
   addLike: function () {
+    // 判断是否登录
+    if (this.ifLogin() == false) {
+      return;
+    }
     if (this.data.goodInfo.is_favorited == 0) {
       req(app.globalData.bastUrl, 'appv2/itemaddfavourite', {
         item_id: this.data.articleId
@@ -201,6 +205,10 @@ Page({
   },
   // 加入购物车
   addChart: function (e) {
+    // 判断是否登录
+    if (this.ifLogin() == false) {
+      return;
+    }
     // appv2/additemintocart 接口参数商品id 款式id 数量
     // this.data.articleId 商品id 
     // this.data.selectStyleId 款式id
@@ -326,6 +334,10 @@ Page({
   },
   // 跳转下订单
   navigateToCreateOrder: function (e) {
+    // 判断是否登录
+    if (this.ifLogin() == false) {
+      return;
+    }
     const stock = e.target.dataset.stock
     if (stock == 0) {
       return wx.showToast({
@@ -364,6 +376,10 @@ Page({
   },
   // 跳转购物车
   navigateToChart: function () {
+    // 判断是否登录
+    if(this.ifLogin()==false){
+      return ;
+    }
     wx.navigateTo({
       url: "/pages/secondLevelChart/secondLevelChart"
     })
@@ -450,6 +466,17 @@ Page({
       url: url
     })
     // console.log('navigate to : ', this.data.articleId)
+  },
+
+  // 判断是否登录,如果没有登录,点击 购物车/收藏/加入购物车/立即购买 时跳入绑定页
+  ifLogin: function(){
+    let status = false
+    app.ifLogin(() => {
+      status = true
+    }, () => {
+      status = false
+    }, true);
+    return status;
   },
 
 })

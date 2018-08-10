@@ -4,7 +4,7 @@
 .form{
   padding-left: 15rpx;
   background: #FFF;
-  margin-top: 30rpx;
+  border-top: 30rpx solid #F5F5F5;
 }
 .form .area_code{
   font-size: 34rpx;
