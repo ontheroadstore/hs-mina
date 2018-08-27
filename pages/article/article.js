@@ -32,6 +32,7 @@ Page({
     goodCanSell: false,           // 用户是否优惠
     activityCanBy: false,          // 显示 参与优惠活动按钮
     imgTxtArr: [],                //图文混排解析后的对象数组
+    soldCountTxt:'',                   //卖出数量，哆嗦次数，少于1万件显示 xxx件，大于1万件显示 a.b万件
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
@@ -67,6 +68,18 @@ Page({
       res.data.seller.avatar = res.data.seller.avatar
       res.data.modules[0].data.result[0].avatar = res.data.modules[0].data.result[0].avatar
 
+      //生成卖出数量文字
+      let soldCountTxt = '';
+      if (goodInfo.purchaseList && goodInfo.purchaseList.total_count>0){
+        let soldCount = goodInfo.purchaseList.total_count;
+        if (soldCount>10000){
+          soldCount = Math.ceil(soldCount/1000)/10;
+          soldCountTxt = soldCount + '万';
+        }else{
+          soldCountTxt = soldCount;
+        }
+      }
+
       this.setData({
         presellTime: presellTime,
         styleNum: styleNum,
@@ -74,7 +87,8 @@ Page({
         goodInfo: goodInfo,
         modulesUserGoods: modulesUserGoods,
         specialOfferStatus: specialOfferStatus,
-        specialOfferPrice: specialOfferPrice
+        specialOfferPrice: specialOfferPrice,
+        soldCountTxt: soldCountTxt,
       })
 
       // 设置图文混排
@@ -462,7 +476,7 @@ Page({
   //跳转到哆嗦列表
   navigateToPurchaseList: function(){
     const url = '/pages/purchaseList/purchaseList?articleId=' + this.data.articleId;
-    wx.redirectTo({
+    wx.navigateTo({
       url: url
     })
     // console.log('navigate to : ', this.data.articleId)
