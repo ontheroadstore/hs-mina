@@ -1,6 +1,12 @@
 <scroll-view class='main' scroll-y>
   <image class='frontcover' mode="aspectFill" src='{{goodInfo.banner[0]}}@640w_1l'></image>
-  <view class='good_title'>{{goodInfo.title}}</view>
+  <view class='good_title' wx:if="{{soldCountTxt==''}}">{{goodInfo.title}}</view>
+  <view class='good_title good_title_and_count'wx:else>{{goodInfo.title}}
+    <view class="sale_count_wrap" bindtap="navigateToPurchaseList">
+      <view class="sale_count_txt">已哆嗦</view>
+      <view>{{soldCountTxt}}件</view>
+    </view>
+  </view>
   <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view>
   <view class='share_content'>
     <view class='good_price' wx:if="{{styleNum == 1 && specialOfferStatus}}">
@@ -65,7 +71,7 @@
     </view>
 
   </view>
-  
+<!--   
     <view class='buy_users' wx:if="{{goodInfo.purchaseList.total_count>0}}">
     <view class='user_nums'>牛逼的人已哆嗦{{goodInfo.purchaseList.total_count}}次</view>
     <view class='user_avatars clearBoth'>
@@ -73,7 +79,7 @@
                    
       <image class='last_user_avatar' src='/images/more.png' wx:if="{{goodInfo.purchaseList.userlist && goodInfo.purchaseList.userlist.length>8}}" bindtap="navigateToPurchaseList"></image> 
     </view>
-  </view>  
+  </view>   -->
 
   <view class='user_goods'>
     <view class='user_info clearBoth'>

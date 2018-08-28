@@ -8,6 +8,32 @@
   font-size: 32rpx;
   font-weight: 700;
 }
+.good_title_and_count{
+  min-height: 80rpx;
+  position: relative;
+  padding-right: 134rpx;
+  text-align: justify;
+  word-break: break-all;
+}
+.sale_count_wrap{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 118rpx;
+  height: 70rpx;
+  border-radius: 60rpx 0 0 60rpx;
+  color: #8E8E8E;
+  font-size: 24rpx;
+  background: #F5F5F5;
+  text-align: center;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sale_count_txt{
+  padding: 8rpx 0 6rpx 0;
+}
 .special{
   padding: 0 30rpx 30rpx 30rpx;
   line-height: 1em;
