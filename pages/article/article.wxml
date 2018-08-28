@@ -31,6 +31,17 @@
     <image class='float_left' src='{{goodInfo.seller.avatar}}'></image>
     <text class='float_left'>{{goodInfo.seller.announcement}}</text>
   </view>
+  <view class='style' bindtap='setCouponPopup' data-type="1" wx:if="{{getCoupon && getCoupon.length>0}}">
+    <view class='label'>领券</view>
+    <view class="coupon_tag" wx:for="{{getCoupon}}"  wx:for-index="index" wx:for-item="coupon" wx:if="{{index<2}}" wx:key="index">{{coupon.desc}}</view>
+    <image class='more' src='/images/gt.png'></image>
+  </view>
+  <view class='style' bindtap='setCouponPopup' data-type="2" wx:if="{{backCoupon && backCoupon.length>0}}">
+    <view class='label'>返券</view>
+    <view class="coupon_tag coupon_tag_back" wx:for="{{backCoupon}}"  wx:for-index="index" wx:for-item="coupon" wx:if="{{index<2}}" wx:key="index">{{coupon.desc}}</view>
+    <view class="active_goods">活动商品</view>
+    <image class='more' src='/images/gt.png'></image>
+  </view>
   <view class='style' bindtap='selectShow' wx:if="{{styleNum > 1}}">
     <view class='label'>请选择</view>
     <text>{{selectStyleName ? selectStyleName : '请选择你要的款式' }}</text>
@@ -72,15 +83,15 @@
 
   </view>
 <!--   
-    <view class='buy_users' wx:if="{{goodInfo.purchaseList.total_count>0}}">
+  <view class='buy_users' wx:if="{{goodInfo.purchaseList.total_count>0}}">
     <view class='user_nums'>牛逼的人已哆嗦{{goodInfo.purchaseList.total_count}}次</view>
     <view class='user_avatars clearBoth'>
       <image wx:key="index" wx:for="{{goodInfo.purchaseList.userlist}}" wx:if="{{index<7 || (index==8 && goodInfo.purchaseList.userlist.length==8)}}" src='{{item.avatar}}'></image>
-                   
+                  
       <image class='last_user_avatar' src='/images/more.png' wx:if="{{goodInfo.purchaseList.userlist && goodInfo.purchaseList.userlist.length>8}}" bindtap="navigateToPurchaseList"></image> 
     </view>
-  </view>   -->
-
+  </view>   
+  -->
   <view class='user_goods'>
     <view class='user_info clearBoth'>
       <image class='float_left' src='{{modulesUserGoods.data.result[0].avatar}}'></image>
@@ -164,4 +175,53 @@
     </view>
   </view>
   <image src='/images/returnIndex.png' class="return_index {{isIphoneX ? 'iphoneX_return_index':''}}" bindtap="returnIndex"></image>
+
+<!-- 优惠券列表弹窗 -->
+  <view class="coupon_popup_mask"  bindtap='setCouponPopup' data-type="0" hidden="{{couponPopup===1 ? false : true}}">
+    <view class="coupon_popup_wrap" catchtap='setCouponPopup'>
+      <view class="coupon_popup_title">优惠券</view>
+      <scroll-view class="coupon_popup_ul" scroll-y="true">
+
+        <view class="coupon_popup_li"  wx:for="{{getCoupon}}" wx:for-index="index" wx:for-item="coupon" wx:key="index">
+          <view class="coupon_popup_left">
+            <view class="coupon_popup_price font_din">¥{{coupon.coupon_price}}</view>
+            <view class="coupon_popup_tip">{{coupon.coupon_tip}}</view>
+          </view>
+          <view class="coupon_popup_right">
+            <view class="coupon_popup_name">{{coupon.title}}</view>
+            <view class="coupon_popup_time">{{coupon.start_time}} - {{coupon.end_time}}</view>
+            <view class="coupon_popup_btn" data-id="{{coupon.coupon_id}}"  data-can_get="{{coupon.can_get}}" catchtap="getCoupon">立即领取</view>
+          </view>
+        </view>
+        
+      </scroll-view>
+
+      <view class="coupon_popup_ok" catchtap='setCouponPopup' data-type="0">完成</view>
+    </view>
+  </view>
+
+  <view class="coupon_popup_mask"  bindtap='setCouponPopup' data-type="0" hidden="{{couponPopup===2 ? false : true}}">
+    <view class="coupon_popup_wrap" catchtap='setCouponPopup'>
+      <view class="coupon_popup_title">优惠券</view>
+      <scroll-view class="coupon_popup_ul" scroll-y="true">
+
+        <view class="coupon_popup_li"  wx:for="{{backCoupon}}" wx:for-index="index" wx:for-item="coupon" wx:key="index">
+          <view class="coupon_popup_left">
+            <view class="coupon_popup_price font_din">¥{{coupon.coupon_price}}</view>
+            <view class="coupon_popup_tip">{{coupon.coupon_tip}}</view>
+          </view>
+          <view class="coupon_popup_right">
+            <view class="coupon_popup_name">{{coupon.title}}</view>
+            <view class="coupon_popup_time">{{coupon.start_time}} - {{coupon.end_time}}</view>
+            <view class="coupon_popup_btn" data-id="{{coupon.coupon_id}}" data-issue_by="{{coupon.issue_by}}" catchtap="seeGoods">查看商品</view>
+          </view>
+        </view>
+        
+      </scroll-view>
+
+      <view class="coupon_popup_ok" catchtap='setCouponPopup' data-type="0">完成</view>
+    </view>
+  </view>
+
+
 </scroll-view>

@@ -1,12 +1,13 @@
 {
   "pages": [
+    "pages/article/article",
     "pages/index/index",
     "pages/activity/activity",
     "pages/activityShare/activityShare",
     "pages/paySuccess/paySuccess",
     "pages/createOrder/createOrder",
     "pages/chart/chart",
-    "pages/article/article",
+    
     "pages/orderInfo/orderInfo",
     "pages/address/address",
     "pages/refund/refund",

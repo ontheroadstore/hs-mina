@@ -33,11 +33,15 @@ Page({
     activityCanBy: false,          // 显示 参与优惠活动按钮
     imgTxtArr: [],                //图文混排解析后的对象数组
     soldCountTxt:'',                   //卖出数量，哆嗦次数，少于1万件显示 xxx件，大于1万件显示 a.b万件
+    couponPopup: 0,                //领券/返券 弹窗 1显示领券，2显示返券，0都不显示
+    getCoupon: null,                   //可以领取的coupon数组
+    backCoupon: null,                   //返券数组
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: '商品详情'
     })
+    options.id = 1095672;//todo:delete
     this.setData({
       articleId: options.id
     })
@@ -120,6 +124,9 @@ Page({
         })
       }
     })
+
+    // 获取优惠券
+    this.getCouponList(options.id);
   },
   // 跳转
   activityToast: function () {
@@ -491,6 +498,120 @@ Page({
       status = false
     }, true);
     return status;
+  },
+
+  // 设置领券、返券弹窗状态
+  setCouponPopup: function(event){
+    let type = +event.currentTarget.dataset.type;
+    if(type >= 0){
+      this.setData({
+        couponPopup: type,
+      })
+    };
+  },
+
+  // 获取领券和返券
+  getCouponList: function(id){
+    req(app.globalData.bastUrl, 'appv6/coupon/getPostsCouponList', { 'post_id[]':id},'GET').then(res => {
+      if (res.status==1) {
+        this.setData({
+          getCoupon: this.formatCouponData(res.data.coupon),
+          backCoupon: this.formatCouponData(res.data.returnCoupon),
+        })
+      }
+       
+    })
+  },
+  // 处理优惠券列表数据
+  formatCouponData: function(data){
+    if(data && data.length>0){
+      data.forEach((v, i, arr)=>{
+        if (v.min_price>0){
+          v.coupon_tip = '满' + v.min_price+'可用';
+        }else{
+          v.coupon_tip = '消费任意金额可用';
+        }
+        if(v.apply_time_type == 2){
+          let startTime = (new Date()).getTime();
+          let endTime = startTime + v.apply_time_length * 24 * 60 * 60 * 1000;
+          v.start_time = this.couponFmtTime(startTime);
+          v.end_time = this.couponFmtTime(endTime); 
+        } else{
+          v.start_time = this.couponFmtTime(v.apply_time_start);  // 使用开始时间
+          v.end_time = this.couponFmtTime(v.apply_time_end);       // 使用结束时间
+        }
+        v.can_get = 1; //是否可领
+      })
+      return data;
+    }else{
+      return [];
+    }
+  },
+  // 优惠券时间格式化
+  couponFmtTime: function (time){
+    function fixNum(v){
+      return v < 10 ? '0' + v : v;
+    }
+    time = String(time).length === 10 ? time * 1000 : time;
+    var t = new Date(time);
+    var y = fixNum(t.getFullYear());
+    var m = fixNum(t.getMonth() + 1);
+    var d = fixNum(t.getDate());
+    return y + '.' + m + '.' + d;
+  },
+  // 领取优惠券
+  getCoupon: function (event) {
+    let id = event.currentTarget.dataset.id;
+    let url = `appv6/coupon/${id}/receive`
+    req(app.globalData.bastUrl, url, {}, 'POST').then(res => {
+      if (res.status == 1) {
+        wx.showToast({
+          title: '领取成功',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+
+    })
+  },
+  // 查看商品按钮
+  seeGoods: function (event){
+    let issueBy = event.currentTarget.dataset.issue_by + '';
+    let couponId = event.currentTarget.dataset.id;
+    let userid = this.data.goodInfo.seller.id;
+    let username = this.data.goodInfo.seller.name;
+    // issueBy 5=去优惠券商品列表页; 6=去分类页; 7=去店铺首页
+    let seeGoodsUrl = '';
+    switch (issueBy) {
+      case '5':
+        seeGoodsUrl = '/pages/index/index?couponid=' + couponId;
+        wx.navigateTo({
+          url: seeGoodsUrl,
+        });
+        break;
+      case '6':
+        seeGoodsUrl = '/pages/index/index';
+        wx.switchTab({
+          url: seeGoodsUrl,
+        });
+        break;
+      case '7':
+        seeGoodsUrl = '/pages/user/user?id=' + userid + '&name=' + username;
+        wx.navigateTo({
+          url: seeGoodsUrl,
+        });
+        break;
+      default:
+        seeGoodsUrl = '/pages/index/index';
+        wx.switchTab({
+          url: seeGoodsUrl,
+        });
+        break;
+    }
+
+
+   
+    
   },
 
 })
