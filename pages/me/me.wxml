@@ -49,7 +49,7 @@
     </view>
   </view> -->
   <view class='user_item'>
-    <navigator class='clearBoth' hover-class="none" url="/pages/index/index">
+    <navigator class='clearBoth' hover-class="none" url="/pages/userCoupon/userCoupon">
       <image class='float_left' src='/images/coupon.png'></image>
       <text class='float_left'>我的优惠券</text>
     </navigator>

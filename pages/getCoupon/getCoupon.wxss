@@ -6,7 +6,11 @@
   padding: 30rpx;
   
 }
-
+.empty_coupon{
+  text-align: center;
+  padding-top:20rpx;
+  font-size:28rpx;
+}
 .normal_coupon_wrap:not(:first-child){
   margin-top: 30rpx;
 }
