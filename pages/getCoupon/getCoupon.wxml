@@ -1,0 +1,64 @@
+<!--pages/getCoupon/getCoupon.wxml-->
+<scroll-view class='main' scroll-y>
+  <view class='content'>
+  <!-- 通用券列表 -->
+    <view class='normal_coupon_wrap open_note'>
+      <view class="coupon_li" >
+          <view class="coupon_left">
+            <view class="coupon_price font_din">¥100</view>
+            <view class="coupon_tip">满100-10</view>
+          </view>
+          <view class="coupon_right">
+            <view class="coupon_name">长长的优惠券的名字长长的优惠券的名字</view>
+            <view class="coupon_time">2018.1.10-2018.1-1</view>
+            <view class="coupon_btn">立即领取</view>
+            <view class='coupon_shot_note'>
+              <text>一些提示的话一些一些一些一些一些</text>
+              <image class='coupon_shot_note_ico' src='/images/up.png'></image>
+            </view>
+          </view>
+        </view>
+        <view class='coupon_note'>一些提示的话一些提示的话一些提示的话一些提示的话</view>
+    </view>
+  <!-- 商家券列表 -->
+    <view class='seller_coupon_wrap'>
+
+      <view class='seller_info'>
+        <image class='seller_avatar' src='/images/meBg.png'></image>
+        <text class='seller_name'>卖家昵称</text>
+        <view class='go_seller'>
+          <text>去逛逛</text>
+          <image src='/images/gt.png'></image>
+        </view>
+      </view>
+      <view class='seller_coupon_ul'>
+
+        <view class="seller_coupon_li" >
+          <view class="seller_coupon_left">
+            <view class="seller_coupon_price font_din">¥100</view>
+            <view class="seller_coupon_tip">满100-10</view>
+          </view>
+          <view class="seller_coupon_right">
+            <view class="seller_coupon_name">长长的优惠券的名字长长的优惠券的名字</view>
+            <view class="seller_coupon_time">2018.1.10-2018.1-1</view>
+            <view class="seller_coupon_btn">立即领取</view>
+          </view>
+        </view>
+
+         <view class="seller_coupon_li" >
+          <view class="seller_coupon_left">
+            <view class="seller_coupon_price font_din">¥100</view>
+            <view class="seller_coupon_tip">满100-10</view>
+          </view>
+          <view class="seller_coupon_right">
+            <view class="seller_coupon_name">长长的优惠券的名字长长的优惠券的名字</view>
+            <view class="seller_coupon_time">2018.1.10-2018.1-1</view>
+            <view class="seller_coupon_btn">立即领取</view>
+          </view>
+        </view>
+
+      </view>
+    
+    </view>
+  </view>
+</scroll-view>
