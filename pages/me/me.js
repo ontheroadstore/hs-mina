@@ -34,6 +34,9 @@ Page({
         userTel: userTel,
       })
     }, ()=>{
+      // 通常来说这个页是必须登录的页，如果没有登录将跳转到登录页
+      // 跳转之前设置一个flag标识已经去过登录页，
+      // 如果没有登录而是点击了返回，则根据这个flag判断是否返回首页。
       if(this.data.ifGoBind===false){
         wx.switchTab({
           url: '/pages/index/index',

@@ -3,15 +3,37 @@
     <image class='bg' src='/images/meBg.png'></image>
     <image class='avatar' src='{{userInfo.avatar}}'></image>
     <view class='user_name'>{{userInfo.nickname}}</view>
-    <navigator hover-class="none" url="/pages/relevanceTel/relevanceTel" wx:if="{{!userInfo.telphone}}" class='relevance_tel'>绑定手机</navigator>
+    <!-- <navigator hover-class="none" url="/pages/relevanceTel/relevanceTel" wx:if="{{!userInfo.telphone}}" class='relevance_tel'>绑定手机</navigator> -->
     <view class='tel' wx:if="{{userInfo.telphone}}">{{userTel}}</view>
   </view>
+  
+   
+  <view class='order_wrap'>
+   <navigator class='order_nav' hover-class="none" url="/pages/orders/orders?type=1">
+      <image class='order_nav_ico' src='/images/ordernopay.png'></image>
+      <view class='order_txt'>待付款</view>
+    </navigator>
+    <navigator class='order_nav' hover-class="none" url="/pages/orders/orders?type=2">
+      <image class='order_nav_ico' src='/images/deliver.png'></image>
+      <view class='order_txt'>待发货</view>
+    </navigator>
+    <navigator class='order_nav' hover-class="none" url="/pages/orders/orders?type=3">
+      <image class='order_nav_ico' src='/images/delivered.png'></image>
+      <view class='order_txt'>待收货</view>
+    </navigator>
+    <navigator class='order_nav' hover-class="none" url="/pages/orders/orders?type=0">
+      <image class='order_nav_ico' src='/images/orders.png'></image>
+      <view class='order_txt'>全部订单</view>
+    </navigator>
+  </view>
+  
+<!--   
   <view class='order'>
     <navigator class='order_all' hover-class="none" url="/pages/orders/orders?type=0">
       <text>全部订单</text>
       <image src='/images/gt.png'></image>
     </navigator>
-    <!-- <view class='order_content'>
+    <view class='order_content'>
       <navigator class='order_item' hover-class="none" url="/pages/orders/orders?type=1">
         <image src='/images/orders.png'></image>
         <view>待付款</view>
@@ -24,19 +46,22 @@
         <image src='/images/delivered.png'></image>
         <view>待收货</view>
       </navigator>
-    </view> -->
-  </view>
+    </view>
+  </view> -->
   <view class='user_item'>
+    <navigator class='clearBoth' hover-class="none" url="/pages/index/index">
+      <image class='float_left' src='/images/coupon.png'></image>
+      <text class='float_left'>我的优惠券</text>
+    </navigator>
     <navigator class='clearBoth' hover-class="none" url="/pages/likeGoods/likeGoods?id={{userInfo.id}}">
       <image class='float_left' src='/images/like.png'></image>
       <text class='float_left'>我的收藏</text>
     </navigator>
-    <navigator class='clearBoth clearBorder' hover-class="none" url="/pages/address/address?type=0&orderType=0">
+    <navigator class='clearBoth' hover-class="none" url="/pages/address/address?type=0&orderType=0">
       <image class='float_left' src='/images/address.png'></image>
       <text class='float_left'>收货地址</text>
     </navigator>
-  </view>
-  <view class='user_item'>
+
     <view class='clearBoth'>
       <image class='float_left' src='/images/service.png'></image>
       <!-- 客服目前使用小程序在线客服系统 -->

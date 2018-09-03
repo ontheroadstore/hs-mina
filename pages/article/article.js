@@ -41,7 +41,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '商品详情'
     })
-    options.id = 1095672;//todo:delete
+    // options.id = 1095672;//todo:delete
     this.setData({
       articleId: options.id
     })
@@ -561,6 +561,10 @@ Page({
   },
   // 领取优惠券
   getCoupon: function (event) {
+    // 判断是否登录
+    if (this.ifLogin() == false) {
+      return;
+    }
     let id = event.currentTarget.dataset.id;
     let url = `appv6/coupon/${id}/receive`
     req(app.globalData.bastUrl, url, {}, 'POST').then(res => {

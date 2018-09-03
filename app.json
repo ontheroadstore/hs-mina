@@ -1,13 +1,13 @@
 {
   "pages": [
-    "pages/article/article",
+
     "pages/index/index",
     "pages/activity/activity",
     "pages/activityShare/activityShare",
     "pages/paySuccess/paySuccess",
     "pages/createOrder/createOrder",
     "pages/chart/chart",
-    
+    "pages/article/article",
     "pages/orderInfo/orderInfo",
     "pages/address/address",
     "pages/refund/refund",
@@ -19,7 +19,10 @@
     "pages/user/user",
     "pages/secondLevelChart/secondLevelChart",
     "pages/webView/webView",
-    "pages/purchaseList/purchaseList"
+    "pages/purchaseList/purchaseList",
+    "pages/getCoupon/getCoupon",
+    "pages/userCoupon/userCoupon",
+    "pages/useCoupon/useCoupon"
   ],
   "window": {
     "backgroundTextStyle": "light",

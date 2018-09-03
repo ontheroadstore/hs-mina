@@ -14,8 +14,8 @@ App({
           this.globalData.isIphoneX = true
         }
         // 判断当前环境，填写baseUrl
-        // this.globalData.bastUrl = res.platform == 'devtools' ? 'https://api.ontheroadstore.com/' : 'https://api.ontheroadstore.com/'
-        this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://apitest.ontheroadstore.com/'
+        this.globalData.bastUrl = res.platform == 'devtools' ? 'https://api.ontheroadstore.com/' : 'https://api.ontheroadstore.com/'
+        // this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://apitest.ontheroadstore.com/'
       }
     })
     this.login()
@@ -27,7 +27,7 @@ App({
     // 登录
     wx_login(this.globalData.bastUrl).then(res => {
       req(this.globalData.bastUrl, 'appv4/user/simple', {}, "GET", true).then(res => {
-        this.globalData.userInfo = res.data
+        this.globalData.hsUserInfo = res.data
         this.globalData.authorizationStatus = true
         if (callback){
           callback()
@@ -36,7 +36,8 @@ App({
     })
   },
   ifLogin: function (succback, failback, ifGoBind){
-    let globalUserInfo = this.globalData.userInfo;
+    let globalUserInfo = this.globalData.hsUserInfo;
+    let authorizationStatus = this.globalData.authorizationStatus;  
     if (globalUserInfo && globalUserInfo.telphone) {
       if (succback){
         succback(globalUserInfo);
@@ -62,9 +63,10 @@ App({
   globalData: {
     bastUrl: null,
     isIphoneX: false,
-    userInfo: null,
+    userInfo: null, //wx返回的基本信息
     systemInfo: null,
     authorizationStatus: false,
     token:'',
+    hsUserInfo:null,  //hs保存的用户信息
   }
 })

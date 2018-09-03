@@ -17,7 +17,7 @@ Page({
   },
   onLoad: function (options) {
     // 存有用户id
-    console.log(app.userInfo)
+    // console.log(app.globalData.hsUserInfo)
     //获取用户信息
     this.getBaseInfo();
   },
@@ -51,15 +51,17 @@ Page({
       })
       return false
     }
-
+    // 正在倒计时
+    if (this.data.time != 60) {
+      return false
+    }
+    
     req(app.globalData.bastUrl, 'appv4/signings/codes', {
       phone: this.data.telNumber
     }).then(res => {
       if (res.code == 1) {
-        // 正在倒计时
-        if (this.data.time != 60) {
-          return false
-        }
+
+        let time = this.data.time;
         const clearTime = setInterval(() => {
           if (time == 0) {
             clearInterval(clearTime)
@@ -118,8 +120,9 @@ Page({
       }, 'POST').then(res => {
         if (res.code == 1) {
           // 成功则提示用户，然后延时1~2秒返回个人中心 更新app存储的tel
-          
-          app.globalData.userInfo = res.data.user.user_info
+
+          app.globalData.hsUserInfo = res.data.user.user_info
+
           wx.setStorageSync('token', res.data.token) 
           app.globalData.token = res.data.token
           //后退到前一页
