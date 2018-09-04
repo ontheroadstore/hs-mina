@@ -71,6 +71,7 @@ Page({
           v.end_time = this.couponFmtTime(v.apply_time_end);       // 使用结束时间
         }
         v.can_get = 1; //是否可领
+        v.show_mes = false;
       })
       return data;
     } else {
@@ -105,6 +106,23 @@ Page({
           duration: 2000
         })
       }
+    })
+  },
+  couponDetailMes:function(e){
+    let index = e.currentTarget.dataset.index;
+    let showMes = "allCoupon[" + index+"].show_mes";
+    let bflag = this.data.allCoupon[index].show_mes;
+    this.setData({
+      [showMes]: !bflag
+    })
+  },
+  navigateToUser: function (e) {
+    let id = e.target.dataset.id
+    let name = e.target.dataset.name
+    console.log(id,name)
+    const url = '/pages/user/user?id=' + id + '&name=' + name
+    wx.navigateTo({
+      url: url
     })
   }
 })

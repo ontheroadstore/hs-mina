@@ -1,1 +1,36 @@
 /* pages/useCoupon/useCoupon.wxss */
+.wrap{
+  position:relative;
+}
+.wrap_con{
+  width:100%;
+  position:absolute;
+  left:0;
+  top:152rpx;
+  text-align: center;
+}
+.wrap_con_logo{
+  width:140rpx;
+  height:140rpx;
+  margin:0 auto 58rpx;
+}
+.wrap_con_logo image{
+  background:none;
+}
+.prompt{
+  font-size:32rpx;
+  color:#000;
+  font-family:PingFangSC-Semibold;
+  font-weight:600;
+}
+.down_prompt{
+  width:368rpx;
+  height:64rpx;
+  margin:38rpx auto 0;
+  font-size:24rpx;
+  font-family:PingFangSC-Regular;
+  font-weight:400;
+  color:rgba(0,0,0,1);
+  line-height:32rpx;
+  text-align: center;
+}

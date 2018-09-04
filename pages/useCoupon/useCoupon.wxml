@@ -1,2 +1,11 @@
 <!--pages/useCoupon/useCoupon.wxml-->
-<text>pages/useCoupon/useCoupon.wxml</text>
+<view class="wrap" style="width:{{wrapWidth}}px;height:{{wrapHeight}}px">
+  <image class="wrap_bg" src="https://img8.ontheroadstore.com/static/image/coupon_icon/bg_to_app_2x.png"></image>
+  <view class="wrap_con">
+    <view class="wrap_con_logo">
+      <image src="../../images/gonglushangdian.png"></image>
+    </view>
+    <text class="prompt">捡便宜这种好事只在App里才有</text>
+    <view class="down_prompt">AppStroe及各大安卓应用市场搜索 并下载“公路商店”</view>
+  </view>
+</view>

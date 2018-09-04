@@ -3,7 +3,7 @@
   <view class='content'>
     <view wx:if="{{allCoupon.length<=0 && sellerCoupon.length<=0}}" class="empty_coupon">暂无优惠券</view>
   <!-- 通用券列表 -->
-    <view class='normal_coupon_wrap open_note' wx:for="{{allCoupon}}" wx:key="{{index}}" wx:for-item="coupon">
+    <view class='normal_coupon_wrap {{coupon.show_mes?"open_note":""}}' wx:for="{{allCoupon}}" wx:key="{{index}}" wx:for-item="coupon">
       <view class="coupon_li">
         <view class="coupon_left">
           <view class="coupon_price font_din">¥{{coupon.coupon_price}}</view>
@@ -13,13 +13,13 @@
           <view class="coupon_name">{{coupon.title}}</view>
           <view class="coupon_time">{{coupon.start_time}}-{{coupon.end_time}}</view>
           <view class="coupon_btn" data-couponId="{{coupon.coupon_id}}" catchtap='receiveCoupon'>立即领取</view>
-          <view class='coupon_shot_note'>
+          <view class='coupon_shot_note' data-index="{{index}}" bindtap='couponDetailMes'>
             <text>{{coupon.coupon_note}}</text>
             <image class='coupon_shot_note_ico' src='/images/up.png'></image>
           </view>
         </view>
       </view>
-      <view class='coupon_note'>{{coupon.coupon_note}}</view>
+      <view  class='coupon_note'>{{coupon.coupon_note}}</view>
     </view>
   <!-- 商家券列表 -->
     <view class='seller_coupon_wrap' wx:for="{{sellerCoupon}}" wx:key="{{index}}">
@@ -27,7 +27,7 @@
         <image class='seller_avatar' src='{{item.user.avatar}}'></image>
         <text class='seller_name'>{{item.user.username}}</text>
         <view class='go_seller'>
-          <text data-id="{{item.user.id}}">去逛逛</text>
+          <text bindtap="navigateToUser" data-id="{{item.user.id}}" data-name="{{item.user.username}}">去逛逛</text>
           <image src='/images/gt.png'></image>
         </view>
       </view>
