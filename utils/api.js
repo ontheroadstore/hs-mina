@@ -1,5 +1,4 @@
 import { request, setConfig } from './wx-promise-request';
-const app = getApp()
 
 Promise.prototype.finally = function (callback) {
   let P = this.constructor;
@@ -37,7 +36,6 @@ const wx_login = (baseUrl) => {
               switch (res.data.status) {
                 case 1:
                   wx.setStorageSync('token', res.data.data.token)
-                  app.globalData.token = res.data.data.token
                   resolve()
                   break;
                 default:
