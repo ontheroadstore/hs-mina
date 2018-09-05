@@ -297,7 +297,7 @@ Page({
       prepay_id: prepayId
     }, 'POST', true).then(res => {
       wx.reLaunch({
-        url: '/pages/paySuccess/paySuccess',
+        url: '/pages/paySuccess/paySuccess?orderNumer='+orderNumber,
       })
     })
   },

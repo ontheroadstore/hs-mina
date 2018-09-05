@@ -15,7 +15,9 @@ Page({
   },
 
   onLoad: function (options) {
-    
+    wx.setNavigationBarTitle({
+      title: '领券',
+    })
   },
 
   onShow: function () {

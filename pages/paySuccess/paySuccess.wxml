@@ -7,3 +7,25 @@
     <navigator open-type='redirectTo' class='query_order' url="/pages/orders/orders?type=2">查看订单</navigator>
   </view>
 </view>
+<view class="prop" wx:if="{{showCoupon}}" data-status="true" bindtap='closeCoupon'>
+  <view class="prop_wrap {{couponList.length>1?'prop_wrap_bg':''}}">
+    <view wx:if="{{couponList.length>1}}" class="coupon_num">{{couponList.length}}张优惠券</view>
+    <view class="prop_wrap_mes {{couponList.length>1?'coupon_num_length':''}}">
+      <image class="wrap_mes_bg" 
+      src="{{couponList.length > 1?'https://img8.ontheroadstore.com/static/image/coupon_icon/multi_coupon_2x.png':'https://img8.ontheroadstore.com/static/image/coupon_icon/single_coupon_2x.png'}}"></image>
+      <view class="{{couponList.length>1?'wrap_mes_con_length':'wrap_mes_con'}}">
+        <view class="wrap_mes_con_left">
+          <text class="coupon_price">￥{{coupon.coupon_price}}</text>
+          <text class="coupon_tip">{{coupon.coupon_tip}}</text>
+        </view>
+        <view class="wrap_mes_con_right">
+          <view class="coupon_name">{{coupon.title}}</view>
+          <view class="coupon_time">{{coupon.start_time}}-{{coupon.end_time}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="look_coupon">
+      <navigator class="look_coupon_btn" url="/pages/userCoupon/userCoupon">查看优惠券</navigator>
+    </view>
+  </view>
+</view>

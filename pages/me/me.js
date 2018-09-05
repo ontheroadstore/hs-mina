@@ -30,7 +30,7 @@ Page({
       }
       userTel = userTelArr.join("")
       this.setData({
-        userInfo: app.globalData.userInfo,
+        userInfo: globalUserInfo,
         userTel: userTel,
       })
     }, ()=>{
