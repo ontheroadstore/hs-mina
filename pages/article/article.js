@@ -33,6 +33,7 @@ Page({
     activityCanBy: false,          // 显示 参与优惠活动按钮
     imgTxtArr: [],                //图文混排解析后的对象数组
     soldCountTxt:'',                   //卖出数量，哆嗦次数，少于1万件显示 xxx件，大于1万件显示 a.b万件
+    deliveryTxt:'',                    //发货周期文本
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
@@ -63,6 +64,19 @@ Page({
         selectStyleId = goodInfo.type[0].id
         specialOfferStatus = formTime(goodInfo.type[0].special_offer_start, goodInfo.type[0].special_offer_end)
         specialOfferPrice = goodInfo.type[0].special_offer_price
+
+        let delivery = parseInt(goodInfo.type[0].expected_delivery_cycle);
+        let deliveryTxt = '';
+        if (delivery && delivery > 0) {
+          if (delivery <= 3) {
+            deliveryTxt = (delivery * 24) + '小时内发货';
+          } else {
+            deliveryTxt = delivery + '天内发货';
+          }
+        }
+        this.setData({
+          deliveryTxt: deliveryTxt,   //没有款式直接设置发货时间
+        })
       }
       // 添加/64
       res.data.seller.avatar = res.data.seller.avatar
@@ -281,6 +295,15 @@ Page({
     const specialOfferStatus = formTime(e.target.dataset.specialofferstart, e.target.dataset.specialofferend)
     const specialOfferPrice = e.target.dataset.specialofferprice
     const presellTime = e.target.dataset.preselltime ? util.formatTime(e.target.dataset.preselltime) : null
+    let delivery = parseInt(e.target.dataset.expected_delivery_cycle);
+    let deliveryTxt = '';
+    if(delivery && delivery>0){
+      if(delivery<=3){
+        deliveryTxt = (delivery * 24) + '小时内发货';
+      }else{
+        deliveryTxt = delivery + '天内发货';
+      }
+    }
     if (stock <= 0) {
       return false
     }
@@ -294,7 +317,8 @@ Page({
       selectStyleStock: stock,
       selectStyleCount: 1,
       specialOfferStatus: specialOfferStatus,
-      specialOfferPrice: specialOfferPrice
+      specialOfferPrice: specialOfferPrice,
+      deliveryTxt: deliveryTxt,
     })
   },
   // 当没有选中款式时 点击加入购物车/立即购买
