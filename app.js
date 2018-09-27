@@ -2,10 +2,13 @@
 // data数据不区分大小写
 import util from './utils/util.js'
 import { wx_login, req } from './utils/api.js'
+// 网易云信相关引用
+var imutil = require('./imutils/util.js')
+var config = require('./imutils/config.js')
+var subscriber = require('./imutils/event.js')
 
 App({
   onLaunch: function() {
-    
     // 存储手机型号
     wx.getSystemInfo({
       success: (res) => {
@@ -14,8 +17,8 @@ App({
           this.globalData.isIphoneX = true
         }
         // 判断当前环境，填写baseUrl
-        this.globalData.bastUrl = res.platform == 'devtools' ? 'https://api.ontheroadstore.com/' : 'https://api.ontheroadstore.com/'
-        // this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://apitest.ontheroadstore.com/'
+        // this.globalData.bastUrl = res.platform == 'devtools' ? 'https://api.ontheroadstore.com/' : 'https://api.ontheroadstore.com/'
+        this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://apitest.ontheroadstore.com/'
       }
     })
     this.login()
@@ -27,7 +30,7 @@ App({
     // 登录
     wx_login(this.globalData.bastUrl).then(res => {
       req(this.globalData.bastUrl, 'appv4/user/simple', {}, "GET", true).then(res => {
-        this.globalData.hsUserInfo = res.data
+        this.globalData.userInfo = res.data
         this.globalData.authorizationStatus = true
         if (callback){
           callback()
@@ -36,8 +39,7 @@ App({
     })
   },
   ifLogin: function (succback, failback, ifGoBind){
-    let globalUserInfo = this.globalData.hsUserInfo;
-    let authorizationStatus = this.globalData.authorizationStatus;  
+    let globalUserInfo = this.globalData.userInfo;
     if (globalUserInfo && globalUserInfo.telphone) {
       if (succback){
         succback(globalUserInfo);
@@ -63,10 +65,25 @@ App({
   globalData: {
     bastUrl: null,
     isIphoneX: false,
-    userInfo: null, //wx返回的基本信息
+    userInfo: null,
     systemInfo: null,
     authorizationStatus: false,
     token:'',
-    hsUserInfo:null,  //hs保存的用户信息
+    //网易云信相关
+    isLogin: false, // 当前是否是登录状态
+    currentChatTo: '', // 记录当前聊天对象account，用于标记聊天时禁止更新最近会话unread
+    loginUser: {},//当前登录用户信息
+    friends: [],//好友列表，
+    friendsWithCard: {}, // 带有名片信息的好友列表（转发时使用）
+    friendsCard: {},//带有名片信息的好友列表
+    onlineList: {},//在线人员名单 account: status
+    blackList: {},//黑名单列表
+    config,//存储appkey信息
+    nim: {},//nim连接实例
+    subscriber, //消息订阅器
+    notificationList: [], // 通知列表
+    recentChatList: {},//最近会话列表
+    rawMessageList: {}, //原生的所有消息列表(包含的字段特别多)
+    messageList: {}//处理过的所有的消息列表
   }
 })

@@ -110,19 +110,25 @@
     </view>
   </view>
   <view class="btns clearBoth {{isIphoneX?'iphoneX_btns':''}}">
-    <view class='add_chart float_left' bindtap='navigateToChart'>
-      <image src='/images/chartInfo.png'></image>
-      <text>购物车</text>
-      <view class='chart_num' wx:if="{{chartNum != 0}}">{{chartNum}}</view>
+    <view class="btns-wrap">
+      <view class='go_chat' bindtap='goChat' data-data="hstest{{sellerAccount}}">
+        <image src='/images/chat.png'></image>
+        <text>私信</text>
+      </view>
+      <view class='add_chart' bindtap='navigateToChart'>
+        <image src='/images/chartInfo.png'></image>
+        <text>购物车</text>
+        <view class='chart_num' wx:if="{{chartNum != 0}}">{{chartNum}}</view>
+      </view>
+      <view class='add_like' bindtap='addLike'>
+        <image src='/images/like.png' wx:if="{{!goodInfo.is_favorited}}"></image>
+        <image src='/images/likeSelected.png' wx:else></image>
+        <text>收藏</text>
+      </view>
     </view>
-    <view class='add_like float_left' bindtap='addLike'>
-      <image src='/images/like.png' wx:if="{{!goodInfo.is_favorited}}"></image>
-      <image src='/images/likeSelected.png' wx:else></image>
-      <text>收藏</text>
-    </view>
-    <view class='chart_btn float_left' wx:if="{{!activityCanBy}}" bindtap="{{styleNum> 1?'selectShow':'addChart'}}" data-type="1">加入购物车</view>
+    <view class='chart_btn' wx:if="{{!activityCanBy}}" bindtap="{{styleNum> 1?'selectShow':'addChart'}}" data-type="1">加入购物车</view>
     <view class='chart_btn float_left' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
-    <view class='buy_btn float_left' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2">立即购买</view>
+    <view class='buy_btn' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2">立即购买</view>
     <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
   </view>
   <view class="select {{selectStatus ? 'show':''}}" catchtap='selectHide' catchtouchmove='true' data-status="true">

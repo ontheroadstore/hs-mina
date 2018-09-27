@@ -2,7 +2,10 @@
 const app = getApp()
 import { req } from '../../utils/api.js'
 import util from '../../utils/util.js'
-
+// 网易云信相关引用
+import { pushLog, checkStringLength } from '../../imutils/util.js'
+import IMEventHandler from '../../imutils/imeventhandler.js'
+import MD5 from '../../vendors/md5.js'
 Page({
 
   data: {
@@ -34,6 +37,7 @@ Page({
     imgTxtArr: [],                //图文混排解析后的对象数组
     soldCountTxt:'',                   //卖出数量，哆嗦次数，少于1万件显示 xxx件，大于1万件显示 a.b万件
     deliveryTxt:'',                    //发货周期文本
+    initSDK:true                   //是否初始化网易云信SDK  
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
@@ -45,6 +49,7 @@ Page({
     // 获取商品详情
     req(app.globalData.bastUrl, 'appv3_1/goods/' + this.data.articleId).then(res => {
       this.setData({
+        sellerAccount: res.data.seller.id,
         modulesGuessLike: res.data.modules[1].data.result,
         desc: util.replaceBr(res.data.desc),
         content: util.replaceBr(res.data.content)
@@ -131,6 +136,28 @@ Page({
       fail: function () {
         that.setData({
           authorizationStatus: true
+        })
+      }
+    })
+    // 网易云信相关
+    if (this.ifLogin() == false) {
+      return;
+    }
+    let self = this;
+    let account = app.globalData.userInfo.id;
+    
+    req(app.globalData.bastUrl, 'appv2/userimtoken', {
+      user_id: account
+    }, "GET", true).then(res => {
+      if (res.status == 1) {
+        let password = res.data.im_token;
+        this.setData({
+          isLogin: true
+        })
+        app.globalData.isLogin = true
+        new IMEventHandler({
+          token: password,
+          account: 'hstest' + account
         })
       }
     })
@@ -516,7 +543,15 @@ Page({
     }, true);
     return status;
   },
-
+  // 跳转私信页面
+  goChat: function(e){
+    if (app.globalData.chatLogin && app.globalData.chatLogin == true){
+      let sellerAccount = e.currentTarget.dataset.data;
+      wx.navigateTo({
+        url: `../chating/chating?chatTo=${sellerAccount}`,
+      })
+    }
+  }
 })
 
 function formTime(start, end) {

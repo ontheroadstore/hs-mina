@@ -80,4 +80,4 @@
     </view>
     <image src='/images/returnTop.png' class='return_top' bindtap="returnTop" wx:if="{{returnTopStatus}}"></image>
   </view>
-</view> 
+</view>

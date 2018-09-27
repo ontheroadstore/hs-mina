@@ -18,7 +18,8 @@
     "pages/user/user",
     "pages/secondLevelChart/secondLevelChart",
     "pages/webView/webView",
-    "pages/purchaseList/purchaseList"
+    "pages/purchaseList/purchaseList",
+    "pages/chating/chating"
   ],
   "window": {
     "backgroundTextStyle": "light",

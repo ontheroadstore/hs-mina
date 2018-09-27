@@ -397,24 +397,36 @@
 .iphoneX_btns{
   padding-bottom: 68rpx;
 }
+.btns-wrap{
+  width:278rpx;
+  display: flex;
+  justify-content: space-around;
+}
 .btns .add_like,
 .btns .add_chart{
   height: 98rpx;
   position: relative;
 }
-.btns .add_chart{
+/* .btns .add_chart{
   margin: 0 52rpx 0 30rpx;
-}
+} */
 .btns .add_like image,
-.btns .add_chart image{
+.btns .add_chart image,
+.btns .go_chat image{
   background: none;
   width: 48rpx;
   height: 48rpx;
   display: block;
   margin: 12rpx 0 8rpx;
 }
+.btns .btns-wrap .go_chat image{
+  width:40rpx;
+  height:40rpx;
+  margin: 15rpx 0 12rpx;
+}
 .btns .add_like text,
-.btns .add_chart text{
+.btns .add_chart text,
+.btns .go_chat text{
   font-size: 18rpx;
   color: #202123;
   line-height: 18rpx;
@@ -438,7 +450,7 @@
 }
 .btns .chart_btn,
 .btns .buy_btn{
-  width: 268rpx;
+  width: 236rpx;
   color: #FFF;
   font-size: 32rpx;
   text-align: center;
@@ -449,7 +461,7 @@
 .btns .chart_btn{
   background: #000;
   top: 0;
-  right: 268rpx;
+  right: 236rpx;
 }
 .btns .buy_btn{
   background: #AE2121;
