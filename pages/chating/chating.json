@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "input-modal": "/components/inputmodal/inputmodal"
+  }
+}

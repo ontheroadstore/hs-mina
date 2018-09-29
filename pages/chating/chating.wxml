@@ -1,0 +1,82 @@
+<view class='chating-wrapper' catchtap='chatingWrapperClick'>
+  <!-- 消息记录 -->
+  <view class='record-wrapper' id="recordWrapper"> 
+    <view wx:for="{{messageArr}}" wx:for-item="message" wx:key="{{message.time}}">
+      <view class='record-item-time-wrapper' wx:if="{{message.displayTimeHeader != '' && message.displayTimeHeader}}">
+        <text class='record-item-time'>{{message.displayTimeHeader}}</text>
+      </view> 
+      <view wx:if="{{message.sendOrReceive == 'send'}}" class='{{message.sendOrReceive == "send" ? "record-chatting-item self" : ""}}' style='justify-content: {{message.type === "tip" ? "center" : "flex-end"}}' data-message="{{message}}" bindlongpress='showEditorMenu'>
+        <view wx:if="{{message.type === 'geo'}}" data-geo='{{message.geo}}' class='small-map-wrapper' catchtap='fullScreenMap'>
+          <image src="{{iconBase64Map.iconMap}}" class='small-geo-img'></image>
+          <text class='text'>{{message.geo.title}}</text>
+        </view>
+        <view wx:if="{{message.type === 'video'}}" data-video="{{message.video}}" catchtap='requestFullScreenVideo' class='small-video-wrapper'>
+          <view class='video-triangle'></view>
+          <view style='color: #000;'>{{message.video.dur / 1000 << 1 >> 1}}''</view>
+        </view>
+        <rich-text nodes="{{message.nodes}}" wx:if="{{message.type === 'text' || message.type === 'image' || message.type === '猜拳' || message.type === '贴图表情' || message.type === 'file' || message.type === '白板消息' || message.type === '阅后即焚' || message.type === 'robot'}}" class='record-chatting-item-text'>{{message.text}}</rich-text>
+        <rich-text nodes="{{message.nodes}}" wx:if="{{message.type === 'tip'}}" class='tip-rich-text'>{{message.text}}</rich-text>
+        <text wx:if="{{message.type !== 'tip'}}" class='right-triangle'></text>
+        <image wx:if="{{message.type !== 'tip'}}" src='{{loginAccountLogo}}' catchtap='switchToMyTab' class='record-chatting-item-img'></image>
+      </view>
+      <view wx:if="{{message.sendOrReceive == 'receive'}}" class='{{message.sendOrReceive == "receive" ? "record-chatting-item other" : ""}}' style='justify-content: {{message.type === "tip" ? "center" : "flex-start"}}' data-message="{{message}}"  bindlongpress='showEditorMenu'>
+        <image wx:if="{{message.type !== 'tip'}}" catchtap='switchPersonCard' src='{{chatToLogo}}' class='record-chatting-item-img'></image>
+        <text wx:if="{{message.type !== 'tip'}}" class='left-triangle'></text>
+        <view wx:if="{{message.type === 'geo'}}" data-geo='{{message.geo}}' class='small-map-wrapper' catchtap='fullScreenMap'>
+          <image src="{{iconBase64Map.iconMap}}" class='small-geo-img'></image>
+          <text class='text'>{{message.geo.title}}</text>
+        </view>
+        <view wx:if="{{message.type === 'video'}}" data-video="{{message.video}}" catchtap='requestFullScreenVideo' class='small-video-wrapper'>
+          <view class='video-triangle'></view>
+          <view style='color: #000;'>{{message.video.dur / 1000 << 1 >> 1}}''</view>
+        </view>
+        <rich-text nodes="{{message.nodes}}" wx:if="{{message.type === 'text' || message.type === 'image' || message.type === '猜拳' || message.type === '贴图表情' || message.type === 'file' || message.type === '白板消息' || message.type === '阅后即焚' || message.type === 'robot'}}" class='record-chatting-item-text' style='color:#000;background-color:#fff;'>{{message.text}}</rich-text>
+        <rich-text nodes="{{message.nodes}}" wx:if="{{message.type === 'tip'}}" class='tip-rich-text'>{{message.text}}</rich-text>
+      </view>
+      <!-- 商品信息 -->
+      <view wx:if="{{message.type === 'custom'}}" class='goods_wrap clearBoth'>
+        <image class="cover float_left" lazy-load mode="aspectFill" src="{{message.goodsSrc}}" />
+        <view class="float_right goods_right">
+          <view class="article_title">{{message.goodsName}}</view>
+          <view class="goods_rb">
+            <text class="price font_din">{{message.goodsPrice}}</text>
+            <view class="send_msg" catchtap='sendGoddsMes'>发送商品</view>
+          </view>
+        </view>
+      </view>
+    </view>
+   </view>
+  <!--底部输入框  -->
+  <view class='chatinput-wrapper' style='margin-bottom: {{focusFlag ? 20 : 0}}rpx;' catchtap='stopEventPropagation'>
+    <view class='chatinput-content'>
+      <input style='margin-bottom: 20rpx;' value='{{inputValue}}' focus='{{focusFlag}}' bindinput='inputChange' bindfocus='inputFocus' bindblur='inputBlur' bindconfirm='inputSend' class='chatinput-input'  placeholder="输入文字" confirm-type='send'></input>
+      <image src='../../images/chat_add.png' catchtap='toggleMore' class='chatinput-img'></image>
+    </view>
+    <view wx:if="{{moreFlag}}" class='more-subcontent'>
+      <view class='more-subcontent-item' catchtap='chooseImageToSend'>
+        <view class='image'>
+          <image class="chat-album" src="../../images/album.png"></image>
+        </view>
+        <text class='text'>相册</text>
+      </view>
+      <view class='more-subcontent-item' catchtap='chooseImageOrVideo'>
+        <view class='image'>
+          <image class="chat-camera" src="../../images/camera.png"></image>
+        </view>
+        <text class='text'>照相机</text>
+      </view>
+      <view class='more-subcontent-item' catchtap='goOrders'>
+        <view class='image'>
+          <image class="chat-order" src="../../images/order.png"></image>
+        </view>
+        <text class='text'>订单</text>
+      </view>
+      <view class='more-subcontent-item' catchtap='chooseImageOrVideo'>
+        <view class='image'>
+          <image class="chat-history" src="../../images/history.png"></image>
+        </view>
+        <text class='text'>最近浏览</text>
+      </view>
+    </view>
+  </view>
+</view>
