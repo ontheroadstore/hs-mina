@@ -16,7 +16,7 @@ Page({
     scrollStatus: true,         // 是否禁止滚动
     totalPrice: 0,              // 总价
     getUserInfoStatus: false,    // 授权状态
-    ifGoBind: true, //未绑定是否去绑定页
+    ifGoBind: true //未绑定是否去绑定
   },
   onLoad: function () {
     wx.setNavigationBarTitle({
@@ -65,6 +65,16 @@ Page({
               item.item.forEach(function (good, i) {
                 good['selectStatus'] = false
                 good['animation'] = {}
+                if (good.postsRestrictionNumber || good.goodsRestrictionNumber){
+                  good.limitBuy = true;
+                  if (good.goodsRestrictionNumber){
+                    good.limitNumber = good.goodsRestrictionNumber;//商品款式限购数量
+                    good.remainBuy = good.goodsRestrictionNumber - good.goodsAlreadyNumber;//款式剩余购买数量
+                  } else if (good.postsRestrictionNumber){
+                    good.limitNumber = good.postsRestrictionNumber;//商品限购数量
+                    good.remainBuy = good.postsRestrictionNumber - good.postsAlreadyNumber;//商品剩余购买数量
+                  }
+                }
                 if (good['special_offer_end']) {
                   good['special_offer_end'] = formTime(good['special_offer_end'])
                 }
@@ -133,7 +143,49 @@ Page({
   },
   addNum: function(e) {
     const orderId = e.target.dataset.orderid
-    const that = this
+    const that = this;
+    let goodId = e.target.dataset.goodid;//商品ID
+    let goodList = that.data.goodList;
+    let itemIndex = e.target.dataset.itemindex;
+    let goodIndex = e.target.dataset.index;
+    let goodMsg = goodList[itemIndex].item[goodIndex];
+    let limitBuyNumber = 0;
+    if (goodMsg.goodsRestrictionNumber){
+      //判断款式是否限购
+      if (goodMsg.numbers < goodMsg.remainBuy){
+        that.calcGoodNum(that,orderId)
+      }else{
+        wx.showToast({
+          icon:'none',
+          title: '您最多可以购买' + goodMsg.remainBuy+'件',
+        })
+      }
+    } else if (goodMsg.postsRestrictionNumber){
+      //判断商品是否限购
+      limitBuyNumber = goodMsg.numbers+1;
+      goodList[itemIndex].item.forEach((item, index) => {
+        if (item.item_id == goodId && index != goodIndex) {
+          if (item.selectStatus == true) {
+            limitBuyNumber += item.numbers;
+          }
+        }
+      })
+      if (limitBuyNumber > goodMsg.remainBuy) {
+        
+        wx.showModal({
+          title: '限购提醒',
+          content: '您最多可以购买' + goodMsg.remainBuy + '件',
+          showCancel: false
+        })
+      }else{
+        that.calcGoodNum(that, orderId)
+      }
+    }else {
+      that.calcGoodNum(that, orderId)
+    }
+  },
+  //点击商品加号时请求接口
+  calcGoodNum: function(that,orderId){
     req(app.globalData.bastUrl, 'appv5/cart/' + orderId, {
       increase: 1
     }, "POST", true).then(res => {
@@ -281,6 +333,9 @@ Page({
   },
   // 全部选择商品
   selectAll: function () {
+    let goodList = this.data.goodList;
+    let limitBuyNumber = 0;
+    let json = {};
     if (this.data.selectAllStatus){
       let status = SetStatus(this.data.goodList, false, 0, 0)
       this.setData({
@@ -289,8 +344,21 @@ Page({
         totalPrice: countTotalPrice(this.data.goodList)
       })
     }else{
-      let status = SetStatus(this.data.goodList, true, 0, 0)
-      
+      goodList.forEach((item, index) => {//遍历卖家
+        json = this.checkLimitBuy(item)
+      })
+      console.log(json)
+      for (let name in json) {
+        if (json[name] > json.remainBuy) {
+          wx.showModal({
+            title: '限购提醒',
+            content: json.name + '超过限购数量',
+            showCancel: false
+          })
+          return
+        }
+      }
+      let status = SetStatus(this.data.goodList, true, 0, 0);
       this.setData({
         goodList: status.data,
         selectAllStatus: true,
@@ -300,16 +368,66 @@ Page({
   },
   // 单个选择商品
   selectSingle: function (e) {
-    let goodid = e.target.dataset.orderid
-    let status = SetStatus(this.data.goodList, true, 0, goodid)
-    this.setData({
-      goodList: status.data,
-      selectAllStatus: status.selectAllStatus,
-      totalPrice: countTotalPrice(this.data.goodList)
-    })
+    let remainbuy = e.target.dataset.remainbuy;
+    let itemIndex = e.target.dataset.itemindex;
+    let goodIndex = e.target.dataset.index;
+    let goodsArr = this.data.goodList[itemIndex];
+    let goodId = e.target.dataset.goodid;//商品ID
+    let singleStatus = false;//判断是否可以选中
+    let limitBuyNumber = 0;
+    let orderid = e.target.dataset.orderid
+    if (goodsArr.item[goodIndex].selectStatus == true){
+      
+      let status = SetStatus(this.data.goodList, true, 0, orderid)
+      this.setData({
+        goodList: status.data,
+        selectAllStatus: status.selectAllStatus,
+        totalPrice: countTotalPrice(this.data.goodList)
+      })
+    }else{
+      limitBuyNumber = goodsArr.item[goodIndex].numbers;
+      goodsArr.item.forEach((item, index) => {
+        if (item.item_id == goodId && index != goodIndex){
+          if (item.selectStatus == true) {
+            limitBuyNumber += item.numbers;
+          }
+        }
+      })
+      if (limitBuyNumber > remainbuy) {
+        wx.showModal({
+          title: '限购提醒',
+          content: '该商品已超过限购数量',
+          showCancel: false
+        })
+      }else{
+        let status = SetStatus(this.data.goodList, true, 0, orderid)
+        this.setData({
+          goodList: status.data,
+          selectAllStatus: status.selectAllStatus,
+          totalPrice: countTotalPrice(this.data.goodList)
+        })
+      }
+    }
   },
   // 用户选择商品
   selectUser: function (e) {
+    let goodList = this.data.goodList;
+    let sellerIndex = e.target.dataset.index;
+    
+    let limitBuyNumber = 0;
+    let json = {};
+    let arr = goodList[sellerIndex];
+    json = this.checkLimitBuy(arr)
+    for(let name in json){
+      if(json[name] > json.remainBuy){
+        wx.showModal({
+          title: '限购提醒',
+          content: json.name+'超过限购数量',
+          showCancel: false
+        })
+        return
+      }
+    }
     let userid = e.target.dataset.userid
     let status = SetStatus(this.data.goodList, true, userid, 0)
     this.setData({
@@ -317,6 +435,31 @@ Page({
       selectAllStatus: status.selectAllStatus,
       totalPrice: countTotalPrice(this.data.goodList)
     })
+  },
+  // 判断商品是否超过限购数量
+  checkLimitBuy: function(arr){
+    let json = {}
+    arr.item.forEach((good, goodIndex) => {//遍历商品
+      if (good.goodsRestrictionNumber) {
+        if (good.remainbuy < 1) {
+          wx.showModal({
+            title: '限购提醒',
+            content: good.item_name + '超过限购数量',
+            showCancel: false
+          })
+        }
+      } else if (good.postsRestrictionNumber) {
+        if (json[good.item_id]) {
+          json[good.item_id] += good.numbers
+          json.remainBuy = good.remainBuy
+        } else {
+          json[good.item_id] = good.numbers
+          json.remainBuy = good.remainBuy
+          json.name = good.item_name
+        }
+      }
+    })
+    return json
   },
   // 商品跳转article
   navigateToGoods: function (e) {
@@ -344,6 +487,7 @@ function SetStatus(data, status, userId, orderId) {
   // 传入用户id 将当前传入用户下的所有商品选中 childOrderShow
   if (userId != 0){
     data.forEach(function (item, index) {
+      let checkAll = false;
       if (item.seller_user_id == userId && item['selectStatus']){
         item['selectStatus'] = false
         item['childOrderShow'] = false
@@ -351,11 +495,40 @@ function SetStatus(data, status, userId, orderId) {
           good['selectStatus'] = false
         })
       } else if (item.seller_user_id == userId && !item['selectStatus']){
-        item['selectStatus'] = true
-        item['childOrderShow'] = true
-        item.item.forEach(function (good, i) {
-          good['selectStatus'] = true
-        })
+        // console.log(item)
+        // item.item.forEach((good,index) => {
+        //   if(good.remainBuy && good.remainBuy < 1){
+        //     let goodsName = good.item_name;
+        //     wx.showModal({
+        //       title: '限购提醒',
+        //       content: goodsName + '超过限购数量，请修改',
+        //     })
+        //     return 
+        //   }
+        // })
+        for (let i = 0; i < item.item.length; i++){
+          if (item.item[i].remainBuy != undefined && item.item[i].remainBuy < 1){
+            let goodsName = item.item[i].item_name;
+            console.log(1111)
+            wx.showModal({
+              title: '限购提醒',
+              content: goodsName + '超过限购数量，请修改',
+              showCancel:false
+            })
+            break;
+          }else{
+            checkAll = true;
+            item.item[i].selectStatus = true
+          }
+        }
+        if(checkAll == true){
+          item['selectStatus'] = true
+          item['childOrderShow'] = true
+        }
+        
+        // item.item.forEach(function (good, i) {
+        //   good['selectStatus'] = true
+        // })
       }
       // 检测是否有未选(设置全选)
       if (!item['selectStatus']){
@@ -375,7 +548,9 @@ function SetStatus(data, status, userId, orderId) {
       item.item.forEach(function (good, i) {
         if (good.id == orderId && good['selectStatus']){
           good['selectStatus'] = false
+          console.log('没选中')
         } else if (good.id == orderId && !good['selectStatus']){
+          console.log('选中')
           good['selectStatus'] = true
         }
         // 检测是否有未选
