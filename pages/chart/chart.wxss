@@ -166,6 +166,9 @@
   padding-right: 30rpx;
   line-height: 96rpx;
 }
+.isIphoneX_chart_content{
+  padding: 0 30rpx 68rpx 30rpx;
+}
 .chart_content .checkbox_icon{
   margin-top: 2rpx;
 }
@@ -223,6 +226,9 @@
 .random_goods{
   border-top: 16rpx solid #F5F5F5;
   padding: 0 30rpx 100rpx 30rpx;
+}
+.isIphoneX_random_goods{
+  padding: 0 30rpx 168rpx 30rpx;
 }
 .random_goods .model_title{
   padding: 30rpx 0;

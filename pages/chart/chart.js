@@ -16,7 +16,8 @@ Page({
     scrollStatus: true,         // 是否禁止滚动
     totalPrice: 0,              // 总价
     getUserInfoStatus: false,    // 授权状态
-    ifGoBind: true //未绑定是否去绑定
+    ifGoBind: true, //未绑定是否去绑定
+    isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
   },
   onLoad: function () {
     wx.setNavigationBarTitle({
@@ -30,7 +31,6 @@ Page({
     this.animation = animation
   },
   onShow: function() {
-
     //判断是否登录 
     app.ifLogin(()=>{
 
@@ -99,7 +99,6 @@ Page({
   },
   // 用户授权
   bindgetuserinfo: function(res) {
-    console.log(res)
     if (res.detail.errMsg == 'getUserInfo:ok'){
       this.setData({
         getUserInfoStatus: true
@@ -347,7 +346,6 @@ Page({
       goodList.forEach((item, index) => {//遍历卖家
         json = this.checkLimitBuy(item)
       })
-      console.log(json)
       for (let name in json) {
         if (json[name] > json.remainBuy) {
           wx.showModal({
@@ -359,6 +357,7 @@ Page({
         }
       }
       let status = SetStatus(this.data.goodList, true, 0, 0);
+
       this.setData({
         goodList: status.data,
         selectAllStatus: true,
@@ -377,7 +376,6 @@ Page({
     let limitBuyNumber = 0;
     let orderid = e.target.dataset.orderid
     if (goodsArr.item[goodIndex].selectStatus == true){
-      
       let status = SetStatus(this.data.goodList, true, 0, orderid)
       this.setData({
         goodList: status.data,
@@ -495,21 +493,9 @@ function SetStatus(data, status, userId, orderId) {
           good['selectStatus'] = false
         })
       } else if (item.seller_user_id == userId && !item['selectStatus']){
-        // console.log(item)
-        // item.item.forEach((good,index) => {
-        //   if(good.remainBuy && good.remainBuy < 1){
-        //     let goodsName = good.item_name;
-        //     wx.showModal({
-        //       title: '限购提醒',
-        //       content: goodsName + '超过限购数量，请修改',
-        //     })
-        //     return 
-        //   }
-        // })
         for (let i = 0; i < item.item.length; i++){
           if (item.item[i].remainBuy != undefined && item.item[i].remainBuy < 1){
             let goodsName = item.item[i].item_name;
-            console.log(1111)
             wx.showModal({
               title: '限购提醒',
               content: goodsName + '超过限购数量，请修改',
@@ -524,11 +510,10 @@ function SetStatus(data, status, userId, orderId) {
         if(checkAll == true){
           item['selectStatus'] = true
           item['childOrderShow'] = true
-        }
-        
-        // item.item.forEach(function (good, i) {
-        //   good['selectStatus'] = true
-        // })
+          item.item.forEach(function (good, i) {
+            good['selectStatus'] = true
+          })
+        }  
       }
       // 检测是否有未选(设置全选)
       if (!item['selectStatus']){
@@ -548,9 +533,7 @@ function SetStatus(data, status, userId, orderId) {
       item.item.forEach(function (good, i) {
         if (good.id == orderId && good['selectStatus']){
           good['selectStatus'] = false
-          console.log('没选中')
         } else if (good.id == orderId && !good['selectStatus']){
-          console.log('选中')
           good['selectStatus'] = true
         }
         // 检测是否有未选

@@ -659,6 +659,10 @@
   background: #AE2121;
   right: 0;
 }
+.select_content .buy_btn_no{
+  background:rgba(142,142,142,1);
+  color:rgba(242,242,242,1);
+}
 .select_content .chart_btn{
   background: #000;
   left: 0;

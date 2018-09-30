@@ -34,6 +34,9 @@ Page({
     imgTxtArr: [],                //图文混排解析后的对象数组
     soldCountTxt:'',                   //卖出数量，哆嗦次数，少于1万件显示 xxx件，大于1万件显示 a.b万件
     deliveryTxt:'',                    //发货周期文本
+    remainBuy: 0,                  //限购剩余购买数量
+    btnStatus:false,                 //立即购买按钮状态
+    limitBuyNum: '立即购买'                  //购买按钮显示限购数量
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
@@ -58,6 +61,17 @@ Page({
       let selectStyleId = null
       let specialOfferStatus = false
       let specialOfferPrice = false
+      goodInfo.type.forEach((item,index) => {
+        if (item.postsRestrictionNumber != undefined) {
+          item.restrictionTypes = 0 //商品限购
+          item.limitBuyNum = item.postsRestrictionNumber //限购数量
+          item.remainBuy = item.postsRestrictionNumber - item.postsAlreadyNumber
+        } else if (item.goodsRestrictionNumber != undefined){
+          item.restrictionTypes = 1 //款式限购
+          item.limitBuyNum = item.goodsRestrictionNumber //限购数量
+          item.remainBuy = item.goodsRestrictionNumber - item.goodsAlreadyNumber
+        }
+      })
       // 单个订单 初始 预售 款式ID 处理特价时间
       if (styleNum == 1) {
         presellTime = util.formatTime(goodInfo.type[0].estimated_delivery_date)
@@ -93,7 +107,6 @@ Page({
           soldCountTxt = soldCount;
         }
       }
-
       this.setData({
         presellTime: presellTime,
         styleNum: styleNum,
@@ -115,8 +128,6 @@ Page({
           imgTxtArr: imgTxtArr
         })
       }
-      
-
     },(err)=>{
       setTimeout(()=>{
         wx.navigateBack();
@@ -297,6 +308,25 @@ Page({
     const presellTime = e.target.dataset.preselltime ? util.formatTime(e.target.dataset.preselltime) : null
     let delivery = parseInt(e.target.dataset.expected_delivery_cycle);
     let deliveryTxt = '';
+    //商品或者款式限购判断
+    let oIndex = e.target.dataset.typeindex;
+    let restrictiontypes = this.data.goodInfo.type[oIndex].restrictionTypes
+    let remainBuy = this.data.goodInfo.type[oIndex].remainBuy;
+    let limitBuyNum = this.data.goodInfo.type[oIndex].limitBuyNum;
+    if (restrictiontypes !== undefined){
+      this.setData({
+        limitBuyNum: "限购" + limitBuyNum + "件"
+      })
+      if(remainBuy < 1){
+        this.setData({
+          btnStatus:true
+        })
+      }
+    } else{
+      this.setData({
+        limitBuyNum: "立即购买"
+      })
+    }
     if(delivery && delivery>0){
       if(delivery<=3){
         deliveryTxt = (delivery * 24) + '小时内发货';
@@ -375,6 +405,9 @@ Page({
     // 判断是否登录
     if (this.ifLogin() == false) {
       return;
+    }
+    if (this.data.btnStatus){//如果已购买数量超过限购数量，不让点击
+      return
     }
     const stock = e.target.dataset.stock
     if (stock == 0) {

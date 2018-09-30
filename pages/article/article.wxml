@@ -152,7 +152,7 @@
           </view>
           <view class='styles_select clearBoth'>
             <view class='label'>款式</view>
-            <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-postage="{{item.postage}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" data-expected_delivery_cycle="{{item.expected_delivery_cycle}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}">{{item.name}}</text>   
+            <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-typeindex="{{index}}" data-postage="{{item.postage}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" data-expected_delivery_cycle="{{item.expected_delivery_cycle}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}" >{{item.name}}</text>   
           </view>
           <view class='good_num clearBoth'>
             <view class='label'>数量</view>
@@ -165,7 +165,7 @@
         <view class='chart_btn' wx:if="{{selectType==0&&!activityCanBy}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}">加入购物车</view> 
         <view class='chart_btn' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
 
-        <view class='buy_btn' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}">立即购买           </view>
+        <view class='buy_btn {{btnStatus?"buy_btn_no":""}}' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}">{{limitBuyNum}}</view>
       <view class='next_btn' wx:if="{{selectType==1}}" bindtap="{{selectStyleId?'addChart':'noSelect'}}">确认</view>
       <view class='next_btn' wx:if="{{selectType==2}}" bindtap="{{selectStyleId?'navigateToCreateOrder':'noSelect'}}">确认</view>
       <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
