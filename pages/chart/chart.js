@@ -2,7 +2,7 @@ const app = getApp()
 const util = require('../../utils/util.js')
 import { req } from '../../utils/api.js'
 
-
+let addStatus = true           //添加购买数量按钮禁止连点  
 Page({
 
   data: {
@@ -15,9 +15,9 @@ Page({
     randomGoods: null,          // 猜你喜欢商品列表
     scrollStatus: true,         // 是否禁止滚动
     totalPrice: 0,              // 总价
-    getUserInfoStatus: false,    // 授权状态
-    ifGoBind: true, //未绑定是否去绑定
-    isIphoneX: app.globalData.isIphoneX      // 是否IphoneX
+    getUserInfoStatus: false,   // 授权状态
+    ifGoBind: true,             //未绑定是否去绑定
+    isIphoneX: app.globalData.isIphoneX,     // 是否IphoneX       
   },
   onLoad: function () {
     wx.setNavigationBarTitle({
@@ -141,6 +141,9 @@ Page({
     })
   },
   addNum: function(e) {
+    if (addStatus == false){
+      return
+    }
     const orderId = e.target.dataset.orderid
     const that = this;
     let goodId = e.target.dataset.goodid;//商品ID
@@ -149,6 +152,13 @@ Page({
     let goodIndex = e.target.dataset.index;
     let goodMsg = goodList[itemIndex].item[goodIndex];
     let limitBuyNumber = 0;
+    if (goodMsg.remain <= goodMsg.numbers){
+      wx.showToast({
+        icon: 'none',
+        title: '库存不足',
+      })
+      return
+    }
     if (goodMsg.goodsRestrictionNumber){
       //判断款式是否限购
       if (goodMsg.numbers < goodMsg.remainBuy){
@@ -170,12 +180,15 @@ Page({
         }
       })
       if (limitBuyNumber > goodMsg.remainBuy) {
-        
-        wx.showModal({
-          title: '限购提醒',
-          content: '您最多可以购买' + goodMsg.remainBuy + '件',
-          showCancel: false
+        wx.showToast({
+          icon: 'none',
+          title: '数量超过限购范围',
         })
+        // wx.showModal({
+        //   title: '限购提醒',
+        //   content: '您最多可以购买' + goodMsg.remainBuy + '件',
+        //   showCancel: false
+        // })
       }else{
         that.calcGoodNum(that, orderId)
       }
@@ -185,6 +198,7 @@ Page({
   },
   //点击商品加号时请求接口
   calcGoodNum: function(that,orderId){
+    addStatus = false;
     req(app.globalData.bastUrl, 'appv5/cart/' + orderId, {
       increase: 1
     }, "POST", true).then(res => {
@@ -208,6 +222,7 @@ Page({
           duration: 500
         })
       }
+      addStatus = true
     })
   },
   // 左滑开始
@@ -335,6 +350,7 @@ Page({
     let goodList = this.data.goodList;
     let limitBuyNumber = 0;
     let json = {};
+    let isLimitStatus = false; // 是否超出限购
     if (this.data.selectAllStatus){
       let status = SetStatus(this.data.goodList, false, 0, 0)
       this.setData({
@@ -344,17 +360,23 @@ Page({
       })
     }else{
       goodList.forEach((item, index) => {//遍历卖家
-        json = this.checkLimitBuy(item)
-      })
-      for (let name in json) {
-        if (json[name] > json.remainBuy) {
-          wx.showModal({
-            title: '限购提醒',
-            content: json.name + '超过限购数量',
-            showCancel: false
-          })
-          return
+        json = this.checkLimitBuy(item);
+        for (let name in json) {
+          if (!isNaN(parseInt(name))) {
+            if (json[name] > json.remainBuy) {
+              wx.showModal({
+                title: '限购提醒',
+                content: json.name + '超过限购数量',
+                showCancel: false
+              })
+              isLimitStatus = true;
+              return
+            }
+          }
         }
+      })
+      if(isLimitStatus){
+        return
       }
       let status = SetStatus(this.data.goodList, true, 0, 0);
 
@@ -448,7 +470,7 @@ Page({
         }
       } else if (good.postsRestrictionNumber) {
         if (json[good.item_id]) {
-          json[good.item_id] += good.numbers
+          json[good.item_id] += good.numbers //已商品ID为标识存储不同款式的购买数量之和
           json.remainBuy = good.remainBuy
         } else {
           json[good.item_id] = good.numbers

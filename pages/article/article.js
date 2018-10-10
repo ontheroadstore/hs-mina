@@ -30,13 +30,14 @@ Page({
     isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
     authorizationStatus: false,   //授权状态
     goodCanSell: false,           // 用户是否优惠
-    activityCanBy: false,          // 显示 参与优惠活动按钮
+    activityCanBy: false,         // 显示 参与优惠活动按钮
     imgTxtArr: [],                //图文混排解析后的对象数组
-    soldCountTxt:'',                   //卖出数量，哆嗦次数，少于1万件显示 xxx件，大于1万件显示 a.b万件
-    deliveryTxt:'',                    //发货周期文本
-    remainBuy: 0,                  //限购剩余购买数量
-    btnStatus:false,                 //立即购买按钮状态
-    limitBuyNum: '立即购买'                  //购买按钮显示限购数量
+    soldCountTxt:'',              //卖出数量，哆嗦次数，少于1万件显示 xxx件，大于1万件显示 a.b万件
+    deliveryTxt:'',               //发货周期文本
+    remainBuy: 0,                 //限购剩余购买数量
+    btnStatus:false,              //立即购买按钮状态
+    limitBuyText: '立即购买',      //购买按钮显示限购数量
+    limitBuyNum: 0                //限购数量         
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
@@ -313,9 +314,12 @@ Page({
     let restrictiontypes = this.data.goodInfo.type[oIndex].restrictionTypes
     let remainBuy = this.data.goodInfo.type[oIndex].remainBuy;
     let limitBuyNum = this.data.goodInfo.type[oIndex].limitBuyNum;
+    this.setData({
+      remainBuy
+    })
     if (restrictiontypes !== undefined){
       this.setData({
-        limitBuyNum: "限购" + limitBuyNum + "件"
+        limitBuyText: "限购" + limitBuyNum + "件"
       })
       if(remainBuy < 1){
         this.setData({
@@ -324,7 +328,7 @@ Page({
       }
     } else{
       this.setData({
-        limitBuyNum: "立即购买"
+        limitBuyText: "立即购买"
       })
     }
     if(delivery && delivery>0){
@@ -369,11 +373,19 @@ Page({
       selectStyleCount: m
     })
   },
-  addGoodNum: function () {
+  addGoodNum: function (e) {
     const stock = this.data.selectStyleStock
+    let remainBuy = this.data.remainBuy;
     if (this.data.selectStyleCount == stock) {
       return wx.showToast({
         title: '库存不足，仅剩' + stock + '件',
+        icon: 'none',
+        duration: 1000
+      })
+    }
+    if (this.data.remainBuy <= this.data.selectStyleCount){
+      return wx.showToast({
+        title: '您最多可购买' + remainBuy + '件',
         icon: 'none',
         duration: 1000
       })

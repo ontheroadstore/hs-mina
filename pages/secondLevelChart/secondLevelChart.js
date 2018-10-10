@@ -335,6 +335,7 @@ Page({
     let goodList = this.data.goodList;
     let limitBuyNumber = 0;
     let json = {};
+    let isLimitStatus = false; // 是否超出限购
     if (this.data.selectAllStatus) {
       let status = SetStatus(this.data.goodList, false, 0, 0)
       this.setData({
@@ -345,16 +346,20 @@ Page({
     } else {
       goodList.forEach((item, index) => {//遍历卖家
         json = this.checkLimitBuy(item)
-      })
-      for (let name in json) {
-        if (json[name] > json.remainBuy) {
-          wx.showModal({
-            title: '限购提醒',
-            content: json.name + '超过限购数量',
-            showCancel: false
-          })
-          return
+        for (let name in json) {
+          if (json[name] > json.remainBuy) {
+            wx.showModal({
+              title: '限购提醒',
+              content: json.name + '超过限购数量',
+              showCancel: false
+            })
+            isLimitStatus = true;
+            return
+          }
         }
+      })
+      if (isLimitStatus) {
+        return
       }
       let status = SetStatus(this.data.goodList, true, 0, 0);
 
