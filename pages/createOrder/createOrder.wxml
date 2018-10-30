@@ -24,7 +24,7 @@
           <view class='count_num'>
             <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum'></image>
             <text class="good_num float_left">{{singleOrder.newType[0].number}}</text>
-            <image class='add_icon float_left' src='/images/add.png' bindtap='addNum' data-remain="{{singleOrder.newType[0].stock}}"></image>
+            <image class='add_icon float_left' data-remainbuy="{{singleOrder.newType[0].remainBuy?singleOrder.newType[0].remainBuy:''}}" src='/images/add.png' bindtap='addNum' data-remain="{{singleOrder.newType[0].stock}}"></image>
           </view>
         </view>
         <view class='postage_num clearBoth'>
@@ -40,12 +40,12 @@
     </view>
     <!-- 多个订单 -->
     <view class="orders {{isIphoneX ? 'orders_iphoneX' : ''}}" wx:if="{{orderType == 1}}">
-      <view class='user_item' wx:if="{{item.childOrderShow}}" wx:key="key" wx:for="{{orderList}}">
+      <view class='user_item' wx:if="{{item.childOrderShow}}" wx:for-index="sellerIndex" wx:key="key" wx:for="{{orderList}}">
         <view class='user_info'>
           <image class='float_left' src="{{item.seller_avatar}}"></image>
           <view class='float_left'>{{item.seller_name}}</view>
         </view>
-        <view class='order_item clearBoth' wx:key="key" wx:for="{{item.item}}" wx:for-item="good" wx:if="{{good.selectStatus}}">
+        <view class='order_item clearBoth' wx:key="key" wx:for="{{item.item}}" wx:for-item="good" wx:for-index="goodIndex" wx:if="{{good.selectStatus}}">
           <image class='float_left image' src='{{good.image}}'></image>
           <view class='good_title float_left'>{{good.item_name}}</view>
           <view class='good_type float_left'>{{good.model_desc ? good.model_desc: ''}}</view>
@@ -53,7 +53,7 @@
           <view class='count_num'>
             <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum' data-id="{{good.id}}"></image>
             <text class="good_num float_left">{{good.numbers}}</text>
-            <image class='add_icon float_left' src='/images/add.png' bindtap='addNum' data-id="{{good.id}}" data-remain="{{good.remain}}"></image>
+            <image class='add_icon float_left' data-sellerindex="{{sellerIndex}}" data-goodindex="{{goodIndex}}" src='/images/add.png' data-remainbuy="{{good.remainBuy?good.remainBuy:''}}" bindtap='addNum' data-id="{{good.id}}" data-remain="{{good.remain}}"></image>
           </view>
         </view>
         <view class='postage_num clearBoth'>

@@ -30,18 +30,22 @@ Page({
     isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
     authorizationStatus: false,   //授权状态
     goodCanSell: false,           // 用户是否优惠
-    activityCanBy: false,          // 显示 参与优惠活动按钮
+    activityCanBy: false,         // 显示 参与优惠活动按钮
     imgTxtArr: [],                //图文混排解析后的对象数组
     soldCountTxt:'',                   //卖出数量，哆嗦次数，少于1万件显示 xxx件，大于1万件显示 a.b万件
     couponPopup: 0,                //领券/返券 弹窗 1显示领券，2显示返券，0都不显示
     getCoupon: null,                   //可以领取的coupon数组
     backCoupon: null,                   //返券数组
+    deliveryTxt:'',               //发货周期文本
+    remainBuy: 0,                 //限购剩余购买数量
+    btnStatus:false,              //立即购买按钮状态
+    limitBuyText: '立即购买',      //购买按钮显示限购数量
+    limitBuyNum: 0                //限购数量
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
       title: '商品详情'
     })
-    // options.id = 1095672;//todo:delete
     this.setData({
       articleId: options.id
     })
@@ -61,12 +65,36 @@ Page({
       let selectStyleId = null
       let specialOfferStatus = false
       let specialOfferPrice = false
+      goodInfo.type.forEach((item,index) => {
+        if (item.postsRestrictionNumber != undefined) {
+          item.restrictionTypes = 0 //商品限购
+          item.limitBuyNum = item.postsRestrictionNumber //限购数量
+          item.remainBuy = item.postsRestrictionNumber - item.postsAlreadyNumber
+        } else if (item.goodsRestrictionNumber != undefined){
+          item.restrictionTypes = 1 //款式限购
+          item.limitBuyNum = item.goodsRestrictionNumber //限购数量
+          item.remainBuy = item.goodsRestrictionNumber - item.goodsAlreadyNumber
+        }
+      })
       // 单个订单 初始 预售 款式ID 处理特价时间
       if (styleNum == 1) {
         presellTime = util.formatTime(goodInfo.type[0].estimated_delivery_date)
         selectStyleId = goodInfo.type[0].id
         specialOfferStatus = formTime(goodInfo.type[0].special_offer_start, goodInfo.type[0].special_offer_end)
         specialOfferPrice = goodInfo.type[0].special_offer_price
+
+        let delivery = parseInt(goodInfo.type[0].expected_delivery_cycle);
+        let deliveryTxt = '';
+        if (delivery && delivery > 0) {
+          if (delivery <= 3) {
+            deliveryTxt = (delivery * 24) + '小时内发货';
+          } else {
+            deliveryTxt = delivery + '天内发货';
+          }
+        }
+        this.setData({
+          deliveryTxt: deliveryTxt,   //没有款式直接设置发货时间
+        })
       }
       // 添加/64
       res.data.seller.avatar = res.data.seller.avatar
@@ -83,7 +111,6 @@ Page({
           soldCountTxt = soldCount;
         }
       }
-
       this.setData({
         presellTime: presellTime,
         styleNum: styleNum,
@@ -105,8 +132,6 @@ Page({
           imgTxtArr: imgTxtArr
         })
       }
-      
-
     },(err)=>{
       setTimeout(()=>{
         wx.navigateBack();
@@ -288,6 +313,37 @@ Page({
     const specialOfferStatus = formTime(e.target.dataset.specialofferstart, e.target.dataset.specialofferend)
     const specialOfferPrice = e.target.dataset.specialofferprice
     const presellTime = e.target.dataset.preselltime ? util.formatTime(e.target.dataset.preselltime) : null
+    let delivery = parseInt(e.target.dataset.expected_delivery_cycle);
+    let deliveryTxt = '';
+    //商品或者款式限购判断
+    let oIndex = e.target.dataset.typeindex;
+    let restrictiontypes = this.data.goodInfo.type[oIndex].restrictionTypes
+    let remainBuy = this.data.goodInfo.type[oIndex].remainBuy;
+    let limitBuyNum = this.data.goodInfo.type[oIndex].limitBuyNum;
+    this.setData({
+      remainBuy
+    })
+    if (restrictiontypes !== undefined){
+      this.setData({
+        limitBuyText: "限购" + limitBuyNum + "件"
+      })
+      if(remainBuy < 1){
+        this.setData({
+          btnStatus:true
+        })
+      }
+    } else{
+      this.setData({
+        limitBuyText: "立即购买"
+      })
+    }
+    if(delivery && delivery>0){
+      if(delivery<=3){
+        deliveryTxt = (delivery * 24) + '小时内发货';
+      }else{
+        deliveryTxt = delivery + '天内发货';
+      }
+    }
     if (stock <= 0) {
       return false
     }
@@ -301,7 +357,8 @@ Page({
       selectStyleStock: stock,
       selectStyleCount: 1,
       specialOfferStatus: specialOfferStatus,
-      specialOfferPrice: specialOfferPrice
+      specialOfferPrice: specialOfferPrice,
+      deliveryTxt: deliveryTxt,
     })
   },
   // 当没有选中款式时 点击加入购物车/立即购买
@@ -322,11 +379,19 @@ Page({
       selectStyleCount: m
     })
   },
-  addGoodNum: function () {
+  addGoodNum: function (e) {
     const stock = this.data.selectStyleStock
+    let remainBuy = this.data.remainBuy;
     if (this.data.selectStyleCount == stock) {
       return wx.showToast({
         title: '库存不足，仅剩' + stock + '件',
+        icon: 'none',
+        duration: 1000
+      })
+    }
+    if (this.data.remainBuy <= this.data.selectStyleCount){
+      return wx.showToast({
+        title: '您最多可购买' + remainBuy + '件',
         icon: 'none',
         duration: 1000
       })
@@ -358,6 +423,9 @@ Page({
     // 判断是否登录
     if (this.ifLogin() == false) {
       return;
+    }
+    if (this.data.btnStatus){//如果已购买数量超过限购数量，不让点击
+      return
     }
     const stock = e.target.dataset.stock
     if (stock == 0) {
@@ -519,7 +587,7 @@ Page({
           backCoupon: this.formatCouponData(res.data.returnCoupon),
         })
       }
-       
+
     })
   },
   // 处理优惠券列表数据
@@ -535,7 +603,7 @@ Page({
           let startTime = (new Date()).getTime();
           let endTime = startTime + v.apply_time_length * 24 * 60 * 60 * 1000;
           v.start_time = this.couponFmtTime(startTime);
-          v.end_time = this.couponFmtTime(endTime); 
+          v.end_time = this.couponFmtTime(endTime);
         } else{
           v.start_time = this.couponFmtTime(v.apply_time_start);  // 使用开始时间
           v.end_time = this.couponFmtTime(v.apply_time_end);       // 使用结束时间
@@ -614,8 +682,8 @@ Page({
     }
 
 
-   
-    
+
+
   },
 
 })

@@ -2,16 +2,16 @@
   <view class='content'>
     <view class='seller_item' wx:key="key" wx:for="{{goodList}}" wx:if="{{goodList}}">
       <view class='user_info'>
-        <image class='checkbox_icon float_left' bindtap='selectUser' data-userid="{{item.seller_user_id}}" src="{{item.selectStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
+        <image class='checkbox_icon float_left' bindtap='selectUser' data-index="{{index}}" data-userid="{{item.seller_user_id}}" src="{{item.selectStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
         <view class='user_name float_left'>{{item.seller_name}}</view>
       </view>
       <view animation="{{good.animation}}" class="order_item clearBoth {{good.is_sku_deleted == 0 && good.remain > 0 ? '':'order_item_opacity'}}" wx:key="key" wx:for="{{item.item}}" wx:for-item="good" wx:for-index="i" bindtouchmove='leftTouchMove' bindtouchstart='leftTouchStart' data-orderid="{{good.id}}" bindtouchend='touchEnd'>
-        <image class='checkbox_icon float_left' bindtap='selectSingle' data-orderid="{{good.id}}" src="{{good.selectStatus? '/images/checked.png':'/images/checkbox.png'}}" wx:if="{{good.is_sku_deleted == 0 && good.remain > 0}}"></image>
+        <image class='checkbox_icon float_left' bindtap='selectSingle' data-goodid="{{good.item_id}}" data-itemindex="{{index}}" data-index="{{i}}" data-orderid="{{good.id}}" data-remainbuy="{{good.remainBuy}}" data-obj='2222' src="{{good.selectStatus? '/images/checked.png':'/images/checkbox.png'}}" wx:if="{{good.is_sku_deleted == 0 && good.remain > 0}}"></image>
         <view class="lose_efficacy float_left" wx:if="{{good.is_sku_deleted != 0 || good.remain <= 0}}">失效</view>
         <image class='cover float_left' data-id="{{good.item_id}}" bindtap="{{good.is_sku_deleted == 1 || good.remain <= 0 ? '':'navigateToGoods'}}" src='{{good.image}}@640w_1l'></image>
-        
-         <view class='text_hint' wx:if="{{good.special_offer_end}}">{{good.special_offer_end}}</view> 
-        <view class='text_hint' wx:if="{{good.remain > 0 && good.remain <= 10 && !good.special_offer_end}}">{{good.labels[0]}}</view>
+        <view class="text_hint" wx:if="{{good.limitBuy}}">限购{{good.limitNumber}}件</view>
+        <view class='text_hint' wx:elif="{{good.special_offer_end}}">{{good.special_offer_end}}</view>
+        <view class='text_hint' wx:elif="{{good.remain > 0 && good.remain <= 10 && !good.special_offer_end}}">{{good.labels[0]}}</view>
         
         <view class='good_title float_left' data-id="{{good.item_id}}" bindtap="{{good.is_sku_deleted == 1 || good.remain <= 0 ? '':'navigateToGoods'}}">{{good.item_name}}</view>
         <view class="good_info float_left {{good.is_sku_deleted == 0 && good.remain > 0 ? '':'good_info_hide'}}">
@@ -24,7 +24,7 @@
           <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum' data-orderid="{{good.id}}"></image>
           <!-- 下边框在text上，判断最后一个清除border -->
           <text class="good_num float_left {{i == item.item.length-1 ? '': 'good_num_border'}}">{{good.numbers}}</text>
-          <image class='add_icon float_left' src='/images/add.png' bindtap='addNum' data-orderid="{{good.id}}"></image>
+          <image class='add_icon float_left' src='/images/add.png' bindtap='addNum' data-itemindex="{{index}}" data-index="{{i}}" data-orderid="{{good.id}}" data-goodid="{{good.item_id}}"></image>
         </view>
         <view class='good_empty' wx:if="{{good.is_sku_deleted == 0 && good.remain <= 0}}">商品已售罄</view> 
         <view class='good_empty' wx:if="{{good.is_sku_deleted != 0}}">商品已下架</view>
@@ -36,7 +36,7 @@
       <view>购物车毛都没有</view>
     </view>
   </view>
-  <view class='random_goods' >
+  <view class="random_goods {{isIphoneX? 'isIphoneX_random_goods':''}}" >
     <view class='model_title'>猜你喜欢</view>
     <view class='good_item clearBoth' wx:key="key" wx:for="{{randomGoods}}">
       <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
@@ -46,7 +46,7 @@
       <text class="price font_din float_left">￥ {{item.price[0]}}</text>
     </view>
   </view>
-  <view class='chart_content' wx:if="{{goodList.length != 0}}">
+  <view class="chart_content {{isIphoneX? 'isIphoneX_chart_content':''}}" wx:if="{{goodList.length != 0}}">
     <image class='checkbox_icon float_left' bindtap='selectAll' src="{{selectAllStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
     <view class='float_left all_select' bindtap='selectAll'>全选</view>
     <view class='float_right buy_btn' bindtap='navigatorToCreateOrder'>买他妈的</view>

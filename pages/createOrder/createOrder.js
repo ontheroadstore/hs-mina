@@ -355,24 +355,50 @@ Page({
     }
   },
   addNum: function (e) {
-    const orderType = this.data.orderType
+    const orderType = this.data.orderType;
+    let remainBuy = e.target.dataset.remainbuy;
     if (orderType == 1) {
       const id = e.target.dataset.id
-      const remain = e.target.dataset.remain
-      this.data.orderList.forEach(function (item, index) {
-        item.item.forEach(function (good, i) {
-          if (good.numbers >= remain && good.id == id) {
-            good.numbers = remain
-            wx.showToast({
-              title: '当前库存为' + remain,
-              icon: 'none',
-              duration: 1000
-            })
-          } else if (good.numbers != 0 && good.id == id) {
-            good.numbers = good.numbers + 1
-          }
+      const remain = e.target.dataset.remain;
+      let limitBuyNumber = 0;
+      let sellerIndex = e.target.dataset.sellerindex;
+      let goodIndex = e.target.dataset.goodindex
+      let sellerArr = this.data.orderList[sellerIndex];
+      if (sellerArr.item[goodIndex].numbers>=remain){
+        wx.showToast({
+          title: '当前库存为' + remain,
+          icon: 'none',
+          duration: 1000
         })
-      })
+        return
+      }
+      if (sellerArr.item[goodIndex].goodsRestrictionNumber) {
+        //判断款式是否限购
+        if (sellerArr.item[goodIndex].numbers < sellerArr.item[goodIndex].remainBuy) {
+          sellerArr.item[goodIndex].numbers = sellerArr.item[goodIndex].numbers + 1
+        } else {
+          wx.showToast({
+            icon: 'none',
+            title: '您最多可以购买' + sellerArr.item[goodIndex].remainBuy + '件',
+          })
+        }
+      } else if (sellerArr.item[goodIndex].postsRestrictionNumber) {
+        //判断商品是否限购
+        sellerArr.item.forEach((item, index) => {
+          limitBuyNumber += item.numbers;//计算同类商品的购买数量之和
+        })
+        
+        if (limitBuyNumber > sellerArr.item[goodIndex].remainBuy) {
+          wx.showToast({
+            icon: 'none',
+            title: '您最多可以购买' + sellerArr.item[goodIndex].remainBuy + '件',
+          })
+        } else {
+          sellerArr.item[goodIndex].numbers = sellerArr.item[goodIndex].numbers + 1
+        }
+      } else {
+        sellerArr.item[goodIndex].numbers = sellerArr.item[goodIndex].numbers + 1
+      }
       const countPrice = countTotalPrice(this.data.orderList, orderType)
       this.setData({
         orderList: this.data.orderList,
@@ -389,7 +415,13 @@ Page({
           icon: 'none',
           duration: 1000
         })
-      } else {
+      } else if (remainBuy !== '' && num >= remainBuy){
+        wx.showToast({
+          title: '您最多可购买' + remainBuy + '件',
+          icon: 'none',
+          duration: 1000
+        })
+      }else{
         this.data.singleOrder.newType[0].number = this.data.singleOrder.newType[0].number + 1
       }
       const countPrice = countTotalPrice(this.data.singleOrder, orderType)
@@ -508,5 +540,17 @@ function countTotalPrice(data, n) {
     return {
       totalPrice: totalPrice
     }
+  }
+}
+//判断限购的类型，存储数据
+function limitType(json){
+  if (json.postsRestrictionNumber != undefined) {
+    json.restrictionTypes = 0 //商品限购
+    json.limitBuyNum = json.postsRestrictionNumber //限购数量
+    json.remainBuy = json.postsRestrictionNumber - json.postsAlreadyNumber
+  } else if (json.goodsRestrictionNumber != undefined) {
+    json.restrictionTypes = 1 //款式限购
+    json.limitBuyNum = json.goodsRestrictionNumber //限购数量
+    json.remainBuy = json.goodsRestrictionNumber - json.goodsAlreadyNumber
   }
 }

@@ -6,7 +6,7 @@ import { req } from '../../utils/api.js'
 
 Page({
   data: {
-    userInfo: app.globalData.userInfo,                     // 用户信息
+    userInfo: app.globalData.userInfo,                     // 基本用户信息
     time: 60,                                   // 倒计时初始时间
     telNumber: '',                               // 用户输入手机号
     verificationCode: '',                        // 用户输入验证码
@@ -17,7 +17,7 @@ Page({
   },
   onLoad: function (options) {
     // 存有用户id
-    // console.log(app.globalData.hsUserInfo)
+      // console.log(app.globalData.hsUserInfo)
     //获取用户信息
     this.getBaseInfo();
   },
@@ -55,7 +55,7 @@ Page({
     if (this.data.time != 60) {
       return false
     }
-    
+
     req(app.globalData.bastUrl, 'appv4/signings/codes', {
       phone: this.data.telNumber
     }).then(res => {
@@ -123,7 +123,7 @@ Page({
 
           app.globalData.hsUserInfo = res.data.user.user_info
 
-          wx.setStorageSync('token', res.data.token) 
+          wx.setStorageSync('token', res.data.token)
           app.globalData.token = res.data.token
           //后退到前一页
           wx.showToast({

@@ -609,6 +609,43 @@
   background: #ECECEC;
 }
 
+/* 发货周期 */
+.delivery_cycle{
+  height: 28rpx;
+  font-size: 28rpx;
+  line-height: 1;
+  margin-bottom: 40rpx;
+}
+.delivery_cycle_label{
+  float: left;
+  width: 86rpx;
+}
+.delivery_cycle_txt{
+  color: #8E8E8E;
+}
+
+.delivery_time{
+  position: relative;
+  margin: 0 30rpx;
+  padding-left: 94rpx;
+  font-size: 28rpx;
+  padding: 30rpx 0 30rpx 114rpx;
+  border-bottom: 2rpx solid #E8E8E8;
+}
+
+.delivery_time_label{
+  color: #888;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.delivery_time_txt{
+  line-height: 32rpx;
+  width: 500rpx;
+  display: block;
+}
+
 .select_content .good_num .sub,
 .select_content .good_num .add{
   border: 2rpx solid #E8E8E8;
@@ -641,6 +678,10 @@
 .select_content .buy_btn{
   background: #AE2121;
   right: 0;
+}
+.select_content .buy_btn_no{
+  background:rgba(142,142,142,1);
+  color:rgba(242,242,242,1);
 }
 .select_content .chart_btn{
   background: #000;
