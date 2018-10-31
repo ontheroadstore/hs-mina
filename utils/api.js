@@ -45,7 +45,7 @@ const wx_login = (baseUrl) => {
             })
           },
           fail: (res) => {
-
+            console.log('拒绝授权')
           //todo:::::拒绝授权处理
             // wx.showToast({
             //   title: '没有授权',

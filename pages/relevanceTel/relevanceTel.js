@@ -288,6 +288,9 @@ Page({
         userInfo: res.detail.userInfo,
       })
       wx.setStorageSync('userInfo', res.detail.userInfo);
+      app.login(()=>{
+        wx.navigateBack({});
+      });
     }
     // console.log('get user info ok: ', res.detail.userInfo)
   },
@@ -296,6 +299,8 @@ Page({
     this.setData({
       getUserInfoStatus: false
     })
+    //如果不给获取用户信息授权，则返回上一页，否则点击下一步时拿不到用户信息会报错
+    wx.navigateBack({});
   },
 
 })

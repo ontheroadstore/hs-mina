@@ -13,7 +13,8 @@ Page({
     isIphoneX: app.globalData.isIphoneX,    // 是否IphoneX
     addressItems: [],                       // 地址列表
     addressType: 0,                         // 0：通过我的地址进入  1：确认订单页进入
-    orderType: 0                            // 订单类型传入什么在返回什么(确认订单页)
+    orderType: 0,                            // 订单类型传入什么在返回什么(确认订单页)
+    openSettingPopup: false,                  //打开设置授权弹窗
   },
   onLoad: function (options) {
     // options type参数 0：通过我的地址进入  1：确认订单页进入
@@ -80,8 +81,11 @@ Page({
         wx.redirectTo({
           url: '/pages/createOrder/createOrder?type=' + orderType
         })
+      }else{
+        //这里没有在本地对设置为默认地址做更改，如果不是从订单页来的，
+        //设置默认地址后需要重新获取地址
+        this.getAddr();
       }
-      // this.getAddr()
     })
   },
   // 添加微信地址
@@ -127,17 +131,10 @@ Page({
         wx.getSetting({
           success: function (res) {
             if (!res.authSetting['scope.address']) {
-              wx.openSetting({
-                success: function () {
-                  wx.getSetting({
-                    success: function (res) {
-                      if (res.authSetting['scope.address']) {
-                        that.addAddress()
-                      }
-                    }
-                  })
-                }
-              })
+              //显示“打开设置页”弹窗
+              that.setData({
+                openSettingPopup:true,
+              });
             }
           }
         })
@@ -152,5 +149,21 @@ Page({
         addressItems: res.data
       })
     })
-  }
+  },
+  //拒绝打开设置授权 
+  repulseOpenSetting: function (){
+    this.setData({
+      openSettingPopup: false,
+    });
+  },
+  // 打开设置授权回调
+  openSettingCallback: function (res){
+    if (res && res.detail && res.detail.authSetting && res.detail.authSetting['scope.address']){
+      //设置成功 res.detail.authSetting['scope.address'] === true;
+      this.setData({
+        openSettingPopup: false,
+      });
+      this.addAddress();
+    }
+  },
 })

@@ -25,4 +25,15 @@
     <text class='float_right'>添加微信地址</text>
     <image class='float_right' src='/images/wx.png'></image>
   </view>
+
+  <!-- 设置授权弹窗-->
+  <view class='getUserInfo_content'  wx:if="{{openSettingPopup}}">
+    <view class='pop_up'>
+      <view class='pop_up_text'>我们需要获取您的微信地址</view>
+      <view class='repulse btn' bindtap='repulseOpenSetting'>拒绝</view>
+      <view class='pass btn'>确认</view>
+      <button class='pass btn' open-type="openSetting" bindopensetting="openSettingCallback">授权</button>
+    </view>
+  </view>
+
 </scroll-view>
