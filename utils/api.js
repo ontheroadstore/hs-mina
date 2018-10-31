@@ -46,12 +46,7 @@ const wx_login = (baseUrl) => {
           },
           fail: (res) => {
             console.log('拒绝授权')
-          //todo:::::拒绝授权处理
-            // wx.showToast({
-            //   title: '没有授权',
-            //   icon: 'error',
-            //   duration: 1000
-            // })
+            //初始化时拒绝授权，无法登录，在需要登录的页面跳到绑定手机号页处理
           }
         })
       },
