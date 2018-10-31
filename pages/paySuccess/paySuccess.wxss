@@ -41,3 +41,132 @@
   border-color: #AE2121;
   color: #FFF;
 }
+/* 弹框 */
+.prop{
+  position:fixed;
+  left:0;
+  top: 0;
+  right:0;
+  bottom:0;
+  background:rgba(0,0,0,.3);
+}
+.prop_wrap{
+  width:638rpx;
+  height:472rpx;
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform: translate(-50%,-50%);
+  background:url('https://img8.ontheroadstore.com/static/image/coupon_icon/bg_single_coupon_2x.png');
+  background-size:100% 100%;
+}
+.prop_wrap_bg{
+  background:url('https://img8.ontheroadstore.com/static/image/coupon_icon/bg_multi_coupon_2x.png');
+  background-size:100% 100%;
+}
+.coupon_num{
+  font-size:28rpx;
+  font-family:PingFangSC-Regular;
+  font-weight:400;
+  color:rgba(255,255,255,1);
+  line-height:28rpx;
+  text-align: center;
+  margin-top:94rpx;
+}
+.prop_wrap_mes{
+  width:550rpx;
+  height:154rpx;
+  margin:168rpx auto 0;
+  position:relative;
+  border-radius:12rpx;
+  overflow: hidden;
+}
+.coupon_num_length{
+  margin-top:30rpx;
+  height:172rpx;
+}
+.wrap_mes_con{
+  width:100%;
+  height:100%;
+  position:absolute;
+  left:0;
+  top:0;
+  overflow:hidden;
+  display: flex;
+  align-items: center;
+}
+.wrap_mes_con_length{
+  width:100%;
+  height:100%;
+  position:absolute;
+  left:0;
+  top:38rpx;
+  overflow:hidden;
+  display: flex;
+}
+.wrap_mes_con_left{
+  width:222rpx;
+  height:114rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-right:1px dashed rgba(151,151,151,1);
+}
+.wrap_mes_bg{
+  background:none;
+}
+.coupon_price{
+  font-size:52rpx;
+  font-family:DINCond-Black;
+  font-weight:900;
+  color:rgba(174,33,33,1);
+}
+.coupon_tip{
+  font-size:20rpx;
+  color:#202123;
+}
+.wrap_mes_con_right{
+  height:114rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-left:38rpx;
+  box-sizing: border-box;
+}
+.coupon_name{
+  width: 238rpx;
+  font-size: 28rpx;
+  color: #202123;
+  line-height: 28rpx;
+  height: 28rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.coupon_time{
+  font-size: 20rpx;
+  color: #8E8E8E;
+  line-height: 1;
+}
+.look_coupon{
+  width:638rpx;
+  height:235rpx;
+  position:absolute;
+  bottom:0;
+  left:0;
+  background:url('https://img8.ontheroadstore.com/static/image/coupon_icon/front_coupon_2x.png') no-repeat;
+  background-size: 100% 84rpx;
+}
+.look_coupon_btn{
+  width:550rpx;
+  height:80rpx;
+  background:rgba(228,168,33,1);
+  border-radius:12rpx;
+  margin:116rpx auto 0;
+  font-size:28rpx;
+  color:#fefefe;
+  text-align: center;
+  line-height: 80rpx;
+  font-weight:600;
+}

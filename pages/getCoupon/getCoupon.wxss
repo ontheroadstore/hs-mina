@@ -6,7 +6,11 @@
   padding: 30rpx;
   
 }
-
+.empty_coupon{
+  text-align: center;
+  padding-top:20rpx;
+  font-size:28rpx;
+}
 .normal_coupon_wrap:not(:first-child){
   margin-top: 30rpx;
 }
@@ -146,7 +150,7 @@
   position: relative;
   z-index: 3;
   height: 144rpx;
-  width: 690rpx;
+  /* width: 690rpx; */
   padding: 20rpx 0;
   /* margin: 0 auto 30rpx; */
   background: #fff;
@@ -228,7 +232,9 @@
   font-size: 20rpx;
   color: #8E8E8E;
   line-height: 1;
-  padding: 32rpx 30rpx 0 30rpx;
+  padding: 0 30rpx 0 30rpx;
+  margin-top:32rpx;
+  height:28rpx;
 }
 .coupon_shot_note text{
   display: inline-block;
@@ -243,13 +249,13 @@
   background: none;
   float: right;
   transition: all .2s;
-  transform: rotateZ(180deg);
+  transform: rotateZ(0deg);
 }
 
 .coupon_note{
   display: none;
   line-height: 44rpx;
-  font-size: 28rpx;
+  font-size: 20rpx;
   color: #8E8E8E;
   background: #fff;
   padding: 42rpx 30rpx 8rpx;
@@ -258,7 +264,7 @@
 }
 
 .open_note .coupon_shot_note_ico{
-  transform: rotateZ(0deg);
+  transform: rotateZ(180deg);
 }
 .open_note .coupon_note{
   display: block;
