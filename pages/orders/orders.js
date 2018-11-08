@@ -83,6 +83,11 @@ Page({
   },
   // 立即付款
   immediatePayment: function() {
+      wx.showToast({
+          title: '请移步app完成付款',
+          icon: 'none',
+          duration: 2000
+      });
     console.log('立即付款')
   },
   // 取消订单 传ordernumner
