@@ -93,7 +93,7 @@ Page({
   },
   //领取优惠券
   receiveCoupon(e){
-    let couponId = e.target.dataset.couponid;
+    let couponId = e.target.dataset.id;
     req(app.globalData.bastUrl, `appv6/coupon/${couponId}/receive`, {}, 'POST').then(res => {
       if(res.status == 1){
         wx.showToast({

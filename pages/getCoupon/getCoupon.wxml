@@ -12,7 +12,7 @@
         <view class="coupon_right">
           <view class="coupon_name">{{coupon.title}}</view>
           <view class="coupon_time">{{coupon.start_time}}-{{coupon.end_time}}</view>
-          <view class="coupon_btn" data-couponId="{{coupon.coupon_id}}" catchtap='receiveCoupon'>立即领取</view>
+          <view class="coupon_btn" data-id="{{coupon.coupon_id}}" catchtap='receiveCoupon'>立即领取</view>
           <view class='coupon_shot_note' data-index="{{index}}" bindtap='couponDetailMes'>
             <text>{{coupon.coupon_note}}</text>
             <image class='coupon_shot_note_ico' src='/images/up.png'></image>
