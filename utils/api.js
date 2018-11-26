@@ -1,4 +1,8 @@
 import { request, setConfig } from './wx-promise-request';
+import { getPageType, addFunctions } from './sensors_fun.js';
+var sensors = require('./sensorsdata.min.js');
+
+initSensors();
 
 Promise.prototype.finally = function (callback) {
   let P = this.constructor;
@@ -77,7 +81,8 @@ const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
       header: {
         'Authorization': wx.getStorageSync('token'),
         'UseSource': 'wxapp', //设置用户来源是小程序
-        'version' : '3.5' //接口版本
+        'version' : '3.5', //接口版本
+        'SCProperties': sensorsHeader(),
       }
     }).then(res => {
       if (!showLoadingStatus) {
@@ -111,7 +116,30 @@ const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
   })
 }
 
+// 神策初始化
+function initSensors(){
+  sensors.init();
+  sensors.registerApp({
+    platformType: '小程序',//公共属性 ：平台
+  });
+  sensors.para.autoTrack.pageShow = function () {
+    return {
+      pageType: getPageType(),
+    }
+  };
+  addFunctions(sensors);
+}
+// 神策header
+function sensorsHeader(){
+  let obj = sensors.getPresetProperties();//获取预置属性
+  obj.platformType = '小程序';
+  let txt = encodeURI(JSON.stringify(obj));
+  return txt;
+}
+
+
 module.exports = {
   req: req,
-  wx_login: wx_login
+  wx_login: wx_login,
+  sensors: sensors,
 }

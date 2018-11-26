@@ -484,19 +484,24 @@ Page({
   // 商品跳转article
   navigateToGoods: function (e) {
     let id = e.target.dataset.id
+    let index = e.target.dataset.index
+    let title = e.target.dataset.title
     const url = '/pages/article/article?id=' + id
     wx.navigateTo({
       url: url
     })
+    app.sensors.funMkt('猜你喜欢', '购物车页', title, index, '商品', id)
   },
   // 卖家中心跳转user
   navigateToUser: function (e) {
     let id = e.target.dataset.id
     let name = e.target.dataset.name
+    let index = e.target.dataset.index
     const url = '/pages/user/user?id=' + id + '&name=' + name
     wx.navigateTo({
       url: url
     })
+    app.sensors.funMkt('猜你喜欢', '购物车页', id, index, '店铺', '')
   }
 })
 

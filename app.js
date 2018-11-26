@@ -1,7 +1,7 @@
 //app.js
 // data数据不区分大小写
 import util from './utils/util.js'
-import { wx_login, req } from './utils/api.js'
+import { wx_login, req ,sensors} from './utils/api.js'
 
 App({
   onLaunch: function() {

@@ -49,6 +49,7 @@ Page({
   // 取消收藏
   cancelLike: function(e) {
     const goodId = e.target.dataset.goodid
+    const sellerId = e.target.dataset.sellerid
     const index = e.target.dataset.index
     const that = this
     wx.showModal({
@@ -70,6 +71,13 @@ Page({
               likeGoods: that.data.likeGoods
             })
           })
+          // 神策 收藏、取消
+          app.sensors.track('collectOrNot', {
+            collectType: '商品',
+            commodityID: String(goodId),
+            sellerID: String(sellerId),
+            operationType: '取消收藏',
+          });
         }
       }
     })
@@ -102,9 +110,23 @@ Page({
   // 跳转商品
   navigateToGoods: function (e) {
     let id = e.target.dataset.id
+    let index = e.target.dataset.index
+    let title = e.target.dataset.title
     const url = '/pages/article/article?id=' + id
     wx.redirectTo({
       url: url
     })
+    app.sensors.funMkt('我的收藏', '我的收藏页', title, index, '商品', id)
+  },
+  // 卖家中心跳转user
+  navigateToUser: function (e) {
+    let id = e.target.dataset.id
+    let name = e.target.dataset.name
+    let index = e.target.dataset.index
+    const url = '/pages/user/user?id=' + id + '&name=' + name
+    wx.navigateTo({
+      url: url
+    })
+    app.sensors.funMkt('我的收藏', '我的收藏页', id, index, '店铺', '')
   },
 })

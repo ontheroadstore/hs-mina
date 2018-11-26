@@ -1,11 +1,11 @@
 <scroll-view class='main' scroll-y bindscroll="mainScroll" scroll-top="{{scrollTop}}" bindscrolltolower="scrolltolower">
   <view class="me_like clearBoth" wx:key="key" wx:for="{{likeGoods}}">
-    <image bindtap="navigateToGoods" data-id="{{item.object_id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.filepath}}@640w_1l" />
-    <view bindtap="navigateToGoods" data-id="{{item.object_id}}" class="article_title float_left">{{item.post_title}}</view>
-    <image bindtap="navigateToUser" data-id="{{item.object_id}}" data-name="{{item.user_nicename}}" class="user_avatar float_left" lazy-load src="{{item.avatar}}" />
-      <text bindtap="navigateToUser" data-id="{{item.object_id}}" data-name="{{item.user_nicename}}" class="user_name float_left">{{item.user_nicename}}</text>
+    <image bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.post_title}}" data-id="{{item.object_id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.filepath}}@640w_1l" />
+    <view bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.post_title}}" data-id="{{item.object_id}}" class="article_title float_left">{{item.post_title}}</view>
+    <image bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.object_id}}" data-name="{{item.user_nicename}}" class="user_avatar float_left" lazy-load src="{{item.avatar}}" />
+      <text bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.object_id}}" data-name="{{item.user_nicename}}" class="user_name float_left">{{item.user_nicename}}</text>
     <text class="price font_din float_left">￥ {{item.price[0]}}</text>
-    <image class='like_btn' src='/images/likeSelected.png' bindtap='cancelLike' data-goodId="{{item.object_id}}" data-index="{{index}}"></image>
+    <image class='like_btn' src='/images/likeSelected.png' bindtap='cancelLike' data-goodId="{{item.object_id}}" data-sellerid="{{item.seller_uid}}" data-index="{{index}}"></image>
   </view>
   <image src='/images/returnTop.png' class='return_top' bindtap="returnTop" wx:if="{{returnTopStatus}}"></image>
   <image src='/images/returnIndex.png' class='return_index' bindtap="returnIndex"></image>

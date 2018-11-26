@@ -22,6 +22,10 @@ Page({
     newGoods: [],                 // 新品列表
     apiStatus: 0,                 // 顺序加载
     activityStatus: false,        // 活动状态
+    sensors:{
+      lv1:'',//当前一级分类名
+      lv2:'',//当前二级分类名
+    }
   },
   onLoad: function () {
     wx.showNavigationBarLoading()
@@ -85,6 +89,7 @@ Page({
     let that = this
     // tab切换
     let id = e.target.dataset.id
+    let name = e.target.dataset.name
     this.setData({
       tabIndex: id,
       categoriesTabIndex:id
@@ -105,6 +110,11 @@ Page({
     this.clearcategoriesGoods()
     // 分类关联商品
     this.getcategoriesGoods()
+    // 神策相关
+    this.setData({
+      ['sensors.lv1']:name,
+      ['sensors.lv2']:'全部',
+    })
   },
   // 返回顶部
   returnTop: function() {
@@ -134,8 +144,10 @@ Page({
   classifySonTab: function(e) {
     // tab切换
     let id = e.target.dataset.id
+    let name = e.target.dataset.name
     this.setData({
-      categoriesTabIndex: id
+      categoriesTabIndex: id,
+      ['sensors.lv2']: name,
     })
     // 切换到新的
     this.clearcategoriesGoods()
@@ -145,16 +157,27 @@ Page({
   // 商品跳转article
   navigateToGoods: function(e) {
     let id = e.target.dataset.id
+    let index = e.target.dataset.index
+    let satype = e.target.dataset.satype
+    let title = e.target.dataset.title
+    let type = ['今日推荐','哆嗦排行榜','当下最热','分类']
     const url = '/pages/article/article?id=' + id
     wx.navigateTo({
       url: url
     })
+    var page = '首页-商店';
+    if(satype==3){
+      page = this.data.sensors.lv1 + '-' + this.data.sensors.lv2
+    }
+    app.sensors.funMkt(type[satype], page, title,index,'商品',id)
   },
   // 跳转WebView
   navigateToWebView: function (e) {
     let webUrl = e.target.dataset.url
     let title = e.target.dataset.title
+    let index = e.target.dataset.index
     const url = '/pages/webView/webView?url=' + webUrl + '&title=' + title
+    app.sensors.funMkt('banner','首页',webUrl,index,'','');
     wx.navigateTo({
       url: url
     })
@@ -169,10 +192,18 @@ Page({
   navigateToUser: function (e) {
     let id = e.target.dataset.id
     let name = e.target.dataset.name
+    let index = e.target.dataset.index
+    let satype = e.target.dataset.satype
+    let type = ['今日推荐', '哆嗦排行榜', '当下最热', '分类']
     const url = '/pages/user/user?id=' + id + '&name=' + name
     wx.navigateTo({
       url: url
     })
+    var page = '首页-商店';
+    if (satype == 3) {
+      page = this.data.sensors.lv1 + '-' + this.data.sensors.lv2
+    }
+    app.sensors.funMkt(type[satype], page, id, index, '店铺', '')
   },
   //触底加载
   onReachBottom: function(e) {

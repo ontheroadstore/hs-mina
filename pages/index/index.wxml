@@ -1,7 +1,7 @@
  <scroll-view class='header' scroll-x bindscroll="scroll">
   <view class='classifys'>
     <view class="classify_item {{tabIndex == 0 ? 'active':''}}" bindtap="tabtap" data-id="0">商店</view>
-    <view class="classify_item {{tabIndex == item.id ? 'active':''}}" wx:key="key" wx:for="{{categories}}" bindtap="tabtap" data-id="{{item.id}}">{{item.name}}</view>
+    <view class="classify_item {{tabIndex == item.id ? 'active':''}}" wx:key="key" wx:for="{{categories}}" bindtap="tabtap" data-name="{{item.name}}" data-id="{{item.id}}">{{item.name}}</view>
   </view>
 </scroll-view>
 <view class='main'>
@@ -11,7 +11,7 @@
         <image bindtap="navigateToActivity" lazy-load mode="aspectFill" src='http://img8.ontheroadstore.com/upload/180626/27aff7d7dec4833c47cbaccd0207b966.png'></image>
       </swiper-item>
       <swiper-item wx:for="{{bannerItem}}" wx:key="{{item.id}}">
-        <image bindtap="navigateToWebView" data-title="{{item.description}}" data-url="{{item.url}}" lazy-load mode="aspectFill" src='{{item.img}}@640w_1l'></image>
+        <image bindtap="navigateToWebView" data-index="{{index}}" data-title="{{item.description}}" data-url="{{item.url}}" lazy-load mode="aspectFill" src='{{item.img}}@640w_1l'></image>
       </swiper-item>
     </swiper>
     
@@ -19,10 +19,10 @@
       <view class="title">今日推荐</view>
       <view class="explain">{{todayTime}}</view>
       <view class="goods clearBoth" wx:for="{{newGoods}}" wx:key="{{item.id}}">
-        <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
-        <view class="article_title" bindtap="navigateToGoods" data-id="{{item.id}}">{{item.title}}</view>
-        <image bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
-        <text bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+        <image bindtap="navigateToGoods" data-satype="0" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="cover" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
+        <view class="article_title" bindtap="navigateToGoods" data-satype="0" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}">{{item.title}}</view>
+        <image bindtap="navigateToUser" data-satype="0" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+        <text bindtap="navigateToUser" data-satype="0" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
         <text class="price font_din float_right">￥ {{item.price[0]}}</text>
       </view>
     </view>
@@ -33,10 +33,10 @@
       <swiper class='ranking_content' current="1" interval="3000" previous-margin="36rpx" next-margin="36rpx" circular="true">
         <swiper-item wx:for="{{salesGoods}}" wx:key="{{item.id}}">
           <view class="goods clearBoth">
-            <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
-            <view class="article_title" bindtap="navigateToGoods" data-id="{{item.id}}">{{item.title}}</view>
-            <image bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
-            <text bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+            <image bindtap="navigateToGoods" data-satype="1" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="cover" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
+            <view class="article_title" bindtap="navigateToGoods" data-satype="1" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}">{{item.title}}</view>
+            <image bindtap="navigateToUser" data-satype="1" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+            <text bindtap="navigateToUser" data-satype="1" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
             <text class="price font_din float_right">￥ {{item.price[0]}}</text>
           </view>
         </swiper-item>
@@ -47,10 +47,10 @@
       <view class="title">当下最热</view>
       <view class="explain">The Hottest Monent</view>
       <view class="goods clearBoth" wx:for="{{hotGoods}}" wx:key="id">
-        <image class="cover" bindtap="navigateToGoods" data-id="{{item.id}}" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
-        <view class="article_title" bindtap="navigateToGoods" data-id="{{item.id}}">{{item.title}}</view>
-        <image bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
-        <text bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+        <image class="cover" bindtap="navigateToGoods" data-satype="2" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
+        <view class="article_title" bindtap="navigateToGoods" data-satype="2" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}">{{item.title}}</view>
+        <image bindtap="navigateToUser" data-satype="2" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+        <text bindtap="navigateToUser" data-satype="2" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
         <text class="price font_din float_right">￥ {{item.price[0]}}</text>
       </view>
     </view>
@@ -63,19 +63,19 @@
       <view class='classifys_content'>
         <view class="classify_son">
           <image mode="aspectFill" src='/images/allClassify.png'></image>
-          <text class="{{categoriesTabIndex==tabIndex?'active':''}}" bindtap="classifySonTab" data-id="{{tabIndex}}">全部</text>
+          <text class="{{categoriesTabIndex==tabIndex?'active':''}}" bindtap="classifySonTab" data-name="全部" data-id="{{tabIndex}}">全部</text>
         </view>
         <view class="classify_son" wx:key="key" wx:for="{{categoriesChild}}">
           <image mode="aspectFill" src='{{item.icon}}'></image>
-          <text class="{{categoriesTabIndex==item.id?'active':''}}" bindtap="classifySonTab" data-id="{{item.id}}">{{item.name}}</text>
+          <text class="{{categoriesTabIndex==item.id?'active':''}}" bindtap="classifySonTab" data-name="{{item.name}}" data-id="{{item.id}}">{{item.name}}</text>
         </view>
       </view>
     </scroll-view>
     <view class="classify_goods clearBoth" wx:key="key" wx:for="{{categoriesGoods}}">
-      <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
-      <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
-      <image bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
-      <text bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+      <image bindtap="navigateToGoods" data-satype="3" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
+      <view bindtap="navigateToGoods" data-satype="3" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+      <image bindtap="navigateToUser" data-satype="3" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+      <text bindtap="navigateToUser" data-satype="3" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
       <text class="price font_din float_left">￥ {{item.price[0]}}</text>
     </view>
     <image src='/images/returnTop.png' class='return_top' bindtap="returnTop" wx:if="{{returnTopStatus}}"></image>

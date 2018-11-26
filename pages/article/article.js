@@ -132,6 +132,10 @@ Page({
           imgTxtArr: imgTxtArr
         })
       }
+
+      // 神策 浏览商品详情页
+      app.sensors.track('commodityDetail', { commodityID: String(this.data.articleId), sellerID: String(this.data.goodInfo.seller.id) });
+
     },(err)=>{
       setTimeout(()=>{
         wx.navigateBack();
@@ -248,6 +252,13 @@ Page({
         })
       })
     }
+    // 神策 收藏、取消
+    app.sensors.track('collectOrNot', { 
+      collectType: '商品', 
+      commodityID: String(this.data.articleId), 
+      sellerID: String(this.data.goodInfo.seller.id),
+      operationType: this.data.goodInfo.is_favorited == 0 ? '收藏' : '取消收藏',
+      });
   },
   // 加入购物车
   addChart: function (e) {
@@ -476,19 +487,28 @@ Page({
   // 跳转商品
   navigateToGoods: function (e) {
     let id = e.target.dataset.id
+    let index = e.target.dataset.index
+    let title = e.target.dataset.title
+    let satype = e.target.dataset.satype
+    let type = ['卖家推荐商品', '猜你喜欢']
     const url = '/pages/article/article?id=' + id
     wx.redirectTo({
       url: url
     })
+    app.sensors.funMkt(type[satype], '商品详情页', title, index, '商品', id)
   },
   // 跳转用户
   navigateToUser: function (e) {
     let id = e.target.dataset.id
     let name = e.target.dataset.name
+    let index = e.target.dataset.index
+    let satype = e.target.dataset.satype
+    let type = ['卖家推荐商品', '猜你喜欢']
     const url = '/pages/user/user?id=' + id + '&name=' + name
     wx.redirectTo({
       url: url
     })
+    app.sensors.funMkt(type[satype], '商品详情页', id, index, '店铺', '')
   },
   // 返回首页
   returnIndex: function () {
