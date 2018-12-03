@@ -51,6 +51,20 @@ Page({
     })
     // 获取商品详情
     req(app.globalData.bastUrl, 'appv3_1/goods/' + this.data.articleId).then(res => {
+
+      if (typeof res.data === 'string'){
+        //如果data不是对象，可能是含有\u2028,会导致解析错误
+        try{
+          res.data = JSON.parse(res.data.replace('/u2028', ''));
+        }catch(e){
+          console.log('获取商品详情 catch: ',e);
+          wx.showToast({
+            title: JSON.stringify(e),
+            icon: 'none',
+            duration: 3000
+          })
+        }
+      }
       this.setData({
         modulesGuessLike: res.data.modules[1].data.result,
         desc: util.replaceBr(res.data.desc),
@@ -751,7 +765,8 @@ function formTime(start, end) {
       return hour + "小时" + min + "分后结束"
     }
   } else if (start > time) {
-    return '特价活动未开始'
+    return false
+    // return '特价活动未开始'
   } else if (end < time) {
     return false
   }

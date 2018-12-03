@@ -26,7 +26,7 @@ Page({
       let orderData = wx.getStorageSync('orderData')
       // 如果是特价商品 直接替换price
       const nowDate = +new Date()
-      if (orderData.newType[0].special_offer_end * 1000 >= nowDate) {
+      if (orderData.newType[0].special_offer_end * 1000 >= nowDate && orderData.newType[0].special_offer_start * 1000 <= nowDate) {
         orderData.newType[0].price = orderData.newType[0].special_offer_price
       }
       // 邮费
