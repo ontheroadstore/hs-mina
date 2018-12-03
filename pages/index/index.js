@@ -97,7 +97,11 @@ Page({
     // 设置滚动条在顶部
     this.returnTop()
     // 切换到商店直接返回
-    if (id == 0) return
+    if (id == 0) {
+      app.globalData.sensors.pageType = ''
+      app.sensors.MPVS()//手动触发$MPViewScreen
+      return
+    }
     // 赋值子分类
     this.data.categories.forEach(function (value) {
       if (value.id == id) {
@@ -115,6 +119,8 @@ Page({
       ['sensors.lv1']:name,
       ['sensors.lv2']:'全部',
     })
+    app.globalData.sensors.pageType= name + '-全部'
+    app.sensors.MPVS()//手动触发$MPViewScreen
   },
   // 返回顶部
   returnTop: function() {
@@ -153,6 +159,9 @@ Page({
     this.clearcategoriesGoods()
     // 分类关联商品
     this.getcategoriesGoods()
+    app.globalData.sensors.pageType = this.data.sensors.lv1 + '-' + name;//从商品页返回后$pageview显示为分类
+    app.sensors.btnClick(name, '分类');
+    app.sensors.MPVS()//手动触发$MPViewScreen
   },
   // 商品跳转article
   navigateToGoods: function(e) {
@@ -306,5 +315,8 @@ Page({
         that.getcategoriesGoods()
       }
     }, 1000)
-  }
+  },
+  onTabItemTap: function(item){
+    app.sensors.btnClick(item.text,'底部导航');
+  },
 })

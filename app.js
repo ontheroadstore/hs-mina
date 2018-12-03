@@ -1,11 +1,19 @@
 //app.js
 // data数据不区分大小写
 import util from './utils/util.js'
-import { wx_login, req ,sensors} from './utils/api.js'
-
+import {
+  wx_login,
+  req,
+  sensors
+} from './utils/api.js'
+import {
+  initSensors,
+  sensorsFuns
+} from './utils/sensors_fun.js';
+initSensors(sensors) //神策初始化
 App({
   onLaunch: function() {
-    
+
     // 存储手机型号
     wx.getSystemInfo({
       success: (res) => {
@@ -19,6 +27,7 @@ App({
       }
     })
     this.login()
+    sensorsFuns(sensors, this) //神策一些方法处理，传入sensors和app 
   },
   onShow: function() {},
   onHide: function() {},
@@ -29,21 +38,22 @@ App({
       req(this.globalData.bastUrl, 'appv4/user/simple', {}, "GET", true).then(res => {
         this.globalData.hsUserInfo = res.data
         this.globalData.authorizationStatus = true
-        if (callback){
+        sensors.login(res.data.id) //神策登录
+        if (callback) {
           callback()
         }
       })
     })
   },
-  ifLogin: function (succback, failback, ifGoBind){
+  ifLogin: function(succback, failback, ifGoBind) {
     let globalUserInfo = this.globalData.hsUserInfo;
-    let authorizationStatus = this.globalData.authorizationStatus;  
+    let authorizationStatus = this.globalData.authorizationStatus;
     if (globalUserInfo && globalUserInfo.telphone) {
-      if (succback){
+      if (succback) {
         succback(globalUserInfo);
       }
     } else {
-      if (failback){
+      if (failback) {
         failback();
       }
       if (ifGoBind) {
@@ -54,10 +64,10 @@ App({
     }
   },
   /*获取当前页url*/
-  getCurrentPageUrl: function (){
-    let pages = getCurrentPages()    //获取加载的页面
-    let currentPage = pages[pages.length - 1]    //获取当前页面的对象
-    let url = currentPage.route    //当前页面url
+  getCurrentPageUrl: function() {
+    let pages = getCurrentPages() //获取加载的页面
+    let currentPage = pages[pages.length - 1] //获取当前页面的对象
+    let url = currentPage.route //当前页面url
     return url
   },
   globalData: {
@@ -66,7 +76,12 @@ App({
     userInfo: null, //wx返回的基本信息
     systemInfo: null,
     authorizationStatus: false,
-    token:'',
-    hsUserInfo:null,  //hs保存的用户信息
+    token: '',
+    hsUserInfo: null, //hs保存的用户信息
+    //神策使用数据
+    sensors: {
+      pageType: '',
+      navBar:'',//底部nav
+    }, 
   }
 })

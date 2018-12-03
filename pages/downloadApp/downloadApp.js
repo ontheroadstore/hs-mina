@@ -15,7 +15,7 @@ Page({
   onLoad: function (options) {
     var that = this;
     wx.setNavigationBarTitle({
-      title:'优惠券'
+      title:'公路商店'
     })
     wx.getSystemInfo({
       success: function(res) {

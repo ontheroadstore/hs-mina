@@ -132,6 +132,7 @@ Page({
           setTimeout(() => {
             wx.navigateBack({})
           },500)
+          app.sensors.login(res.data.user.user_info.id)//神策登录
         } else {
           wx.showToast({
             title: res.data,

@@ -473,7 +473,9 @@ Page({
     wx.navigateTo({
       url: url
     })
-    app.sensors.funMkt('猜你喜欢', '购物车页', title, index, '商品', id)
+    if (title) {
+      app.sensors.funMkt('猜你喜欢', '购物车页', title, index, '商品', id)
+    }
   },
   // 卖家中心跳转user
   navigateToUser: function (e) {

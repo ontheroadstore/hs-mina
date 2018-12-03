@@ -22,7 +22,7 @@
     "pages/purchaseList/purchaseList",
     "pages/getCoupon/getCoupon",    
     "pages/userCoupon/userCoupon",
-    "pages/useCoupon/useCoupon"
+    "pages/downloadApp/downloadApp"
   ],
   "window": {
     "backgroundTextStyle": "light",

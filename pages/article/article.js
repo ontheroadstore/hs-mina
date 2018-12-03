@@ -242,6 +242,7 @@ Page({
           goodInfo: this.data.goodInfo
         })
       })
+      app.sensors.btnClick('收藏');
     } else {
       req(app.globalData.bastUrl, 'appv2/itemdeletefavourite', {
         item_id: this.data.articleId
@@ -251,6 +252,7 @@ Page({
           goodInfo: this.data.goodInfo
         })
       })
+      app.sensors.btnClick('取消收藏');
     }
     // 神策 收藏、取消
     app.sensors.track('collectOrNot', { 
@@ -476,6 +478,7 @@ Page({
   },
   // 跳转购物车
   navigateToChart: function () {
+    app.sensors.btnClick('购物车');
     // 判断是否登录
     if(this.ifLogin()==false){
       return ;
@@ -503,12 +506,26 @@ Page({
     let name = e.target.dataset.name
     let index = e.target.dataset.index
     let satype = e.target.dataset.satype
+    let btn = e.target.dataset.btn
     let type = ['卖家推荐商品', '猜你喜欢']
     const url = '/pages/user/user?id=' + id + '&name=' + name
     wx.redirectTo({
       url: url
     })
     app.sensors.funMkt(type[satype], '商品详情页', id, index, '店铺', '')
+    if(btn){
+      app.sensors.btnClick(btn);
+    }
+  },
+  navigateToUserBtn: function(e){
+    let id = e.target.dataset.id
+    let name = e.target.dataset.name
+    let btn = e.target.dataset.btn
+    const url = '/pages/user/user?id=' + id + '&name=' + name
+    wx.redirectTo({
+      url: url
+    })
+    app.sensors.btnClick(btn);
   },
   // 返回首页
   returnIndex: function () {
@@ -705,7 +722,12 @@ Page({
 
 
   },
-
+  //downloadApp
+  downloadApp: function(ev){
+    wx.navigateTo({
+      url: "/pages/downloadApp/downloadApp",
+    })
+  },
 })
 
 function formTime(start, end) {

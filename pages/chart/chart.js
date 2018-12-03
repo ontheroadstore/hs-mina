@@ -490,7 +490,9 @@ Page({
     wx.navigateTo({
       url: url
     })
-    app.sensors.funMkt('猜你喜欢', '购物车页', title, index, '商品', id)
+    if(title){
+      app.sensors.funMkt('猜你喜欢', '购物车页', title, index, '商品', id)
+    }
   },
   // 卖家中心跳转user
   navigateToUser: function (e) {
@@ -502,7 +504,11 @@ Page({
       url: url
     })
     app.sensors.funMkt('猜你喜欢', '购物车页', id, index, '店铺', '')
-  }
+  },
+  onTabItemTap: function (item) {
+    app.sensors.btnClick(item.text,'底部导航');
+  },
+
 })
 
 // 设置选中状态

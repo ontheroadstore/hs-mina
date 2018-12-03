@@ -30,7 +30,7 @@
     <view class="ranking" wx:if="{{salesGoods.length}}">
       <view class="title">哆嗦排行榜</view>
       <view class="explain">TOP 10</view>
-      <swiper class='ranking_content' current="1" interval="3000" previous-margin="36rpx" next-margin="36rpx" circular="true">
+      <swiper class='ranking_content' current="0" interval="3000" previous-margin="36rpx" next-margin="36rpx" circular="true">
         <swiper-item wx:for="{{salesGoods}}" wx:key="{{item.id}}">
           <view class="goods clearBoth">
             <image bindtap="navigateToGoods" data-satype="1" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="cover" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />

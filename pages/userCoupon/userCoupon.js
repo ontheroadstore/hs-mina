@@ -80,5 +80,11 @@ Page({
     this.setData({
       [showMes]: !bflag
     })
+  },
+  goGetCoupon: function(){
+    app.sensors.btnClick('去领券')
+  },
+  goUseCoupon: function(){
+    app.sensors.btnClick('立即使用')
   }
 })

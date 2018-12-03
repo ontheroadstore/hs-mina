@@ -17,7 +17,7 @@
           <view class="coupon_time" wx:if="{{tagId == 1}}">{{coupon.start_time}}-{{coupon.end_time}}</view>
           <view class="coupon_time" wx:elif="{{tagId == 2}}">已使用</view>
           <view class="coupon_time" wx:else="{{tagId == 2}}">此券已过期</view>
-          <navigator url="../useCoupon/useCoupon" class="coupon_btn" wx:if="{{tagId == 1}}">立即使用</navigator>
+          <navigator url="../downloadApp/downloadApp" class="coupon_btn" bindtap='goUseCoupon' wx:if="{{tagId == 1}}">立即使用</navigator>
           <view class='coupon_shot_note' data-index="{{index}}" bindtap='couponDetailMes'>
             <text>{{coupon.coupon_note}}</text>
             <image class='coupon_shot_note_ico' src='/images/up.png'></image>
@@ -29,6 +29,6 @@
   </view>
 </scroll-view>
 <view class="go_coupon">
-  <navigator url="../getCoupon/getCoupon" class="go_coupon_btn">去领券</navigator>
+  <navigator url="../getCoupon/getCoupon" class="go_coupon_btn" bindtap='goGetCoupon'>去领券</navigator>
 </view>
 

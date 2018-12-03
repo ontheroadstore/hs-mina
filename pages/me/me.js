@@ -59,5 +59,8 @@ Page({
     this.setData({
       getUserInfoStatus: false
     })
-  }
+  },
+  onTabItemTap: function (item) {
+    app.sensors.btnClick(item.text,'底部导航');
+  },
 })

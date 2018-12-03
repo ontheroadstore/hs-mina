@@ -1,8 +1,8 @@
 import { request, setConfig } from './wx-promise-request';
-import { getPageType, addFunctions } from './sensors_fun.js';
+// import { getPageType, addFunctions } from './sensors_fun.js';
 var sensors = require('./sensorsdata.min.js');
 
-initSensors();
+// initSensors();
 
 Promise.prototype.finally = function (callback) {
   let P = this.constructor;
@@ -115,7 +115,7 @@ const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
     })
   })
 }
-
+/*
 // 神策初始化
 function initSensors(){
   sensors.init();
@@ -127,8 +127,9 @@ function initSensors(){
       pageType: getPageType(),
     }
   };
-  addFunctions(sensors);
+  addFunctions(sensors); //为sensors增加其他封装过的方法
 }
+*/
 // 神策header
 function sensorsHeader(){
   let obj = sensors.getPresetProperties();//获取预置属性
