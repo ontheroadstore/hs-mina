@@ -347,12 +347,11 @@ Page({
     let restrictiontypes = this.data.goodInfo.type[oIndex].restrictionTypes
     let remainBuy = this.data.goodInfo.type[oIndex].remainBuy;
     let limitBuyNum = this.data.goodInfo.type[oIndex].limitBuyNum;
-    this.setData({
-      remainBuy
-    })
+    
     if (restrictiontypes !== undefined){
       this.setData({
-        limitBuyText: "限购" + limitBuyNum + "件"
+        limitBuyText: "限购" + limitBuyNum + "件",
+        remainBuy: remainBuy,
       })
       if(remainBuy < 1){
         this.setData({

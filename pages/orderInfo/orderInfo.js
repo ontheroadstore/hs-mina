@@ -95,7 +95,7 @@ Page({
       success: function (res) {
         if (res.confirm) {
           req(app.globalData.bastUrl, 'appv2_1/orders/' + orderNumber + '/received', {
-            uid: app.globalData.userInfo.id
+            uid: app.globalData.hsUserInfo.id
           }, "POST", true).then(res => {
             wx.showToast({
               title: '确认收货成功',
@@ -116,7 +116,7 @@ Page({
       success: function (res) {
         if (res.confirm) {
           req(app.globalData.bastUrl, 'appv5/orders/' + orderId, {
-            uid: app.globalData.userInfo.id
+            uid: app.globalData.hsUserInfo.id
           }, "DELETE", true).then(res => {
             wx.showToast({
               title: '删除订单成功',
