@@ -12,7 +12,8 @@ Page({
     scrollTop: 0,
     orderPages: 1,
     isHideLoadMore: false,
-    orderStatus: false
+    orderStatus: false,
+    showOverToast: false,//是否显示过 没有更多订单 提示
   },
 
   onLoad: function (options) {
@@ -33,7 +34,8 @@ Page({
       ordersItem: [],
       scrollTop: 0,
       orderPages: 1,
-      orderStatus: false
+      orderStatus: false,
+      showOverToast: false,
     })
     this.getOrderList()
   },
@@ -50,6 +52,12 @@ Page({
   getOrderList: function() {
     if (this.data.isHideLoadMore) return
     if (this.data.orderStatus) {
+      if(this.data.showOverToast){
+        return ;
+      }
+      this.setData({
+        showOverToast: true,
+      })
       return wx.showToast({
         title: '没有更多订单',
         icon: 'none',
@@ -123,6 +131,10 @@ Page({
   // 确认收货 传ordernumner
   takeDelivery: function(e) {
     const orderNumber = e.target.dataset.ordernumner
+    const index = e.target.dataset.index
+    const that = this
+    const prop = 'ordersItem[' + index + '].process_status'
+
     wx.showModal({
       title: '提示',
       content: '是否确认收货？',
@@ -135,6 +147,9 @@ Page({
               title: '确认收货成功',
               icon: 'none',
               duration: 1000
+            })
+            that.setData({
+              [prop]: 2
             })
           })
         }

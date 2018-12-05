@@ -12,15 +12,13 @@
         <image class='float_left' src='{{item.avatar}}'></image>
         <view class='user_name float_left'>{{item.user_nicename}}</view>
         <view class='order_status float_right'>
-        <!-- process_status: 33交易关闭，0待发货，1已发货待收货，2交易完成。  -->
-        <!-- order_status: 0待付款，1已付款  -->
-        <block wx:if="{{item.process_status == 33}}">交易关闭</block>
-        <block wx:if="{{item.order_status == 0 && item.process_status != 33}}">待付款</block>
-        <block wx:if="{{item.order_status != 0 && item.process_status == 0}}">待发货</block>
-        <block wx:if="{{item.order_status != 0 && item.process_status == 1}}">待收货</block>
-        <block wx:if="{{item.order_status != 0 && item.process_status == 2}}">交易完成</block>
-        <!-- <block wx:if="{{item.process_status != 33 && item.order_status != 0 && item.process_status == 33}}">交易关闭</block> -->
-        <!-- <block wx:if="{{item.process_status != 33 && item.order_status != 0&&item.process_status!=0&&item.process_status!=1&&item.process_status!=2&&item.process_status!=33}}"></block> -->
+          <!-- process_status: 33交易关闭，0待发货，1已发货待收货，2交易完成。  -->
+          <!-- order_status: 0待付款，1已付款  -->
+          <block wx:if="{{item.process_status == 33}}">交易关闭</block>
+          <block wx:if="{{item.order_status == 0 && item.process_status != 33}}">待付款</block>
+          <block wx:if="{{item.order_status != 0 && item.process_status == 0}}">待发货</block>
+          <block wx:if="{{item.order_status != 0 && item.process_status == 1}}">待收货</block>
+          <block wx:if="{{item.order_status != 0 && item.process_status == 2}}">交易完成</block>
         </view>
       </view>
 
@@ -50,7 +48,8 @@
 
       <view class='btns'>
         <block wx:if="{{item.process_status != 33 && item.order_status == 0}}">
-          <view class='btn float_right' bindtap='immediatePayment'>立即付款</view>
+          <!-- todo: 立即付款没有做功能，暂时禁用 -->
+          <!-- <view class='btn float_right' bindtap='immediatePayment'>立即付款</view> -->
           <view class='btn float_right' bindtap='clearOrder' data-ordernumner="{{item.order_number}}">取消订单</view>
         </block>
         <block wx:if="{{item.process_status != 33 && item.order_status != 0 && item.process_status == 0}}">
@@ -60,7 +59,7 @@
         <!-- process_status: 0待发货，1已发货待收货，2交易完成。33交易关闭  -->
         <!-- order_status: 0待付款，1已付款  -->
 
-        <view wx:if="{{item.order_status != 0 && item.process_status == 1}}" class='btn float_right' bindtap='takeDelivery' data-ordernumner="{{item.order_number}}">确认收货</view> 
+        <view wx:if="{{item.order_status != 0 && item.process_status == 1}}" class='btn float_right' bindtap='takeDelivery' data-ordernumner="{{item.order_number}}" data-index="{{index}}">确认收货</view> 
         <navigator wx:if="{{item.process_status != 0 && item.order_status == 1 }}" hover-class='none' url="/pages/express/express?order_number={{item.order_number}}" class='btn float_right'>
           查看物流
         </navigator>
