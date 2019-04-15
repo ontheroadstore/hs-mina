@@ -50,7 +50,7 @@ Page({
       articleId: options.id
     })
     // 获取商品详情
-    req(app.globalData.bastUrl, 'appv3_1/goods/' + this.data.articleId).then(res => {
+    req(app.globalData.bastUrl, 'appv3_1/goods/' + this.data.articleId+'?mask=1').then(res => {
 
       if (typeof res.data === 'string'){
         //如果data不是对象，可能是含有\u2028,会导致解析错误
@@ -347,7 +347,8 @@ Page({
     let restrictiontypes = this.data.goodInfo.type[oIndex].restrictionTypes
     let remainBuy = this.data.goodInfo.type[oIndex].remainBuy;
     let limitBuyNum = this.data.goodInfo.type[oIndex].limitBuyNum;
-    
+    console.log(restrictiontypes)
+    console.log(remainBuy)
     if (restrictiontypes !== undefined){
       this.setData({
         limitBuyText: "限购" + limitBuyNum + "件",
@@ -360,7 +361,8 @@ Page({
       }
     } else{
       this.setData({
-        limitBuyText: "立即购买"
+        limitBuyText: "立即购买",
+        remainBuy:0
       })
     }
     if(delivery && delivery>0){
@@ -406,8 +408,8 @@ Page({
     })
   },
   addGoodNum: function (e) {
-    const stock = this.data.selectStyleStock
-    let remainBuy = this.data.remainBuy;
+    const stock = this.data.selectStyleStock//库存
+    let remainBuy = this.data.remainBuy;//限购剩余数量
     if (this.data.selectStyleCount == stock) {
       return wx.showToast({
         title: '库存不足，仅剩' + stock + '件',
@@ -415,12 +417,16 @@ Page({
         duration: 1000
       })
     }
+    //选中款式的数量
     if (this.data.remainBuy <= this.data.selectStyleCount){
-      return wx.showToast({
-        title: '您最多可购买' + remainBuy + '件',
-        icon: 'none',
-        duration: 1000
-      })
+      if(this.data.remainBuy!=0){
+        return wx.showToast({
+          title: '您最多可购买' + remainBuy + '件',
+          icon: 'none',
+          duration: 1000
+        })
+      }
+     
     }
     let m = this.data.selectStyleCount + 1
     this.setData({

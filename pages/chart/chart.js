@@ -616,7 +616,7 @@ function countTotalPrice(data) {
   var totalPrice = 0
   data.forEach(function (item, index) {
     item.item.forEach(function (good, i) {
-      if (good['selectStatus'] && good['is_sku_deleted'] == 0 && good['remain'] > 0 && !good['special_offer_end']){
+      if (good['selectStatus'] && good['is_sku_deleted'] == 0 && good['remain'] > 0 && !good['special_offer_end']&& good['status']==1){
         totalPrice += good['numbers'] * good['price']
       } else if (good['selectStatus'] && good['is_sku_deleted'] == 0 && good['remain'] > 0 && good['special_offer_end']){
         totalPrice += good['numbers'] * good['special_offer_price']
@@ -642,5 +642,6 @@ function formTime(end) {
     let min = parseInt((timestamp - hour * 3600) / 60)
     return hour + "小时" + min + "分后恢复原价"
   }
+
 }
 

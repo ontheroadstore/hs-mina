@@ -417,6 +417,7 @@
 .iphoneX_btns{
   padding-bottom: 68rpx;
 }
+
 .btns .add_like,
 .btns .add_chart{
   height: 98rpx;
@@ -749,7 +750,9 @@
 .select_cant_buy{
   width: 100%;
 }
-
+.iphoneX_cant_buy{
+  bottom: 68rpx;
+}
 /* 优惠券列表弹窗 */
 .coupon_popup_mask{
   position: fixed;

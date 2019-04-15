@@ -61,7 +61,7 @@ Page({
             }
           }
           // 如果售罄 下架 直接设置隐藏
-          if (good['is_sku_deleted'] != 0 || good['remain'] <= 0) {
+          if (good['is_sku_deleted'] != 0 || good['remain'] <= 0|| good['status']!=1) {
             good['selectStatus'] = false
             item['selectStatus'] = false
             numItem = numItem - 1

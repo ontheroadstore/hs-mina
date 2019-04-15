@@ -49,7 +49,7 @@
   <view class="chart_content {{isIphoneX? 'isIphoneX_chart_content':''}}" wx:if="{{goodList.length != 0}}">
     <image class='checkbox_icon float_left' bindtap='selectAll' src="{{selectAllStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
     <view class='float_left all_select' bindtap='selectAll'>全选</view>
-    <view class='float_right buy_btn' bindtap='navigatorToCreateOrder'>买他妈的</view>
+    <view class='float_right buy_btn' bindtap='navigatorToCreateOrder'>立即购买</view>
     <view class='float_right no_postage'>不含运费</view>
     <view class='float_right total_text' >总价： <text>￥ {{totalPrice}}</text></view>
   </view>

@@ -81,10 +81,11 @@ const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
       header: {
         'Authorization': wx.getStorageSync('token'),
         'UseSource': 'wxapp', //设置用户来源是小程序
-        'version' : '3.5', //接口版本
+        'version' : '4.0', //接口版本
         'SCProperties': sensorsHeader(),
       }
     }).then(res => {
+     
       if (!showLoadingStatus) {
         wx.hideNavigationBarLoading()
         wx.hideLoading()

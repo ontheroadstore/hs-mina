@@ -106,3 +106,9 @@ image{
   opacity: 0;
   z-index: 1;
 }
+.no_data{
+  text-align:center;
+  line-height:50rpx;
+  font-size:24rpx;
+  color:#ccc;
+}

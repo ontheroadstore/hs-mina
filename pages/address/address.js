@@ -114,15 +114,18 @@ Page({
                     title: '保存成功',
                   })
                 }
-                that.getAddr()
+                that.getAddr(true)
               })
               // addressType=1 设置成功后返回订单页
-              if (that.data.addressType == 1) {
-                const orderType = that.data.orderType
-                wx.navigateTo({
-                  url: '/pages/createOrder/createOrder?type=' + orderType
-                })
-              }
+              // setTimeout(()=>{
+              //   if (that.data.addressType == 1) {
+              //     const orderType = that.data.orderType
+              //     wx.navigateTo({
+              //       url: '/pages/createOrder/createOrder?type=' + orderType
+              //     })
+              //   }
+              // },2000)
+              
             }
           }
         })
@@ -143,11 +146,20 @@ Page({
     })
     
   },
-  getAddr: function () {
+  getAddr: function (type=false) {
+    var that = this
     req(app.globalData.bastUrl, 'appv2/useraddress').then(res => {
       this.setData({
         addressItems: res.data
       })
+      if(type){
+          if (that.data.addressType == 1) {
+              const orderType = that.data.orderType
+              wx.navigateTo({
+                url: '/pages/createOrder/createOrder?type=' + orderType
+              })
+            }
+      }
     })
   },
   //拒绝打开设置授权 

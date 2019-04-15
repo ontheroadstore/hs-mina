@@ -23,8 +23,8 @@
       </view>
 
       <view bindtap='navigateToOrderInfo' data-id="{{item.id}}">
-      <view class='goods_item clearBoth' wx:key="key" wx:for="{{item.goods}}" wx:for-item="good" data-id="{{item.id}}">
-        <image class='float_left' lazy-load mode="aspectFill" src='{{good.image}}' data-id="{{item.id}}"></image>
+      <view class='goods_item clearBoth' wx:key="key" wx:for="{{item.goods}}"  wx:for-index="index" wx:for-item="good" data-id="{{item.id}}">
+        <image class='float_left' lazy-load mode="aspectFill" src='{{good.image}}@320w_1l' data-id="{{item.id}}"></image>
         <view class='good_title float_left' data-id="{{item.id}}">{{good.object_title}}</view>
         <view class='good_type' data-id="{{item.id}}">{{good.goods_type_desc}}</view>
         <view class='good_refund' catchtap='goodRefund'>
@@ -50,7 +50,7 @@
         <block wx:if="{{item.process_status != 33 && item.order_status == 0}}">
           <!-- todo: 立即付款没有做功能，暂时禁用 -->
           <!-- <view class='btn float_right' bindtap='immediatePayment'>立即付款</view> -->
-          <view class='btn float_right' bindtap='clearOrder' data-ordernumner="{{item.order_number}}">取消订单</view>
+          <view class='btn float_right' bindtap='clearOrder' data-idx='{{index}}' data-ordernumner="{{item.order_number}}">取消订单</view>
         </block>
         <block wx:if="{{item.process_status != 33 && item.order_status != 0 && item.process_status == 0}}">
           <view class='btn float_right' bindtap='remindDeliver' data-orderid="{{item.id}}">提醒发货</view> 

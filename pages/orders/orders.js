@@ -101,6 +101,8 @@ Page({
   // 取消订单 传ordernumner
   clearOrder: function(e) {
     const orderNumber = e.target.dataset.ordernumner
+    const cancelIndex = e.target.dataset.idx
+    let that =this
     wx.showModal({
       title: '提示',
       content: '是否取消订单？',
@@ -113,10 +115,21 @@ Page({
               duration: 1000
             })
           })
+          let _ordersItem =  that.data.ordersItem;
+          if(cancelIndex>=0){
+            _ordersItem.splice(cancelIndex,1)
+          }
+          that.setData({
+            ordersItem:_ordersItem
+          })
+
         }
       }
     })
+    
+
   },
+ 
   // 提醒发货 传id
   remindDeliver: function(e) {
     const orderid = e.target.dataset.orderid

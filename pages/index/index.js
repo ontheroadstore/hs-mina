@@ -185,7 +185,8 @@ Page({
     let webUrl = e.target.dataset.url
     let title = e.target.dataset.title
     let index = e.target.dataset.index
-    const url = '/pages/webView/webView?url=' + webUrl + '&title=' + title
+    // const url = '/pages/webView/webView?url=' + webUrl + '&title=' + title
+    const url = '/pages/article/article?id=' + webUrl
     app.sensors.funMkt('banner','首页',webUrl,index,'','');
     wx.navigateTo({
       url: url

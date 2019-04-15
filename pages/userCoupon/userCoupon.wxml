@@ -4,7 +4,7 @@
   <text data-id="2" class="{{tagId==2?'active':''}}" catchtap="tagClick">已使用</text>
   <text data-id="3" class="{{tagId==3?'active':''}}" catchtap="tagClick">已过期</text>
 </view>
-<scroll-view scroll-y class="main">
+<scroll-view scroll-y class="main" lower-threshold='30' bindscrolltolower='loadMore'>
   <view class="content">
     <view class='normal_coupon_wrap {{coupon.show_mes?"open_note":""}}' wx:for="{{couponList}}" wx:key="{{index}}" wx:for-item="coupon">
       <view class="coupon_li">
@@ -26,6 +26,7 @@
       </view>
       <view class='coupon_note'>{{coupon.coupon_note}}</view>
     </view>
+    <view class='no_data' wx:if="{{pageNum!=1&&noData}}">您已经触及到底部了</view>
   </view>
 </scroll-view>
 <view class="go_coupon">

@@ -5,11 +5,13 @@
 		"es6": true,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"autoAudits": true,
+		"uglifyFileName": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.1.0",
-	"appid": "wxcfc41774a81d04f1",
+	"libVersion": "2.6.5",
+	"appid": "wxc85bfe8b88df8a2d",
 	"projectname": "%E5%85%AC%E8%B7%AF%E5%95%86%E5%BA%97%E9%BB%91%E5%B8%82",
 	"isGameTourist": false,
 	"condition": {

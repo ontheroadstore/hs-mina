@@ -6,7 +6,9 @@ import { req } from '../../utils/api.js'
 Page({
   data: {
     tagId:1,
-    couponList:[]
+    couponList:[],
+    pageNum:1,
+    noData:false
   },
   onLoad: function (options) {
     var that = this;
@@ -22,20 +24,47 @@ Page({
   },
   getCouponList:function(obj,num){
     req(app.globalData.bastUrl, 'appv6/coupon/getBuyerCouponList', {
-      type: num
+      type: num,
+      page:this.data.pageNum
     }, "GET").then(res => {
-      obj.setData({
-        couponList: obj.formatCouponData(res.data)
-      })
+      if(res.data.length){
+        if(this.data.pageNum==1){
+          obj.setData({
+            couponList: obj.formatCouponData(res.data)
+          })
+       }else{
+         obj.setData({
+           couponList: obj.data.couponList.concat(obj.formatCouponData(res.data))
+         })
+       }
+     
+      }else{
+
+        this.setData({
+          noData:true
+        })
+      }
+    
     })
   },
   tagClick:function(e){
     let tagId = e.target.dataset.id;
     let that = this;
     this.setData({
-      tagId
+      tagId,
+      pageNum:1,
+      noData:false,
+      couponList:[]
     })
     that.getCouponList(that, tagId)
+  },
+  //分页加载
+  loadMore(){
+    let that = this;
+    this.setData({
+      pageNum:this.data.pageNum+1
+    })
+    that.getCouponList(that, that.data.tagId)
   },
   formatCouponData: function (data) {
     if (data && data.length > 0) {

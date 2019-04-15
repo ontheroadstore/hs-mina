@@ -10,7 +10,8 @@
   <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view>
   <view class='share_content'>
     <view class='good_price' wx:if="{{styleNum == 1 && specialOfferStatus}}">
-      <text class='new_price font_din'>{{specialOfferStatus}}￥{{specialOfferPrice}}</text>
+    <!-- {{specialOfferStatus}}-->
+      <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
       <text class='now_price font_din'>￥{{goodInfo.type[0].price}}</text>
     </view>
     <view class='good_price font_din' wx:if="{{styleNum == 1 && !specialOfferStatus}}">￥ {{goodInfo.type[0].price}}</view>
@@ -134,7 +135,7 @@
     <view class='chart_btn float_left' wx:if="{{!activityCanBy}}" bindtap="{{styleNum> 1?'selectShow':'addChart'}}" data-type="1">加入购物车</view>
     <view class='chart_btn float_left' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
     <view class='buy_btn float_left' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2">立即购买</view>
-    <view class='cant_buy' wx:if='{{goodInfo.is_only_app_sale==1}}' bindtap='downloadApp'>
+    <view class="cant_buy {{isIphoneX ? 'iphoneX_cant_buy':''}}" wx:if='{{goodInfo.is_only_app_sale==1}}' bindtap='downloadApp'>
       <text class='open_app_title'>打开APP</text>
       <text class='open_app_txt'>仅有少量现货在APP上购买</text>
     </view>
@@ -159,6 +160,7 @@
         <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
         <text class='now_price font_din'>￥{{selectStylePrice}}</text>
       </view>
+      <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view>
       <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view>
       <scroll-view class='styles_content' scroll-y="{{selectScrollStatus}}">
         <view id='styles_select'>
@@ -183,7 +185,7 @@
 
         <view class='buy_btn {{btnStatus?"buy_btn_no":""}}' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}">{{limitBuyText}}</view>
 
-      <view class='select_cant_buy cant_buy' wx:if='{{goodInfo.is_only_app_sale==1}}' bindtap='downloadApp'>
+      <view class="select_cant_buy cant_buy {{isIphoneX ? 'iphoneX_cant_buy':''}}" wx:if='{{goodInfo.is_only_app_sale==1}}' bindtap='downloadApp'>
         <text class='open_app_title'>打开APP</text>
         <text class='open_app_txt'>仅有少量现货在APP上购买</text>
       </view>
