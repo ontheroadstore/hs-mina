@@ -1,6 +1,5 @@
 {
   "pages": [
-    
     "pages/index/index",
     "pages/activity/activity",
     "pages/activityShare/activityShare",
@@ -20,8 +19,9 @@
     "pages/secondLevelChart/secondLevelChart",
     "pages/webView/webView",
     "pages/purchaseList/purchaseList",
-    "pages/getCoupon/getCoupon",    
+    "pages/getCoupon/getCoupon",
     "pages/userCoupon/userCoupon",
+    "pages/getCollectCoupon/getCollectCoupon",
     "pages/downloadApp/downloadApp"
   ],
   "window": {
@@ -57,5 +57,6 @@
       }
     ]
   },
-  "debug": false
+  "debug": false,
+  "sitemapLocation": "sitemap.json"
 }

@@ -23,13 +23,32 @@ App({
         }
         // 判断当前环境，填写baseUrl//实际上是baseUrl，只是其他地方都写错了。
         this.globalData.bastUrl = res.platform == 'devtools' ? 'https://api.ontheroadstore.com/' : 'https://api.ontheroadstore.com/'
-        //this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://apitest.ontheroadstore.com/'
+        // this.globalData.bastUrl = res.platform == 'devtools' ? 'https://apitest.ontheroadstore.com/' : 'https://apitest.ontheroadstore.com/'
       }
     })
     this.login()
     sensorsFuns(sensors, this) //神策一些方法处理，传入sensors和app 
   },
-  onShow: function() {},
+  onShow: function(opt) {
+      //收藏场景进来领取优惠券
+      if (opt.scene === 1089) {
+        req(this.globalData.bastUrl, `appv6/coupon/receiveMultipleCoupon?from="collect_coupon"`, {
+          couponList:["2019051614110718185"]
+        }, 'POST').then(res => {
+  
+          if (res.status == 1) {
+            setTimeout(()=>{
+              wx.showToast({
+                title: '10元优惠券已到账，下单即可使用',
+                icon: 'none',
+                duration: 2000
+              })
+            },2500)
+          }
+        })
+       }
+  
+  },
   onHide: function() {},
   onError: function() {},
   login: function(callback) {

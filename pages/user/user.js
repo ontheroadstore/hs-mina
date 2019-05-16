@@ -21,10 +21,12 @@ Page({
     pageFlag:0,                //1显示分类，2显示全部
   },
   onLoad: function (options) {
-    
-    wx.setNavigationBarTitle({
-      title: options.name
-    })
+    if(options.name){
+      wx.setNavigationBarTitle({
+        title: options.name
+      })
+    }
+   
     
     this.setData({
       userId: options.id
@@ -81,6 +83,11 @@ Page({
       'cur_page': this.data.usergoodsPages,
       'to_user_id': this.data.userId
     }).then(res => {
+      if(res.data.sellername){
+        wx.setNavigationBarTitle({
+          title: res.data.sellername
+        })
+      }
       this.setData({
         userGoods: this.data.userGoods.concat(res.data.user_items),
         usergoodsPages: this.data.usergoodsPages + 1,

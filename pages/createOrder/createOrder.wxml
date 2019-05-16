@@ -73,6 +73,57 @@
       <view class='postage float_right' wx:if="{{!addressInfo}}">请选择地址</view>
       <view class='postage float_right' wx:else>含运费￥ {{totalPostage}}</view>
       <view class='tatol float_right'>总计： <text>￥ {{totalPrice}}</text></view>
+      <!-- 优惠券选择按钮 -->
+      <view class="use-coupon" data-type="1"  bindtap='setCouponPopup'>
+        <view class="float_left">
+          优惠券
+        </view>
+        <view class="float_right">
+          <view wx:if="{{canUseCoupon.length==0}}">暂无优惠券</view>
+          <view wx:elif="{{useCouponPrice}}" style="color:#AE2121;">已优惠{{useCouponPrice}}元</view>
+          <view wx:else style="color:#AE2121;">{{canUseCoupon.length}}张可用</view>
+          <image class='gt_icon' src='/images/gt.png'></image>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 优惠券使用弹窗 -->
+  <view class="coupon_popup_mask" catchtouchmove="true" bindtap='setCouponPopup' data-type="0" hidden="{{couponPopup===1 ? false : true}}">
+    <view class="coupon_popup_wrap" catchtap='setCouponPopup'>
+        <view class="coupon_popup_title">优惠券</view>
+        <view class="tag">
+            <text data-id="1" class="{{tagId==1?'active':''}}" catchtap="tagClick">可用优惠券</text>
+            <text data-id="2" class="{{tagId==2?'active':''}}" catchtap="tagClick">不可用优惠券</text>
+          </view>
+          <scroll-view scroll-y class="sub-main" lower-threshold='30' bindscrolltolower='loadMore'>
+            <view class="content">
+              <radio-group class="radio-group" bindchange="selectCoupon">
+                <view class='normal_coupon_wrap {{coupon.show_mes?"open_note":""}}' wx:for="{{couponList}}" wx:key="{{index}}" wx:for-item="coupon">
+                  <view class="coupon_li">
+                    <view class="coupon_left">
+                      <view class="coupon_price font_din" style="color:{{tagId !=1?'#8e8e8e':''}}">¥{{coupon.coupon_price}}</view>
+                      <view class="coupon_tip" style="color:{{tagId !=1?'#8e8e8e':''}}">{{coupon.desc}}</view>
+                    </view>
+                    <view class="coupon_right">
+                      <view class="coupon_name">{{coupon.title}}</view>
+                      <view class="coupon_un_use" wx:if="{{tagId == 2}}">{{coupon.reason}}</view>
+                      <view class="coupon_time">{{coupon.start_time}}-{{coupon.end_time}}</view>
+                      <radio class="radio-item" wx:if="{{tagId==1}}" disabled="{{tagId == 1?false:true}}" color="#AE2121" checked="{{coupon.id==useCouponId?true:false}}"  value="{{coupon.id}}" name="1"/>
+                      <!-- <navigator url="../downloadApp/downloadApp" class="coupon_btn" bindtap='goUseCoupon' wx:if="{{tagId == 1}}">立即使用</navigator> -->
+                      <view class='coupon_shot_note' data-index="{{index}}" bindtap='couponDetailMes'>
+                        <text>{{coupon.coupon_note}}</text>
+                        <image class='coupon_shot_note_ico' src='/images/up.png'></image>
+                      </view>
+                    </view>
+                  </view>
+                  <view class='coupon_note'>{{coupon.coupon_note}}</view>
+                </view>
+              </radio-group>
+              <view class='no_data' wx:if="{{pageNum!=1&&noData}}">您已经触及到底部了</view>
+            </view>
+          </scroll-view>
+
+      <view class="coupon_popup_ok" catchtap='setCouponPopup' data-type="0">完成</view>
     </view>
   </view>
 </scroll-view>

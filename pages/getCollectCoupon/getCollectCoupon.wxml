@@ -1,0 +1,19 @@
+<view class="collect-coupon">
+    <view class="top-bg">
+            <image src="https://img8.ontheroadstore.com/wxapp_static/store/get_coupon_bg.jpg"></image>
+    </view>
+    <view class="cont">
+        <view class="tip-step-1">
+            1、点击右上角“...”将“公路商店Store”小程序添加至我的小程 序（需升级至微信最新版）
+        </view>
+        <view class="image_step-1">
+            <image src="https://img8.ontheroadstore.com/wxapp_static/store/get_coupon_step1.jpg"></image>
+        </view>
+        <view class="tip-step-2">
+            2、退出小程序，在微信首页下拉任务栏（下图所示），点击重新 进入小程序，即可获得优惠券奖励。
+        </view>
+        <view class="image-step-2">
+            <image src="https://img8.ontheroadstore.com/wxapp_static/store/get_coupon_step2.jpg"></image>
+        </view>
+    </view>
+</view>

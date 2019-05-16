@@ -96,6 +96,9 @@ const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
             resolve(res.data)
             break;
           default:
+          if(url.indexOf("collect_coupon")!=-1){
+            return
+          }
             wx.showToast({ title: res.data.info.toString(), icon: 'none', duration: 2000 })
             reject(res.data)
         }

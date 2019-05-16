@@ -60,7 +60,7 @@
         <!-- order_status: 0待付款，1已付款  -->
 
         <view wx:if="{{item.order_status != 0 && item.process_status == 1}}" class='btn float_right' bindtap='takeDelivery' data-ordernumner="{{item.order_number}}" data-index="{{index}}">确认收货</view> 
-        <navigator wx:if="{{item.process_status != 0 && item.order_status == 1 }}" hover-class='none' url="/pages/express/express?order_number={{item.order_number}}" class='btn float_right'>
+        <navigator wx:if="{{item.process_status != 0 && item.order_status == 1 && item.process_status!=33}}" hover-class='none' url="/pages/express/express?order_number={{item.order_number}}" class='btn float_right'>
           查看物流
         </navigator>
         <view  wx:if="{{item.process_status > 1}}" class='btn float_right' bindtap='deleteOrder' data-orderid="{{item.id}}" data-index="{{index}}">删除订单</view> 

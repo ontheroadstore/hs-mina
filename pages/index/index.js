@@ -22,17 +22,29 @@ Page({
     newGoods: [],                 // 新品列表
     apiStatus: 0,                 // 顺序加载
     activityStatus: false,        // 活动状态
+    guideStatus: true,            //引导添加到我的小程序提示的状态 
     sensors:{
       lv1:'',//当前一级分类名
       lv2:'',//当前二级分类名
     }
   },
-  onLoad: function () {
+  onLoad: function (opt) {
+   
     wx.showNavigationBarLoading()
     wx.showLoading({
       title: '加载中',
       mask: true
     })
+    //判断提示是否显示
+    if(wx.getStorageSync('cacheGuideStatus')){
+      this.setData({
+        guideStatus:true
+      })
+    }else{
+      this.setData({
+        guideStatus: false
+      })
+    }
     // 更新今日推荐 副标题时间
     this.getTime()
     // 查看活动是否结束
@@ -88,8 +100,9 @@ Page({
   tabtap: function (e) {
     let that = this
     // tab切换
-    let id = e.target.dataset.id
-    let name = e.target.dataset.name
+    let id,name
+      id = e.target.dataset.id
+      name = e.target.dataset.name
     this.setData({
       tabIndex: id,
       categoriesTabIndex:id
@@ -197,6 +210,19 @@ Page({
     wx.navigateTo({
       url: '/pages/activity/activity'
     })
+  },
+  //跳转到收藏优惠券提示页面
+  jumpCollectCoupon(){
+    wx.navigateTo({
+      url:'/pages/getCollectCoupon/getCollectCoupon'
+    })
+  },
+  //关闭收藏提示
+  closeGuide(){
+    this.setData({
+      guideStatus:true
+    })
+    wx.setStorageSync('cacheGuideStatus', true)
   },
   // 卖家中心跳转user
   navigateToUser: function (e) {

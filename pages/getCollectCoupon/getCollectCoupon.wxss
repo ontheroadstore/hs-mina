@@ -1,0 +1,28 @@
+/* pages/getCollectCoupon/getCollectCoupon.wxss */
+.collect-coupon{
+    background: #3F0606;
+    font-size: 24rpx;
+    color: #FFFFFF;
+}
+
+.cont{
+    padding-bottom: 500rpx;
+}
+.top-bg{
+    width: 100vw;
+    height: 546rpx;
+}
+.image_step-1{
+    width: 516rpx;
+    height: 334rpx;
+    margin: 50rpx auto;
+}
+.image-step-2{
+    width: 540rpx;
+    height: 426rpx;
+    margin: 50rpx auto;
+}
+.tip-step-1,.tip-step-2{
+    width: 670rpx;
+    margin: 0 auto;
+}

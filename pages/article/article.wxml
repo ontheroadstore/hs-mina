@@ -198,7 +198,7 @@
   <image src='/images/returnIndex.png' class="return_index {{isIphoneX ? 'iphoneX_return_index':''}}" bindtap="returnIndex"></image>
 
 <!-- 优惠券列表弹窗 -->
-  <view class="coupon_popup_mask"  bindtap='setCouponPopup' data-type="0" hidden="{{couponPopup===1 ? false : true}}">
+  <view class="coupon_popup_mask" catchtouchmove="true"  bindtap='setCouponPopup' data-type="0" hidden="{{couponPopup===1 ? false : true}}">
     <view class="coupon_popup_wrap" catchtap='setCouponPopup'>
       <view class="coupon_popup_title">优惠券</view>
       <scroll-view class="coupon_popup_ul" scroll-y="true">
@@ -221,7 +221,7 @@
     </view>
   </view>
 
-  <view class="coupon_popup_mask"  bindtap='setCouponPopup' data-type="0" hidden="{{couponPopup===2 ? false : true}}">
+  <view class="coupon_popup_mask" catchtouchmove="true"  bindtap='setCouponPopup' data-type="0" hidden="{{couponPopup===2 ? false : true}}">
     <view class="coupon_popup_wrap" catchtap='setCouponPopup'>
       <view class="coupon_popup_title">优惠券</view>
       <scroll-view class="coupon_popup_ul" scroll-y="true">

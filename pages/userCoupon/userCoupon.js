@@ -113,7 +113,49 @@ Page({
   goGetCoupon: function(){
     app.sensors.btnClick('去领券')
   },
-  goUseCoupon: function(){
+  goUseCoupon: function(e){
+   let coupon = e.currentTarget.dataset.coupon
+   console.log(coupon)
+    switch(true){
+      case coupon.apply_to==1:
+      //全场券首页
+        wx.switchTab({
+          url: '/pages/index/index'
+        });
+        break;
+      case coupon.apply_to==2:
+      //指定分类
+        wx.switchTab({
+          url: '/pages/index/index?id='+coupon.apply_object_id[0]
+        });
+
+        break;
+      case coupon.apply_to ==3:
+      //卖家
+        wx.navigateTo({
+          url: '/pages/user/user?id='+coupon.apply_object_id[0]
+        });
+        break;
+      case coupon.apply_to ==4:
+        wx.navigateTo({
+          url: '/pages/article/article?id='+coupon.apply_object_id[0]
+        });
+        break;
+      default:
+
+        wx.switchTab({
+          url: '/pages/index/index'
+        });
+        // wx.navigateTo({
+        //   url: '',
+        //   success: (result)=>{
+            
+        //   },
+        //   fail: ()=>{},
+        //   complete: ()=>{}
+        // });
+    }
+
     app.sensors.btnClick('立即使用')
   }
 })

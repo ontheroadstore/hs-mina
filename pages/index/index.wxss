@@ -300,4 +300,35 @@
   height: 60rpx;
   background: none;
 }
+/*领取优惠券*/
+.collect-coupon{
+  position: fixed;
+  right: 40rpx;
+  bottom: 400rpx;
+  width: 93rpx;
+  height: 104rpx;
+  background: url('https://img8.ontheroadstore.com/wxapp_static/smoke/icon_home_coupon.png') no-repeat;
+  background-size: cover;
+  /* border-radius: 100%; */
+  overflow: hidden;
+}
+.guide{
+  width: 486rpx;
+  height: 165rpx;
+  background: url(https://img8.ontheroadstore.com/wxapp_static/smoke/guide.png?123) no-repeat;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  right: 50rpx;
+  z-index: 999;
+}
+.close-guide{
+  position: absolute;
+  display: block;
+  width: 50rpx;
+  height: 50rpx;
+  top: 40rpx;
+  right: 15rpx;
+  z-index: 6;
+}
 

@@ -15,6 +15,12 @@ Page({
     orderNumber: null,            // 订单号 HS20180510144319VWW33O
     isIphoneX: app.globalData.isIphoneX,      // 是否IphoneX
     goodCanSell: false,           // 用户是否优惠
+    canUseCoupon: [],         //可用优惠券
+    unUseCoupon:[],           //不可用优惠券
+    tagId:1,    //选择优惠券
+    couponList:[],//当前优惠券渲染列表
+    useCouponId:'',//使用的优惠券id
+    useCouponPrice:'' //使用的优惠券金额
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
@@ -36,7 +42,7 @@ Page({
       }
       let totalPostage = orderData.newType[0].postage
       // 总价
-      const countPrice = countTotalPrice(orderData, 0)
+      const countPrice = this.reduceCoupon(countTotalPrice(orderData, 0))
       this.setData({
         orderType: 0,
         singleOrder: orderData,
@@ -44,7 +50,6 @@ Page({
         totalPrice: countPrice.totalPrice
       })
     }
-
     if (options.type == 1) {
       let orderList = wx.getStorageSync('chartData')
       let that = this;
@@ -78,7 +83,7 @@ Page({
         item['maxPostage'] = maxPostage
         item['desc'] = null
       })
-      const countPrice = countTotalPrice(orderList, 1)
+      const countPrice = this.reduceCoupon(countTotalPrice(orderList, 1))
       this.setData({
         orderType: 1,
         orderList: orderList,
@@ -95,6 +100,7 @@ Page({
         })
         //todo: 如果有地址就去发请求更新邮费
         this.updateFreightFee(res.data); 
+        this.getCouponList()
       }
     })
     // 获取活动状态
@@ -110,7 +116,7 @@ Page({
             // 修改显示价格
             var singleOrder = this.data.singleOrder
             singleOrder.newType[0].price = singleOrder.newType[0].price - 5
-            const countPrice = countTotalPrice(singleOrder, 0)
+            const countPrice = this.reduceCoupon(countTotalPrice(singleOrder, 0))
             this.setData({
               singleOrder: singleOrder,
               totalPrice: countPrice.totalPrice
@@ -119,6 +125,7 @@ Page({
         })
       }
     })
+    //获取可用优惠券列表
   },
   // 添加备注
   descContent: function (e) {
@@ -229,12 +236,170 @@ Page({
       }
     })
   },
+  //优惠券tab
+  tagClick:function(e){
+    let tagId = e.target.dataset.id;
+    let that = this;
+    this.setData({
+      tagId
+    })
+    that.getCouponList()
+  },
+  couponDetailMes: function (e) {
+    let index = e.currentTarget.dataset.index;
+    let showMes = "couponList[" + index + "].show_mes";
+    let bflag = this.data.couponList[index].show_mes;
+    this.setData({
+      [showMes]: !bflag
+    })
+  },
+  //显示优惠券弹窗
+  setCouponPopup: function(event){
+    let type = +event.currentTarget.dataset.type;
+    if(type >= 0){
+      this.setData({
+        couponPopup: type,
+      })
+    };
+  },
+  //点击选择使用优惠券
+  selectCoupon(e){
+
+    this.setData({
+      useCouponId: e.detail.value
+    })
+    if(this.data.orderType==1){
+      var countPrice =  this.reduceCoupon(countTotalPrice(this.data.orderList, this.data.orderType))
+    }else{
+      var countPrice =  this.reduceCoupon(countTotalPrice(this.data.singleOrder, this.data.orderType))
+    }
+  
+    this.setData({
+      totalPrice: countPrice.totalPrice
+    })
+  },
+  //获取可使用优惠券
+  getCouponList(){
+    let order = this.getOrderData()
+    req(app.globalData.bastUrl, 'appv6/coupon/getOrderCouponList', {
+      orders: order
+    }, 'POST').then(res => {
+      if (res.code == 1) {
+      if(res.data.useCoupon){
+        let _useCoupon = res.data.useCoupon
+         _useCoupon.forEach(v=>{
+          v.start_time = this.couponFmtTime(v.apply_time_start);  // 使用开始时间
+          v.end_time = this.couponFmtTime(v.apply_time_end);   
+        })
+      }
+      if(res.data.useNoCoupon){
+        let _useNocoupon = res.data.useNoCoupon
+        _useNocoupon.forEach(v=>{
+          v.start_time = this.couponFmtTime(v.apply_time_start);  // 使用开始时间
+          v.end_time = this.couponFmtTime(v.apply_time_end);   
+        })
+      }
+      this.setData({
+        canUseCoupon: res.data.useCoupon,
+        unUseCoupon: res.data.useNoCoupon
+      })
+        if(this.data.tagId==1){
+          this.setData({
+            couponList: res.data.useCoupon
+          })
+        }else{
+          this.setData({
+            couponList: res.data.useNoCoupon
+          })
+        }
+      }
+    })
+  },
+  //减去优惠券的价格计算
+  reduceCoupon(param){
+    console.log("useCouponId:"+this.data.useCouponId)
+    if(this.data.useCouponId){
+      this.data.canUseCoupon.forEach(v=>{
+        if(v.id==this.data.useCouponId){
+          param.totalPrice-=v.coupon_price
+          this.setData({
+            useCouponPrice: v.coupon_price
+          })
+        }
+      })
+    }
+    return param
+  },
+  //订单数据
+  getOrderData(){
+    let createOrderData = []
+    // 多个订单 orderList 在orderList提取需要提交的数据
+    if (this.data.orderType == 1) {
+      this.data.orderList.forEach(function (item, index) {
+        if (item.childOrderShow) {
+          let newItem = []
+          item.item.forEach(function (good, i) {
+            if (good.selectStatus) {
+              newItem.push({
+                counts: good.numbers,
+                item_id: good.item_id,
+                mid: good.model_id
+              })
+            }
+          })
+          if (!item.desc) {
+            item.desc = ''
+          }
+          createOrderData.push({
+            attach: item.desc,
+            items: newItem,
+            seller_name: item.seller_name,
+            seller_uid: item.seller_user_id
+          })
+        }
+      })
+    }
+
+    // 直接从地址跳入购买
+    if (this.data.orderType == 0) {
+      // 因为后端的原因，attach不能为null，设成''空字符
+      var desc = ''
+      if (this.data.singleOrder.newType[0].desc) {
+        desc = this.data.singleOrder.newType[0].desc
+      }
+      createOrderData = [{
+        attach: desc,
+        items: [{
+          counts: this.data.singleOrder.newType[0].number,
+          item_id: this.data.singleOrder.articleId,
+          mid: this.data.singleOrder.newType[0].id
+        }],
+        seller_name: this.data.singleOrder.seller.name,
+        seller_uid: this.data.singleOrder.seller.id
+      }]
+    }
+    return createOrderData
+  },
+  //格式化时间
+  couponFmtTime: function (time) {
+    function fixNum(v) {
+      return v < 10 ? '0' + v : v;
+    }
+    time = String(time).length === 10 ? time * 1000 : time;
+    var t = new Date(time);
+    var y = fixNum(t.getFullYear());
+    var m = fixNum(t.getMonth() + 1);
+    var d = fixNum(t.getDate());
+    return y + '.' + m + '.' + d;
+  },
+  //创建订单
   createorder: function (order) {
-    req(app.globalData.bastUrl, 'appv3_1/createorder', {
+    req(app.globalData.bastUrl, 'appv6/createorder', {
       address_id: this.data.addressInfo.id,
       type: 1,
       orders: order,
-      payment_type: 3
+      payment_type: 3,
+      user_coupon_id: this.data.useCouponId
     }, 'POST').then(res => {
       if (res.code == 1) {
         this.buychecking(res.data)
@@ -328,7 +493,7 @@ Page({
           }
         })
       })
-      const countPrice = countTotalPrice(this.data.orderList, orderType)
+      const countPrice = this.reduceCoupon(countTotalPrice(this.data.orderList, orderType))
       this.setData({
         orderList: this.data.orderList,
         totalPostage: countPrice.totalPostage,
@@ -345,14 +510,16 @@ Page({
         this.data.singleOrder.newType[0].number = 1
       } else {
         this.data.singleOrder.newType[0].number = this.data.singleOrder.newType[0].number - 1
+         //更新优惠券信息
+       this.getCouponList()
       }
-      const countPrice = countTotalPrice(this.data.singleOrder, orderType)
-      // console.log(this.data.singleOrder)
+      const countPrice = this.reduceCoupon(countTotalPrice(this.data.singleOrder, orderType))
       this.setData({
         singleOrder: this.data.singleOrder,
         totalPrice: countPrice.totalPrice
       })
     }
+   
   },
   addNum: function (e) {
     const orderType = this.data.orderType;
@@ -376,6 +543,8 @@ Page({
         //判断款式是否限购
         if (sellerArr.item[goodIndex].numbers < sellerArr.item[goodIndex].remainBuy) {
           sellerArr.item[goodIndex].numbers = sellerArr.item[goodIndex].numbers + 1
+          //更新优惠券
+          this.getCouponList()
         } else {
           wx.showToast({
             icon: 'none',
@@ -395,17 +564,22 @@ Page({
           })
         } else {
           sellerArr.item[goodIndex].numbers = sellerArr.item[goodIndex].numbers + 1
+          //更新优惠券
+          this.getCouponList()
         }
       } else {
         sellerArr.item[goodIndex].numbers = sellerArr.item[goodIndex].numbers + 1
+        //更新优惠券
+        this.getCouponList()
       }
-      const countPrice = countTotalPrice(this.data.orderList, orderType)
+      const countPrice = this.reduceCoupon(countTotalPrice(this.data.orderList, orderType))
       this.setData({
         orderList: this.data.orderList,
         totalPostage: countPrice.totalPostage,
         totalPrice: countPrice.totalPrice
       })
     } else {
+      console.log(e.target.dataset.remain)
       const remain = e.target.dataset.remain
       let num = this.data.singleOrder.newType[0].number
       if (num >= remain) {
@@ -423,13 +597,17 @@ Page({
         })
       }else{
         this.data.singleOrder.newType[0].number = this.data.singleOrder.newType[0].number + 1
+        //更新优惠券
+        this.getCouponList()
       }
-      const countPrice = countTotalPrice(this.data.singleOrder, orderType)
+      const countPrice = this.reduceCoupon(countTotalPrice(this.data.singleOrder, orderType))
       this.setData({
         singleOrder: this.data.singleOrder,
         totalPrice: countPrice.totalPrice
       })
     }
+
+    
   },
   // 修改订单信息进行付款（待付款订单进入付款）
   updatePayment: function () {
@@ -483,7 +661,7 @@ Page({
 
           //更新总邮费和总价格
           let totalPostage = newPostage
-          const countPrice = countTotalPrice(that.data.singleOrder, 0)
+          const countPrice = this.reduceCoupon(countTotalPrice(that.data.singleOrder, 0))
           that.setData({
             totalPostage: totalPostage,
             totalPrice: countPrice.totalPrice
@@ -502,7 +680,7 @@ Page({
 
           })
           //更新总邮费和总价格
-          const countPrice = countTotalPrice(orderList, 1)
+          const countPrice = this.reduceCoupon(countTotalPrice(orderList, 1))
           that.setData({
             totalPostage: countPrice.totalPostage,
             totalPrice: countPrice.totalPrice
@@ -531,12 +709,14 @@ function countTotalPrice(data, n) {
         totalPrice += item['maxPostage']
       }
     })
+   
     return {
       totalPostage: totalPostage,
       totalPrice: totalPrice
     }
   } else {
     let totalPrice = Number(data.newType[0].postage) + data.newType[0].price * data.newType[0].number
+
     return {
       totalPrice: totalPrice
     }
