@@ -20,7 +20,11 @@ Page({
     tagId:1,    //选择优惠券
     couponList:[],//当前优惠券渲染列表
     useCouponId:'',//使用的优惠券id
-    useCouponPrice:'' //使用的优惠券金额
+    useCouponPrice:'',//使用的优惠券金额
+    idCard: '', //身份证号
+    isEdit: false, //是去编辑
+    isOverSeas: false, //是否是海外的商品
+    hasIdCard: false //是否有身份证信息
   },
   onLoad: function (options) {
     wx.setNavigationBarTitle({
@@ -95,8 +99,16 @@ Page({
     // "appv2/defaultaddress" morendizhi
     req(app.globalData.bastUrl, 'appv2/defaultaddress', {}).then(res => {
       if (res.status == 1) {
+        let sfz = ''
+        if(res.data.shenfenzheng){
+          this.setData({
+            hasIdCard: true
+          })
+          sfz = res.data.shenfenzheng.substr(0,4)+'**********'+ res.data.shenfenzheng.substr(14,4)
+        }
         this.setData({
-          addressInfo: res.data
+          addressInfo: res.data,
+          idCard: sfz
         })
         //todo: 如果有地址就去发请求更新邮费
         this.updateFreightFee(res.data); 
@@ -125,7 +137,71 @@ Page({
         })
       }
     })
+    //获取是否是海外商品
+    this.checkIsOverSeas()
     //获取可用优惠券列表
+  },
+  //获取身份证号
+  getIdCardNumber(e){
+    console.log(e)
+    this.setData({
+      idCard: e.detail.value
+    })
+  },
+  saveIdCardNumber(){
+    var p = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
+    if(p.test(this.data.idCard)){
+      req(app.globalData.bastUrl, 'appv6/checkIdNumber', {
+        address_id: this.data.addressInfo.id,
+        id_number: this.data.idCard
+      },'POST').then(res => {
+        if (res.code == 1) {
+          this.setData({
+            hasIdCard: true,
+            idCard:  this.data.idCard.substr(0,4)+'**********'+ this.data.idCard.substr(14,4)
+          })
+        }
+      })
+
+    }else{
+     
+      wx.showToast({
+        title: '请输入正确的身份证号',
+        icon: 'none',
+        duration: 1000
+      })
+      this.setData({
+        idCard: ''
+      })
+    }
+  },
+  showEditIdCard(){
+    this.setData({
+      hasIdCard: false,
+      idCard:'',
+      isEdit: true
+
+    })
+  },
+  checkIsOverSeas(){
+    if(this.data.singleOrder.title){
+      let status =  this.data.singleOrder.require_duty==1?true:false
+      this.setData({
+        isOverSeas: status
+      })
+    }else{
+      let orderList =this.data.orderList
+      console.log(orderList)
+      orderList.forEach(v=>{
+          v.item.forEach(t=>{
+            if(t.require_duty==1&&t.selectStatus){
+              this.setData({
+                isOverSeas: true
+              })
+            }
+          })
+      })
+    }
   },
   // 添加备注
   descContent: function (e) {
@@ -156,7 +232,17 @@ Page({
         duration: 1000
       })
     }
-
+    //检测是否是海外商品
+    if(this.data.isOverSeas){
+      if(this.data.idCard==""){
+        wx.showToast({
+          title: '请检查身份证号',
+          icon: 'none',
+          duration: 1000
+        })
+        return
+      }
+    }
     var createOrderData = []
     // 多个订单 orderList 在orderList提取需要提交的数据
     if (this.data.orderType == 1) {

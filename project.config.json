@@ -34,7 +34,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 2,
 			"list": [
 				{
 					"id": 0,
@@ -48,6 +48,13 @@
 					"name": "我的优惠券",
 					"pathName": "pages/userCoupon/userCoupon",
 					"query": "id=20834",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "测试1",
+					"pathName": "pages/createOrder/createOrder",
+					"query": "id=22100&utm_source=xiaowang0512",
 					"scene": null
 				}
 			]

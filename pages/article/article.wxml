@@ -28,6 +28,15 @@
     <image class='share' src='/images/share.png' bindtap='share'></image>
     <button class='share_btn' open-type="share">转发</button>
   </view>
+  <view class="overseas" wx:if="{{goodInfo.require_duty}}">
+    <!-- <view class="cont">  
+      <text>超狠洋货</text>
+      <text class="dot">·</text>
+      <text>保税仓发货</text>
+      <text class="red">购买需填写收货人身份证号</text>
+    </view> -->
+    <image  mode="aspectFill" src="https://img8.ontheroadstore.com/wxapp_static/store/duty_line.png"></image>
+  </view>
   <view class='user_introduce clearBoth' wx:if="{{goodInfo.seller.announcement}}">
     <image class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='头像' src='{{goodInfo.seller.avatar}}'></image>
     <text class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='店铺'>{{goodInfo.seller.announcement}}</text>

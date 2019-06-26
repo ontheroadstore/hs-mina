@@ -2,7 +2,7 @@ var conf = {
   // 神策分析注册在APP全局函数中的变量名，在非app.js中可以通过getApp().sensors(你这里定义的名字来使用)
   name: 'sensors',
   // 如果要通过sdk自动获取openid，需要在神策分析中配置appid和appsercret，并在这里标志appid,不需要的话，不用填。
-  appid: 'wx16ce2f6e06acd4d5',
+  appid: 'wxc85bfe8b88df8a2d',
   // 神策分析数据接收地址
   server_url: 'https://sc.ontheroadstore.com/sa?project=production',//正式服务器
   // server_url: 'https://sc.ontheroadstore.com/sa?project=default',//测试服务器 todo::注意

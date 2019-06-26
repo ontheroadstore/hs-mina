@@ -117,7 +117,7 @@ Page({
       //生成卖出数量文字
       let soldCountTxt = '';
       if (goodInfo.purchaseList && goodInfo.purchaseList.total_count>0){
-        let soldCount = goodInfo.purchaseList.total_count;
+        let soldCount = goodInfo.sale_count;
         if (soldCount>10000){
           soldCount = Math.ceil(soldCount/1000)/10;
           soldCountTxt = soldCount + '万';

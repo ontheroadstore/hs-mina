@@ -863,7 +863,37 @@
   color: #fff;
 }
 
+/**海外商品需要身份证**/
+.overseas{
+  border-bottom:  2rpx solid #e8e8e8;
+}
+.overseas image{
+  width: 690rpx;
+  height: 52rpx;
+  margin: 30rpx auto;
+  
+}
+.overseas .cont{
+  height: 56rpx;
+  font-size: 28rpx;
+  width: 690rpx;
+  margin: 30rpx;
+  background: #f4f4f4;
+  border-radius: 8rpx;
+  text-align: center;
+}
 
+.overseas text{
+  display: inline-block;
+  line-height: 56rpx;         
+}
+.overseas .dot{
+  padding: 0 22rpx;
+}
+.overseas .red{
+  padding-left: 22rpx;
+  color: #AE2121;
+}
 
 
 

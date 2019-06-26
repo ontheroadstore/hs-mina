@@ -8,6 +8,20 @@
       <image class='gt_icon' src='/images/gt.png'></image>
       <view class='no_address' wx:if="{{!addressInfo}}">添加地址</view>
     </view>
+    <!-- 海外商品需要身份证验证 -->
+    <view class="post_card" wx:if="{{isOverSeas}}">
+      <view class="clearBoth">
+        <view class="txt">
+            身份证号
+        </view>
+        <input  wx:if="{{!hasIdCard}}" type="idcard" focus="{{isEdit}}" bindinput='getIdCardNumber' bindblur="saveIdCardNumber"/>
+        <view class="finish_id" wx:if="{{hasIdCard}}" bindtap="showEditIdCard">{{idCard}}</view>
+      </view>
+      <view class="tips">
+        * 因海关需要，请填写收货人身份证号
+      </view>
+    </view>
+    
     <!-- 直接购买，购物车购买，待支付订单， 如果数据格式统一可以合并 -->
     <!-- 单个订单 -->
     <view class='order' wx:if="{{orderType == 0}}">
