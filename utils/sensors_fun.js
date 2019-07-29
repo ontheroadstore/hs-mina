@@ -87,6 +87,8 @@ function addFunctions(sensors ,app){
 // 神策初始化
 function initSensors(sensors) {
   sensors.init();
+  // sensors.store.getDistinctId()
+  //console.log(sensors.store.getDistinctId())
   sensors.registerApp({
     platformType: '小程序',//公共属性 ：平台
   });

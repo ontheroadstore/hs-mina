@@ -138,6 +138,7 @@ function initSensors(){
 function sensorsHeader(){
   let obj = sensors.getPresetProperties();//获取预置属性
   obj.platformType = '小程序';
+  obj._distinct_id = sensors.store.getDistinctId()
   let txt = encodeURI(JSON.stringify(obj));
   return txt;
 }
