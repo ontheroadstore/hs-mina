@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/search/search",
+    "pages/searchDetail/searchDetail",
     "pages/activity/activity",
     "pages/activityShare/activityShare",
     "pages/paySuccess/paySuccess",

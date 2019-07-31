@@ -2,11 +2,45 @@
 .main{
   height: auto;
 }
+.search{
+  width: 750rpx;
+  height: 80rpx;
+  background: #fff;
+  position: fixed;
+  left: 0rpx;
+  top: 0rpx;
+  z-index: 999;
+  
+}
+.search view{
+  width: 690rpx;
+  height: 60rpx;
+  background: #F2F2F2;
+  border-radius: 30rpx;
+  margin: 0 auto;
+  color: #8E8E8E;
+  font-size: 26rpx;
+  line-height: 60rpx;
+  text-indent: 30rpx;
+  margin-top: 10rpx;
+
+}
+.search image{
+  background: #F2F2F2;
+  width: 40rpx;
+  height: 40rpx;
+  float: right;
+  margin-right:30rpx; 
+  position: relative;
+  top: 10rpx;
+
+}
 .header{
   padding: 0 30rpx;
   height: 88rpx;
   white-space: nowrap;
   position: fixed;
+  top: 80rpx;
   z-index: 999;
   background: #FFF;
 }
@@ -49,7 +83,7 @@
   height: 280rpx;
   overflow: hidden;
   box-shadow: 0rpx 10rpx 30rpx rgba(0,0,0,0.18);
-  margin: 40rpx 30rpx 0;
+  margin: 100rpx 30rpx 0;
 }
 .content_index .advert swiper-item{
   box-shadow: 0rpx 10rpx 30rpx rgba(0,0,0,0.18);
@@ -186,7 +220,7 @@
 /* 分类 */
 .content_classify{
   width: 100vw;
-  padding-top: 230rpx;
+  padding-top: 310rpx;
   box-sizing: border-box;
   padding-left: 30rpx;
   display: none;
@@ -199,7 +233,7 @@
   /* height: 142rpx; */
   width: 100%;
   position: fixed;
-  top: 88rpx;
+  top: 168rpx;
   background: #FFF;
   box-sizing: border-box;
 }

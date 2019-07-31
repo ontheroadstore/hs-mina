@@ -1,0 +1,54 @@
+<view class="search-fixed">
+    <input confirm-type="search" bindconfirm="searchKeyval" value="{{searchValue}}"/>
+    <text bindtap="cancelSearch">取消</text>
+  </view>
+  <!-- 搜索结果 -->
+  <view class="sort-fixed" wx:if="{{searchFinish}}">
+    <view class="{{isSort==0?'active':''}}" data-type='0' bindtap="sortSearch">综合</view>
+    <view class="{{isSort==1?'active':''}}" data-type='1' bindtap="sortSearch">销量</view>
+    <view class="{{isSort==2?'active':''}}" data-type='2' bindtap="sortSearch">新品</view>
+    <view class="price {{isSort>2?'active':''}}" data-type='3' bindtap="sortSearch">价格
+      <image class="{{Lifting==2?'':'rotate180'}}" src="../../images/arrow_three.png"></image>
+    </view>
+  </view>
+  <view class="bor-one" wx:if="{{searchFinish}}"></view>
+  <view class="search-list"  wx:if="{{searchFinish}}">
+    <view class="search-null" wx:if="{{searchMsg!=''}}">
+      <view class="font-wei">啥都没搜到</view>
+      <view>{{searchMsg}}</view>
+    </view>
+    <view class="search-item" wx:for="{{searchList}}" wx:key="index" data-urlid="{{item.id}}" bindtap="jumpArticle"> 
+      <image class="cover" src="{{item.cover}}"></image>
+      <view class="tit">
+        {{item.title}}
+      </view>
+      <view class="seller">
+        <image src="{{item.user_avatar}}"></image>
+        <view class="name">{{item.user_name}}</view>
+        <view class="price">￥{{item.min_price}}</view>
+      </view>
+  
+    </view>
+  </view>
+  
+  <!-- 搜索记录以下为 -->
+  <view class="history-search clearBoth" wx:if="{{!searchFinish}}">
+    <view class="subTit">
+      <view class="fl">搜索历史</view>
+      <view class="fr">
+        <image wx:if="{{!hideDelete}}" bindtap="hideDeleteIcon" src="../../images/search_del_icon.png"></image>
+        <view wx:if="{{hideDelete}}" class="delete-all" bindtap="deleteAll">全部删除</view>
+        <view wx:if="{{hideDelete}}" class="delete-finishi" bindtap="showDeleteIcon">完成</view>
+      </view>
+    </view>
+    <text class="{{deleteCover}}" wx:for="{{hisList}}" wx:key="index" data-word="{{item}}" bindtap="clickKeyval">{{item}}</text>
+  </view>
+  <view class="hot-search" wx:if="{{deleteCover==''}}" hidden="{{searchFinish}}">
+    <view class="subTit">
+      热门搜索
+    </view>
+    <text wx:for="{{hotList}}" wx:key='index' wx:if="{{item.url_type==1||item.url_type==0}}" data-word="{{item.keyword}}" data-urlid="{{item.url}}" data-urltype='{{item.url_type}}' bindtap="clickKeyval">{{item.keyword}}</text>
+  </view>
+  
+  
+  

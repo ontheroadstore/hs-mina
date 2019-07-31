@@ -1,3 +1,10 @@
+ <view class="search" bindtap="jumpSearch">
+   <view>
+      请输入关键词
+      <image src="../../images/search-icon.png"></image>
+   </view>
+  
+ </view>
  <scroll-view class='header' scroll-x bindscroll="scroll">
   <view class='classifys'>
     <view class="classify_item {{tabIndex == 0 ? 'active':''}}" bindtap="tabtap" data-id="0">商店</view>

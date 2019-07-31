@@ -217,6 +217,11 @@ Page({
       url:'/pages/getCollectCoupon/getCollectCoupon'
     })
   },
+  jumpSearch(){
+    wx.navigateTo({
+      url:'/pages/search/search'
+    })
+  },
   //关闭收藏提示
   closeGuide(){
     this.setData({
