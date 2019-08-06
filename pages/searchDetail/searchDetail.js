@@ -18,6 +18,14 @@ Page({
     searchValue: '',
     pageNum: 1,
     Lifting: 1,//升降类型
+    isStart: true,
+    sensorsTrack:{
+      'searchType':'狠货',
+      'keyWord':'',//关键词
+      'hasResult':false,//是否有搜索结果
+      'isHistory':false,//是否是历史记录
+      'isRecommend':false,//是否是推荐词
+    },
     isSort: 0 //排序类型
   },
 
@@ -26,8 +34,18 @@ Page({
    */
   onLoad: function (opt) {
     // this.initData()
+    let _sensorsTrack= this.data.sensorsTrack
+    let stype  = opt.stype
+    if(stype=="his"){
+      _sensorsTrack.isHistory=true
+    }
+    if(stype=='hot'){
+      _sensorsTrack.isRecommend=true
+    }
+    _sensorsTrack.keyWord= opt.word
     this.setData({
-      searchValue: opt.word
+      searchValue: opt.word,
+      sensorsTrack: _sensorsTrack
     })
      this.searchWord()
   },
@@ -61,7 +79,15 @@ Page({
   searchKeyval(e){
     this.setData({
       searchValue: e.detail.value,
-      searchList: []
+      searchList: [],
+      isStart: true,
+      sensorsTrack:{
+        'searchType':'狠货',
+        'keyWord':'',//关键词
+        'hasResult':false,//是否有搜索结果
+        'isHistory':false,//是否是历史记录
+        'isRecommend':false,//是否是推荐词
+      }
     })
     this.searchWord()
   },
@@ -97,18 +123,34 @@ Page({
   },
   //搜索keyu请求
   searchWord(){
+    
     req(app.globalData.bastUrl, "appv6_1/search/posts", {
       query: this.data.searchValue,
       searchtype: parseInt(this.data.isSort)+1,
       page: this.data.pageNum,
       sort: this.data.Lifting
     }, "GET").then(res=>{
-      console.log(res)
+
       this.setData({
         searchFinish: true,
         searchList: this.data.searchList.concat(res.data.items),
         searchMsg: res.data.message
       })
+      if(this.data.isStart){
+        this.setData({
+          isStart: false
+        })
+        let _sensorsTrack= this.data.sensorsTrack
+        _sensorsTrack.keyWord=this.data.searchValue
+        if(res.data.message==''){
+         
+          _sensorsTrack.hasResult= true
+        }else{
+          _sensorsTrack.hasResult= false
+        }
+        app.sensors.track('search', _sensorsTrack);
+      }
+     
     })
   },
   //删除单个搜索历史词

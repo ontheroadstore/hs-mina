@@ -41,13 +41,13 @@
       <view wx:if="{{hideDelete}}" class="delete-finishi" bindtap="showDeleteIcon">完成</view>
     </view>
   </view>
-  <text class="{{deleteCover}}" wx:for="{{hisList}}" wx:key="index" data-word="{{item}}" bindtap="clickKeyval">{{item}}</text>
+  <text class="{{deleteCover}}" wx:for="{{hisList}}" wx:key="index" data-stype="his" data-word="{{item}}" bindtap="clickKeyval">{{item}}</text>
 </view>
 <view class="hot-search" wx:if="{{deleteCover==''}}" hidden="{{searchFinish}}">
   <view class="subTit">
     热门搜索
   </view>
-  <text wx:for="{{hotList}}" wx:key='index' wx:if="{{item.url_type==1||item.url_type==0}}" data-word="{{item.keyword}}" data-urlid="{{item.url}}" data-urltype='{{item.url_type}}' bindtap="clickKeyval">{{item.keyword}}</text>
+  <text wx:for="{{hotList}}" wx:key='index' wx:if="{{item.url_type==1||item.url_type==0}}" data-stype="hot" data-word="{{item.keyword}}" data-urlid="{{item.url}}" data-urltype='{{item.url_type}}' bindtap="clickKeyval">{{item.keyword}}</text>
 </view>
 
 

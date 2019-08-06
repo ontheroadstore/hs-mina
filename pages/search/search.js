@@ -17,6 +17,7 @@ Page({
     searchFinish: false,
     searchValue: '',
     pageNum: 1,
+    stype: 'input',
     Lifting: 1,//升降类型
     isSort: 0 //排序类型
   },
@@ -39,7 +40,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+   
   },
   //初始化数据
   initData(){
@@ -57,7 +58,8 @@ Page({
   searchKeyval(e){
     this.setData({
       searchValue: e.detail.value,
-      searchList: []
+      searchList: [],
+      stype: 'input'
     })
     this.searchWord()
   },
@@ -68,9 +70,11 @@ Page({
         url: '/pages/article/article?id='+ e.target.dataset.urlid,
       });
     }else{
+      //跳转前
       if(this.data.deleteCover==""){
         this.setData({
-          searchValue: e.target.dataset.word
+          searchValue: e.target.dataset.word,
+          stype: e.target.dataset.stype
         })
         this.searchWord()
       }else{
@@ -94,7 +98,7 @@ Page({
   //搜索keyu请求
   searchWord(){ 
     wx.navigateTo({
-      url: '/pages/searchDetail/searchDetail?word='+ this.data.searchValue,
+      url: '/pages/searchDetail/searchDetail?word='+ this.data.searchValue+'&stype='+this.data.stype,
     });
     
     // req(app.globalData.bastUrl, "appv6_1/search/posts", {

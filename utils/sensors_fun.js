@@ -17,6 +17,8 @@ function getPageType() {
     { name: "卖家店铺页", path: "pages/user/user", },
     { name: "购物车页", path: "pages/secondLevelChart/secondLevelChart", },
     { name: "我的优惠券页", path: "pages/userCoupon/userCoupon", },
+    { name: "开始搜索页", path: "pages/search/search", },
+    { name: "搜索结果页", path: "pages/searchDetail/searchDetail", }
  
   ]
 
