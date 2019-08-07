@@ -82,6 +82,11 @@
         </view>
       </view>
     </view>
+    <!-- 会员商品优惠提示 -->
+    <view class="vipAppBuyTips" wx:if="{{showAppBuyTips}}">
+      您是黑市会员，去APP结算可享受会员价
+      <text bindtap="closeVipTips">x</text>
+    </view>
     <view class="buy {{isIphoneX ? 'buy_iphoneX' : ''}}">
       <view class='buy_btn float_right' bindtap='payment'>微信支付</view>
       <view class='postage float_right' wx:if="{{!addressInfo}}">请选择地址</view>

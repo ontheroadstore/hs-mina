@@ -83,6 +83,19 @@
   left: 250rpx;
   top: 6rpx;
 }
+.share_content .vip_only_buy{
+  width: 190rpx;
+  height: 26rpx;
+  position: absolute;
+  top: 10rpx;
+  right: 100rpx;
+}
+.vip_only_buy image{
+  display: block;
+  width: inherit;
+  height: inherit;
+  background: #fff;
+}
 .share{
   width: 48rpx;
   height: 48rpx;
@@ -500,6 +513,13 @@
   border-top-right-radius: 16rpx;
   transition: all 0.3s ease 0.1s; 
   opacity: 0;
+}
+.select_content .vip_only_buy{
+  width: 190rpx;
+  height: 26rpx;
+  position: absolute;
+  top: 280rpx;
+  right: 30rpx;
 }
 .iphoneX_select_content{
   padding-bottom: 68rpx;

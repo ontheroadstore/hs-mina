@@ -34,13 +34,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 9,
 			"list": [
 				{
 					"id": 0,
-					"name": "pages/article/article",
+					"name": "商品详情测试",
 					"pathName": "pages/article/article",
-					"query": "utm_source=testxxx&id=20835",
+					"query": "id=1096064",
 					"scene": null
 				},
 				{
@@ -68,6 +68,42 @@
 					"id": -1,
 					"name": "搜索",
 					"pathName": "pages/search/search",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 5,
+					"name": "单个会员商品详情",
+					"pathName": "pages/article/article",
+					"query": "id=1096088",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "购物车",
+					"pathName": "pages/secondLevelChart/secondLevelChart",
+					"query": "id=1096088",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "购物车底部",
+					"pathName": "pages/chart/chart",
+					"query": "id=1096088",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "确认订单",
+					"pathName": "pages/createOrder/createOrder",
+					"query": "type=0",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "123123123123",
+					"pathName": "pages/orders/orders",
+					"query": "type=0",
 					"scene": null
 				}
 			]

@@ -607,3 +607,34 @@
   padding-left: 110rpx;
   line-height: 40rpx;
 }
+
+/* vip购买的提示 */
+.vipAppBuyTips{
+  width: 690rpx;
+  height: 84rpx;
+  background: #fff;
+  box-shadow:0px 7px 12px 0px rgba(0,0,0,0.05);
+  border-radius:18rpx;
+  font-size: 28rpx;
+  line-height: 84rpx;
+  text-indent: 30rpx;
+  position: fixed;
+  left: 30rpx;
+  bottom: 200rpx;
+  overflow: hidden;
+}
+.vipAppBuyTips text{
+  position: absolute;
+  top: -30rpx;
+  right: -30rpx;
+  width: 70rpx;
+  height: 85rpx;
+  font-size: 40rpx;
+  line-height: 90rpx;
+  background: #DEDEDE;
+  color: #8E8E8E;
+  transform: scaleY(.83);
+  border-radius: 50rpx;
+  text-indent: 10rpx;
+
+}

@@ -332,6 +332,40 @@ Page({
   },
   // 买他妈的
   navigatorToCreateOrder: function() {
+    //如果是提示会员去APP买便宜
+    let _data = this.data.goodList
+    let useInfo = app.globalData.hsUserInfo
+    // useInfo={
+    //   vip:[]
+    // }
+    let goodNames = ''
+    _data.forEach(function (item, index) {
+      item.item.forEach(function (good, i) {
+        if(good.vip_price!=0&&good.selectStatus){
+          useInfo.vip.forEach(v=>{
+            if(v.vip_id==good.vip_id){
+              goodNames+=good.item_name+'、'
+            }
+          })
+        } 
+      })
+    })
+    wx.setStorageSync('chartData', this.data.goodList)
+    if(goodNames){
+      wx.showModal({
+        title: '提示',
+        content: goodNames.substring(0,goodNames.length-1) + '为会员限购商品,只能在APP上才能享受会员价权益',
+        showCancel:false,
+        success(res){
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '/pages/createOrder/createOrder?type=1',
+            })
+          }
+        }
+      })
+      return
+    }
     // 将数据缓存
     if (this.data.totalPrice == 0){
       return wx.showToast({
@@ -515,17 +549,25 @@ Page({
 function SetStatus(data, status, userId, orderId) {
   var newData = []
   var selectAllStatus = true
+  let goodNames = ''
+  let useInfo= app.globalData.hsUserInfo
+  // 测试非会员
+  // useInfo={
+  //   vip:[]
+  // }
   // 传入用户id 将当前传入用户下的所有商品选中 childOrderShow
   if (userId != 0){
     data.forEach(function (item, index) {
       let checkAll = false;
       if (item.seller_user_id == userId && item['selectStatus']){
+        //取消全选一个商家
         item['selectStatus'] = false
         item['childOrderShow'] = false
         item.item.forEach(function (good, i) {
           good['selectStatus'] = false
         })
       } else if (item.seller_user_id == userId && !item['selectStatus']){
+        //全选一个商家下的所有商品
         for (let i = 0; i < item.item.length; i++){
           if (item.item[i].remainBuy != undefined && item.item[i].remainBuy < 1){
             let goodsName = item.item[i].item_name;
@@ -535,6 +577,16 @@ function SetStatus(data, status, userId, orderId) {
               showCancel:false
             })
             break;
+          } else if(item.item[i].vip_only==1){
+            let goodName = item.item[i].item_name;
+            useInfo.vip.forEach(v=>{
+              if(v.vip_id==item.item[i].vip_id){
+                goodName=''
+              }
+            })
+            if(goodName){
+              goodNames+= goodName+'、'
+            } 
           }else{
             checkAll = true;
             item.item[i].selectStatus = true
@@ -544,7 +596,15 @@ function SetStatus(data, status, userId, orderId) {
           item['selectStatus'] = true
           item['childOrderShow'] = true
           item.item.forEach(function (good, i) {
-            good['selectStatus'] = true
+            if(good['vip_only']!=1){
+              good['selectStatus'] = true
+            }else{
+              useInfo.vip.forEach(v=>{
+                if(v.vip_id==good.vip_id){
+                  good['selectStatus'] = true
+                }
+              })
+            }
           })
         }  
       }
@@ -567,12 +627,41 @@ function SetStatus(data, status, userId, orderId) {
         if (good.id == orderId && good['selectStatus']){
           good['selectStatus'] = false
         } else if (good.id == orderId && !good['selectStatus']){
-          good['selectStatus'] = true
+          if(good.vip_only==1){
+            let goodName = good.item_name;
+            useInfo.vip.forEach(v=>{
+              if(v.vip_id== good.vip_id){
+                goodName=''
+              }
+            })
+            if(goodName){
+              goodNames+= goodName+'、'
+            } 
+
+            useInfo.vip.forEach(v=>{
+              if(v.vip_id==good.vip_id){
+                good['selectStatus'] = true
+              }
+            })
+
+
+          }else{
+            good['selectStatus'] = true
+          }
+         
         }
         // 检测是否有未选
         if (!good['selectStatus']) {
-          selectAllStatus = false
-          userSelectStatus = false
+          if(good.vip_only==1){
+            useInfo.vip.forEach(v=>{
+              if(v.vip_id==good.vip_id){
+                childOrderShow = true
+              }
+            })
+          }else{
+            selectAllStatus = false
+            userSelectStatus = false
+          }
         }else{
           childOrderShow = true
         }
@@ -600,9 +689,43 @@ function SetStatus(data, status, userId, orderId) {
       item['selectStatus'] = status
       item['childOrderShow'] = status
       item.item.forEach(function (good, i) {
-        good['selectStatus'] = status
+        if(good.vip_only==1){
+          if(status){
+            let goodName = good.item_name;
+            useInfo.vip.forEach(v=>{
+              if(v.vip_id== good.vip_id){
+                goodName='',
+                good['selectStatus'] = status
+              }
+            })
+            if(goodName){
+              goodNames+= goodName+'、'
+            } 
+          }else{
+            good['selectStatus'] = status
+          }
+        }else{
+          good['selectStatus'] = status
+        } 
+       
       })
       newData.push(item)
+    })
+  }
+  if(goodNames){
+    wx.showModal({
+      title: '提示',
+      content: goodNames.substring(0,goodNames.length-1) + '为会员限购商品,只有VIP才能购买',
+      confirmText: '成为会员',
+      confirmColor: '#AE2121',
+      cancelText: '放弃购买',
+      success (res) {
+        if (res.confirm) {
+          console.log('用户点击确定')
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
     })
   }
   return {

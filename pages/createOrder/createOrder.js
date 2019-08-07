@@ -24,6 +24,8 @@ Page({
     idCard: '', //身份证号
     isEdit: false, //是去编辑
     isOverSeas: false, //是否是海外的商品
+    showAppBuyTips: false, //显示去app购买会员商品便宜
+    // userInfo:  app.globalData.hsUserInfo,
     hasIdCard: false //是否有身份证信息
   },
   onLoad: function (options) {
@@ -34,6 +36,22 @@ Page({
     // type 0 直接购买， 1购物车购买 缓存数据头像已经处理
     if (options.type == 0) {
       let orderData = wx.getStorageSync('orderData')
+      //如果是会员商品 提示去app买便宜呀
+      setTimeout(()=>{
+        let userInfo = app.globalData.hsUserInfo
+        console.log(userInfo)
+        if(orderData.newType[0].vip_only&&orderData.newType[0].vip_price){
+          userInfo.vip.forEach(v=>{
+            if(v.vip_id==orderData.newType[0].vip_id){
+              this.setData({
+                showAppBuyTips: true
+              })
+            }
+          })
+        }
+      },2000)
+      
+     
       // 如果是特价商品 直接替换price
       const nowDate = +new Date()
       if (orderData.newType[0].special_offer_end * 1000 >= nowDate && orderData.newType[0].special_offer_start * 1000 <= nowDate) {
@@ -146,6 +164,12 @@ Page({
     console.log(e)
     this.setData({
       idCard: e.detail.value
+    })
+  },
+  //关闭提示
+  closeVipTips(){
+    this.setData({
+      showAppBuyTips: false
     })
   },
   saveIdCardNumber(){

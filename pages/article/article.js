@@ -40,9 +40,12 @@ Page({
     remainBuy: 0,                 //限购剩余购买数量
     btnStatus:false,              //立即购买按钮状态
     limitBuyText: '立即购买',      //购买按钮显示限购数量
+    isVipGood: false,             //会员限购商品
+    isAddCart: true,              //是否能加入购物车 判断vip
+    isVipPrice: false,           //是否有vip价格 
     limitBuyNum: 0                //限购数量
   },
-  onLoad: function (options) {
+  onLoad: function (options) { 
     wx.setNavigationBarTitle({
       title: '商品详情'
     })
@@ -96,7 +99,10 @@ Page({
         selectStyleId = goodInfo.type[0].id
         specialOfferStatus = formTime(goodInfo.type[0].special_offer_start, goodInfo.type[0].special_offer_end)
         specialOfferPrice = goodInfo.type[0].special_offer_price
-
+        let userInfo = app.globalData.hsUserInfo
+        // userInfo={
+        //   vip:[]
+        // }
         let delivery = parseInt(goodInfo.type[0].expected_delivery_cycle);
         let deliveryTxt = '';
         if (delivery && delivery > 0) {
@@ -109,6 +115,22 @@ Page({
         this.setData({
           deliveryTxt: deliveryTxt,   //没有款式直接设置发货时间
         })
+        //单款商品判断是否可以加入购物车 是否是会员商品等信息
+        let _isVipPrice=goodInfo.type[0].vip_price==0?false:true;
+        if(goodInfo.type[0].vip_only==1){
+          let _isAddCart = false
+          userInfo.vip.forEach(v=>{
+            if(v.vip_id==goodInfo.type[0].vip_id){
+              _isAddCart = true
+            }
+          })
+          //设置单款商品属性
+         this.setData({
+            isAddCart: _isAddCart,
+            isVipPrice: _isVipPrice,
+            isVipGood: true
+         })
+        }
       }
       // 添加/64
       res.data.seller.avatar = res.data.seller.avatar
@@ -278,6 +300,23 @@ Page({
   },
   // 加入购物车
   addChart: function (e) {
+    if(!this.data.isAddCart){
+      wx.showModal({
+        title: '',
+        content: '你没资格买呀,小老弟!!!',
+        confirmText: '成为会员',
+        confirmColor: '#AE2121',
+        cancelText: '放弃购买',
+        success (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return
+    }
     // 判断是否登录
     if (this.ifLogin() == false) {
       return;
@@ -337,18 +376,48 @@ Page({
     const name = e.target.dataset.name
     const stock = e.target.dataset.stock
     const price = e.target.dataset.price
+    const vipid = e.target.dataset.vip_id
+    const viponly = e.target.dataset.vip_only
+    const vipstatus = e.target.dataset.vip_status
+    const vipprice = e.target.dataset.vip_price
     const specialOfferStatus = formTime(e.target.dataset.specialofferstart, e.target.dataset.specialofferend)
     const specialOfferPrice = e.target.dataset.specialofferprice
     const presellTime = e.target.dataset.preselltime ? util.formatTime(e.target.dataset.preselltime) : null
     let delivery = parseInt(e.target.dataset.expected_delivery_cycle);
     let deliveryTxt = '';
     //商品或者款式限购判断
+    let useInfo= app.globalData.hsUserInfo
+    //非会员测试
+    // useInfo={
+    //   vip:[]
+    // }
     let oIndex = e.target.dataset.typeindex;
     let restrictiontypes = this.data.goodInfo.type[oIndex].restrictionTypes
     let remainBuy = this.data.goodInfo.type[oIndex].remainBuy;
     let limitBuyNum = this.data.goodInfo.type[oIndex].limitBuyNum;
     console.log(restrictiontypes)
     console.log(remainBuy)
+
+    let _isVipGood = viponly==1?true:false;
+    let _isVipPrice =  _isVipPrice=vipprice==0?false:true;
+    let _isAddCart = true
+    console.log('vipId'+vipid)
+    if(viponly==1){
+      _isAddCart = false
+      useInfo.vip.forEach(v=>{
+        if(v.vip_id==vipid){
+          _isAddCart = true
+        }
+      })
+    }
+    
+    this.setData({
+      isVipGood: _isVipGood,
+      isAddCart: _isAddCart,
+      isVipPrice: _isVipPrice
+    })
+   
+
     if (restrictiontypes !== undefined){
       this.setData({
         limitBuyText: "限购" + limitBuyNum + "件",
@@ -452,6 +521,38 @@ Page({
   },
   // 跳转下订单
   navigateToCreateOrder: function (e) {
+    //判断没资格买
+    if(!this.data.isAddCart){
+      wx.showModal({
+        title: '',
+        content: '你没资格买呀,小老弟!!!',
+        confirmText: '成为会员',
+        confirmColor: '#AE2121',
+        cancelText: '放弃购买',
+        success (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return
+    }
+    // if(this.data.isVipPrice&&this.data.isAddCart){
+    //   wx.showModal({
+    //     title: '',
+    //     showCancel: false,
+    //     content: '去APP买才能使用会员价优惠',
+    //     success (res) {
+    //       if (res.confirm) {
+    //         console.log('用户点击确定')
+    //       } else if (res.cancel) {
+    //         console.log('用户点击取消')
+    //       }
+    //     }
+    //   })
+    // }
     // 判断是否登录
     if (this.ifLogin() == false) {
       return;

@@ -14,16 +14,23 @@
       <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
       <text class='now_price font_din'>￥{{goodInfo.type[0].price}}</text>
     </view>
+    <!-- 单款式商品 -->
     <view class='good_price font_din' wx:if="{{styleNum == 1 && !specialOfferStatus}}">￥ {{goodInfo.type[0].price}}</view>
-
+    <!-- 多款商品 -->
     <view class='good_price font_din' wx:if="{{styleNum != 1 && !selectStylePrice}}">￥ {{goodInfo.price[0]}}
       <text wx:if="{{goodInfo.price[1]}}" class='font_din'> - {{goodInfo.price[1]}}</text>
     </view>
+    <!-- 选中款式的商品 -->
      <view class='good_price font_din' wx:if="{{styleNum != 1 && selectStylePrice && !specialOfferStatus}}">￥ {{selectStylePrice}}</view> 
     <view class='good_price font_din' wx:if="{{styleNum != 1 && selectStylePrice && specialOfferStatus}}">
       <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
       <text class='now_price font_din'>￥{{selectStylePrice}}</text>
     </view>
+    <!-- vip限购商品 -->
+    <view class="vip_only_buy" wx:if="{{isVipGood}}">
+      <image class="" src="https://img8.ontheroadstore.com/wxapp_static/store/vip-good-mark.png" mode="aspectFill"></image>
+    </view>
+
     <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view>
     <image class='share' src='/images/share.png' bindtap='share'></image>
     <button class='share_btn' open-type="share">转发</button>
@@ -169,6 +176,9 @@
         <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
         <text class='now_price font_din'>￥{{selectStylePrice}}</text>
       </view>
+      <view class="vip_only_buy" wx:if="{{isVipGood}}">
+        <image class="" src="https://img8.ontheroadstore.com/wxapp_static/store/vip-good-mark.png" mode="aspectFill"></image>
+      </view>
       <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view>
       <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view>
       <scroll-view class='styles_content' scroll-y="{{selectScrollStatus}}">
@@ -179,7 +189,7 @@
           </view>
           <view class='styles_select clearBoth'>
             <view class='label'>款式</view>
-            <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-typeindex="{{index}}" data-postage="{{item.postage}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" data-expected_delivery_cycle="{{item.expected_delivery_cycle}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}" >{{item.name}}</text>   
+            <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-vip_status="{{item.vip_status}}" data-vip_id="{{item.vip_id}}" data-vip_only="{{item.vip_only}}" data-vip_price="{{item.vip_price}}" data-typeindex="{{index}}" data-postage="{{item.postage}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" data-expected_delivery_cycle="{{item.expected_delivery_cycle}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}" >{{item.name}}</text>   
           </view>
           <view class='good_num clearBoth'>
             <view class='label'>数量</view>
