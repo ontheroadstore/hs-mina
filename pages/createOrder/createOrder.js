@@ -560,6 +560,15 @@ Page({
           req(app.globalData.bastUrl, 'appv2_1/buyfailed', {
             order_number: orderNumber
           }, 'POST', true)
+          //兼容取消订单时的价格显示bug
+          if(that.data.useCouponPrice){
+            that.getCouponList()
+            let _totalPrice=that.data.totalPrice+that.data.useCouponPrice
+            that.setData({
+              useCouponPrice: '',
+              totalPrice: _totalPrice
+            })
+          }
         }
       })
     })

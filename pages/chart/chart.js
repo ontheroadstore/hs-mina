@@ -586,7 +586,9 @@ function SetStatus(data, status, userId, orderId) {
             })
             if(goodName){
               goodNames+= goodName+'、'
-            } 
+            } else{
+              checkAll = true;
+            }
           }else{
             checkAll = true;
             item.item[i].selectStatus = true
@@ -652,16 +654,16 @@ function SetStatus(data, status, userId, orderId) {
         }
         // 检测是否有未选
         if (!good['selectStatus']) {
+          
           if(good.vip_only==1){
             useInfo.vip.forEach(v=>{
               if(v.vip_id==good.vip_id){
-                childOrderShow = true
+                //此处要加一些判断
               }
             })
-          }else{
-            selectAllStatus = false
-            userSelectStatus = false
           }
+          selectAllStatus = false
+          userSelectStatus = false
         }else{
           childOrderShow = true
         }
@@ -707,8 +709,16 @@ function SetStatus(data, status, userId, orderId) {
         }else{
           good['selectStatus'] = status
         } 
-       
       })
+      if(status){
+        item.item.forEach(el=>{
+          if(!el.selectStatus){
+            item['selectStatus'] = false
+            item['childOrderShow'] = false
+          }
+        })
+      }
+
       newData.push(item)
     })
   }
