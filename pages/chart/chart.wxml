@@ -31,13 +31,13 @@
         <view class='delete_good' data-orderid="{{good.id}}" bindtap='deleteGood'>删除</view>
       </view>
     </view>
-    <view class='no_data' wx:if="{{goodList.length == 0}}">
+    <view class='no_data' wx:if="{{goodList.length == 0&&isNoData}}">
       <image src='/images/chartEmpty.png'></image>
       <view>购物车毛都没有</view>
     </view>
   </view>
   <view class="random_goods {{isIphoneX? 'isIphoneX_random_goods':''}}" >
-    <view class='model_title'>猜你喜欢</view>
+    <view class='model_title' wx:if="{{goodList.length||isNoData}}">猜你喜欢</view>
     <view class='good_item clearBoth' wx:key="key" wx:for="{{randomGoods}}">
       <image bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
       <view bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>

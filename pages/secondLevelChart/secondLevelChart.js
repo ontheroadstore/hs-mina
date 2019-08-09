@@ -6,6 +6,7 @@ let addStatus = true           //添加购买数量按钮禁止连点
 Page({
 
   data: {
+    isNoData: false,
     goodList: [],               // 购物车商品列表
     selectAllStatus: false,     // 全选状态
     startLocationX: null,       // 左滑开始位置（用于显示删除按钮）
@@ -58,6 +59,11 @@ Page({
             // childOrderShow 在传入确认订单页中使用
             // animation 左滑动画
             let goodList = []
+            if(res.data.cart.length==0){
+              that.setData({
+                isNoData: true
+              })
+            }
             res.data.cart.forEach(function (item, index) {
               item['selectStatus'] = false
               item['childOrderShow'] = false
