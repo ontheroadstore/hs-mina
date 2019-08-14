@@ -1,0 +1,34 @@
+.login-bg{
+  width: 100vw;
+  height: 100vh;
+  background: url('https://img8.ontheroadstore.com/wxapp_static/store/login_bg.jpg') no-repeat top center;
+  background-size: cover; 
+}
+.login-bg image{
+  width: 402rpx;
+  height: 170rpx;
+  position: absolute;
+  top: 220rpx;
+  left: 175rpx;
+  background: rgba(0, 0, 0, 0);
+}
+.login-bg button{
+  display: block;
+  width: 436rpx;
+  height: 88rpx;
+  position: absolute;
+  left: 158rpx;
+  font-size: 32rpx;
+  font-weight: 900;
+  line-height: 88rpx;
+}
+.login{
+  color: #ffffff;
+  background: #AE2121;
+  top: 876rpx;
+}
+.unlogin{
+  background: #ffffff;
+  color: #AE2121;
+  top: 1008rpx;
+}

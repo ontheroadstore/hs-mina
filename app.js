@@ -51,18 +51,22 @@ App({
   },
   onHide: function() {},
   onError: function() {},
-  login: function(callback) {
+  login: function(callback,failback) {
     // 登录
-    wx_login(this.globalData.bastUrl).then(res => {
+    wx_login(this.globalData.bastUrl,failback).then(res => {
+      if(!res.token&&failback){
+        failback()
+      }
       req(this.globalData.bastUrl, 'appv4/user/simple', {}, "GET", true).then(res => {
         this.globalData.hsUserInfo = res.data
         this.globalData.authorizationStatus = true
         sensors.login(res.data.id) //神策登录
         if (callback) {
-          callback()
+          callback(res.data)
         }
       })
     })
+   
   },
   ifLogin: function(succback, failback, ifGoBind) {
     let globalUserInfo = this.globalData.hsUserInfo;
@@ -76,8 +80,11 @@ App({
         failback();
       }
       if (ifGoBind) {
+        // wx.navigateTo({
+        //   url: '/pages/relevanceTel/relevanceTel',
+        // })
         wx.navigateTo({
-          url: '/pages/relevanceTel/relevanceTel',
+          url: '/pages/login/login',
         })
       }
     }

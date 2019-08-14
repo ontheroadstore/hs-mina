@@ -605,6 +605,22 @@ function SetStatus(data, status, userId, orderId) {
       newData.push(item)
     })
   }
+  // if(goodNames){
+  //   wx.showModal({
+  //     title: '提示',
+  //     content: goodNames.substring(0,goodNames.length-1) + '为会员限购商品,只有成为VIP才能购买',
+  //     confirmText: '成为会员',
+  //     confirmColor: '#AE2121',
+  //     cancelText: '放弃购买',
+  //     success (res) {
+  //       if (res.confirm) {
+  //         console.log('用户点击确定')
+  //       } else if (res.cancel) {
+  //         console.log('用户点击取消')
+  //       }
+  //     }
+  //   })
+  // }
   return {
     data: newData,
     selectAllStatus: selectAllStatus

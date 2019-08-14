@@ -178,6 +178,22 @@ Page({
     })
   },
   onShow: function () {
+    //重置绑定状态
+    let that = this
+    wx.getUserInfo({
+      success: function () {
+        that.getChartNum()
+        that.setData({
+          authorizationStatus: false
+        })
+      },
+      fail: function () {
+        that.setData({
+          authorizationStatus: true
+        })
+      }
+    })
+
     // 获取活动状态
     req(app.globalData.bastUrl, 'wxapp/winedoit/status').then(res => {
       if (res.data) {
@@ -196,6 +212,12 @@ Page({
           }
         })
       }
+    })
+  },
+  //跳转登录
+  jumpLogin(){
+    wx.navigateTo({
+      url: '/pages/login/login',
     })
   },
   // 分享
@@ -278,6 +300,23 @@ Page({
   },
   // 加入购物车
   addChart: function (e) {
+    // if(!this.data.isAddCart){
+    //   wx.showModal({
+    //     title: '',
+    //     content: '此商品为会员限购，您还不是会员，不能购买。',
+    //     confirmText: '成为会员',
+    //     confirmColor: '#AE2121',
+    //     cancelText: '放弃购买',
+    //     success (res) {
+    //       if (res.confirm) {
+    //         console.log('用户点击确定')
+    //       } else if (res.cancel) {
+    //         console.log('用户点击取消')
+    //       }
+    //     }
+    //   })
+    //   return
+    // }
     // 判断是否登录
     if (this.ifLogin() == false) {
       return;
@@ -452,6 +491,38 @@ Page({
   },
   // 跳转下订单
   navigateToCreateOrder: function (e) {
+    //判断没资格买
+    // if(!this.data.isAddCart){
+    //   wx.showModal({
+    //     title: '',
+    //     content: '此商品为会员限购，您还不是会员，不能购买。',
+    //     confirmText: '成为会员',
+    //     confirmColor: '#AE2121',
+    //     cancelText: '放弃购买',
+    //     success (res) {
+    //       if (res.confirm) {
+    //         console.log('用户点击确定')
+    //       } else if (res.cancel) {
+    //         console.log('用户点击取消')
+    //       }
+    //     }
+    //   })
+    //   return
+    // }
+    // if(this.data.isVipPrice&&this.data.isAddCart){
+    //   wx.showModal({
+    //     title: '',
+    //     showCancel: false,
+    //     content: '去APP买才能使用会员价优惠',
+    //     success (res) {
+    //       if (res.confirm) {
+    //         console.log('用户点击确定')
+    //       } else if (res.cancel) {
+    //         console.log('用户点击取消')
+    //       }
+    //     }
+    //   })
+    // }
     // 判断是否登录
     if (this.ifLogin() == false) {
       return;

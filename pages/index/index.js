@@ -3,7 +3,7 @@
 const app = getApp()
 import util from '../../utils/util.js'
 import { req } from '../../utils/api.js'
-
+var interval = null
 Page({
   data: {
     isHideLoadMore: false,        // 判断加载
@@ -119,6 +119,7 @@ Page({
   },
 
   onShow: function () {
+    clearInterval(interval);
     var that = this;
     var length = that.data.text.length * that.data.size;//文字长度
     var windowWidth = wx.getSystemInfoSync().windowWidth;// 屏幕宽度
@@ -136,7 +137,7 @@ Page({
     var windowWidth = that.data.windowWidth;//屏幕宽度
     console.log(length)
     if (length > windowWidth){
-      var interval = setInterval(function () {
+       interval = setInterval(function () {
         var maxscrollwidth = length + that.data.marquee_margin;//滚动的最大宽度，文字宽度+间距，如果需要一行文字滚完后再显示第二行可以修改marquee_margin值等于windowWidth即可
         var crentleft = that.data.marqueeDistance;
         if (crentleft < maxscrollwidth) {//判断是否滚动到最大宽度
