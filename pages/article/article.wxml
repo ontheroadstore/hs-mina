@@ -156,7 +156,8 @@
       <text class='open_app_txt'>仅有少量现货在APP上购买</text>
     </view>
     <!-- 没有授权，会在底部显示一个透明的授权按钮 -->
-    <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
+    <!-- <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button> -->
+    <button wx:if="{{authorizationStatus}}"  bindtap="jumpLogin" class='getUserInfo'>授权</button>
   </view>
   <view class="select {{selectStatus ? 'show':''}}" catchtap='selectHide' catchtouchmove='true' data-status="true">
     <view class="select_content {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}" catchtouchmove='true'>
@@ -211,7 +212,8 @@
 
       <view class='next_btn' wx:if="{{selectType==1}}" bindtap="{{selectStyleId?'addChart':'noSelect'}}">确认</view>
       <view class='next_btn' wx:if="{{selectType==2}}" bindtap="{{selectStyleId?'navigateToCreateOrder':'noSelect'}}">确认</view>
-      <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button>
+      <!-- <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button> -->
+      <button wx:if="{{authorizationStatus}}"  bindtap="jumpLogin" class='getUserInfo'>授权</button>
     </view>
   </view>
   <image src='/images/returnIndex.png' class="return_index {{isIphoneX ? 'iphoneX_return_index':''}}" bindtap="returnIndex"></image>

@@ -34,7 +34,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 9,
+			"current": 11,
 			"list": [
 				{
 					"id": 0,
@@ -104,6 +104,19 @@
 					"name": "123123123123",
 					"pathName": "pages/orders/orders",
 					"query": "type=0",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "登录",
+					"pathName": "pages/login/login",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的个人中心",
+					"pathName": "pages/me/me",
 					"scene": null
 				}
 			]

@@ -84,6 +84,12 @@ Page({
 
 
   },
+  //暂不绑定
+  unBind(){
+    wx.navigateBack({
+      delta: 2
+    })
+  },
   // 点击下一步
   next: function() {
     // setTimeout(() => {
@@ -94,12 +100,23 @@ Page({
     const telNumber = '' + this.data.telNumber
     const verificationCode = '' + this.data.verificationCode
     if (telNumber.length == 0 || verificationCode.length == 0){
-      wx.showToast({
-        title: '请填写完成',
-        icon: 'none',
-        duration: 1000
-      })
-      return false
+      if(telNumber.length==0){
+        wx.showToast({
+          title: '请填写手机号码',
+          icon: 'none',
+          duration: 1000
+        })
+        return false
+      }
+      if(verificationCode.length==0){
+        wx.showToast({
+          title: '请填写验证码',
+          icon: 'none',
+          duration: 1000
+        })
+        return false
+      }
+    
     }
     wx.showLoading();
     this.getLoginCode().then((code)=>{
@@ -130,7 +147,9 @@ Page({
             title: '登录成功'
           })
           setTimeout(() => {
-            wx.navigateBack({})
+            wx.navigateBack({
+              delta: 2
+            })
           },500)
           app.sensors.login(res.data.user.user_info.id)//神策登录
         } else {

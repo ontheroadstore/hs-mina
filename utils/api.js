@@ -40,7 +40,15 @@ const wx_login = (baseUrl) => {
               switch (res.data.status) {
                 case 1:
                   wx.setStorageSync('token', res.data.data.token)
-                  resolve()
+                  resolve(res.data.data)
+                
+                  // if(res.data.data.token){
+                  //   resolve()
+                  // }else{
+                  //   wx.navigateTo({
+                  //     url: '/pages/relevanceTel/relevanceTel',
+                  //   })
+                  // }
                   break;
                 default:
                   wx.showToast({ title: '截图给客服，登陆接口坏了。', icon: 'none', duration: 2000 })

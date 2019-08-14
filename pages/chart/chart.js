@@ -731,7 +731,7 @@ function SetStatus(data, status, userId, orderId) {
   if(goodNames){
     wx.showModal({
       title: '提示',
-      content: goodNames.substring(0,goodNames.length-1) + '为会员限购商品,只有VIP才能购买',
+      content: goodNames.substring(0,goodNames.length-1) + '为会员限购商品,只有成为VIP才能购买',
       confirmText: '成为会员',
       confirmColor: '#AE2121',
       cancelText: '放弃购买',

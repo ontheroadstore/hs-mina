@@ -200,6 +200,22 @@ Page({
     })
   },
   onShow: function () {
+    //重置绑定状态
+    let that = this
+    wx.getUserInfo({
+      success: function () {
+        that.getChartNum()
+        that.setData({
+          authorizationStatus: false
+        })
+      },
+      fail: function () {
+        that.setData({
+          authorizationStatus: true
+        })
+      }
+    })
+
     // 获取活动状态
     req(app.globalData.bastUrl, 'wxapp/winedoit/status').then(res => {
       if (res.data) {
@@ -218,6 +234,12 @@ Page({
           }
         })
       }
+    })
+  },
+  //跳转登录
+  jumpLogin(){
+    wx.navigateTo({
+      url: '/pages/login/login',
     })
   },
   // 分享
@@ -303,7 +325,7 @@ Page({
     if(!this.data.isAddCart){
       wx.showModal({
         title: '',
-        content: '你没资格买呀,小老弟!!!',
+        content: '此商品为会员限购，您还不是会员，不能购买。',
         confirmText: '成为会员',
         confirmColor: '#AE2121',
         cancelText: '放弃购买',
@@ -525,7 +547,7 @@ Page({
     if(!this.data.isAddCart){
       wx.showModal({
         title: '',
-        content: '你没资格买呀,小老弟!!!',
+        content: '此商品为会员限购，您还不是会员，不能购买。',
         confirmText: '成为会员',
         confirmColor: '#AE2121',
         cancelText: '放弃购买',

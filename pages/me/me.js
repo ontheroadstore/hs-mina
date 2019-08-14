@@ -38,14 +38,14 @@ Page({
       // 跳转之前设置一个flag标识已经去过登录页，
       // 如果没有登录而是点击了返回，则根据这个flag判断是否返回首页。
       if(this.data.ifGoBind===false){
-        wx.switchTab({
-          url: '/pages/index/index',
-        })
+        // wx.switchTab({
+        //   url: '/pages/index/index',
+        // })
       }
       this.setData({
         ifGoBind: !this.data.ifGoBind,
       })
-    }, this.data.ifGoBind)
+    }, false)
   },
   bindgetuserinfo: function(res) {
     if (res.detail.errMsg == 'getUserInfo:ok') {
@@ -54,6 +54,11 @@ Page({
       })
       app.login(this.onShow)
     }
+  },
+  jumpLogin(){
+    wx.navigateTo({
+      url: '/pages/login/login',
+    })
   },
   repulseGetUserInfo: function () {
     this.setData({

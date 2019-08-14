@@ -22,7 +22,8 @@
     </view>
   </view>
   <view class='referral'>绑定手机号，同步app数据</view>
-  <view class='next' bindtap='next'>下一步</view>
+  <view class='next' bindtap='next'>绑定完成</view>
+  <view class='un_bind' bindtap='unBind'>暂不绑定</view>
 
 <!-- 获取授权弹窗-->
   <view class='getUserInfo_content'  wx:if="{{getUserInfoStatus}}">

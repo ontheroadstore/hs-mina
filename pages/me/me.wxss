@@ -16,6 +16,23 @@
   margin: 60rpx 0 0 30rpx;
   border-radius: 50%;
   border: 4rpx solid #FFF;
+  background: url('https://img8.ontheroadstore.com/wxapp_static/store/no_login_avatar.png') no-repeat center center;
+  background-size: cover; 
+}
+.user_info .go_login{
+  color: #fff;
+  font-weight: 600;
+  font-size: 36rpx;
+  text-indent: 20rpx;
+  padding-top: 80rpx;
+}
+.cover_go_login{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 200rpx;
+  left: 0;
+  z-index: 9999;  
 }
 .user_info .user_name{
   font-size: 28rpx;

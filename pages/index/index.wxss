@@ -4,7 +4,7 @@
 }
 .search{
   width: 750rpx;
-  height: 80rpx;
+  height: 100rpx;
   background: #fff;
   position: fixed;
   left: 0rpx;
@@ -14,16 +14,14 @@
 }
 .search view{
   width: 690rpx;
-  height: 60rpx;
+  height: 80rpx;
   background: #F2F2F2;
-  border-radius: 30rpx;
+  border-radius: 10rpx;
   margin: 0 auto;
   color: #8E8E8E;
   font-size: 26rpx;
-  line-height: 60rpx;
-  text-indent: 30rpx;
-  margin-top: 10rpx;
-
+  line-height: 80rpx;
+  text-indent: 90rpx;
 }
 .search image{
   background: #F2F2F2;
@@ -31,8 +29,9 @@
   height: 40rpx;
   float: right;
   margin-right:30rpx; 
-  position: relative;
-  top: 10rpx;
+  position: absolute;
+  top: 20rpx;
+  left: 60rpx;
 
 }
 .header{
@@ -338,7 +337,7 @@
 .collect-coupon{
   position: fixed;
   right: 40rpx;
-  bottom: 400rpx;
+  bottom: 220rpx;
   width: 93rpx;
   height: 104rpx;
   background: url('https://img8.ontheroadstore.com/wxapp_static/smoke/icon_home_coupon.png') no-repeat;
