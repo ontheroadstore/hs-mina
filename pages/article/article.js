@@ -119,12 +119,14 @@ Page({
         let _isVipPrice=goodInfo.type[0].vip_price==0?false:true;
         if(goodInfo.type[0].vip_only==1){
           let _isAddCart = false
+         if(userInfo){
           userInfo.vip.forEach(v=>{
             if(v.vip_id==goodInfo.type[0].vip_id){
               _isAddCart = true
             }
           })
-          //设置单款商品属性
+         }
+        //设置单款商品属性
          this.setData({
             isAddCart: _isAddCart,
             isVipPrice: _isVipPrice,
