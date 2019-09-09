@@ -9,6 +9,7 @@ Page({
     userTel: undefined,
     getUserInfoStatus: false,
     ifGoBind: true, //未绑定是否去绑定页
+    vipList:[1,2,3]
   },
   onLoad: function(){
      
@@ -17,7 +18,7 @@ Page({
     wx.setNavigationBarTitle({
       title: '个人中心'
     })
-    
+    this.getVipInfo()
     //已登录且绑定
     if(this.data.userInfo && this.data.userTel){
       return;
@@ -58,6 +59,18 @@ Page({
   jumpLogin(){
     wx.navigateTo({
       url: '/pages/login/login',
+    })
+  },
+  getVipInfo(){
+    // /appv5/user/center/summary/buyer
+    req(app.globalData.bastUrl, 'appv5/user/center/summary/buyer').then(res=>{
+      if(res.data.vip){
+        this.setData({
+          vipList: res.data.vip
+        })
+      }
+      
+
     })
   },
   repulseGetUserInfo: function () {

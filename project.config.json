@@ -34,13 +34,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 11,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "商品详情测试",
 					"pathName": "pages/article/article",
-					"query": "id=1096064",
+					"query": "id=23503",
 					"scene": null
 				},
 				{
@@ -117,6 +117,7 @@
 					"id": -1,
 					"name": "我的个人中心",
 					"pathName": "pages/me/me",
+					"query": "",
 					"scene": null
 				}
 			]

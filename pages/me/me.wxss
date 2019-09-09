@@ -1,9 +1,11 @@
 .user_info{
   width: 100vw;
-  height: 318rpx;
+  /* height: 318rpx; */
+  height: 468rpx;
   position: relative;
   z-index: 2;
   overflow: hidden;
+  /* background: #AE2121; */
 }
 .user_info .bg{
   position: absolute;
@@ -205,7 +207,7 @@
   line-height:26rpx;
   position: relative;
   z-index: 3;
-  margin-top: -134rpx;
+  margin-top: -110rpx;
 }
 .order_wrap .order_nav_ico{
   margin: 0 auto;
@@ -220,4 +222,54 @@
 
 .main{
   background-color: #F2F2F2;
+}
+
+/* 会员相关样式 */
+swiper{
+  width: 750rpx;
+  height: 236rpx; 
+  position: absolute;
+  top: 192rpx;
+  left: 0;
+  z-index: 3;
+}
+swiper-item{
+  box-sizing: border-box;
+  width: 690rpx;
+  height: 236rpx; 
+ 
+}
+.vip_card_item{
+  box-sizing: border-box;
+  width: 670rpx;
+  height: 236rpx;
+  margin: 0 auto;
+  border: 1px solid #FDBB25;
+  border-radius: 14rpx;
+  background: #000000;
+  color: #fff;
+  font-size: 32rpx;
+  padding: 25rpx;
+  font-weight: 600;
+}
+.vip_card_item .vip_mark{
+  color: #FDBB25;
+}
+.vip_card_item .name{
+  letter-spacing: 10rpx;
+}
+.vip_card_item .right{
+  font-size: 24rpx;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ font-weight: normal;
+}
+.vip_card_item .arrow{
+  display: inline-block;
+  width: 14rpx;
+  height: 25rpx;
+  background: rgba(0, 0, 0, 0);
+  margin-left: 6rpx;
+  
 }

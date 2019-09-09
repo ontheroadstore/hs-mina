@@ -40,7 +40,8 @@ Page({
       setTimeout(()=>{
         let userInfo = app.globalData.hsUserInfo
         console.log(userInfo)
-        if(orderData.newType[0].vip_only&&orderData.newType[0].vip_price){
+        // orderData.newType[0].vip_only&&
+        if(orderData.newType[0].vip_price){
           userInfo.vip.forEach(v=>{
             if(v.vip_id==orderData.newType[0].vip_id){
               this.setData({
