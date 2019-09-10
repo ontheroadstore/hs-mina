@@ -94,3 +94,16 @@
   <text class="close-guide" bindtap="closeGuide"></text>
 </view>
 
+<!-- 公告 -->
+<scroll-view class="container" wx:if="{{!hideNotice}}">
+  <view class="scrolltxt">
+    <view class="marquee_box">
+      <view class="marquee_text" style="transform: translateX(-{{marqueeDistance}}px)">
+        <text>公告:{{text}}</text>
+        <text style="margin-right:{{marquee_margin}}px;"></text>
+        <text style="margin-right:{{marquee_margin}}px;">公告:{{text}}</text>        
+      </view>
+    </view>
+  </view>
+</scroll-view>
+

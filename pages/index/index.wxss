@@ -366,3 +366,8 @@
   z-index: 6;
 }
 
+.container {height: 60rpx;width: 690rpx;border-radius: 30rpx;line-height: 60rpx; background: #AE2121;overflow: hidden; position:fixed;left:30rpx;bottom:30rpx;display: flex;flex-direction: column;justify-content: space-between;box-sizing: border-box;}
+.scrolltxt{padding:0 20rpx;background:#AE2121;color:#fff;}
+.marquee_box {position:relative;color:#fff;height:60rpx;display:block;overflow:hidden;} 
+.marquee_text {white-space: nowrap;position:absolute;top:0;font-size:14px;height:60rpx;line-height:60rpx;}
+
