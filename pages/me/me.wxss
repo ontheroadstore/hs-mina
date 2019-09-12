@@ -24,7 +24,9 @@
   font-weight: 600;
   font-size: 36rpx;
   text-indent: 20rpx;
-  padding-top: 80rpx;
+  position: absolute;
+  top: 80rpx;
+  left: 140rpx;
 }
 .cover_go_login{
   width: 100vw;

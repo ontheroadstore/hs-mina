@@ -112,3 +112,7 @@ image{
   font-size:24rpx;
   color:#ccc;
 }
+.btn_click:active{
+  transform: scale(.8);
+  opacity: .8;
+}

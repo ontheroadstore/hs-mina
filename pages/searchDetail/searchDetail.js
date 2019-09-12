@@ -81,6 +81,7 @@ Page({
       searchValue: e.detail.value,
       searchList: [],
       isStart: true,
+      pageNum:1,
       sensorsTrack:{
         'searchType':'狠货',
         'keyWord':'',//关键词

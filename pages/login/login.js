@@ -3,6 +3,7 @@
 const app = getApp()
 const util = require('../../utils/util.js')
 import { req } from '../../utils/api.js'
+let flag = true
 Page({
 
   /**
@@ -46,6 +47,10 @@ Page({
     })
   },
   bindgetuserinfo: function (res) {
+    if(!flag){
+      return
+    }
+    flag = false
     if (res.detail.errMsg == 'getUserInfo:ok') {
       this.setData({
         getUserInfoStatus: false,
@@ -53,6 +58,7 @@ Page({
       })
       wx.setStorageSync('userInfo', res.detail.userInfo);
       app.login((res)=>{
+        flag = true
         if(res.telphone){
           wx.navigateBack({});
         }else{

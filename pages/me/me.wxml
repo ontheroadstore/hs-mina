@@ -2,7 +2,7 @@
   <view class='user_info'>
     <image class='bg' src='/images/meBg.png'></image>
     <image class='avatar' src='{{userInfo.avatar}}'></image>
-    <view class='user_name' wx:if="{{userInfo.nickname}}">{{userInfo.nickname}}</view>
+    <view class='user_name' >{{userInfo.nickname?userInfo.nickname:''}}</view>
     <!-- <navigator hover-class="none" url="/pages/relevanceTel/relevanceTel" wx:if="{{!userInfo.telphone}}" class='relevance_tel'>绑定手机</navigator> -->
     <view class='tel' wx:if="{{userInfo.telphone}}">{{userTel}}</view>
     <view class="go_login" bindtap="jumpLogin" wx:if="{{!userInfo.telphone}}">点击登录</view>

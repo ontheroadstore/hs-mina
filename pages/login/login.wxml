@@ -1,5 +1,5 @@
 <view class="login-bg">
   <image src="https://img8.ontheroadstore.com/wxapp_static/store/login_text.png"></image>
-  <button class="login" bindgetuserinfo="bindgetuserinfo" open-type="getUserInfo">立即登录</button>
-  <button class="unlogin" bindtap="jumpIndex">暂不登录</button>
+  <button class="login btn_click" bindgetuserinfo="bindgetuserinfo" open-type="getUserInfo">立即登录</button>
+  <button class="unlogin btn_click" bindtap="jumpIndex">暂不登录</button>
 </view>
