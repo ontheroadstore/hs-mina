@@ -34,13 +34,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 11,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "pages/article/article",
 					"pathName": "pages/article/article",
-					"query": "utm_source=testxxx&id=20835",
+					"query": "id=1096088",
 					"scene": null
 				},
 				{
@@ -68,6 +68,7 @@
 					"id": -1,
 					"name": "搜索",
 					"pathName": "pages/search/search",
+					"query": "",
 					"scene": null
 				},
 				{
@@ -81,6 +82,7 @@
 					"id": -1,
 					"name": "我的个人中心",
 					"pathName": "pages/me/me",
+					"query": "",
 					"scene": null
 				}
 			]

@@ -10,6 +10,8 @@ Page({
     goodInfo: null,               // 商品信息
     desc: null,
     content: null,
+    sellerInfo:'',                // 商家的信息
+    hasVideo: false,              // 是否有视频
     selectStyleId: null,          // 选中的款式ID
     selectStylePostage: null,     // 选中的款式运费
     selectStyleName: null,        // 选中的款式名称
@@ -40,6 +42,7 @@ Page({
     remainBuy: 0,                 //限购剩余购买数量
     btnStatus:false,              //立即购买按钮状态
     limitBuyText: '立即购买',      //购买按钮显示限购数量
+    descPopup: 0,                 //显示商品简介（规格）
     limitBuyNum: 0                //限购数量
   },
   onLoad: function (options) {
@@ -50,7 +53,10 @@ Page({
       articleId: options.id
     })
     // 获取商品详情
-    req(app.globalData.bastUrl, 'appv3_1/goods/' + this.data.articleId+'?mask=1').then(res => {
+    //'appv3_1/goods/' + this.data.articleId+'?mask=1'
+    // 'appv6_5/getCommodityDetail/' + this.data.articleId+'?mask=0'
+    req(app.globalData.bastUrl, 'appv6_5/getCommodityDetail/' + this.data.articleId+'?mask=0').then(res => {
+    //req(app.globalData.bastUrl, 'appv3_1/goods/' + this.data.articleId+'?mask=1').then(res => {
 
       if (typeof res.data === 'string'){
         //如果data不是对象，可能是含有\u2028,会导致解析错误
@@ -66,20 +72,28 @@ Page({
         }
       }
       this.setData({
-        modulesGuessLike: res.data.modules[1].data.result,
-        desc: util.replaceBr(res.data.desc),
-        content: util.replaceBr(res.data.content)
+        modulesGuessLike: res.data.related_goods,
+        desc: util.replaceBr(res.data.post.desc),
+        content: util.replaceBr(res.data.content),
+        sellerInfo: res.data.seller_related_goods
       })
-      const goodInfo = res.data
-      const modulesUserGoods = res.data.modules[0]
+      const goodInfo = res.data.post
+      if(goodInfo.video){
+        goodInfo.banner.unshift(goodInfo.video)
+        this.setData({
+          hasVideo: true
+        })
+      }
+      const modulesUserGoods = res.data.seller_related_goods
       // 单个款式 直接显示预售且 选择框消失
       // 多个款式 选择框显示 预售消失 （在选中款式时，更新预售状态，以及选中的款式）
-      const styleNum = goodInfo.type.length
+      const styleNum = res.data.type.length
       let presellTime = null
       let selectStyleId = null
       let specialOfferStatus = false
       let specialOfferPrice = false
-      goodInfo.type.forEach((item,index) => {
+      goodInfo.type = res.data.type
+      res.data.type.forEach((item,index) => {
         if (item.postsRestrictionNumber != undefined) {
           item.restrictionTypes = 0 //商品限购
           item.limitBuyNum = item.postsRestrictionNumber //限购数量
@@ -111,8 +125,8 @@ Page({
         })
       }
       // 添加/64
-      res.data.seller.avatar = res.data.seller.avatar
-      res.data.modules[0].data.result[0].avatar = res.data.modules[0].data.result[0].avatar
+      res.data.seller_related_goods.avatar = res.data.seller_related_goods.avatar
+     // res.data.modules[0].data.result[0].avatar = res.data.modules[0].data.result[0].avatar //暂时删掉
 
       //生成卖出数量文字
       let soldCountTxt = '';
@@ -148,7 +162,7 @@ Page({
       }
 
       // 神策 浏览商品详情页
-      app.sensors.track('commodityDetail', { commodityID: String(this.data.articleId), sellerID: String(this.data.goodInfo.seller.id) });
+      app.sensors.track('commodityDetail', { commodityID: String(this.data.articleId), sellerID: String(this.data.sellerInfo.id) });
 
     },(err)=>{
       setTimeout(()=>{
@@ -704,7 +718,16 @@ Page({
       })
     };
   },
-
+  showDesc(){
+    this.setData({
+      descPopup: true
+    })
+  },
+  hideDescPopup(){
+    this.setData({
+      descPopup: false
+    })
+  },
   // 获取领券和返券
   getCouponList: function(id){
     req(app.globalData.bastUrl, 'appv6/coupon/getPostsCouponList', { 'post_id[]':id},'GET').then(res => {
