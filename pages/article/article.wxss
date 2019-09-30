@@ -207,10 +207,33 @@ page{
 .desc{
   padding: 30rpx;
   border-bottom: 16rpx solid #F5F5F5;
+  overflow: hidden;
+  height: 740rpx;
 }
 .content{
   padding: 30rpx;
   word-break: break-all;
+}
+.content .tab_tits .active::after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: .05333333rem;
+  background: #000;
+  box-shadow: 2px 2px 8px 0 rgba(0,0,0,.38), 0 0 2px 0 rgba(0,0,0,.22);
+  border-radius: 3px;
+  bottom: .38rem;
+  left: 0;
+}
+.content .tab_tits{
+  display: block;
+  height: 70rpx;
+}
+.content .tab_tits .title{
+  display: inline-block;
+  height: 70rpx;
+  margin-right: 40rpx;
+  font-size: 38rpx;
 }
 .desc .title,
 .content .title{
@@ -219,6 +242,7 @@ page{
   line-height: 32rpx;
   margin-bottom: 20rpx;
   display: block;
+  position: relative;
 }
 .desc .text_details,
 .content .text_details{
@@ -227,11 +251,47 @@ page{
   font-weight: 300;
   font-family:  normal;
 }
+.desc .text_details{
+  display: block;
+  height: 720rpx;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  white-space: wrap;
+  position: relative;
+
+}
+
+.problems .tit{
+  display: block;
+  font-size: 32rpx;
+  font-weight: 900;
+  margin-bottom: 15rpx;
+  margin-top: 30rpx;
+}
+.problems .cont{
+  display: block;
+  font-size: 26rpx;
+  font-weight: 300;
+}
+.share_content .fr{
+  float: right;
+  margin-right: 30rpx;
+  font-size: 26rpx;
+  color: #8F8F8F;
+}
+.share_content .fr_1{
+  float: right;
+  margin-right: 80rpx;
+  font-size: 26rpx;
+  color: #8F8F8F;
+}
 .img_txt_img{
   margin: 10rpx 0;
 }
 .images{
-  padding: 30rpx 0 30rpx 30rpx;
+  padding: 30rpx 0 30rpx 0rpx;
+  width: 750rpx;
+ 
 }
 .images image{
   width: 216rpx;
@@ -344,18 +404,20 @@ page{
   top: 5rpx;
 }
 .user_goods .good_items{
-  height: 368rpx;
+  height: 434rpx;
   white-space: nowrap;
   z-index: 999;
   background: #f4f4f4;
   display: flex;
   justify-content: space-around;
   width: 720rpx;
+  color: #8F8F8F;
+  font-size: 26rpx;
 }
 .user_goods .good_items .good_item{
   display: inline-block;
   width: 286rpx;
-  height: 366rpx;
+  height: 409rpx;
   margin-right: 20rpx;
   /* border-radius: 16rpx; */
   margin-top: 30rpx;
@@ -367,22 +429,32 @@ page{
 }
 .user_goods .good_items view{
   width: 286rpx;
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis;
   overflow: hidden;
-  white-space: nowrap;
+  white-space: nowrap; */
   font-size: 28rpx;
   margin-top: 20rpx;
   line-height: 28rpx;
-  word-break: break-all;
+  display: -webkit-box;
   text-overflow: ellipsis;
-  display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-   -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-   -webkit-line-clamp: 2; /** 显示的行数 **/
-   overflow: hidden;  /** 隐藏超出的内容 **/
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: pre-line;
+
+  font-size: 26rpx;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:2;
+
+}
+.user_goods .good_items .price{
+  margin-top: 8rpx;
+  height: 32rpx;
 }
 
+
 .guess_like{
-  padding: 0 30rpx 100rpx;
+  padding: 0 0rpx 100rpx;
 }
 .iphoneX_guess_like{
   padding: 0 30rpx 168rpx;
@@ -390,25 +462,29 @@ page{
 .guess_like .title{
   font-size: 32rpx;
   font-weight: 700;
-  padding: 30rpx 0;
+  padding: 30rpx;
   line-height: 32rpx;
 }
 .guess_like .good_item{
   padding-bottom: 40rpx;
-  width: 690rpx;
+  width: 345rpx;
+  float: left;
+  margin-left: 20rpx;
+  color: #8E8E8E;
 }
 .guess_like .good_item .cover{
-  width: 336rpx;
-  height: 172rpx;
-  border-radius: 12rpx;
-  margin-right: 30rpx;
+  width: 345rpx;
+  height: 345rpx;
+  margin-right: 0rpx;
 }
 .guess_like .good_item .article_title{
-  width: 324rpx;
+  width: 340rpx;
   overflow: hidden;
-  height: 72rpx;
-  line-height: 36rpx;
-  font-size: 26rpx;
+  height: 64rpx;
+  line-height: 32rpx;
+  font-size: 28rpx;
+  margin: 0 auto;
+  margin-top: 18rpx;
 }
 .guess_like .good_item .user_avatar{
   width: 32rpx;
@@ -424,11 +500,12 @@ page{
   overflow: hidden;
   white-space: nowrap;
   width: 280rpx;
-  margin: 18rpx 0 16rpx 0;
+  /* margin: 18rpx 0 16rpx 0; */
 }
 .guess_like .good_item .price{
   font-size: 32rpx;
   line-height: 1em;
+  color: #111111;
 }
 .btns{
   position: fixed;
@@ -816,6 +893,7 @@ page{
   top:0;
   bottom: 0;
   background: rgba(0,0,0,.3);
+  transition: all 0.3s ease 0.1s;
 
 }
 .coupon_popup_wrap,.desc_wrap{

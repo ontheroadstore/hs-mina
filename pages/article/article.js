@@ -10,10 +10,12 @@ Page({
     goodInfo: null,               // 商品信息
     desc: null,
     content: null,
+    problems:[],                  // 常见问题数组
+    tabTit: 1,                    // 商品详情和常见问题切换  1 商品相亲 2常见问题
     sellerInfo:'',                // 商家的信息
     hasVideo: false,              // 是否有视频
     selectStyleId: null,          // 选中的款式ID
-    selectStylePostage: null,     // 选中的款式运费
+    selectStylePostage: 0,     // 选中的款式运费
     selectStyleName: null,        // 选中的款式名称
     selectStylePrice: null,       // 选中款式的价格
     selectStyleCount: 1,          // 选中款式的数量
@@ -52,6 +54,14 @@ Page({
     this.setData({
       articleId: options.id
     })
+
+    //购买须知 常见问题
+    req(app.globalData.bastUrl,`appv6_1/goods/1096099/assessment?${options.id}`).then(res=>{
+      this.setData({
+        problems: res.data.problem
+      })
+    })
+
     // 获取商品详情
     //'appv3_1/goods/' + this.data.articleId+'?mask=1'
     // 'appv6_5/getCommodityDetail/' + this.data.articleId+'?mask=0'
@@ -130,7 +140,7 @@ Page({
 
       //生成卖出数量文字
       let soldCountTxt = '';
-      if (goodInfo.purchaseList && goodInfo.purchaseList.total_count>0){
+      // if (goodInfo.purchaseList && goodInfo.purchaseList.total_count>0){
         let soldCount = goodInfo.sale_count;
         if (soldCount>10000){
           soldCount = Math.ceil(soldCount/1000)/10;
@@ -138,7 +148,7 @@ Page({
         }else{
           soldCountTxt = soldCount;
         }
-      }
+      // }
       this.setData({
         presellTime: presellTime,
         styleNum: styleNum,
@@ -189,6 +199,12 @@ Page({
   activityToast: function () {
     wx.navigateTo({
       url: "/pages/webView/webView?url=" + app.globalData.bastUrl + "appv5_1/wxapp/adPage/17&title=夏日饮酒专场"
+    })
+  },
+  // tab切换
+  tabSelect(e){
+    this.setData({
+      tabTit: e.target.dataset.tittype
     })
   },
   onShow: function () {
@@ -575,6 +591,7 @@ Page({
       goodInfo.newType = newType
       wx.setStorageSync('orderData', goodInfo)
     }
+    
     const url = '/pages/createOrder/createOrder?type=0'
     wx.navigateTo({
       url: url

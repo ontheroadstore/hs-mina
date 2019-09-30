@@ -2,9 +2,9 @@
   <!-- <image class='frontcover' mode="aspectFill" src='{{goodInfo.banner[0]}}@640w_1l'></image> -->
   <swiper class="articleBanner">
     <block wx:for="{{goodInfo.banner}}" wx:key >
-      <swiper-item  wx:if="{{hasVideo}}">
+      <swiper-item  wx:if="{{hasVideo&&index!=goodInfo.banner.length-1}}">
         <image wx:if="{{index!=0}}" src="{{item}}" class="slide-image"/>
-        <video wx:if="{{index==0}}" class='frontcover' id="myVideo" src="{{item}}" enable-danmu danmu-btn controls></video>
+        <video wx:if="{{index==0}}" class='frontcover' id="myVideo" src="{{item}}" poster="{{goodInfo.banner[goodInfo.banner.length-1]}}" enable-danmu danmu-btn controls></video>
       </swiper-item>
       <swiper-item wx:if="{{!hasVideo}}">
         <image src="{{item}}" class="slide-image"/>
@@ -13,10 +13,9 @@
   </swiper>
   <view class='good_title' wx:if="{{soldCountTxt==''}}">{{goodInfo.title}}</view>
   <view class='good_title good_title_and_count'wx:else>{{goodInfo.title}}
-    <view class="sale_count_wrap" bindtap="navigateToPurchaseList">
-      <view class="sale_count_txt">已哆嗦</view>
-      <view>{{soldCountTxt}}件</view>
-    </view>
+    <!-- <view class="sale_count_wrap" bindtap="navigateToPurchaseList">
+      <view class="sale_count_txt">已哆嗦{{soldCountTxt}}</view>
+    </view> -->
   </view>
   <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view>
   <view class='share_content'>
@@ -38,6 +37,9 @@
     <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view>
     <image class='share' src='/images/share.png' bindtap='share'></image>
     <button class='share_btn' open-type="share">转发</button>
+    <text class="fr fr_1">已哆嗦{{soldCountTxt}}件</text>
+    <text class="fr ">{{selectStylePostage!=0?'运费:'+selectStylePostage:'包邮'}}</text>
+   
   </view>
   <view class="overseas" wx:if="{{goodInfo.require_duty}}">
     <!-- <view class="cont">  
@@ -94,7 +96,7 @@
     <text class='text_details'>{{desc}}</text>
   </view> -->
   <view class='user_goods'>
-    <view class='user_info clearBoth'>
+    <view class='user_info clearBoth'  bindtap="navigateToUser" data-name="{{modulesUserGoods.name}}" data-btn='全部狠货' data-id="{{modulesUserGoods.id}}">
       <image class='float_left' src='{{modulesUserGoods.avatar}}'></image>
       <view class='user_name float_left'>{{modulesUserGoods.name}}</view>
       <view class='user_motto float_left'>{{modulesUserGoods.motto?modulesUserGoods.motto:'这家伙太懒了，啥都没写'}}</view>
@@ -103,28 +105,46 @@
     <scroll-view class='good_items' scroll-x  wx:if="{{modulesUserGoods.goodslist.length != 0}}">
       <view class='good_item' wx:for="{{modulesUserGoods.goodslist}}" wx:key="key">
         <image mode="aspectFill" lazy-load  src='{{item.cover}}' data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0"></image>
-        <view data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0">{{item.title}}</view>
+        <view class="tit" data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0">{{item.title}}</view>
+        <view class="price" wx:if="{{item.price.length==2}}">¥{{item.price[0]}}-{{item.price[1]}}</view>
+        <view class="price" wx:if="{{item.price.length==1}}">¥{{item.price[0]}}</view>
       </view>
     </scroll-view>
   </view>
 
   <view wx:if="{{imgTxtArr.length>0}}">
     <view class='content'>
-      <text class='title'>狠人说</text>
-      <view wx:for="{{imgTxtArr}}" wx:for-item="imgTxt" wx:key="imgTxt">
+      <veiw class="tab_tits">
+        <text class="title {{tabTit==1?'active':''}}" data-tittype='1' bindtap="tabSelect">商品详情</text>
+        <text class="title {{tabTit==2?'active':''}}"  data-tittype='2' bindtap="tabSelect">购物须知</text>
+      </veiw>
+      <view wx:if="{{tabTit==1}}" wx:for="{{imgTxtArr}}" wx:for-item="imgTxt" wx:key="imgTxt">
         <text class='text_details' wx:if="{{imgTxt.type==0}}">{{imgTxt.txt}}</text>
         <image class="img_txt_img" wx:if="{{imgTxt.type==1}}" mode="widthFix" lazy-load src="{{imgTxt.url}}" style="width: {{imgTxt.imgW}};height: {{imgTxt.imgH}};"></image>
       </view>
-      
+      <view wx:if="{{tabTit==2}}" class="problems">
+        <view wx:for="{{problems}}" :key="key">
+          <text class="tit">{{item.title}}</text>
+          <text class="cont">{{item.content}}</text>
+        </view>
+      </view>
     </view>
   </view>
-  <view wx:else>
-  
-    <view class='content' wx:if="{{content}}">
-      <text class='title'>狠人说</text>
-      <text class='text_details'>{{content}}</text>
+  <view class='content' wx:else>
+    <veiw class="tab_tits">
+        <text class="title {{tabTit==1?'active':''}}" data-tittype='1' bindtap="tabSelect">商品详情</text>
+        <text class="title {{tabTit==2?'active':''}}"  data-tittype='2' bindtap="tabSelect">购物须知</text>
+    </veiw>
+    <view wx:if="{{tabTit==2}}" class="problems">
+      <view wx:for="{{problems}}" :key="key">
+        <text class="tit">{{item.title}}</text>
+        <text class="cont">{{item.content}}</text>
+      </view>
     </view>
-    <view class='images clearBoth'>
+    <view  wx:if="{{goodInfo.content&&tabTit==1}}">
+      <text class='text_details'>{{goodInfo.content}}</text>
+    </view>
+    <view class='images clearBoth'wx:if="{{tabTit==1}}">
       <image wx:key="key" bindtap='previewImage' data-url="{{item}}" mode="aspectFill" lazy-load wx:for="{{goodInfo.images}}" src='{{item}}@!320x320' data-original="{{item}}@!rel"></image>
     </view>
 
@@ -141,11 +161,11 @@
   -->
  
   <view class="guess_like {{isIphoneX? 'iphoneX_guess_like' : ''}}">
-    <view class='title'>猜你喜欢</view>
+    <view class='title'>你可能也喜欢</view>
     <view class="good_item clearBoth" wx:key="key" wx:for="{{modulesGuessLike}}" wx:if="{{index < 5}}">
       <image bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
       <view bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
-      <image bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-satype="1" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+      <!-- <image bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-satype="1" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" /> -->
       <text bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-satype="1" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
       <text class="price font_din float_left">￥ {{item.price[0]}}</text>
     </view>
@@ -252,11 +272,13 @@
     </view>
   </view>
   <!-- 优惠券列表弹窗 -->
-  <view class="desc_mask" catchtouchmove="true"  bindtap='hideDescPopup' hidden="{{descPopup ? false : true}}">
+  <view class="desc_mask"  bindtap='hideDescPopup' wx:if="{{!descPopup ? false : true}}">
     <view class="desc_wrap">
       <view class='desc' wx:if="{{desc}}">
         <text class='title'>狠货简介</text>
-        <text class='text_details'>{{desc}}</text>
+        <view class='text_details'>{{desc}}{{desc}}{{desc}}{{desc}}{{desc}}{{desc}}{{desc}}
+        </view>
+        
       </view>
     </view>
   </view>
