@@ -37,7 +37,7 @@
     <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view>
     <image class='share' src='/images/share.png' bindtap='share'></image>
     <button class='share_btn' open-type="share">转发</button>
-    <text class="fr fr_1">已哆嗦{{soldCountTxt}}件</text>
+    <text class="fr fr_1"  bindtap="navigateToPurchaseList">已哆嗦{{soldCountTxt}}件</text>
     <text class="fr ">{{selectStylePostage!=0?'运费:'+selectStylePostage:'包邮'}}</text>
    
   </view>
@@ -160,7 +160,7 @@
   </view>   
   -->
  
-  <view class="guess_like {{isIphoneX? 'iphoneX_guess_like' : ''}}">
+  <view class="guess_like clearBoth {{isIphoneX? 'iphoneX_guess_like' : ''}}">
     <view class='title'>你可能也喜欢</view>
     <view class="good_item clearBoth" wx:key="key" wx:for="{{modulesGuessLike}}" wx:if="{{index < 5}}">
       <image bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
@@ -276,7 +276,7 @@
     <view class="desc_wrap">
       <view class='desc' wx:if="{{desc}}">
         <text class='title'>狠货简介</text>
-        <view class='text_details'>{{desc}}{{desc}}{{desc}}{{desc}}{{desc}}{{desc}}{{desc}}
+        <view class='text_details'>{{desc}}
         </view>
         
       </view>

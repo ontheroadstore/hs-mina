@@ -576,6 +576,7 @@ Page({
       newType[0]['number'] = 1
       newType[0]['desc'] = null
       goodInfo.newType = newType
+      goodInfo.seller = this.data.sellerInfo
       wx.setStorageSync('orderData', goodInfo)
     } else {
       let selectStyleId = this.data.selectStyleId
@@ -589,6 +590,7 @@ Page({
         }
       })
       goodInfo.newType = newType
+      goodInfo.seller = this.data.sellerInfo
       wx.setStorageSync('orderData', goodInfo)
     }
     
@@ -623,11 +625,12 @@ Page({
   },
   // 跳转用户
   navigateToUser: function (e) {
-    let id = e.target.dataset.id
-    let name = e.target.dataset.name
-    let index = e.target.dataset.index
-    let satype = e.target.dataset.satype
-    let btn = e.target.dataset.btn
+    let id = e.currentTarget.dataset.id
+    let name = e.currentTarget.dataset.name
+    let index = e.currentTarget.dataset.index
+    let satype = e.currentTarget.dataset.satype
+    let btn = e.currentTarget.dataset.btn
+    console.log(e)
     let type = ['卖家推荐商品', '猜你喜欢']
     const url = '/pages/user/user?id=' + id + '&name=' + name
     wx.redirectTo({
