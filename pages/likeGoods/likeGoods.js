@@ -123,6 +123,7 @@ Page({
     let id = e.target.dataset.id
     let name = e.target.dataset.name
     let index = e.target.dataset.index
+    console.log(e)
     const url = '/pages/user/user?id=' + id + '&name=' + name
     wx.navigateTo({
       url: url

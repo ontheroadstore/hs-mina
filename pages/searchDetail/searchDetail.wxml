@@ -7,8 +7,8 @@
     <view class="{{isSort==0?'active':''}}" data-type='0' bindtap="sortSearch">综合</view>
     <view class="{{isSort==1?'active':''}}" data-type='1' bindtap="sortSearch">销量</view>
     <view class="{{isSort==2?'active':''}}" data-type='2' bindtap="sortSearch">新品</view>
-    <view class="price {{isSort>2?'active':''}}" data-type='3' bindtap="sortSearch">价格
-      <image class="{{Lifting==2?'':'rotate180'}}" src="../../images/arrow_three.png"></image>
+    <view class="price {{isSort==3?'active':''}}" data-type='3' bindtap="sortSearch">价格
+      <image class="{{Lifting==1?'':'rotate180'}}" src="../../images/arrow_three.png"></image>
     </view>
   </view>
   <view class="bor-one" wx:if="{{searchFinish}}"></view>

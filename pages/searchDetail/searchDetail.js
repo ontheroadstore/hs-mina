@@ -176,17 +176,27 @@ Page({
     })
   },
   //点击排序类型
+  // clickSort: false,
   sortSearch(e){
+    // if(this.clickSort){
+    //   return
+    // }
+    // this.clickSort =true
+    // setTimeout(()=>{
+    //   this.clickSort =false
+    // },2000)
+
     if(e.target.dataset.type==3){
       this.setData({
         Lifting: this.data.Lifting==1?'2':'1'
       })
     }
     this.setData({
-      isSort: e.target.dataset.type,
+      isSort: e.currentTarget.dataset.type,
       pageNum: 1,
       searchList: []
     })
+  
     this.searchWord()
   },
   hideDeleteIcon(){
