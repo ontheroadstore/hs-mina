@@ -34,13 +34,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 7,
 			"list": [
 				{
 					"id": 0,
 					"name": "pages/article/article",
 					"pathName": "pages/article/article",
-					"query": "id=590422",
+					"query": "id=1096064",
 					"scene": null
 				},
 				{
@@ -82,6 +82,13 @@
 					"id": -1,
 					"name": "我的个人中心",
 					"pathName": "pages/me/me",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "购物车啊",
+					"pathName": "pages/chart/chart",
 					"query": "",
 					"scene": null
 				}

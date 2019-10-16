@@ -10,6 +10,7 @@ Page({
     goodInfo: null,               // 商品信息
     desc: null,
     content: null,
+    adTop: null,                  // banner下面得广告位
     problems:[],                  // 常见问题数组
     tabTit: 1,                    // 商品详情和常见问题切换  1 商品相亲 2常见问题
     sellerInfo:'',                // 商家的信息
@@ -94,6 +95,16 @@ Page({
           hasVideo: true
         })
       }
+      if(goodInfo.adList){
+        goodInfo.adList.forEach(v=>{
+          if(v.url_type==1){
+            this.setData({
+              adTop: v
+            })
+          }
+        })
+      }
+     
       const modulesUserGoods = res.data.seller_related_goods
       // 单个款式 直接显示预售且 选择框消失
       // 多个款式 选择框显示 预售消失 （在选中款式时，更新预售状态，以及选中的款式）
@@ -248,6 +259,11 @@ Page({
   jumpLogin(){
     wx.navigateTo({
       url: '/pages/login/login',
+    })
+  },
+  jumpArticle(e){
+    wx.navigateTo({
+      url: '/pages/article/article?id='+e.currentTarget.dataset.pid,
     })
   },
   // 分享
@@ -570,6 +586,9 @@ Page({
     }
     // 设置选择的款式，以及数量，进行数据缓存（没有款式，直接存储）
     let goodInfo = this.data.goodInfo
+    if(this.data.hasVideo){
+      goodInfo.banner[0] = goodInfo.banner[goodInfo.banner.length-1] 
+    }
     goodInfo.articleId = parseInt(this.data.articleId)
     if (this.data.styleNum == 1) {
       let newType = goodInfo.type

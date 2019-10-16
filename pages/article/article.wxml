@@ -11,6 +11,9 @@
       </swiper-item>
     </block>
   </swiper>
+  <view class="ad_top" wx:if="{{adTop}}" data-type="{{adTop.url_type}}" data-pid='{{adTop.url}}' bindtap="jumpArticle">
+    <image src="{{adTop.image}}"></image>
+  </view>
   <view class='good_title' wx:if="{{soldCountTxt==''}}">{{goodInfo.title}}</view>
   <view class='good_title good_title_and_count'wx:else>{{goodInfo.title}}
     <!-- <view class="sale_count_wrap" bindtap="navigateToPurchaseList">
@@ -40,6 +43,9 @@
     <text class="fr fr_1"  bindtap="navigateToPurchaseList">已哆嗦{{soldCountTxt}}件</text>
     <text class="fr ">{{selectStylePostage!=0?'运费:'+selectStylePostage:'包邮'}}</text>
    
+  </view>
+  <view class="maidian" wx:if="{{goodInfo.maidian}}">
+    {{goodInfo.maidian}}
   </view>
   <view class="overseas" wx:if="{{goodInfo.require_duty}}">
     <!-- <view class="cont">  
@@ -162,12 +168,18 @@
  
   <view class="guess_like clearBoth {{isIphoneX? 'iphoneX_guess_like' : ''}}">
     <view class='title'>你可能也喜欢</view>
-    <view class="good_item clearBoth" wx:key="key" wx:for="{{modulesGuessLike}}" wx:if="{{index < 5}}">
-      <image bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
-      <view bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
-      <!-- <image bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-satype="1" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" /> -->
-      <text bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-satype="1" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
-      <text class="price font_din float_left">￥ {{item.price[0]}}</text>
+    <view  class="clearBoth" style="float: left;" wx:key="key" wx:for="{{modulesGuessLike}}" wx:if="{{index < 40}}">
+     
+      <view class="relate_ad" wx:if="{{!item.title}}" data-pid="{{item.url}}" bindtap="jumpArticle">
+        <image src="{{item.image}}"></image>
+      </view>
+      <view class="good_item" wx:else>
+          <image bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
+          <view bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="article_title float_left">{{index}}{{item.title}}</view>
+          <!-- <image bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-satype="1" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" /> -->
+          <text bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-satype="1" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+          <text class="price font_din float_left">￥ {{item.price[0]}}</text>
+        </view>
     </view>
   </view>
   <view class="btns clearBoth {{isIphoneX?'iphoneX_btns':''}}">

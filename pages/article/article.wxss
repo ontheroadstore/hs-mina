@@ -472,6 +472,13 @@ page{
   margin-left: 20rpx;
   color: #8E8E8E;
 }
+.guess_like .relate_ad{
+  width: 710rpx;
+  height: 234rpx;
+  float: left;
+  margin-left: 20rpx;
+  margin-bottom: 40rpx;
+}
 .guess_like .good_item .cover{
   width: 345rpx;
   height: 345rpx;
@@ -1037,7 +1044,25 @@ page{
   transform: translateY(-50%);
   z-index: 9999;
 }
-
+/* 卖点 */
+.maidian{
+  width: 750rpx;
+  height: 234rpx;
+  box-sizing: border-box;
+  padding: 50rpx 40rpx 30rpx 150rpx;
+  font-size: 24rpx;
+  color: #525151;
+  background:  url('https://img8.ontheroadstore.com/wxapp_static/store/detail_maidian.png') no-repeat;
+  background-size: cover;
+}
+.ad_top{
+  width: 750rpx;
+  height: 146rpx;
+}
+.ad_top image{
+  width: 750rpx;
+  height: 146rpx;
+}
 
 
 
