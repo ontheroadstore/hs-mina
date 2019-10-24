@@ -895,7 +895,11 @@
   color: #AE2121;
 }
 
-
+.full_reduce{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
 

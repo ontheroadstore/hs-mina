@@ -41,6 +41,13 @@
     <image class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='头像' src='{{goodInfo.seller.avatar}}'></image>
     <text class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='店铺'>{{goodInfo.seller.announcement}}</text>
   </view>
+  <view class="style full_reduce" wx:if="{{fullReduceInfo}}" data-spid="{{fullReduceInfo.sp_id}}" data-sptime="{{fullReduceInfo.sp_time}}" data-spname='{{fullReduceInfo.sp_name}}' bindtap="jumpFullReduce">
+    <view class='label'>满减</view>
+    <view class="coupon_tag coupon_tag_back" style="background: #AE2121;">{{fullReduceInfo.sp_title}}</view>
+    <view class="" style="width: 280rpx;display: inline-block;"> {{fullReduceInfo.sp_name}}</view>
+    <view class="active_goods">去逛逛</view>
+    <image class='more' src='/images/gt.png'></image>
+  </view>
   <view class='style' bindtap='setCouponPopup' data-type="1" wx:if="{{getCoupon && getCoupon.length>0}}">
     <view class='label'>领券</view>
     <view class="coupon_tag" wx:for="{{getCoupon}}"  wx:for-index="index" wx:for-item="coupon" wx:if="{{index<2}}" wx:key="index">{{coupon.desc}}</view>
@@ -141,9 +148,9 @@
       <image src='/images/likeSelected.png' wx:else></image>
       <text>收藏</text>
     </view>
-    <view class='chart_btn float_left' wx:if="{{!activityCanBy}}" bindtap="{{styleNum> 1?'selectShow':'addChart'}}" data-type="1">加入购物车</view>
+    <view class='chart_btn float_left' wx:if="{{!activityCanBy}}" bindtap="{{styleNum> 1?'selectShow':'addChart'}}" data-type="1"  style="{{fullReduceInfo?'width: 534rpx;right:0;':''}}">加入购物车</view>
     <view class='chart_btn float_left' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
-    <view class='buy_btn float_left' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2">立即购买</view>
+    <view class='buy_btn float_left' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2" wx:if="{{!fullReduceInfo}}">立即购买</view>
     <view class="cant_buy {{isIphoneX ? 'iphoneX_cant_buy':''}}" wx:if='{{goodInfo.is_only_app_sale==1}}' bindtap='downloadApp'>
       <text class='open_app_title'>打开APP</text>
       <text class='open_app_txt'>仅有少量现货在APP上购买</text>
@@ -190,10 +197,10 @@
           </view>
         </view>
       </scroll-view>
-        <view class='chart_btn' wx:if="{{selectType==0&&!activityCanBy}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}">加入购物车</view> 
+        <view class='chart_btn' wx:if="{{selectType==0&&!activityCanBy}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}" style="{{fullReduceInfo?'width: 750rpx;':''}}">加入购物车</view> 
         <view class='chart_btn' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
 
-        <view class='buy_btn {{btnStatus?"buy_btn_no":""}}' wx:if="{{selectType==0}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}">{{limitBuyText}}</view>
+        <view class='buy_btn {{btnStatus?"buy_btn_no":""}}' wx:if="{{selectType==0&&!fullReduceInfo}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}" >{{limitBuyText}}</view>
 
       <view class="select_cant_buy cant_buy {{isIphoneX ? 'iphoneX_cant_buy':''}}" wx:if='{{goodInfo.is_only_app_sale==1}}' bindtap='downloadApp'>
         <text class='open_app_title'>打开APP</text>

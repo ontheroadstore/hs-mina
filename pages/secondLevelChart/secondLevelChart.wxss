@@ -1,11 +1,13 @@
 .seller_item{
   border-top: 16rpx solid #F5F5F5;
-  padding-right: 30rpx;
+  padding-right: 20rpx;
+  padding-bottom: 40rpx;
 }
 .user_info{
-  border-bottom: 2rpx solid #E8E8E8;
+  /* border-bottom: 2rpx solid #E8E8E8; */
   height: 94rpx;
   line-height: 94rpx;
+  margin-left: 20rpx;
 }
 .user_info .user_name{
   font-size: 26rpx;
@@ -15,13 +17,24 @@
 .order_item{
   padding: 30rpx 0;
   position: relative;
+  margin-left: 20rpx;
+  width: 710rpx;
+  border-right: 20rpx solid #FFF;
+  background: #FFF;
+ 
+}
+.has_full_reduce{
+  background: #FCF8F8;
+}
+.last_full_reduce{
+  border-radius: 0 0 18rpx 18rpx;
 }
 .order_item_opacity{
   opacity: 0.5;
 }
 .order_item .cover{
-  width: 286rpx;
-  height: 146rpx;
+  width: 256rpx;
+  height: 130rpx;
   border-radius: 12rpx;
   margin-right: 30rpx;
 }
@@ -44,10 +57,10 @@
 
 .order_item .text_hint{
   position: absolute;
-  bottom: 30rpx;
-  left: 92rpx;
+  bottom: 42rpx;
+  left: 80rpx;
   font-size: 24rpx;
-  width: 286rpx;
+  width: 256rpx;
   height: 30rpx;
   line-height: 30rpx;
   text-align: center;
@@ -58,7 +71,7 @@
 }
 
 .good_title{
-  width: 312rpx;
+  width: 322rpx;
   height: 68rpx;
   line-height: 34rpx;
   font-size: 26rpx;
@@ -67,10 +80,11 @@
 }
 .good_info{
   font-size: 26rpx;
-  width: 312rpx;
+  width: 322rpx;
   line-height: 26rpx;
   margin-bottom: 10rpx;
   height: 26rpx;
+  position: relative;
 }
 .good_info_hide{
   opacity: 0;
@@ -87,15 +101,18 @@
 
 }
 .good_info .good_price{
-  width: 50%;
   text-align: right;
   color: #AE2121;
   display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 36rpx;
+
 }
 .good_info .special_offer_price{
   position: absolute;
-  top: 134rpx;
-  right: 0;
+  top: 36rpx;
+  left: 90rpx;
   font-size: 24rpx;
   color: #999;
 }
@@ -113,6 +130,7 @@
   height: 30rpx;
   font-size: 28rpx;
   line-height: 30rpx;
+  margin-right: 20rpx;
 }
 .num_content .add_icon,
 .num_content .sub_icon{
@@ -161,10 +179,11 @@
   left: 0;
   height: 96rpx;
   border-top: 2rpx solid #E8E8E8;
-  width: 690rpx;
+  width: 720rpx;
   background: #FFF;
   padding-right: 30rpx;
   line-height: 96rpx;
+  z-index: 200;
 }
 .isIphoneX_chart_content{
   padding: 0 30rpx 68rpx 30rpx;
@@ -188,23 +207,31 @@
 }
 .chart_content .total_text{
   font-size: 24rpx;
+  margin-right: 30rpx;
+  line-height: 48rpx;
 }
 .chart_content .total_text text{
   font-size: 28rpx;
   color: #AE2121;
-  font-weight: 100;
+  font-weight: 900;
 }
 .chart_content .no_postage{
-  font-size: 24rpx;
+  font-size: 20rpx;
   color:  #838383;
+  line-height: 50rpx;
   margin: 0 30rpx 0 20rpx;
 }
-
+.chart_content .total_text .save_money{
+  display: block;
+  font-size: 20rpx;
+  line-height: 30rpx;
+}
 .checkbox_icon{
   width: 32rpx;
   height: 32rpx;
   background: none;
   padding: 30rpx;
+  padding-left: 20rpx;
 }
 
 .no_data{
@@ -317,4 +344,88 @@
 .getUserInfo_content button.pass{
   opacity: 0;
   z-index: 1;
+}
+.full_reduce_tip {
+  width: 710rpx;
+  margin-left: 20rpx;
+  height: 60rpx;
+  background: #FCF8F8;
+  border-radius: 18rpx 18rpx 0 0;
+  position: relative;
+}
+.full_reduce_tip text{
+  display: inline-block;
+  font-size: 24rpx;
+  /* line-height: 60rpx; */
+  /* margin-top: 20rpx; */
+ 
+}
+.full_reduce_tip .tit{
+  margin-left: 20rpx;
+  height: 32rpx;
+  border-radius: 16rpx;
+  background: #AE2121;
+  font-size: 20rpx;
+  padding: 0 16rpx;
+  color: #FFF;
+  max-width: 200rpx;
+}
+.full_reduce_tip .time{
+  margin-right: 20rpx;
+  margin-left: 20rpx;
+}
+.full_reduce_tip .has_reduce{
+  position: absolute;
+  z-index: 103;
+  top: 16rpx;
+  left: 160rpx;
+  width: 520rpx;
+  background: #FCF8F8;
+  font-size: 24rpx;
+  height: 30rpx;
+  overflow: hidden;
+}
+.full_reduce_tip .has_reduce text{
+  font-size: 24rpx;
+}
+.full_reduce_tip .has_reduce .coupon{
+  font-size: 24rpx;
+  color: #AE2121;
+  /* margin-left: 20rpx; */
+}
+.full_reduce_tip .no_reduce{
+  position: absolute;
+  z-index: 1;
+  top: 16rpx;
+  left: 160rpx;
+  width: 500rpx;
+  background: #FCF8F8;
+  font-size: 24rpx;
+  height: 30rpx;
+  overflow: hidden;
+}
+.full_reduce_tip .no_reduce text{
+  font-size: 24rpx;
+}
+
+.full_reduce_tip .to_list{
+  width: 200rpx;
+  height: 24rpx;
+  position: absolute;
+  z-index: 100;
+  right: 6rpx;
+  top: 16rpx;
+  color: #AE2121;
+}
+.full_reduce_tip .arrow{
+  width: 24rpx;
+  height: 24rpx;
+  background: #FCF8F8;
+  margin-top: 5rpx;
+}
+.full_reduce_tip .has_reduce .jump_btn{
+  color: #AE2121;
+  position: absolute;
+  right: 0;
+  top: 0;
 }

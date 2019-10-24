@@ -65,9 +65,9 @@
           <view class='good_type float_left'>{{good.model_desc ? good.model_desc: ''}}</view>
           <view class='good_price float_left'>￥ {{good.price}}</view>
           <view class='count_num'>
-            <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum' data-id="{{good.id}}"></image>
-            <text class="good_num float_left">{{good.numbers}}</text>
-            <image class='add_icon float_left' data-sellerindex="{{sellerIndex}}" data-goodindex="{{goodIndex}}" src='/images/add.png' data-remainbuy="{{good.remainBuy?good.remainBuy:''}}" bindtap='addNum' data-id="{{good.id}}" data-remain="{{good.remain}}"></image>
+            <!-- <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum' data-id="{{good.id}}"></image> -->
+            <text class="good_num float_left">x {{good.numbers}}</text>
+            <!-- <image class='add_icon float_left' data-sellerindex="{{sellerIndex}}" data-goodindex="{{goodIndex}}" src='/images/add.png' data-remainbuy="{{good.remainBuy?good.remainBuy:''}}" bindtap='addNum' data-id="{{good.id}}" data-remain="{{good.remain}}"></image> -->
           </view>
         </view>
         <view class='postage_num clearBoth'>

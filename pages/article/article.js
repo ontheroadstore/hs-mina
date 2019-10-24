@@ -40,6 +40,7 @@ Page({
     remainBuy: 0,                 //限购剩余购买数量
     btnStatus:false,              //立即购买按钮状态
     limitBuyText: '立即购买',      //购买按钮显示限购数量
+    fullReduceInfo: null,         //满减相关信息
     limitBuyNum: 0                //限购数量
   },
   onLoad: function (options) {
@@ -66,6 +67,7 @@ Page({
         }
       }
       this.setData({
+        fullReduceInfo: res.data.sale_promotion,
         modulesGuessLike: res.data.modules[1].data.result,
         desc: util.replaceBr(res.data.desc),
         content: util.replaceBr(res.data.content)
@@ -218,6 +220,14 @@ Page({
   jumpLogin(){
     wx.navigateTo({
       url: '/pages/login/login',
+    })
+  },
+  jumpFullReduce(e){
+    let spid = e.currentTarget.dataset.spid;
+    let sptime = e.currentTarget.dataset.sptime;
+    let sptitle = e.currentTarget.dataset.spname;
+    wx.navigateTo({
+      url: `/pages/fullReduce/fullReduce?spid=${spid}&sptime=${sptime}&sptitle=${sptitle}`,
     })
   },
   // 分享

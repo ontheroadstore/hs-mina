@@ -21,6 +21,8 @@ Page({
     couponList:[],//当前优惠券渲染列表
     useCouponId:'',//使用的优惠券id
     useCouponPrice:'',//使用的优惠券金额
+    fullReducePrice: 0, //满减的金额
+    spids:[],
     idCard: '', //身份证号
     isEdit: false, //是去编辑
     isOverSeas: false, //是否是海外的商品
@@ -56,10 +58,44 @@ Page({
     }
     if (options.type == 1) {
       let orderList = wx.getStorageSync('chartData')
+      let fullReduce = wx.getStorageSync('fullReduce') 
+      this.setData({
+        fullReducePrice: fullReduce.fullReducePrice
+        // useCouponId: fullReduce.canUseCouponId,//使用的优惠券id
+        // useCouponPrice:fullReduce.maxCouponPrice//使用的优惠券金额
+      })
       let that = this;
+      let spids = []
+
+      orderList.forEach((v,idx)=>{
+        // users.push(v.seller_user_id)
+        if(idx>0){
+          if(v.seller_user_id==orderList[idx-1].seller_user_id){
+          
+            if(orderList[idx-1].sale_promotion){
+              orderList[idx-1].item.sale_promotion = orderList[idx-1].sale_promotion
+              v.item.concat(orderList[idx-1].item)
+            }else{
+              v.item.concat(orderList[idx-1].item)
+            }
+            orderList.slice(0,idx-1).concat(orderList.slice(idx+1,orderList.length-1));
+            console.log(orderList)
+          }
+        }
+       
+      })
+      console.log(orderList)
+      // users.forEach(v=>{
+
+      // })
       orderList.forEach(function (item, index) {
         let maxPostage = 0
         var numItem = item.item.length
+      
+        if(item.sale_promotion){
+          spids.push(item.sale_promotion.sp_id)
+        }
+      
         item.item.forEach(function (good, i) {
           if (good.postage > maxPostage && good.selectStatus) {
             maxPostage = good.postage
@@ -92,6 +128,8 @@ Page({
         orderType: 1,
         orderList: orderList,
         totalPostage: countPrice.totalPostage,
+        spids: distinct(spids),
+      
         totalPrice: countPrice.totalPrice
       })
     }
@@ -403,18 +441,148 @@ Page({
   },
   //减去优惠券的价格计算
   reduceCoupon(param){
-    console.log("useCouponId:"+this.data.useCouponId)
+    // console.log("useCouponId:"+this.data.useCouponId)
+    // console.log(this.data.useCouponId)
     if(this.data.useCouponId){
       this.data.canUseCoupon.forEach(v=>{
         if(v.id==this.data.useCouponId){
-          param.totalPrice-=v.coupon_price
+          param.totalPrice-=v.coupon_price  
           this.setData({
             useCouponPrice: v.coupon_price
           })
         }
       })
     }
+    param.totalPrice-=this.data.fullReducePrice
     return param
+  },
+  countTotalReduce() {
+
+    let list = this.data.orderList
+    if(!list){
+      return
+    }
+    let totalPrice =0
+    let spids = this.data.spids
+    let reducePrice =[]
+    let couponInfo = null
+    couponInfo = []
+    list.forEach(function (item, index) {
+      
+      item.item.forEach(function (good, i) {
+        if (good['selectStatus'] && good['is_sku_deleted'] == 0 && good['remain'] > 0 && !good['special_offer_end']) {
+          if(item.sale_promotion){
+            //计算满减的金额
+            spids.forEach(v=>{
+              if(v==item.sale_promotion.sp_id){
+                if(couponInfo.length){
+                  couponInfo.forEach(s=>{
+                    if(item.sale_promotion.sp_id!=s.promotion.sp_id){
+                      item.sale_promotion.isReduce=false
+                      couponInfo.push({promotion:item.sale_promotion})
+                    }
+                  })
+                }else{
+                  item.sale_promotion.isReduce=false
+                  couponInfo.push({promotion:item.sale_promotion})
+                }
+              }
+            })
+            reducePrice.push({
+              sp_id:item.sale_promotion.sp_id,
+              aPrice: good['numbers'] * good['price'] 
+            })
+          }
+          totalPrice += good['numbers'] * good['price']
+        } else if (good['selectStatus'] && good['is_sku_deleted'] == 0 && good['remain'] > 0 && good['special_offer_end']) {
+          if(item.sale_promotion){
+            //计算满减的金额
+            spids.forEach(v=>{
+              if(v==item.sale_promotion.sp_id){
+                if(couponInfo.length){
+                  couponInfo.forEach(s=>{
+                    if(item.sale_promotion.sp_id!=s.promotion.sp_id){
+                      item.sale_promotion.isReduce=false
+                      couponInfo.push({promotion:item.sale_promotion})
+                    }
+                  })
+                }else{
+                  item.sale_promotion.isReduce=false
+                  couponInfo.push({promotion:item.sale_promotion})
+                }
+              }
+            })
+            reducePrice.push({
+              sp_id:item.sale_promotion.sp_id,
+              aPrice: good['numbers'] * good['special_offer_price'] 
+            })
+          }
+          totalPrice += good['numbers'] * good['special_offer_price']
+        }
+      })
+    })
+    
+    let saveMoney = []
+    if(spids){
+      spids.forEach(v=>{
+        let _total = 0
+        reducePrice.forEach(c=>{
+          if(c.sp_id==v){
+            _total+=c.aPrice
+          }
+        })
+        saveMoney.push({
+          id:v,
+          total:_total
+        })
+      })
+    }
+    console.log(couponInfo)
+    if(couponInfo){
+      let couponList = []
+      couponInfo.forEach(v=>{
+        v.promotion.sp_level.forEach(s=>{
+          saveMoney.forEach(k=>{
+            if(!v.promotion.isReduce){
+              if(k.id== v.promotion.sp_id&&k.total>=s.min_price){
+                //此时是满减金额
+                v.promotion.sp_level.forEach(u=>{
+                  u.canUse =false
+                })
+                v.promotion.isReduce=true
+                //这个类型花了多少钱
+                s.total = k.total
+                s.canUse = true
+                couponList.push({
+                  couponid:  v.promotion.sp_id,
+                  couponprice: s.coupon_price
+                })
+                // couponPriceList.push(s.coupon_price)  
+              }
+            }
+          })
+        })
+      })
+      let obj = {};
+      let _couponList = couponList.reduce((cur,next) => {
+        obj[next.couponid] ? "" : obj[next.couponid] = true && cur.push(next);
+        return cur;
+      },[]) //设置cur默认类型为数组，并且初始值为空的数组
+      let fullReducePrice = 0
+      _couponList.forEach(v=>{
+        fullReducePrice+=v.couponprice
+      })
+      this.setData({
+        fullReducePrice: fullReducePrice,
+     
+      })
+      const countPrice = this.reduceCoupon(countTotalPrice(this.data.orderList, this.data.orderType))
+      this.setData({
+        totalPrice: countPrice.totalPrice
+      })
+     
+    }
+  
   },
   //订单数据
   getOrderData(){
@@ -579,6 +747,9 @@ Page({
           }
         })
       })
+
+     
+
       const countPrice = this.reduceCoupon(countTotalPrice(this.data.orderList, orderType))
       this.setData({
         orderList: this.data.orderList,
@@ -605,6 +776,7 @@ Page({
         totalPrice: countPrice.totalPrice
       })
     }
+    // this.countTotalReduce()
    
   },
   addNum: function (e) {
@@ -692,7 +864,7 @@ Page({
         totalPrice: countPrice.totalPrice
       })
     }
-
+    // this.countTotalReduce()
     
   },
   // 修改订单信息进行付款（待付款订单进入付款）
@@ -820,3 +992,7 @@ function limitType(json){
     json.remainBuy = json.goodsRestrictionNumber - json.goodsAlreadyNumber
   }
 }
+function distinct(b) {
+  return Array.from(new Set([...b]))
+}
+

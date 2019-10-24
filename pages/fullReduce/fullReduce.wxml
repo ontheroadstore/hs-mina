@@ -1,0 +1,92 @@
+  <view class="sort-fixed">
+    <view class="{{isSort==0?'active':''}}" data-type='0' bindtap="sortSearch">综合</view>
+    <view class="{{isSort==1?'active':''}}" data-type='1' bindtap="sortSearch">销量</view>
+    <view class="{{isSort==2?'active':''}}" data-type='2' bindtap="sortSearch">新品</view>
+    <view class="price {{isSort==3?'active':''}}" data-type='3' bindtap="sortSearch">价格
+      <image class="{{Lifting==1?'':'rotate180'}}" src="../../images/arrow_three.png"></image>
+    </view>
+  </view>
+  <!-- <view class="bor-one"></view> -->
+  <view class="search-list" >
+  
+    <view class="search-item" wx:for="{{searchList}}" wx:key="index" data-urlid="{{item.post_id}}" wx:if="{{index<=pageNum*10-1}}" bindtap="jumpArticle"> 
+      <image class="cover" src="{{item.cover}}"></image>
+      <view class="item_right">
+        <view class="tit">
+          {{item.title}}
+        </view>
+        <view class="price">
+          <text>
+            ¥ {{item.price[1]?item.price[0]+'-'+item.price[1]:item.price[0]}}
+          </text>
+          <view class="addCart" data-idx="{{index}}" data-styles="{{item.price.length}}" data-postid="{{item.post_id}}" catchtap="addCartClick">
+            
+          </view>
+        </view>
+      </view>
+     
+      <!-- <view class="seller">
+        <image src="{{item.user_avatar}}"></image>
+        <view class="name">{{item.user_name}}</view>
+        <view class="price">￥{{item.min_price}}</view>
+      </view> -->
+  
+    </view>
+  </view>
+
+  <!-- 弹出的选择款式的框框 -->
+  <view class="popup_select  {{selectStatus ? 'show':''}}" catchtouchmove="true"  catchtap='selectHide' data-status="true">
+    <view catchtouchmove="true" class="select_cont  {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}">
+
+      <image class="cover" src='{{searchList[selectIndex].cover}}'></image>
+      <view class="title">{{searchList[selectIndex].title}}</view>
+      <view class="price" wx:if="{{!selectStylePrice}}">
+        ¥ {{searchList[selectIndex].price[1]?searchList[selectIndex].price[0]+'-'+searchList[selectIndex].price[1]:searchList[selectIndex].price[0]}}
+      </view>
+      <view class="price" wx:if="{{selectStylePrice}}">
+        ¥ {{selectStylePrice}}
+      </view>
+      <view class="delivery_style_num">
+        <view class="delivery clearBoth" wx:if="{{deliveryTxt}}">
+          <view class="label">发货</view>
+          <view class="delivery_txt">{{deliveryTxt}}</view>
+        </view>
+        <view class="style_cont clearBoth">
+          <view class="label">款式:</view>
+          <text bindtap='selectedStyle' wx:key="key" wx:for="{{styleList}}" data-typeindex="{{index}}" data-postage="{{item.postage}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" data-expected_delivery_cycle="{{item.expected_delivery_cycle}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}" >{{item.name}}</text>   
+        </view>
+        <view class="num_cont clearBoth">
+          <view class="label">数量:</view>
+          <image src='/images/sub.png' class='sub float_left' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}">-</image>
+          <text class='num float_left'>{{selectStyleCount}}</text>
+          <image src='/images/add.png' class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}">+</image>
+        </view>
+      </view>
+
+      <view class="sure" catchtap="addChart">
+        确定
+      </view>
+
+    </view>
+  </view>
+
+  <view class="fixed_bottom {{isIphoneX ? 'iphoneX_fixed_bottom':''}}">
+      <view class="left">
+        <view class="tit">距离结束还剩</view>
+        <view class="time">
+            <text>{{day*24+hour}}</text>:<text>{{minute}}</text>:<text>{{second}}</text>
+        </view>
+      </view>
+      <view class="center">
+        <view class="tit">使用优惠券</view>
+        <view class="msg">
+          {{tips}}
+        </view>
+      </view>
+      <view class="right" bindtap="jumpCart">
+        <view class="cart_btn">去购物车</view>
+      </view>
+  </view>
+  
+  
+  
