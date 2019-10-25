@@ -59,6 +59,7 @@ Page({
     if (options.type == 1) {
       let orderList = wx.getStorageSync('chartData')
       let fullReduce = wx.getStorageSync('fullReduce') 
+      console.log(orderList)
       this.setData({
         fullReducePrice: fullReduce.fullReducePrice
         // useCouponId: fullReduce.canUseCouponId,//使用的优惠券id
@@ -70,7 +71,7 @@ Page({
       orderList.forEach((v,idx)=>{
         // users.push(v.seller_user_id)
         if(idx>0&&idx<orderList.length-1){
-          if(v.seller_user_id==orderList[idx-1].seller_user_id&&v.childOrderShow){
+          if(v.seller_user_id==orderList[idx-1].seller_user_id){
           
             if(orderList[idx-1].sale_promotion){
               orderList[idx-1].item.forEach(k=>{
@@ -87,7 +88,7 @@ Page({
           }
         }
         if(idx==orderList.length-1){
-          if(v.seller_user_id==orderList[idx-1].seller_user_id&&v.childOrderShow){
+          if(v.seller_user_id==orderList[idx-1].seller_user_id){
           
             if(orderList[idx-1].sale_promotion){
               orderList[idx-1].item.forEach(k=>{
@@ -1018,7 +1019,7 @@ function distinct(b) {
 }
 function checkShowChild(param){
   let flag = false
-  if(param.childOrderShow){
+  if(param){
     param.item.forEach(v=>{
       if(v.selectStatus){
         flag =true
@@ -1027,6 +1028,9 @@ function checkShowChild(param){
   }
   if(!flag){
     param.childOrderShow =false
+  }else{
+    param.childOrderShow =true
   }
+
   return param
 }
