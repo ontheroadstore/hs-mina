@@ -78,7 +78,7 @@
         </view>
       </view>
       <view class="center">
-        <view class="tit">使用优惠券</view>
+        <view class="tit">限时促销</view>
         <view class="msg">
           {{tips}}
         </view>

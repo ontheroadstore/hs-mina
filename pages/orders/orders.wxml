@@ -43,6 +43,9 @@
         <text class='float_left' data-id="{{item.id}}">共{{item.goods.length}}件商品</text>
         <text class='float_right postage' data-id="{{item.id}}">运费： ￥ {{item.postage}}</text>
         <text class='float_right' data-id="{{item.id}}">总价： ￥ {{item.total_fee}}</text>
+        
+        <!-- <text class="float_right" data-id="{{item.id}}" wx:if="{{item.coupon_fee}}" style="margin-right: 20rpx;">优惠券：-￥{{item.coupon_fee}}</text> -->
+        <!-- <text class="float_right" data-id="{{item.id}}" wx:if="{{item.manjian_fee}}" style="margin-right: 20rpx;">满减：-￥{{item.manjian_fee}}</text> -->
       </view>
       </view>
 

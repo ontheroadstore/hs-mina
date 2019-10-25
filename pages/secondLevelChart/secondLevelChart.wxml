@@ -71,8 +71,10 @@
     <image class='checkbox_icon float_left'style="padding-left:40rpx;" bindtap='selectAll' src="{{selectAllStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
     <view class='float_left all_select' bindtap='selectAll'>全选</view>
     <view class='float_right buy_btn' bindtap='navigatorToCreateOrder'>立即购买</view>
-    <view class='float_right total_text' >总价： <text>¥ {{totalPrice-(fullReducePrice==null?0:fullReducePrice)}}</text><text class="save_money">已优惠 ¥{{fullReducePrice==null?0:fullReducePrice}}</text></view>
-    <view class='float_right no_postage'>不含运费</view>
+    <view class='float_right total_text' wx:if="{{fullReducePrice}}">总价： <text>¥ {{totalPrice-(fullReducePrice==null?0:fullReducePrice)}}</text><text class="save_money">已优惠 ¥{{fullReducePrice==null?0:fullReducePrice}}</text></view>
+    <view class='float_right total_text' style="line-height: 100rpx;" wx:if="{{!fullReducePrice}}">总价： <text>¥ {{totalPrice}}</text></view>
+    <view class='float_right no_postage' wx:if="{{fullReducePrice}}">不含运费</view>
+    <view class='float_right no_postage' style="line-height: 100rpx;" wx:if="{{!fullReducePrice}}">不含运费</view>
   
   </view>
   <!-- <view class='getUserInfo_content' wx:if="{{getUserInfoStatus}}">

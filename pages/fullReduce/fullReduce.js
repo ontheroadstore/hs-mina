@@ -67,7 +67,7 @@ Page({
   },
   //初始化数据
   initData(){
-    let sortList = ['sort_by_zonghe','sort_by_xiaoliang','post_modified','sort_by_jiage_di','sort_by_jiage_gao'];
+    let sortList = ['sort_by_zonghe','sort_by_xiaoliang','post_modified','sort_by_jiage_gao','sort_by_jiage_di'];
     let sortType = sortList[this.data.isSort];
     if(this.data.Lifting==1&&this.data.isSort==3){
       sortType = sortList[3];
@@ -329,8 +329,8 @@ Page({
         minute = Math.floor(times / 60) - (day * 24 * 60) - (hour * 60);
         second = Math.floor(times) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
       }
-      if (day <= 9) day = '0' + day;
-      if (hour <= 9) hour = '0' + hour;
+      if (day <= 9) day = day;
+      if (hour <= 9&&day==0) hour = '0' + hour;
       if (minute <= 9) minute = '0' + minute;
       if (second <= 9) second = '0' + second;
      

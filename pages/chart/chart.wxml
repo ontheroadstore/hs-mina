@@ -1,32 +1,53 @@
 <scroll-view scroll-y="{{scrollStatus}}" class="main">
   <view class='content'>
-    <view class='seller_item' wx:key="key" wx:for="{{goodList}}" wx:if="{{goodList}}">
-      <view class='user_info'>
-        <image class='checkbox_icon float_left' bindtap='selectUser' data-index="{{index}}" data-userid="{{item.seller_user_id}}" src="{{item.selectStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
+    <view wx:key="key" wx:for="{{goodList}}" wx:if="{{goodList}}"  class='seller_item' style="{{item.sale_promotion&&goodList[index-1].sale_promotion&&item.seller_user_id==goodList[index-1].seller_user_id?'border:0;':''}}">
+      <view class='user_info' hidden="{{item.sale_promotion&&goodList[index-1].sale_promotion&&item.seller_user_id==goodList[index-1].seller_user_id}}">
+        <image class='checkbox_icon float_left' bindtap='selectUser' data-index="{{index}}" data-proid="{{item.promotion_id}}" data-userid="{{item.seller_user_id}}" src="{{item.selectStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
         <view class='user_name float_left'>{{item.seller_name}}</view>
       </view>
-      <view animation="{{good.animation}}" class="order_item clearBoth {{good.is_sku_deleted == 0 && good.remain > 0 && good.status==1 ? '':'order_item_opacity'}}" wx:key="key" wx:for="{{item.item}}" wx:for-item="good" wx:for-index="i" bindtouchmove='leftTouchMove' bindtouchstart='leftTouchStart' data-orderid="{{good.id}}" bindtouchend='touchEnd'>
-        <image class='checkbox_icon float_left' bindtap='selectSingle' data-goodid="{{good.item_id}}" data-itemindex="{{index}}" data-index="{{i}}" data-orderid="{{good.id}}" data-remainbuy="{{good.remainBuy}}" data-obj='2222' src="{{good.selectStatus? '/images/checked.png':'/images/checkbox.png'}}" wx:if="{{good.is_sku_deleted == 0 && good.remain > 0 && good.status==1}}"></image>
-        <view class="lose_efficacy float_left" wx:if="{{good.is_sku_deleted != 0 || good.remain <= 0 || good.status!=1}}">失效</view>
+      <view class="full_reduce_tip" wx:if="{{item.sale_promotion}}" data-spid="{{item.promotion_id}}" bindtap="jumpFullReduce">
+        <text class="tit">{{item.sale_promotion.sp_title}}</text>
+        <!-- <text class="time">{{item.sale_promotion.sp_time}}</text> -->
+        <text class="has_reduce" wx:for="{{couponInfos}}" wx:key="key" wx:for-item="couponInfo" wx:if="{{couponInfo.promotion.sp_id==item.sale_promotion.sp_id&&couponInfo.promotion.isReduce}}">
+          <text wx:for="{{couponInfo.promotion.sp_level}}" wx:key="key" wx:for-item='price' wx:if="{{price.canUse}}">
+            <text class="min">已满{{price.min_price}}减{{price.coupon_price}}</text><text class="coupon">(已减{{price.coupon_price}}),</text>
+            <text wx:if="{{index-1>=0}}">再买{{couponInfo.promotion.sp_level[index-1].min_price-price.total}}减{{couponInfo.promotion.sp_level[index-1].coupon_price}}</text>
+            <!-- <view class="to_list"> -->
+              <!-- <image class="float_right arrow" src="http://img8.ontheroadstore.com/wxapp_static/smoke/arrow_right_reduce.png"></image> -->
+              <text class="float_right jump_btn" >去逛逛</text>
+            <!-- </view> -->
+          </text>
+        </text>
+        <text class="no_reduce">{{item.sale_promotion.sp_name}}</text>
+        <view class="to_list">
+          <image class="float_right arrow" src="http://img8.ontheroadstore.com/wxapp_static/smoke/arrow_right_reduce.png"></image>
+          <text class="float_right" >去凑单</text>
+        </view>
+       
+        <!-- <text class="name">{{item.sale_promotion.sp_name}}</text> -->
+      </view>
+      <view animation="{{good.animation}}" wx:key="key" wx:for="{{item.item}}" wx:for-item="good" wx:for-index="i" bindtouchmove='leftTouchMove' bindtouchstart='leftTouchStart' data-orderid="{{good.id}}" bindtouchend='touchEnd'  class="order_item clearBoth {{good.is_sku_deleted == 0 && good.remain > 0 ? '':'order_item_opacity'}}  {{item.sale_promotion?'has_full_reduce':''}} {{i+1==item.item.length?'last_full_reduce':''}}">
+        <image class='checkbox_icon float_left' data-seller="{{item.seller_user_id}}" data-proid="{{item.promotion_id}}" bindtap='selectSingle' data-goodid="{{good.item_id}}" data-itemindex="{{index}}" data-index="{{i}}" data-orderid="{{good.id}}" data-remainbuy="{{good.remainBuy}}" data-obj='2222' src="{{good.selectStatus? '/images/checked.png':'/images/checkbox.png'}}" wx:if="{{good.is_sku_deleted == 0 && good.remain > 0}}"></image>
+        <view class="lose_efficacy float_left" wx:if="{{good.is_sku_deleted != 0 || good.remain <= 0}}">失效</view>
         <image class='cover float_left' data-id="{{good.item_id}}" bindtap="{{good.is_sku_deleted == 1 || good.remain <= 0 ? '':'navigateToGoods'}}" src='{{good.image}}@640w_1l'></image>
         <view class="text_hint" wx:if="{{good.limitBuy}}">限购{{good.limitNumber}}件</view>
         <view class='text_hint' wx:elif="{{good.special_offer_end}}">{{good.special_offer_end}}</view>
         <view class='text_hint' wx:elif="{{good.remain > 0 && good.remain <= 10 && !good.special_offer_end}}">{{good.labels[0]}}</view>
         
-        <view class='good_title float_left' data-id="{{good.item_id}}" bindtap="{{good.is_sku_deleted == 1 || good.remain <= 0 || good.status!=1? '':'navigateToGoods'}}">{{good.item_name}}</view>
-        <view class="good_info float_left {{good.is_sku_deleted == 0 && good.remain > 0 && good.status==1? '':'good_info_hide'}}">
+        <view class='good_title float_left' data-id="{{good.item_id}}" bindtap="{{good.is_sku_deleted == 1 || good.remain <= 0 ? '':'navigateToGoods'}}">{{good.item_name}}</view>
+        <view class="good_info float_left {{good.is_sku_deleted == 0 && good.remain > 0 ? '':'good_info_hide'}}">
            <view class='good_type'>{{good.model_desc?good.model_desc: ''}}</view>
-           <view class='good_price' wx:if="{{!good.special_offer_end}}">￥ {{good.price}}</view> 
-           <view class='good_price' wx:if="{{good.special_offer_end}}">￥ {{good.special_offer_price}}</view> 
-          <view class='special_offer_price' wx:if="{{good.special_offer_end}}">￥ {{good.price}}</view>
+           <view class='good_price' wx:if="{{!good.special_offer_end}}">¥ {{good.price}}</view> 
+           <view class='good_price' wx:if="{{good.special_offer_end}}">¥ {{good.special_offer_price}}</view> 
+          <view class='special_offer_price' wx:if="{{good.special_offer_end}}">¥ {{good.price}}</view>
         </view>
-        <view class='num_content float_left' wx:if="{{good.is_sku_deleted == 0 && good.remain > 0 && good.status==1}}">
+        <view class='num_content float_right' wx:if="{{good.is_sku_deleted == 0 && good.remain > 0}}">
           <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum' data-orderid="{{good.id}}"></image>
           <!-- 下边框在text上，判断最后一个清除border -->
           <text class="good_num float_left {{i == item.item.length-1 ? '': 'good_num_border'}}">{{good.numbers}}</text>
           <image class='add_icon float_left' src='/images/add.png' bindtap='addNum' data-itemindex="{{index}}" data-index="{{i}}" data-orderid="{{good.id}}" data-goodid="{{good.item_id}}"></image>
         </view>
-        <view class='good_empty' wx:if="{{good.is_sku_deleted == 0 && good.remain <= 0 || good.status!=1}}">商品已售罄</view> 
+        <view class='good_empty' wx:if="{{good.is_sku_deleted == 0 && good.remain <= 0}}">商品已售罄</view> 
         <view class='good_empty' wx:if="{{good.is_sku_deleted != 0}}">商品已下架</view>
         <view class='delete_good' data-orderid="{{good.id}}" bindtap='deleteGood'>删除</view>
       </view>
@@ -43,15 +64,18 @@
       <view bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
       <image bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
       <text bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
-      <text class="price font_din float_left">￥ {{item.price[0]}}</text>
+      <text class="price font_din float_left">¥ {{item.price[0]}}</text>
     </view>
   </view>
   <view class="chart_content {{isIphoneX? 'isIphoneX_chart_content':''}}" wx:if="{{goodList.length != 0}}">
-    <image class='checkbox_icon float_left' bindtap='selectAll' src="{{selectAllStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
+    <image class='checkbox_icon float_left'style="padding-left:40rpx;" bindtap='selectAll' src="{{selectAllStatus? '/images/checked.png':'/images/checkbox.png'}}"></image>
     <view class='float_left all_select' bindtap='selectAll'>全选</view>
     <view class='float_right buy_btn' bindtap='navigatorToCreateOrder'>立即购买</view>
-    <view class='float_right no_postage'>不含运费</view>
-    <view class='float_right total_text' >总价： <text>￥ {{totalPrice}}</text></view>
+    <view class='float_right total_text' wx:if="{{fullReducePrice}}">总价： <text>¥ {{totalPrice-(fullReducePrice==null?0:fullReducePrice)}}</text><text class="save_money">已优惠 ¥{{fullReducePrice==null?0:fullReducePrice}}</text></view>
+    <view class='float_right total_text' style="line-height: 100rpx;" wx:if="{{!fullReducePrice}}">总价： <text>¥ {{totalPrice}}</text></view>
+    <view class='float_right no_postage' wx:if="{{fullReducePrice}}">不含运费</view>
+    <view class='float_right no_postage' style="line-height: 100rpx;" wx:if="{{!fullReducePrice}}">不含运费</view>
+  
   </view>
   <!-- <view class='getUserInfo_content' wx:if="{{getUserInfoStatus}}">
     <view class='pop_up'>

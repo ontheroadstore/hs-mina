@@ -66,42 +66,64 @@ Page({
       })
       let that = this;
       let spids = []
-
+      let _orderList=[]
       orderList.forEach((v,idx)=>{
         // users.push(v.seller_user_id)
-        if(idx>0){
-          if(v.seller_user_id==orderList[idx-1].seller_user_id){
+        if(idx>0&&idx<orderList.length-1){
+          if(v.seller_user_id==orderList[idx-1].seller_user_id&&v.childOrderShow){
           
             if(orderList[idx-1].sale_promotion){
-              orderList[idx-1].item.sale_promotion = orderList[idx-1].sale_promotion
-              v.item.concat(orderList[idx-1].item)
+              orderList[idx-1].item.forEach(k=>{
+                k.sale_promotion = orderList[idx-1].sale_promotion
+              })
+              v.item=v.item.concat(orderList[idx-1].item)
             }else{
-              v.item.concat(orderList[idx-1].item)
+              v.item=v.item.concat(orderList[idx-1].item)
             }
-            orderList.slice(0,idx-1).concat(orderList.slice(idx+1,orderList.length-1));
-            console.log(orderList)
+          
+          }else{
+            
+            _orderList.push(checkShowChild(orderList[idx-1]))
           }
+        }
+        if(idx==orderList.length-1){
+          if(v.seller_user_id==orderList[idx-1].seller_user_id&&v.childOrderShow){
+          
+            if(orderList[idx-1].sale_promotion){
+              orderList[idx-1].item.forEach(k=>{
+                k.sale_promotion = orderList[idx-1].sale_promotion
+              })
+              v.item=v.item.concat(orderList[idx-1].item)
+            }else{
+              v.item=v.item.concat(orderList[idx-1].item)
+            }
+            _orderList.push(checkShowChild(v))
+          
+          }else{
+            _orderList.push(checkShowChild(orderList[idx-1]))
+            _orderList.push(checkShowChild(v))
+          }
+          
+          
         }
        
       })
-      console.log(orderList)
-      // users.forEach(v=>{
-
-      // })
-      orderList.forEach(function (item, index) {
+      console.log(_orderList)
+      _orderList.forEach(function (item, index) {
         let maxPostage = 0
         var numItem = item.item.length
       
-        if(item.sale_promotion){
-          spids.push(item.sale_promotion.sp_id)
-        }
+        
       
         item.item.forEach(function (good, i) {
+          if(good.sale_promotion){
+            spids.push(good.sale_promotion.sp_id)
+          }
           if (good.postage > maxPostage && good.selectStatus) {
             maxPostage = good.postage
 
             if (!that.data.addressInfo) {
-              //*如果没有地址，设置邮费为0,防止未选择地址时总价格显示有误，暂时这样处理，应该后台接口直接返回0.
+              //*如果没有地址，设置邮费为0,
               maxPostage = 0;
             }
           }
@@ -123,10 +145,10 @@ Page({
         item['maxPostage'] = maxPostage
         item['desc'] = null
       })
-      const countPrice = this.reduceCoupon(countTotalPrice(orderList, 1))
+      const countPrice = this.reduceCoupon(countTotalPrice(_orderList, 1))
       this.setData({
         orderType: 1,
-        orderList: orderList,
+        orderList: _orderList,
         totalPostage: countPrice.totalPostage,
         spids: distinct(spids),
       
@@ -462,7 +484,6 @@ Page({
     if(!list){
       return
     }
-    let totalPrice =0
     let spids = this.data.spids
     let reducePrice =[]
     let couponInfo = null
@@ -471,49 +492,49 @@ Page({
       
       item.item.forEach(function (good, i) {
         if (good['selectStatus'] && good['is_sku_deleted'] == 0 && good['remain'] > 0 && !good['special_offer_end']) {
-          if(item.sale_promotion){
+          if(good.sale_promotion){
             //计算满减的金额
             spids.forEach(v=>{
-              if(v==item.sale_promotion.sp_id){
+              if(v==good.sale_promotion.sp_id){
                 if(couponInfo.length){
                   couponInfo.forEach(s=>{
-                    if(item.sale_promotion.sp_id!=s.promotion.sp_id){
-                      item.sale_promotion.isReduce=false
-                      couponInfo.push({promotion:item.sale_promotion})
+                    if(good.sale_promotion.sp_id!=s.promotion.sp_id){
+                      good.sale_promotion.isReduce=false
+                      couponInfo.push({promotion:good.sale_promotion})
                     }
                   })
                 }else{
-                  item.sale_promotion.isReduce=false
-                  couponInfo.push({promotion:item.sale_promotion})
+                  good.sale_promotion.isReduce=false
+                  couponInfo.push({promotion:good.sale_promotion})
                 }
               }
             })
             reducePrice.push({
-              sp_id:item.sale_promotion.sp_id,
+              sp_id:good.sale_promotion.sp_id,
               aPrice: good['numbers'] * good['price'] 
             })
           }
           totalPrice += good['numbers'] * good['price']
         } else if (good['selectStatus'] && good['is_sku_deleted'] == 0 && good['remain'] > 0 && good['special_offer_end']) {
-          if(item.sale_promotion){
+          if(good.sale_promotion){
             //计算满减的金额
             spids.forEach(v=>{
-              if(v==item.sale_promotion.sp_id){
+              if(v==good.sale_promotion.sp_id){
                 if(couponInfo.length){
                   couponInfo.forEach(s=>{
-                    if(item.sale_promotion.sp_id!=s.promotion.sp_id){
-                      item.sale_promotion.isReduce=false
-                      couponInfo.push({promotion:item.sale_promotion})
+                    if(good.sale_promotion.sp_id!=s.promotion.sp_id){
+                      good.sale_promotion.isReduce=false
+                      couponInfo.push({promotion:good.sale_promotion})
                     }
                   })
                 }else{
-                  item.sale_promotion.isReduce=false
-                  couponInfo.push({promotion:item.sale_promotion})
+                  good.sale_promotion.isReduce=false
+                  couponInfo.push({promotion:good.sale_promotion})
                 }
               }
             })
             reducePrice.push({
-              sp_id:item.sale_promotion.sp_id,
+              sp_id:good.sale_promotion.sp_id,
               aPrice: good['numbers'] * good['special_offer_price'] 
             })
           }
@@ -995,4 +1016,17 @@ function limitType(json){
 function distinct(b) {
   return Array.from(new Set([...b]))
 }
-
+function checkShowChild(param){
+  let flag = false
+  if(param.childOrderShow){
+    param.item.forEach(v=>{
+      if(v.selectStatus){
+        flag =true
+      }
+    })
+  }
+  if(!flag){
+    param.childOrderShow =false
+  }
+  return param
+}

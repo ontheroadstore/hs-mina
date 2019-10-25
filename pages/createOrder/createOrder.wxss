@@ -58,7 +58,7 @@
 
 .orders,
 .order{
-  padding-bottom: 170rpx;
+  padding-bottom: 270rpx;
 }
 .orders_iphoneX{
   padding-bottom: 190rpx;
@@ -232,7 +232,20 @@
   border-top:2rpx solid #E8E8E8;
 
 }
-.use-coupon .gt_icon{
+.full_reduce_total{
+  width: 690rpx;
+  height: 80rpx;
+  padding: 0 30rpx;
+  font-size: 28rpx;
+  position: absolute;
+  top: -160rpx;
+  left: 0;
+  line-height: 80rpx;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+  border-top:2rpx solid #E8E8E8;                                                                         
+}
+.use-coupon .gt_icon,.full_reduce_total .gt_icon{
   width: 16rpx;
   height: 26rpx;
   position: absolute;
@@ -241,7 +254,7 @@
   transform: translateY(-50%);
   background: none;
 }
-.use-coupon .float_right{
+.use-coupon .float_right,.full_reduce_total .float_right{
   color: #ccc;
   padding-right:60rpx;
 }

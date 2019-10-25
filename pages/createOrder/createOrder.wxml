@@ -93,10 +93,20 @@
           优惠券
         </view>
         <view class="float_right">
-          <view wx:if="{{canUseCoupon.length==0}}">暂无优惠券</view>
-          <view wx:elif="{{useCouponPrice}}" style="color:#AE2121;">已优惠{{useCouponPrice}}元</view>
+          <view wx:if="{{canUseCoupon.length==0}}">暂无优惠</view>
+          <view wx:elif="{{useCouponPrice}}" style="color:#AE2121;">-￥{{useCouponPrice}}</view>
           <view wx:else style="color:#AE2121;">{{canUseCoupon.length}}张可用</view>
           <image class='gt_icon' src='/images/gt.png'></image>
+        </view>
+      </view>
+      <view class="full_reduce_total" wx:if="{{fullReducePrice}}">
+        <view class="float_left">
+          满减活动
+        </view>
+        <view class="float_right">
+          <view style="color:#AE2121;"> -￥{{fullReducePrice}}</view>
+          <image class='gt_icon' src='/images/gt.png'></image>
+         
         </view>
       </view>
     </view>

@@ -39,6 +39,7 @@ Page({
     // 初始化
     this.setData({
       canUseCouponId: null,
+      couponInfos:[],
       maxCouponPrice: 0,
       fullReducePrice: 0
     })
