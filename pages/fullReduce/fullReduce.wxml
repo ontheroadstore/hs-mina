@@ -40,12 +40,16 @@
 
       <image class="cover" src='{{searchList[selectIndex].cover}}'></image>
       <view class="title">{{searchList[selectIndex].title}}</view>
-      <view class="price" wx:if="{{!selectStylePrice}}">
+      <view class="price" wx:if="{{!selectStylePrice&&!specialOfferPrice}}">
         ¥ {{searchList[selectIndex].price[1]?searchList[selectIndex].price[0]+'-'+searchList[selectIndex].price[1]:searchList[selectIndex].price[0]}}
       </view>
-      <view class="price" wx:if="{{selectStylePrice}}">
+      <view class="price" wx:if="{{selectStylePrice&&!specialOfferPrice}}">
         ¥ {{selectStylePrice}}
       </view>
+      <view class="price" wx:if="{{specialOfferPrice}}">
+        ¥ {{specialOfferPrice}} <text wx:if="{{selectStylePrice}}">¥ {{selectStylePrice}}</text>
+      </view>
+      <scroll-view class='styles_content' scroll-y="{{true}}">
       <view class="delivery_style_num">
         <view class="delivery clearBoth" wx:if="{{deliveryTxt}}">
           <view class="label">发货</view>
@@ -62,7 +66,7 @@
           <image src='/images/add.png' class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}">+</image>
         </view>
       </view>
-
+      </scroll-view>
       <view class="sure" catchtap="addChart">
         确定
       </view>

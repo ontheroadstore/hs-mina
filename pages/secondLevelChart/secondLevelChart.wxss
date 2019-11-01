@@ -397,12 +397,14 @@
   position: absolute;
   z-index: 1;
   top: 16rpx;
-  left: 160rpx;
-  width: 500rpx;
+  left: 175rpx;
+  width: 440rpx;
   background: #FCF8F8;
   font-size: 24rpx;
   height: 30rpx;
   overflow: hidden;
+  white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .full_reduce_tip .no_reduce text{
   font-size: 24rpx;

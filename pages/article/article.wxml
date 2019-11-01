@@ -148,7 +148,10 @@
       <image src='/images/likeSelected.png' wx:else></image>
       <text>收藏</text>
     </view>
-    <view class='chart_btn float_left' wx:if="{{!activityCanBy}}" bindtap="{{styleNum> 1?'selectShow':'addChart'}}" data-type="1"  style="{{fullReduceInfo?'width: 534rpx;right:0;':''}}">加入购物车</view>
+    <view class='chart_btn float_left' wx:if="{{!activityCanBy}}" bindtap="{{styleNum> 1?'selectShow':'addChart'}}" data-type="1" style="{{fullReduceInfo?'width: 534rpx;background:#AE2121;right:0;':''}}">加入购物车</view>
+    <!-- <view class='buy_btn float_left' bindtap='navigateToChart'>
+      去购物车
+    </view> -->
     <view class='chart_btn float_left' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
     <view class='buy_btn float_left' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2" wx:if="{{!fullReduceInfo}}">立即购买</view>
     <view class="cant_buy {{isIphoneX ? 'iphoneX_cant_buy':''}}" wx:if='{{goodInfo.is_only_app_sale==1}}' bindtap='downloadApp'>

@@ -33,6 +33,10 @@
 			"currentL": -1,
 			"list": []
 		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
 		"miniprogram": {
 			"current": 8,
 			"list": [
@@ -40,7 +44,7 @@
 					"id": 0,
 					"name": "商品详情",
 					"pathName": "pages/article/article",
-					"query": "utm_source=testxxx&id=1096101",
+					"query": "id=23696",
 					"scene": null
 				},
 				{

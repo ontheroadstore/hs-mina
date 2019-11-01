@@ -70,43 +70,48 @@ Page({
       let _orderList=[]
       orderList.forEach((v,idx)=>{
         // users.push(v.seller_user_id)
-        if(idx>0&&idx<orderList.length-1){
-          if(v.seller_user_id==orderList[idx-1].seller_user_id){
-          
-            if(orderList[idx-1].sale_promotion){
-              orderList[idx-1].item.forEach(k=>{
-                k.sale_promotion = orderList[idx-1].sale_promotion
-              })
-              v.item=v.item.concat(orderList[idx-1].item)
-            }else{
-              v.item=v.item.concat(orderList[idx-1].item)
-            }
-          
-          }else{
+        if(orderList.length>1){
+          if(idx>0&&idx<orderList.length-1){
+            if(v.seller_user_id==orderList[idx-1].seller_user_id){
             
-            _orderList.push(checkShowChild(orderList[idx-1]))
-          }
-        }
-        if(idx==orderList.length-1){
-          if(v.seller_user_id==orderList[idx-1].seller_user_id){
-          
-            if(orderList[idx-1].sale_promotion){
-              orderList[idx-1].item.forEach(k=>{
-                k.sale_promotion = orderList[idx-1].sale_promotion
-              })
-              v.item=v.item.concat(orderList[idx-1].item)
+              if(orderList[idx-1].sale_promotion){
+                orderList[idx-1].item.forEach(k=>{
+                  k.sale_promotion = orderList[idx-1].sale_promotion
+                })
+                v.item=v.item.concat(orderList[idx-1].item)
+              }else{
+                v.item=v.item.concat(orderList[idx-1].item)
+              }
+            
             }else{
-              v.item=v.item.concat(orderList[idx-1].item)
+              
+              _orderList.push(checkShowChild(orderList[idx-1]))
             }
-            _orderList.push(checkShowChild(v))
-          
-          }else{
-            _orderList.push(checkShowChild(orderList[idx-1]))
-            _orderList.push(checkShowChild(v))
           }
-          
-          
+          if(idx==orderList.length-1){
+            if(v.seller_user_id==orderList[idx-1].seller_user_id){
+            
+              if(orderList[idx-1].sale_promotion){
+                orderList[idx-1].item.forEach(k=>{
+                  k.sale_promotion = orderList[idx-1].sale_promotion
+                })
+                v.item=v.item.concat(orderList[idx-1].item)
+              }else{
+                v.item=v.item.concat(orderList[idx-1].item)
+              }
+              _orderList.push(checkShowChild(v))
+            
+            }else{
+              _orderList.push(checkShowChild(orderList[idx-1]))
+              _orderList.push(checkShowChild(v))
+            }
+            
+            
+          }
+        }else{
+          _orderList.push(v)
         }
+
        
       })
       console.log(_orderList)

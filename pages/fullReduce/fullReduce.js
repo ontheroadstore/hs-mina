@@ -118,6 +118,7 @@ Page({
     this.setData({
       selectIndex: e.target.dataset.idx
     })
+    
     //此处暂时不晓得
     if(e.target.dataset.styles==3){
       console.log('单个商品直接加入购物车')
@@ -150,8 +151,11 @@ Page({
   selectHide(e){
     if(e.target.dataset.status == 'true') {
       this.setData({
+        selectStyleId: null,
+        selectIndex: null,
         selectStatus: false,
-        selectStylePrice: null
+        selectStylePrice: null,
+        specialOfferPrice: null
       })
     }
    
@@ -284,6 +288,14 @@ Page({
   },
 
   addChart: function (e) {
+    if(this.data.selectStyleId==null){
+      wx.showToast({
+        title: '请选择一个款式',
+        icon: 'none',
+        duration: 1000
+      })
+      return
+    }
     // 判断是否登录
     if (this.ifLogin() == false) {
       return;
@@ -295,7 +307,11 @@ Page({
     }, 'POST').then(res => {
       this.getChartNum(1)
       this.setData({
-        selectStatus: false
+        selectIndex: null,
+        selectStatus: false,
+        selectStylePrice: null,
+        specialOfferPrice: null,
+        selectStyleId: null
       })
     })
   },
