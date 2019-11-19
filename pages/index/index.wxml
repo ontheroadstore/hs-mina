@@ -88,11 +88,10 @@
     <image src='/images/returnTop.png' class='return_top' bindtap="returnTop" wx:if="{{returnTopStatus}}"></image>
   </view>
 </view> 
-<view class="collect-coupon" catchtap="jumpCollectCoupon"></view>
+<!-- <view class="collect-coupon" catchtap="jumpCollectCoupon"></view>
 <view class="guide" hidden="{{guideStatus}}">
-  <!-- <image src="" mode="aspectFill"></image> -->
   <text class="close-guide" bindtap="closeGuide"></text>
-</view>
+</view> -->
 
 <!-- 公告 -->
 <!-- <scroll-view class="container" wx:if="{{!hideNotice}}">
