@@ -10,6 +10,7 @@ Page({
     goodInfo: null,               // 商品信息
     desc: null,
     content: null,
+    quanyiPrice: 0,
     selectStyleId: null,          // 选中的款式ID
     selectStylePostage: null,     // 选中的款式运费
     selectStyleName: null,        // 选中的款式名称
@@ -82,6 +83,8 @@ Page({
       let specialOfferStatus = false
       let specialOfferPrice = false
       goodInfo.type.forEach((item,index) => {
+        item.price = item.price+item.quanyi_price
+        item.special_offer_price = item.special_offer_price+item.quanyi_price
         if (item.postsRestrictionNumber != undefined) {
           item.restrictionTypes = 0 //商品限购
           item.limitBuyNum = item.postsRestrictionNumber //限购数量
@@ -229,6 +232,33 @@ Page({
     wx.navigateTo({
       url: `/pages/fullReduce/fullReduce?spid=${spid}&sptime=${sptime}&sptitle=${sptitle}`,
     })
+  },
+  //跳转权益介绍页面
+  jumpEquity(e){
+     // 判断是否登录
+     if (this.ifLogin() == false) {
+      return;
+    }
+    const stock = e.target.dataset.stock
+    if (stock == 0) {
+      return wx.showToast({
+        title: '当前商品暂无库存',
+        icon: 'none',
+        duration: 1000
+      })
+    }
+    // 设置选择的款式，以及数量，进行数据缓存（没有款式，直接存储）
+    let goodInfo = this.data.goodInfo
+    goodInfo.articleId = parseInt(this.data.articleId)
+ 
+      let newType = goodInfo.type
+      newType[0]['number'] = 1
+      newType[0]['desc'] = null
+      goodInfo.newType = newType
+      wx.setStorageSync('orderData', goodInfo)
+      wx.navigateTo({
+        url: `/pages/equity/equity?price=${goodInfo.type[0].quanyi_price}`,
+      })
   },
   // 分享
   onShareAppMessage: function (res) {
@@ -396,6 +426,7 @@ Page({
     let restrictiontypes = this.data.goodInfo.type[oIndex].restrictionTypes
     let remainBuy = this.data.goodInfo.type[oIndex].remainBuy;
     let limitBuyNum = this.data.goodInfo.type[oIndex].limitBuyNum;
+    let quanyiPrice = this.data.goodInfo.type[oIndex].quanyi_price
     console.log(restrictiontypes)
     console.log(remainBuy)
     if (restrictiontypes !== undefined){
@@ -436,6 +467,7 @@ Page({
       specialOfferStatus: specialOfferStatus,
       specialOfferPrice: specialOfferPrice,
       deliveryTxt: deliveryTxt,
+      quanyiPrice: quanyiPrice
     })
   },
   // 当没有选中款式时 点击加入购物车/立即购买

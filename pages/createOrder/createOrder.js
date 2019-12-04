@@ -23,6 +23,7 @@ Page({
     useCouponPrice:'',//使用的优惠券金额
     fullReducePrice: 0, //满减的金额
     spids:[],
+    singleEquity: 0, //单个权益卡
     idCard: '', //身份证号
     isEdit: false, //是去编辑
     isOverSeas: false, //是否是海外的商品
@@ -40,6 +41,12 @@ Page({
       const nowDate = +new Date()
       if (orderData.newType[0].special_offer_end * 1000 >= nowDate && orderData.newType[0].special_offer_start * 1000 <= nowDate) {
         orderData.newType[0].price = orderData.newType[0].special_offer_price
+      }
+      //权益卡
+      if(orderData.newType[0].quanyi_price!=0){
+        this.setData({
+          singleEquity: orderData.newType[0].quanyi_price
+        })
       }
       // 邮费
       if (!this.data.addressInfo){
@@ -212,6 +219,13 @@ Page({
     console.log(e)
     this.setData({
       idCard: e.detail.value
+    })
+  },
+  //跳转权益卡
+  jumpEquity(e){
+    let price = e.currentTarget.dataset.price
+    wx.navigateTo({
+      url: `/pages/equity/equity?price=${price}`,
     })
   },
   saveIdCardNumber(){
@@ -986,7 +1000,12 @@ function countTotalPrice(data, n) {
     data.forEach(function (item, index) {
       item.item.forEach(function (good, i) {
         if (good.selectStatus) {
-          totalPrice += good['numbers'] * good['price']
+          //计算权益总价+parseInt(good['quanyi_price'])
+          totalPrice += good['numbers'] * (parseInt(good['price'])+parseInt(good['quanyi_price']))
+         if(good['quanyi_price']!=0){
+           item.quanyi_price = good['quanyi_price']
+           item.quanyi_num = good['numbers']
+         }
         }
       })
       if (item.childOrderShow) {
@@ -1000,7 +1019,8 @@ function countTotalPrice(data, n) {
       totalPrice: totalPrice
     }
   } else {
-    let totalPrice = Number(data.newType[0].postage) + data.newType[0].price * data.newType[0].number
+    //+data.newType[0].quanyi_price
+    let totalPrice = Number(data.newType[0].postage) + (data.newType[0].price)* data.newType[0].number
 
     return {
       totalPrice: totalPrice

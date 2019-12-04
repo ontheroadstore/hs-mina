@@ -1,0 +1,70 @@
+page{
+  background: #373737;
+}
+.top{
+  margin-top: 50rpx;
+  position: relative;
+ 
+}
+.top image{
+  width: 572rpx;
+  height: 341rpx;
+  margin: 0 auto;
+  background: #373737;
+}
+.top text{
+  position: absolute;
+  color: #fff;
+  font-size: 42rpx;
+  bottom: 1rem;
+  left: 500rpx;
+}
+.middle{
+  margin-top: 90rpx;
+}
+.middle view{
+  text-align: center;
+  width: 551rpx;
+  margin: 0 auto;
+
+}
+.middle .tit{
+  font-size: 40rpx;
+  line-height: 80rpx;
+  font-weight: 600;
+  color: #8C7F6B;
+  border-bottom: 2rpx solid #8C7F6B;
+  margin-bottom: 20rpx;
+ 
+}
+.middle .desc{
+  font-size: 26rpx;
+  line-height: 1.4em;
+  text-align: left;
+  color: #AAAAAA;
+}
+
+.buy_btn{
+  width: 234rpx;
+  height: 75rpx;
+  line-height: 75rpx;
+  text-align: center;
+  background: #C2C2C2;
+  color: #4F4F4F;
+  font-size: 28rpx;
+  position: fixed;
+  bottom: 100rpx;
+  left: 258rpx;
+  border-radius: 12rpx;
+  box-shadow:0 12rpx 2r6px 0 rgba(0,0,0,1);
+  z-index: 2;
+}
+.quanyi_bg{
+  width: 750rpx;
+  height: 394rpx;
+  background: rgba(0,0,0,0);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}

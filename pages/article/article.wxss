@@ -902,6 +902,46 @@
 }
 
 
+/* 权益卡 */
+.equity{
+  height: 90rpx;
+  border-bottom: 2rpx solid #E8E8E8;
+  width: 678rpx;
+  margin: 0 auto;
+  margin-top: 36rpx;
+}
+.equity view{
+  width: 520rpx;
+  height: 52rpx;
+  background: #AE2121;
+  border-radius: 39rpx;
+  color: #fff;
+  font-size: 20rpx;
+  /* text-align: center; */
+  margin: 0 auto;
+  line-height: 52rpx;
+  overflow: hidden;
+}
+.equity view text{
+  display: inline-block;
+  text-align: center;
+}
+.equity .txt{
+  width: 346rpx;
+  background: #151515;
+}
+.equity image{
+ float: right;
+  width: 18rpx;
+  height: 26rpx;
+  background: #AE2121;
+  margin-top: 13rpx;
+  margin-right: 20rpx;
+}
+.equity view .price{
+  margin-left: 55rpx;
+}
+
 
 
 

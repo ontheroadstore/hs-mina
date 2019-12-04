@@ -37,9 +37,9 @@
         <view class='good_title float_left' data-id="{{good.item_id}}" bindtap="{{good.is_sku_deleted == 1 || good.remain <= 0 ? '':'navigateToGoods'}}">{{good.item_name}}</view>
         <view class="good_info float_left {{good.is_sku_deleted == 0 && good.remain > 0 ? '':'good_info_hide'}}">
            <view class='good_type'>{{good.model_desc?good.model_desc: ''}}</view>
-           <view class='good_price' wx:if="{{!good.special_offer_end}}">¥ {{good.price}}</view> 
-           <view class='good_price' wx:if="{{good.special_offer_end}}">¥ {{good.special_offer_price}}</view> 
-          <view class='special_offer_price' wx:if="{{good.special_offer_end}}">¥ {{good.price}}</view>
+           <view class='good_price' wx:if="{{!good.special_offer_end}}">¥ {{good.price+good.quanyi_price}}</view> 
+           <view class='good_price' wx:if="{{good.special_offer_end}}">¥ {{good.special_offer_price+good.quanyi_price}}</view> 
+          <view class='special_offer_price' wx:if="{{good.special_offer_end}}">¥ {{good.price+good.quanyi_price}}</view>
         </view>
         <view class='num_content float_right' wx:if="{{good.is_sku_deleted == 0 && good.remain > 0}}">
           <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum' data-orderid="{{good.id}}"></image>

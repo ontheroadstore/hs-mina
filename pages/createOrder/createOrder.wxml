@@ -11,15 +11,16 @@
     <!-- 海外商品需要身份证验证 -->
     <view class="post_card" wx:if="{{isOverSeas}}">
       <view class="clearBoth">
+        <view class="tips">
+            因海关要求，购买跨境商品需要提供订购人身份证信息（请与支付账号实名信息相同）本信息仅用于海关清关，公路商店保证信息安全。如您微信/支付宝实名认证信息为“李雷”，收货人信息也应为“李雷”。若清关失败，系统将自动取消订单，审核通过后支付金额原路返还至您的账户
+        </view>
         <view class="txt">
             身份证号
         </view>
         <input  wx:if="{{!hasIdCard}}" type="idcard" focus="{{isEdit}}" bindinput='getIdCardNumber' bindblur="saveIdCardNumber"/>
         <view class="finish_id" wx:if="{{hasIdCard}}" bindtap="showEditIdCard">{{idCard}}</view>
       </view>
-      <view class="tips">
-        * 因海关需要，请填写收货人身份证号
-      </view>
+      
     </view>
     
     <!-- 直接购买，购物车购买，待支付订单， 如果数据格式统一可以合并 -->
@@ -40,7 +41,13 @@
             <text class="good_num float_left">{{singleOrder.newType[0].number}}</text>
             <image class='add_icon float_left' data-remainbuy="{{singleOrder.newType[0].remainBuy?singleOrder.newType[0].remainBuy:''}}" src='/images/add.png' bindtap='addNum' data-remain="{{singleOrder.newType[0].stock}}"></image>
           </view>
-        </view>
+          <view class='clearBoth quanyi_btn' wx:if="{{singleEquity!=0}}" data-price="{{singleOrder.newType[0].quanyi_price}}" bindtap="jumpEquity">
+            <image class="quanyi_icon" src="https://img8.ontheroadstore.com/H5_Icon/quanyi_order_icon.png"></image>
+            <view class='float_left label'>购买此商品必须加购权益卡<image class="quanyi_icon2" src="https://img8.ontheroadstore.com/H5_Icon/quanyi_desc_icon.png"></image></view>
+            <!-- <image class="float_right" src="http://img8.ontheroadstore.com/upload/180424/d1ac26b48e521572b13042cabe0bf49d.png"></image> -->
+            <view class='float_right postage_price quanyi_price'><text>x{{singleOrder.newType[0].number}}</text></view>
+          </view>
+        </view> 
         <view class='postage_num clearBoth'>
           <view class='float_left label'>运费</view>
           <view class='float_right postage_price' wx:if="{{!addressInfo}}">请选择地址</view>
@@ -63,11 +70,17 @@
           <image class='float_left image' src='{{good.image}}'></image>
           <view class='good_title float_left'>{{good.item_name}}</view>
           <view class='good_type float_left'>{{good.model_desc ? good.model_desc: ''}}</view>
-          <view class='good_price float_left'>￥ {{good.price}}</view>
+          <view class='good_price float_left'>￥ {{good.price*1+good.quanyi_price*1}}</view>
           <view class='count_num'>
             <!-- <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum' data-id="{{good.id}}"></image> -->
             <text class="good_num float_left">x {{good.numbers}}</text>
             <!-- <image class='add_icon float_left' data-sellerindex="{{sellerIndex}}" data-goodindex="{{goodIndex}}" src='/images/add.png' data-remainbuy="{{good.remainBuy?good.remainBuy:''}}" bindtap='addNum' data-id="{{good.id}}" data-remain="{{good.remain}}"></image> -->
+          </view>
+          <view class='clearBoth quanyi_btn' wx:if="{{good.quanyi_price!=0}}" data-price="{{good.quanyi_price}}" bindtap="jumpEquity">
+            <image class="quanyi_icon" src="https://img8.ontheroadstore.com/H5_Icon/quanyi_order_icon.png"></image>
+            <view class='float_left label'>购买此商品必须加购权益卡<image class="quanyi_icon2" src="https://img8.ontheroadstore.com/H5_Icon/quanyi_desc_icon.png"></image></view>
+            <!-- <image class="float_right" src="http://img8.ontheroadstore.com/upload/180424/d1ac26b48e521572b13042cabe0bf49d.png"></image> -->
+            <view class='float_right postage_price quanyi_price'><text>x{{good.numbers}}</text></view>
           </view>
         </view>
         <view class='postage_num clearBoth'>

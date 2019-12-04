@@ -1,0 +1,26 @@
+<view class="cntent">
+  <view class="top">
+    <image src="https://img8.ontheroadstore.com/H5_Icon/quanyi_card.png?1"></image>
+    <text>¥ {{price}}</text>
+  </view>
+  <view class="middle">
+    <view class="tit">权益卡说明</view>
+    <view class="desc">
+      公路商店酒类权益卡用于兑换限定酒款buckfast的购买资格。
+    </view>
+    <view class="desc">
+      每张权益卡可以兑换一次购买一瓶buckfast的资格。 
+    </view>
+    <view class="desc">
+      该权益卡仅针对公路商店用户开放，任何问题请及时联系客服。           
+    </view>
+    <view class="desc">
+      累计拥有20张权益卡兑换buckfast葡萄酒一瓶。  
+    </view>
+  </view>
+
+  <veiw class="buy_btn" bindtap="jumpOrder">
+    我知道了
+  </veiw>
+  <image class="quanyi_bg" src="https://img8.ontheroadstore.com/H5_Icon/quanyi_bg.png"></image>
+</view>

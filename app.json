@@ -26,7 +26,8 @@
     "pages/userCoupon/userCoupon",
     "pages/getCollectCoupon/getCollectCoupon",
     "pages/fullReduce/fullReduce",
-    "pages/downloadApp/downloadApp"
+    "pages/downloadApp/downloadApp",
+    "pages/equity/equity"
   ],
   "window": {
     "backgroundTextStyle": "light",

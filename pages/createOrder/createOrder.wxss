@@ -124,7 +124,7 @@
   font-size: 26rpx;
   position: absolute;
   left: 316rpx;
-  bottom: 30rpx;
+  top: 140rpx;
   line-height: 1em;
 }
 .orders .order_item .count_num,
@@ -132,7 +132,7 @@
   font-size: 26rpx;
   position: absolute;
   right: 0;
-  bottom: 30rpx;
+  top: 140rpx;
   line-height: 1em;
   color: #8E8E8E;
 }
@@ -169,7 +169,43 @@
 .desc{
   border: none;
 }
+/* .quanyi_btn image{
+  
+  margin-top: 29rpx;
 
+} */
+.quanyi_btn{
+  font-size: 21rpx;
+  color: #8E8E8E;
+}
+.quanyi_btn view{
+  height: 40rpx;
+ line-height: 54rpx;
+}
+.quanyi_price{
+  color: #AE2121;
+}
+.quanyi_price text{
+  color: #8E8E8E;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+}
+.quanyi_icon{
+  float: left;
+  background: #fff;
+  width: 27rpx;
+  height: 17rpx;
+  margin-top: 20rpx;
+  margin-right: 6rpx;
+}
+.quanyi_icon2{
+  display: inline-block;
+  background: #fff;
+  width: 21rpx;
+  height: 21rpx;
+  margin-left: 10rpx;
+
+}
 .desc input{
   height: 88rpx;
   line-height: 88rpx;
@@ -576,12 +612,13 @@
 
 .post_card{
   width: 690rpx;
-  height: 90rpx;
+  height: 252rpx;
   padding: 30rpx;
   /* border-bottom: 16rpx solid #F4F4F4; */
-  border-top: 16rpx solid #F4F4F4;
+  /* border-top: 16rpx solid #F4F4F4; */
   font-size: 24rpx;
   background: #fff;
+  padding-top: 0;
   
 }
 .post_card .txt{
@@ -616,7 +653,17 @@
 }
 .post_card .tips{
   font-size: 20rpx;
-  color: #8E8E8E;
-  padding-left: 110rpx;
-  line-height: 40rpx;
+  color: #AE2221;
+  height: 162rpx;
+  background: #FCD9D9;
+  line-height: 1.2em;
+  width: 750rpx;
+  position: relative;
+  left: -30rpx;
+  margin-bottom: 30rpx;
+  padding: 26rpx 38rpx;
+  box-sizing: border-box;
+  line-height: 28rpx;
+
+
 }

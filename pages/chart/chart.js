@@ -85,6 +85,7 @@ Page({
               item.item.forEach(function (good, i) {
                 good['selectStatus'] = false
                 good['animation'] = {}
+                good['special_offer_price'] =parseInt(good.special_offer_price)
                 if (good.postsRestrictionNumber || good.goodsRestrictionNumber) {
                   good.limitBuy = true;
                   if (good.goodsRestrictionNumber) {
@@ -94,6 +95,7 @@ Page({
                     good.limitNumber = good.postsRestrictionNumber;//商品限购数量
                     good.remainBuy = good.postsRestrictionNumber - good.postsAlreadyNumber;//商品剩余购买数量
                   }
+                 
                 }
                 if (good['special_offer_end']) {
                   good['special_offer_end'] = formTime(good['special_offer_end'])
@@ -568,10 +570,10 @@ Page({
             })
             reducePrice.push({
               sp_id:item.sale_promotion.sp_id,
-              aPrice: good['numbers'] * good['price'] 
+              aPrice: good['numbers'] * (parseInt(good['price'])+parseInt(good['quanyi_price'])) 
             })
           }
-          totalPrice += good['numbers'] * good['price']
+          totalPrice += good['numbers'] * (parseInt(good['price'])+parseInt(good['quanyi_price']))
         } else if (good['selectStatus'] && good['is_sku_deleted'] == 0 && good['remain'] > 0 && good['special_offer_end']) {
           if(item.sale_promotion){
             //计算满减的金额
@@ -592,10 +594,10 @@ Page({
             })
             reducePrice.push({
               sp_id:item.sale_promotion.sp_id,
-              aPrice: good['numbers'] * good['special_offer_price'] 
+              aPrice: good['numbers'] * (parseInt(good['special_offer_price'])+parseInt(good['quanyi_price']))
             })
           }
-          totalPrice += good['numbers'] * good['special_offer_price']
+          totalPrice += good['numbers'] * (parseInt(good['special_offer_price'])+parseInt(good['quanyi_price']))
         }
       })
     })

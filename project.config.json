@@ -44,7 +44,7 @@
 					"id": 0,
 					"name": "商品详情",
 					"pathName": "pages/article/article",
-					"query": "id=20335",
+					"query": "id=1096096",
 					"scene": null
 				},
 				{
@@ -101,6 +101,26 @@
 					"name": "二级购物车",
 					"pathName": "pages/secondLevelChart/secondLevelChart",
 					"query": "spid=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "权益页面",
+					"pathName": "pages/equity/equity",
+					"query": "id=1096096",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "权益页面",
+					"pathName": "pages/equity/equity",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "确认订单",
+					"pathName": "pages/createOrder/createOrder",
 					"scene": null
 				}
 			]

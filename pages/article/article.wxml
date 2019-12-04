@@ -11,10 +11,10 @@
   <view class='share_content'>
     <view class='good_price' wx:if="{{styleNum == 1 && specialOfferStatus}}">
     <!-- {{specialOfferStatus}}-->
-      <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
-      <text class='now_price font_din'>￥{{goodInfo.type[0].price}}</text>
+      <text class='new_price font_din' wx:if='{{specialOfferPrice&&goodInfo.type}}'>￥{{specialOfferPrice}}</text>
+      <text class='now_price font_din' wx:if="{{goodInfo.type}}">￥{{goodInfo.type[0].price}}</text>
     </view>
-    <view class='good_price font_din' wx:if="{{styleNum == 1 && !specialOfferStatus}}">￥ {{goodInfo.type[0].price}}</view>
+    <view class='good_price font_din' wx:if="{{styleNum == 1 && !specialOfferStatus&&goodInfo.type}}">￥ {{goodInfo.type[0].price+goodInfo.type[0].quanyi_price}}</view>
 
     <view class='good_price font_din' wx:if="{{styleNum != 1 && !selectStylePrice}}">￥ {{goodInfo.price[0]}}
       <text wx:if="{{goodInfo.price[1]}}" class='font_din'> - {{goodInfo.price[1]}}</text>
@@ -36,10 +36,6 @@
       <text class="red">购买需填写收货人身份证号</text>
     </view> -->
     <image  mode="aspectFill" src="https://img8.ontheroadstore.com/wxapp_static/store/duty_line.png"></image>
-  </view>
-  <view class='user_introduce clearBoth' wx:if="{{goodInfo.seller.announcement}}">
-    <image class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='头像' src='{{goodInfo.seller.avatar}}'></image>
-    <text class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='店铺'>{{goodInfo.seller.announcement}}</text>
   </view>
   <view class="style full_reduce" wx:if="{{fullReduceInfo}}" data-spid="{{fullReduceInfo.sp_id}}" data-sptime="{{fullReduceInfo.sp_time}}" data-spname='{{fullReduceInfo.sp_name}}' bindtap="jumpFullReduce">
     <view class='label'>满减</view>
@@ -76,6 +72,14 @@
     <view class='label'>运费</view>
     <text>{{selectStylePostage}} 元</text>
   </view> -->
+  <view class="presell"  data-stock="{{goodInfo.type[0].stock}}" wx:if="{{goodInfo.is_quanyi}}">
+    <view class='label'>权益卡</view>
+    <text>购买此商品必须加购权益卡</text>
+  </view>
+  <view class='user_introduce clearBoth' wx:if="{{goodInfo.seller.announcement}}">
+    <image class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='头像' src='{{goodInfo.seller.avatar}}'></image>
+    <text class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='店铺'>{{goodInfo.seller.announcement}}</text>
+  </view>
   <view class='desc' wx:if="{{desc}}">
     <text class='title'>狠货简介</text>
     <text class='text_details'>{{desc}}</text>
