@@ -3,14 +3,23 @@
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
+		"enhance": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
 		"autoAudits": true,
-		"uglifyFileName": true
+		"uglifyFileName": true,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.6.5",
+	"libVersion": "2.9.4",
 	"appid": "wxc85bfe8b88df8a2d",
 	"projectname": "%E5%85%AC%E8%B7%AF%E5%95%86%E5%BA%97%E9%BB%91%E5%B8%82",
 	"isGameTourist": false,

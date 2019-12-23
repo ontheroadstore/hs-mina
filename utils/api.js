@@ -89,7 +89,7 @@ const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
       header: {
         'Authorization': wx.getStorageSync('token'),
         'UseSource': 'wxapp', //设置用户来源是小程序
-        'version' : '4.6.4', //接口版本
+        'version' : '4.6.6', //接口版本
         'SCProperties': sensorsHeader(),
       }
     }).then(res => {

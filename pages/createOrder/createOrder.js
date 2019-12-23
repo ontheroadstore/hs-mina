@@ -25,6 +25,8 @@ Page({
     spids:[],
     singleEquity: 0, //单个权益卡
     idCard: '', //身份证号
+    idCardName: '',//身份证姓名
+    idCardNum: '',//身份证号全部
     isEdit: false, //是去编辑
     isOverSeas: false, //是否是海外的商品
     hasIdCard: false //是否有身份证信息
@@ -181,7 +183,9 @@ Page({
         }
         this.setData({
           addressInfo: res.data,
-          idCard: sfz
+          idCard: sfz,
+          idCardNum: res.data.shenfenzheng,
+          idCardName: res.data.realname
         })
         //todo: 如果有地址就去发请求更新邮费
         this.updateFreightFee(res.data); 
@@ -228,21 +232,21 @@ Page({
       url: `/pages/equity/equity?price=${price}`,
     })
   },
+  saveIdCardName(e){
+    console.log(e)
+    this.setData({
+      idCardName: e.detail.value
+    })
+  },
   saveIdCardNumber(){
     var p = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
     if(p.test(this.data.idCard)){
-      req(app.globalData.bastUrl, 'appv6/checkIdNumber', {
-        address_id: this.data.addressInfo.id,
-        id_number: this.data.idCard
-      },'POST').then(res => {
-        if (res.code == 1) {
-          this.setData({
-            hasIdCard: true,
-            idCard:  this.data.idCard.substr(0,4)+'**********'+ this.data.idCard.substr(14,4)
-          })
-        }
+     
+      this.setData({
+        hasIdCard: true,
+        idCardNum: this.data.idCard,
+        idCard:  this.data.idCard.substr(0,4)+'**********'+ this.data.idCard.substr(14,4)
       })
-
     }else{
      
       wx.showToast({
@@ -303,7 +307,7 @@ Page({
     }
   },
   // 支付生成订单进行支付（正常购买）
-  payment: function () {
+  async payment() {
     // 先检测地址是否添加
     if (!this.data.addressInfo) {
       wx.showToast({
@@ -314,7 +318,8 @@ Page({
     }
     //检测是否是海外商品
     if(this.data.isOverSeas){
-      if(this.data.idCard==""){
+      let idCardStatus = await this.checkIdCard()
+      if(!idCardStatus){
         wx.showToast({
           title: '请检查身份证号',
           icon: 'none',
@@ -378,6 +383,28 @@ Page({
       // 正常购买
       this.createorder(createOrderData)
     }
+  },
+  checkIdCard(){
+    let that = this
+    return new Promise(function(reslove,reject){
+
+      req(app.globalData.bastUrl, 'appv6/checkIdNumber', {
+        address_id: that.data.addressInfo.id,
+        id_number: that.data.idCardNum,
+        real_name: that.data.idCardName
+      },'POST').then(res => {
+        if (res.code == 1) {
+          reslove(true)
+        }else{
+          reject(false)
+        }
+      }).catch(err=>{
+        reject(false)
+      })
+  
+    })
+  
+   
   },
   // 生成订单
   // 	"orders": [{

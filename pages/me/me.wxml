@@ -62,7 +62,7 @@
       <image class='float_left' src='/images/address.png'></image>
       <text class='float_left'>收货地址</text>
     </navigator>
-
+    
     <view class='clearBoth'>
       <image class='float_left' src='/images/service.png'></image>
       <!-- 客服目前使用小程序在线客服系统 -->
@@ -73,6 +73,11 @@
       <image class='float_left' src='/images/refund.png'></image>
       <text class='float_left'>退货服务</text>
     </navigator>
+    <navigator class='clearBoth' hover-class="none" url="/pages/webView/webView?url=https://img8.ontheroadstore.com/static/license.html&title=证照信息">
+      <image class='float_left' src='/images/zizhi.png'></image>
+      <text class='float_left'>查看资质</text>
+    </navigator>
+
   </view>
   <view class='getUserInfo_content' wx:if="{{getUserInfoStatus}}">
     <view class='pop_up'>

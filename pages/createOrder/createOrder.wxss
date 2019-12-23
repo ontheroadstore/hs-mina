@@ -612,7 +612,7 @@
 
 .post_card{
   width: 690rpx;
-  height: 252rpx;
+  height: 310rpx;
   padding: 30rpx;
   /* border-bottom: 16rpx solid #F4F4F4; */
   /* border-top: 16rpx solid #F4F4F4; */
@@ -621,13 +621,16 @@
   padding-top: 0;
   
 }
+.post_card >view{
+  margin-bottom: 10rpx;
+}
 .post_card .txt{
   display: inline-block;
   line-height: 60rpx;
   height: 56rpx;
 }
 .post_card input{
-  width: 490rpx;
+  width: 380rpx;
   height: 40rpx!important;
   line-height: 40rpx;
   padding: 4rpx 45rpx;
@@ -638,7 +641,7 @@
   border: 0;
 }
 .finish_id{
-  width: 490rpx;
+  width: 380rpx;
   height: 40rpx;
   line-height: 40rpx;
   padding: 4rpx 45rpx;
