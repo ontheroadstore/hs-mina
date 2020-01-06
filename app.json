@@ -10,6 +10,7 @@
     "pages/createOrder/createOrder",
     "pages/chart/chart",
     "pages/article/article",
+    "pages/article1/article",
     "pages/orderInfo/orderInfo",
     "pages/address/address",
     "pages/refund/refund",

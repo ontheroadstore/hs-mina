@@ -1,0 +1,322 @@
+<scroll-view class='main' scroll-y>
+  <!-- <image class='frontcover' mode="aspectFill" src='{{goodInfo.banner[0]}}@640w_1l'></image> -->
+  <!-- 新版banner -->
+  <swiper indicator-dots  interval="2000" duration="500">
+    <block wx:for="{{goodInfo.banner}}" wx:key="index">
+      <swiper-item>
+        <view class="vedio_banner" wx:if="{{index==0&&goodInfo.video}}">
+          <video class='frontcover' src="{{goodInfo.video}}" object-fit="fill" poster="{{item}}"></video>
+        </view>
+        <view class="swiper-item" wx:else>
+          <image class='frontcover' mode="aspectFill" src='{{item}}@640w_1l'></image>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+  <view class='good_title' >{{goodInfo.title}}</view>
+  <!-- <view class='good_title good_title_and_count'wx:else>{{goodInfo.title}} wx:if="{{soldCountTxt==''}}" -->
+    <!-- <view class="sale_count_wrap" bindtap="navigateToPurchaseList">
+      <view class="sale_count_txt">已哆嗦</view> -->
+      <!-- <view>已哆嗦{{soldCountTxt}}件</view> -->
+    <!-- </view> -->
+  <!-- </view> -->
+  <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view>
+  <view class='share_content'>
+    <view class='good_price' wx:if="{{styleNum == 1 && specialOfferStatus}}">
+    <!-- {{specialOfferStatus}}-->
+      <text class='new_price font_din' wx:if='{{specialOfferPrice&&goodInfo.type}}'>￥{{specialOfferPrice}}</text>
+      <text class='now_price font_din' wx:if="{{goodInfo.type}}">￥{{goodInfo.type[0].price}}</text>
+      
+    </view>
+    <view class='good_price font_din' wx:if="{{styleNum == 1 && !specialOfferStatus&&goodInfo.type}}">￥ {{goodInfo.type[0].price+goodInfo.type[0].quanyi_price}}</view>
+
+    <view class='good_price font_din' wx:if="{{styleNum != 1 && !selectStylePrice}}">￥ {{goodInfo.price[0]}}
+      <text wx:if="{{goodInfo.price[1]}}" class='font_din'> - {{goodInfo.price[1]}}</text>
+    </view>
+     <view class='good_price font_din' wx:if="{{styleNum != 1 && selectStylePrice && !specialOfferStatus}}">￥ {{selectStylePrice}}</view> 
+    <view class='good_price font_din' wx:if="{{styleNum != 1 && selectStylePrice && specialOfferStatus}}">
+      <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
+      <text class='now_price font_din'>￥{{selectStylePrice}}</text>
+    </view>
+    <view class="sale_num">已哆嗦{{soldCountTxt}}件</view>
+    <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view>
+    <!-- <image class='share' src='/images/share.png' bindtap='share'></image>
+    <button class='share_btn' open-type="share">转发</button> -->
+  </view>
+  <view class="sale_point" wx:if="{{goodInfo.maidian}}">
+    <view>
+      {{goodInfo.maidian}}
+    </view>
+    <image  mode="aspectFill" src="https://img8.ontheroadstore.com/H5_Icon/detail_maidian.png"></image>
+  </view>
+  <view class="overseas" wx:if="{{goodInfo.require_duty}}">
+    <!-- <view class="cont">  
+      <text>超狠洋货</text>
+      <text class="dot">·</text>
+      <text>保税仓发货</text>
+      <text class="red">购买需填写收货人身份证号</text>
+    </view> -->
+    <image  mode="aspectFill" src="https://img8.ontheroadstore.com/wxapp_static/store/duty_line.png"></image>
+  </view>
+  <view class="fixed_get_coupon"  bindtap='setCouponPopup' data-type="1" wx:if="{{getCoupon && getCoupon.length>0}}">
+    <image src="https://img8.ontheroadstore.com/H5_Icon/article_get_coupon.png" mode="aspectFill" lazy-load="false"></image>
+  </view>
+  <view class="style full_reduce" wx:if="{{fullReduceInfo}}" data-spid="{{fullReduceInfo.sp_id}}" data-sptime="{{fullReduceInfo.sp_time}}" data-spname='{{fullReduceInfo.sp_name}}' bindtap="jumpFullReduce">
+    <view class='label'>满减</view>
+    <view class="coupon_tag coupon_tag_back" style="background: #AE2121;">{{fullReduceInfo.sp_title}}</view>
+    <view class="" style="width: 280rpx;display: inline-block;"> {{fullReduceInfo.sp_name}}</view>
+    <view class="active_goods">去逛逛</view>
+    <image class='more' src='/images/gt.png'></image>
+  </view>
+  <!-- <view class='style' bindtap='setCouponPopup' data-type="1" wx:if="{{getCoupon && getCoupon.length>0}}">
+    <view class='label'>领券</view>
+    <view class="coupon_tag" wx:for="{{getCoupon}}"  wx:for-index="index" wx:for-item="coupon" wx:if="{{index<2}}" wx:key="index">{{coupon.desc}}</view>
+    <image class='more' src='/images/gt.png'></image>
+  </view> -->
+  <view class='style' bindtap='showSpecsPopup' style="height: 36rpx;">
+    <view class='label'>规格</view>
+    <image class='more' src='/images/gt.png'></image>
+  </view>
+  <view class='style' bindtap='setCouponPopup' data-type="2" wx:if="{{backCoupon && backCoupon.length>0}}">
+    <view class='label'>返券</view>
+    <view class="coupon_tag coupon_tag_back" wx:for="{{backCoupon}}"  wx:for-index="index" wx:for-item="coupon" wx:if="{{index<2}}" wx:key="index">{{coupon.desc}}</view>
+    <view class="active_goods">活动商品</view>
+    <image class='more' src='/images/gt.png'></image>
+  </view>
+  <view class='style' bindtap='selectShow' wx:if="{{styleNum > 1}}">
+    <view class='label'>请选择</view>
+    <text>{{selectStyleName ? selectStyleName : '请选择你要的款式' }}</text>
+    <image class='more' src='/images/gt.png'></image>
+  </view>
+  <view class="delivery_time" wx:if="{{deliveryTxt}}">
+    <view class="delivery_time_label">发货</view>
+    <view class="delivery_time_txt">{{deliveryTxt}}</view>
+  </view>
+  <view class='presell' wx:if="{{presellTime}}">
+    <view class='label'>预售</view>
+    <text>预计发货时间为 {{presellTime}}</text>
+  </view>
+  <!-- <view class='presell' wx:if="{{selectStylePostage}}">
+    <view class='label'>运费</view>
+    <text>{{selectStylePostage}} 元</text>
+  </view> -->
+  <view class="presell"  data-stock="{{goodInfo.type[0].stock}}" wx:if="{{goodInfo.is_quanyi}}">
+    <view class='label'>权益卡</view>
+    <text>购买此商品必须加购权益卡</text>
+  </view>
+  <view class='user_introduce clearBoth' wx:if="{{goodInfo.seller.announcement}}">
+    <image class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='头像' src='{{goodInfo.seller.avatar}}'></image>
+    <text class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='店铺'>{{goodInfo.seller.announcement}}</text>
+  </view>
+
+  <view class='user_goods'>
+    <view class='user_info clearBoth'>
+      <image class='float_left' src='{{modulesUserGoods.avatar}}'></image>
+      <view class='user_name float_left'>{{modulesUserGoods.name}}</view>
+      <view class='user_motto float_left'>{{modulesUserGoods.motto?modulesUserGoods.motto:'这家伙太懒了，啥都没写'}}</view>
+      <view class='user_all_good float_right' bindtap="navigateToUser" data-name="{{modulesUserGoods.name}}" data-btn='全部狠货' data-id="{{modulesUserGoods.id}}">卖家所有狠货</view>
+    </view>
+    <scroll-view class='good_items' scroll-x  wx:if="{{modulesUserGoods.goodslist.length != 0}}">
+      <view class='good_item' wx:for="{{modulesUserGoods.goodslist}}" wx:key="key">
+        <image mode="aspectFill" lazy-load  src='{{item.cover}}' data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0"></image>
+        <view data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0">{{item.title}}</view>
+        <view class="price">¥{{item.price[0]}}</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="tab_content_problem">
+    <view class="content_title {{tabContentProblem==1?'active':''}}" data-type="1" bindtap="changeTabStatus">商品详情</view>
+    <view class="problem_tit {{tabContentProblem==2?'active':''}}"  data-type="2" bindtap="changeTabStatus">常见问题</view>
+  </view>
+  <view class="problem" wx:if="{{tabContentProblem==2}}">
+    <view class="problem_item" wx:for="{{problemList}}" wx:for-item="item" wx:key="index">
+      <view class="problem_sub_tit"> {{item.title}} </view>
+      <view class="problem_cont" >  {{item.content}} </view>
+    
+    </view>
+  </view>
+
+  <view wx:if="{{imgTxtArr.length>0}}" wx:if="{{tabContentProblem==1}}">
+    <view class='content'>
+   
+      <view  wx:for="{{imgTxtArr}}" wx:for-item="imgTxt" wx:key="imgTxt">
+        <text class='text_details' wx:if="{{imgTxt.type==0}}">{{imgTxt.txt}}</text>
+        <image class="img_txt_img" wx:if="{{imgTxt.type==1}}" mode="widthFix" lazy-load src="{{imgTxt.url}}" style="width: {{imgTxt.imgW}};height: {{imgTxt.imgH}};"></image>
+      </view>
+      
+    </view>
+  </view>
+  <view wx:else>
+  
+    <view class='content' wx:if="{{content&& tabContentProblem==1}}">
+      <text class='title'>商品详情</text>
+      <text class='text_details'>{{content}}</text>
+    </view>
+    <view class='images clearBoth'>
+      <image wx:key="key" bindtap='previewImage' data-url="{{item}}" mode="aspectFill" lazy-load wx:for="{{goodInfo.images}}" src='{{item}}@!320x320' data-original="{{item}}@!rel"></image>
+    </view>
+
+  </view>
+<!--   
+  <view class='buy_users' wx:if="{{goodInfo.purchaseList.total_count>0}}">
+    <view class='user_nums'>牛逼的人已哆嗦{{goodInfo.purchaseList.total_count}}次</view>
+    <view class='user_avatars clearBoth'>
+      <image wx:key="index" wx:for="{{goodInfo.purchaseList.userlist}}" wx:if="{{index<7 || (index==8 && goodInfo.purchaseList.userlist.length==8)}}" src='{{item.avatar}}'></image>
+                  
+      <image class='last_user_avatar' src='/images/more.png' wx:if="{{goodInfo.purchaseList.userlist && goodInfo.purchaseList.userlist.length>8}}" bindtap="navigateToPurchaseList"></image> 
+    </view>
+  </view>   
+  -->
+ 
+  <view class="guess_like {{isIphoneX? 'iphoneX_guess_like' : ''}}">
+    <view class='title'>猜你喜欢</view>
+    <view class="good_item clearBoth" wx:key="key" wx:for="{{modulesGuessLike}}" wx:if="{{item.type == 1}}">
+      <image bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
+      <view bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+      <!-- <image bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-satype="1" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" /> -->
+      <!-- <text bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-satype="1" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text> -->
+      <text class="price font_din float_left">￥ {{item.price[0]}}</text>
+    </view>
+  </view>
+  <view class="btns clearBoth {{isIphoneX?'iphoneX_btns':''}}">
+    <view class='add_chart float_left' bindtap='navigateToChart'>
+      <image src='/images/chartInfo.png'></image>
+      <text>购物车</text>
+      <view class='chart_num' wx:if="{{chartNum != 0}}">{{chartNum}}</view>
+    </view>
+    <view class='add_like float_left' bindtap='addLike'>
+      <image src='/images/like.png' wx:if="{{!goodInfo.is_favorited}}"></image>
+      <image src='/images/likeSelected.png' wx:else></image>
+      <text>收藏</text>
+    </view>
+    <view class='chart_btn float_left' wx:if="{{!activityCanBy}}" bindtap="{{styleNum> 1?'selectShow':'addChart'}}" data-type="1" style="{{fullReduceInfo?'width: 534rpx;background:#AE2121;right:0;':''}}">加入购物车</view>
+    <!-- <view class='buy_btn float_left' bindtap='navigateToChart'>
+      去购物车
+    </view> -->
+    <view class='chart_btn float_left' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
+    <view class='buy_btn float_left' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2" wx:if="{{!fullReduceInfo}}">立即购买</view>
+    <view class="cant_buy {{isIphoneX ? 'iphoneX_cant_buy':''}}" wx:if='{{goodInfo.is_only_app_sale==1}}' bindtap='downloadApp'>
+      <text class='open_app_title'>打开APP</text>
+      <text class='open_app_txt'>仅有少量现货在APP上购买</text>
+    </view>
+    <!-- 没有授权，会在底部显示一个透明的授权按钮 -->
+    <!-- <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button> -->
+    <button wx:if="{{authorizationStatus}}"  bindtap="jumpLogin" class='getUserInfo'>授权</button>
+  </view>
+  <view class="select {{selectStatus ? 'show':''}}" catchtap='selectHide' catchtouchmove='true' data-status="true">
+    <view class="select_content {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}" catchtouchmove='true'>
+      <image class='cover' src='{{goodInfo.banner[0]}}@640w_1l'></image>
+      <view class='title'>{{goodInfo.title}}</view>
+      <view class='price' wx:if="{{styleNum == 1 && specialOfferStatus}}">
+        <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
+        <text class='now_price font_din'>￥{{goodInfo.type[0].price}}</text>
+      </view>
+      <view class='price font_din' wx:if="{{styleNum == 1 && !specialOfferStatus}}">￥ {{goodInfo.type[0].price}}</view>
+
+      <view class='price font_din' wx:if="{{styleNum != 1 && !selectStylePrice}}">￥ {{goodInfo.price[0]}}
+        <text wx:if="{{goodInfo.price[1]}}" class='font_din'> - {{goodInfo.price[1]}}</text>
+      </view> 
+      <view class='price font_din' wx:if="{{styleNum != 1 && selectStylePrice && !specialOfferStatus}}">￥ {{selectStylePrice}}</view> 
+      <view class='price font_din' wx:if="{{styleNum != 1 && selectStylePrice && specialOfferStatus}}">
+        <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
+        <text class='now_price font_din'>￥{{selectStylePrice}}</text>
+      </view>
+      <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view>
+      <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view>
+      <scroll-view class='styles_content' scroll-y="{{selectScrollStatus}}">
+        <view id='styles_select'>
+          <view class="delivery_cycle" wx:if="{{deliveryTxt}}">
+            <view class="delivery_cycle_label">发货</view>
+            <view class="delivery_cycle_txt">{{deliveryTxt}}</view>
+          </view>
+          <view class='styles_select clearBoth'>
+            <view class='label'>款式</view>
+            <text bindtap='selectedStyle' wx:key="key" wx:for="{{goodInfo.type}}" data-typeindex="{{index}}" data-postage="{{item.postage}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" data-expected_delivery_cycle="{{item.expected_delivery_cycle}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}" >{{item.name}}</text>   
+          </view>
+          <view class='good_num clearBoth'>
+            <view class='label'>数量</view>
+            <image src='/images/sub.png' class='sub float_left' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}">-</image>
+            <text class='num float_left'>{{selectStyleCount}}</text>
+            <image src='/images/add.png' class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}">+</image>
+          </view>
+        </view>
+      </scroll-view>
+        <view class='chart_btn' wx:if="{{selectType==0&&!activityCanBy}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}" style="{{fullReduceInfo?'width: 750rpx;':''}}">加入购物车</view> 
+        <view class='chart_btn' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
+
+        <view class='buy_btn {{btnStatus?"buy_btn_no":""}}' wx:if="{{selectType==0&&!fullReduceInfo}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}" >{{limitBuyText}}</view>
+
+      <view class="select_cant_buy cant_buy {{isIphoneX ? 'iphoneX_cant_buy':''}}" wx:if='{{goodInfo.is_only_app_sale==1}}' bindtap='downloadApp'>
+        <text class='open_app_title'>打开APP</text>
+        <text class='open_app_txt'>仅有少量现货在APP上购买</text>
+      </view>
+
+      <view class='next_btn' wx:if="{{selectType==1}}" bindtap="{{selectStyleId?'addChart':'noSelect'}}">确认</view>
+      <view class='next_btn' wx:if="{{selectType==2}}" bindtap="{{selectStyleId?'navigateToCreateOrder':'noSelect'}}">确认</view>
+      <!-- <button wx:if="{{authorizationStatus}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" class='getUserInfo'>授权</button> -->
+      <button wx:if="{{authorizationStatus}}"  bindtap="jumpLogin" class='getUserInfo'>授权</button>
+    </view>
+  </view>
+  <image src='/images/returnIndex.png' class="return_index {{isIphoneX ? 'iphoneX_return_index':''}}" bindtap="returnIndex"></image>
+
+<!-- 优惠券列表弹窗 -->
+  <view class="coupon_popup_mask" catchtouchmove="true"  bindtap='setCouponPopup' data-type="0" hidden="{{couponPopup===1 ? false : true}}">
+    <view class="coupon_popup_wrap" catchtap='setCouponPopup'>
+      <view class="coupon_popup_title">优惠券</view>
+      <scroll-view class="coupon_popup_ul" scroll-y="true">
+
+        <view class="coupon_popup_li"  wx:for="{{getCoupon}}" wx:for-index="index" wx:for-item="coupon" wx:key="index">
+          <view class="coupon_popup_left">
+            <view class="coupon_popup_price font_din">¥{{coupon.coupon_price}}</view>
+            <view class="coupon_popup_tip">{{coupon.coupon_tip}}</view>
+          </view>
+          <view class="coupon_popup_right">
+            <view class="coupon_popup_name">{{coupon.title}}</view>
+            <view class="coupon_popup_time">{{coupon.start_time}} - {{coupon.end_time}}</view>
+            <view class="coupon_popup_btn" data-id="{{coupon.coupon_id}}"  data-can_get="{{coupon.can_get}}" catchtap="getCoupon">立即领取</view>
+          </view>
+        </view>
+        
+      </scroll-view>
+
+      <view class="coupon_popup_ok" catchtap='setCouponPopup' data-type="0">完成</view>
+    </view>
+  </view>
+
+  <view class="coupon_popup_mask" catchtouchmove="true"  bindtap='setCouponPopup' data-type="0" hidden="{{couponPopup===2 ? false : true}}">
+    <view class="coupon_popup_wrap" catchtap='setCouponPopup'>
+      <view class="coupon_popup_title">优惠券</view>
+      <scroll-view class="coupon_popup_ul" scroll-y="true">
+
+        <view class="coupon_popup_li"  wx:for="{{backCoupon}}" wx:for-index="index" wx:for-item="coupon" wx:key="index">
+          <view class="coupon_popup_left">
+            <view class="coupon_popup_price font_din">¥{{coupon.coupon_price}}</view>
+            <view class="coupon_popup_tip">{{coupon.coupon_tip}}</view>
+          </view>
+          <view class="coupon_popup_right">
+            <view class="coupon_popup_name">{{coupon.title}}</view>
+            <view class="coupon_popup_time">{{coupon.start_time}} - {{coupon.end_time}}</view>
+            <view class="coupon_popup_btn" data-id="{{coupon.coupon_id}}" data-issue_by="{{coupon.issue_by}}" catchtap="seeGoods">查看商品</view>
+          </view>
+        </view>
+        
+      </scroll-view>
+
+      <view class="coupon_popup_ok" catchtap='setCouponPopup' data-type="0">完成</view>
+    </view>
+  </view>
+
+  <view class="spesc_popup_mask" bindtap="hideSpecsPopup" wx:if="{{spescPopupStatus}}"></view>
+  <view class="spesc_popup" wx:if="{{spescPopupStatus}}">
+    <view class="spesc_popup_cont">
+      <view class='desc' wx:if="{{desc}}">
+        <text class='title'>规格</text>
+        <text class='text_details'>{{desc}}</text>
+      </view>
+    </view>
+   
+  </view>
+
+
+</scroll-view>

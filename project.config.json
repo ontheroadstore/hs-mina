@@ -51,9 +51,9 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "商品详情",
+					"name": "商品详情1",
 					"pathName": "pages/article/article",
-					"query": "id=1096096",
+					"query": "id=1096101",
 					"scene": null
 				},
 				{
@@ -130,6 +130,14 @@
 					"id": -1,
 					"name": "确认订单",
 					"pathName": "pages/createOrder/createOrder",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 12,
+					"name": "商品详情2",
+					"pathName": "pages/article1/article",
+					"query": "id=1096096",
 					"scene": null
 				}
 			]
