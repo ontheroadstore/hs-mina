@@ -12,6 +12,6 @@
   </view>
   <view class='item'>
     <image src="/images/tel.png"></image>
-    <view class='content'>拨打官方客服电话010-56021762</view>
+    <view class='content'>平台打电话：18210256627，或者加客服微信：otr9530（在线时间：工作日早8:30到晚9:30，周末节假日信息处理不及时请联系客服微信）</view>
   </view>
 </scroll-view>
