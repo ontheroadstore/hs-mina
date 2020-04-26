@@ -53,7 +53,7 @@
 					"id": 0,
 					"name": "商品详情",
 					"pathName": "pages/article/article",
-					"query": "id=1096096",
+					"query": "id=25475utm_source=tuisong03113",
 					"scene": null
 				},
 				{
@@ -130,6 +130,7 @@
 					"id": -1,
 					"name": "确认订单",
 					"pathName": "pages/createOrder/createOrder",
+					"query": "",
 					"scene": null
 				}
 			]
