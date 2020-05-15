@@ -102,7 +102,10 @@
       <text class='title'>狠人说</text>
       <text class='text_details'>{{content}}</text>
     </view>
-    <view class='images clearBoth'>
+    <view class="content" wx:if="{{postHtml}}">
+      <rich-text nodes="{{postHtml}}"></rich-text>
+    </view>
+    <view class='images clearBoth' wx:else>
       <image wx:key="key" bindtap='previewImage' data-url="{{item}}" mode="aspectFill" lazy-load wx:for="{{goodInfo.images}}" src='{{item}}@!320x320' data-original="{{item}}@!rel"></image>
     </view>
 

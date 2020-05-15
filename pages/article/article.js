@@ -10,6 +10,7 @@ Page({
     goodInfo: null,               // 商品信息
     desc: null,
     content: null,
+    postHtml: null,
     quanyiPrice: 0,
     selectStyleId: null,          // 选中的款式ID
     selectStylePostage: null,     // 选中的款式运费
@@ -71,7 +72,7 @@ Page({
         fullReduceInfo: res.data.sale_promotion,
         modulesGuessLike: res.data.modules[1].data.result,
         desc: util.replaceBr(res.data.desc),
-        content: util.replaceBr(res.data.content)
+        // content: util.replaceBr(res.data.content)
       })
       const goodInfo = res.data
       const modulesUserGoods = res.data.modules[0]
@@ -140,7 +141,19 @@ Page({
         specialOfferPrice: specialOfferPrice,
         soldCountTxt: soldCountTxt,
       })
-
+    if(goodInfo.post_html){
+      goodInfo.post_html = goodInfo.post_html.replace(/class=/gi, '');
+      goodInfo.post_html = goodInfo.post_html.replace(/width\s*:\s*[0-9]+px/g, 'width:100%');
+      goodInfo.post_html = goodInfo.post_html.replace(/<([\/]?)(center)((:?\s*)(:?[^>]*)(:?\s*))>/g, '<$1div$3>');//替换center标签
+      goodInfo.post_html = goodInfo.post_html.replace(/\<img/gi, '<img class="rich-img" ');//正则给img标签增加class
+      //或者这样直接添加修改style
+      goodInfo.post_html = goodInfo.post_html.replace(/style\s*?=\s*?([‘"])[\s\S]*?\1/ig, 'style="width:100%;height:auto;display: block;margin:auto"');
+      goodInfo.post_html = goodInfo.post_html.replace(/\<p/gi, '<P class="rich-p" ');//正则给p标签增加class
+      this.setData({
+        postHtml: goodInfo.post_html 
+      })
+    }
+    else if(goodInfo.post_excerpt){
       // 设置图文混排
       let postExcerpt = goodInfo.post_excerpt;
       let imageText = goodInfo.image_text;
@@ -151,6 +164,11 @@ Page({
           imgTxtArr: imgTxtArr
         })
       }
+    }else{
+      this.setData({
+        content: util.replaceBr(res.data.content)
+      })
+    }
 
       // 神策 浏览商品详情页
       app.sensors.track('commodityDetail', { commodityID: String(this.data.articleId), sellerID: String(this.data.goodInfo.seller.id) });

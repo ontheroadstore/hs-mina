@@ -206,6 +206,14 @@
   margin-bottom: 20rpx;
   display: block;
 }
+.rich-img{
+  width: 690rpx;
+  height: auto;
+  object-fit: contain;
+}
+.rich-p{
+
+}
 .desc .text_details,
 .content .text_details{
   font-size: 30rpx;
