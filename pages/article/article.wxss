@@ -1,6 +1,6 @@
 .frontcover{
   width: 100%;
-  height: 382rpx;
+  height: 100vw;
 }
 .good_title{
   padding: 30rpx;
@@ -335,7 +335,7 @@
   top: 17rpx;
 }
 .user_goods .good_items{
-  height: 354rpx;
+  height: 475rpx;
   white-space: nowrap;
   z-index: 999;
   background: #FFF;
@@ -345,18 +345,18 @@
 }
 .user_goods .good_items .good_item{
   display: inline-block;
-  width: 542rpx;
+  width: 384rpx;
   margin-right: 20rpx;
-  border-radius: 16rpx;
+  border-radius: 0rpx;
   margin-top: 30rpx;
 }
 .user_goods .good_items image{
-  height: 276rpx;
-  width: 542rpx;
-  border-radius: 12rpx;
+  height: 384rpx;
+  width: 384rpx;
+  border-radius: 0rpx;
 }
 .user_goods .good_items view{
-  width: 542rpx;
+  width: 384rpx;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -381,15 +381,15 @@
   width: 690rpx;
 }
 .guess_like .good_item .cover{
-  width: 336rpx;
-  height: 172rpx;
+  width: 272rpx;
+  height: 272rpx;
   border-radius: 12rpx;
   margin-right: 30rpx;
 }
 .guess_like .good_item .article_title{
-  width: 324rpx;
+  width: 374rpx;
   overflow: hidden;
-  height: 72rpx;
+  height: 108rpx;
   line-height: 36rpx;
   font-size: 26rpx;
 }

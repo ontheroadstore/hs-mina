@@ -128,7 +128,7 @@ Page({
       length: length,
       windowWidth: windowWidth
     });
-    that.scrolltxt();// 第一个字消失后立即从右边出现
+    // that.scrolltxt();// 第一个字消失后立即从右边出现
   },
  
   scrolltxt: function () {

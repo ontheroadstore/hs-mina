@@ -1,6 +1,7 @@
 /* 首页分类 */
 .main{
   height: auto;
+  background: #EFEFEF;
 }
 .search{
   width: 750rpx;
@@ -74,7 +75,7 @@
 /* 商店 */
 .content_index{
   width: 100vw;
-  padding-top: 88rpx;
+  padding-top: 168rpx;
   display: none;
 }
 .content_index .advert{
@@ -94,14 +95,17 @@
  .ranking,
  .showall,
  .recommend{
-  margin: 0 30rpx;
-  width: 690rpx;
+  margin: 0 20rpx;
+  width: 710rpx;
 }
  .ranking .goods,
  .showall .goods,
  .recommend .goods{
-  padding: 40rpx 0 40rpx 0;
-  border-bottom: 1rpx solid #E8E8E8;
+  padding: 20rpx 0 0rpx 0;
+  /* border-bottom: 1rpx solid #E8E8E8; */
+  margin-bottom: 20rpx;
+  background: #fff;
+  border-radius: 10rpx;
 }
  .ranking .goods .user,
  .showall .goods .user,
@@ -123,14 +127,15 @@
   font-size: 26rpx;
   color: #888888;
   letter-spacing: 0;
-  line-height: 13px;
+  line-height: 40rpx;
+  margin-bottom: 10rpx;
 }
  .ranking .cover,
  .showall .cover,
  .recommend .cover{
-  width: 100%;
-  height: 352rpx;
-  border-radius: 12rpx;
+  width: 710rpx;
+  height: 710rpx;
+  border-radius: 0rpx;
 }
  .showall .article_title,
  .recommend .article_title{
@@ -142,42 +147,57 @@
   height: 68rpx;
   line-height: 68rpx;
   color: #202123;
+  padding: 0 20rpx;
+}
+.showall .article_sub_tit,
+.recommend .article_sub_tit{
+  color: #979797;
+  width: 500rpx;
+  height: 80rpx;
+  line-height: 40rpx;
+  padding: 0 20rpx;
+  overflow: hidden;
 }
  .ranking .user_avatar,
  .showall .user_avatar,
  .recommend .user_avatar{
-  width: 40rpx;
-  height: 40rpx;
+  width: 80rpx;
+  height: 80rpx;
   border-radius: 50%;
+  margin-bottom: 20rpx;
+  margin-left: 20rpx;
 }
  .ranking .user_name,
  .showall .user_name,
  .recommend .user_name{
-  font-size: 24rpx;
+  font-size: 34rpx;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   display: block;
-  line-height: 40rpx;
-  margin-left: 16rpx;
+  line-height: 80rpx;
+  margin-left: 26rpx;
   width: 400rpx;
-  color: #8E8E8E;
+  color: #151515;
 }
  .ranking .price,
  .showall .price,
  .recommend .price{
-  font-size: 32rpx;
+  font-size: 34rpx;
   color: #202123;
   height: 40rpx;
   line-height: 40rpx;
+  position: relative;
+  top: -40rpx;
+  right: 30rpx;
 }
 .ranking{
   position: relative;
-  height: 715rpx;
-  border-bottom: 1rpx solid #E8E8E8;
+  height: 1180rpx;
+  /* border-bottom: 1rpx solid #E8E8E8; */
 }
 .ranking .ranking_content{
-  height: 595rpx;
+  height: 1080rpx;
   width: 750rpx;
   display: flex;
   white-space: nowrap;
@@ -196,6 +216,7 @@
 }
 .ranking .ranking_content .cover{
   border-radius: 0rpx;
+  height: 658rpx;
 }
 .ranking .ranking_content .article_title{
   padding: 0 26rpx;
@@ -208,8 +229,18 @@
   line-height: 76rpx;
   color: #202123;
 }
+.ranking .ranking_content .article_sub_tit{
+  padding: 0 26rpx;
+  font-size: 28rpx;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #979797;
+  height: 80rpx;
+  line-height: 40rpx;
+  width: 400rpx;
+}
 .ranking .ranking_content .user_avatar{
-  margin: 0 0 26rpx 26rpx;
+  margin: 20rpx 0 26rpx 26rpx;
 }
 .ranking .ranking_content .price{
   margin: 0 26rpx 26rpx 0;
@@ -221,9 +252,9 @@
   width: 100vw;
   padding-top: 310rpx;
   box-sizing: border-box;
-  padding-left: 30rpx;
+  padding-left: 20rpx;
   display: none;
-
+  background: #fff;
 }
 .classifys_scroll{
   display: flex;
@@ -276,20 +307,40 @@
 }
 .classify_goods{
   padding-bottom: 40rpx;
-  width: 690rpx;
+  width: 345rpx;
+  float: left;
+  margin-right: 20rpx;
 }
 .classify_goods .cover{
-  width: 336rpx;
-  height: 172rpx;
-  border-radius: 12rpx;
-  margin-right: 30rpx;
+  width: 345rpx;
+  height: 345rpx;
+  border-radius: 0rpx;
+  /* margin-right: 30rpx; */
 }
 .classify_goods .article_title{
   width: 324rpx;
   overflow: hidden;
-  height: 72rpx;
+  height: 36rpx;
   line-height: 36rpx;
   font-size: 26rpx;
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  display:-webkit-box; 
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:1; 
+}
+.classify_goods .article_sub_tit{
+  width: 324rpx;
+  overflow: hidden;
+  height: 76rpx;
+  line-height: 38rpx;
+  font-size: 26rpx;
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  display:-webkit-box; 
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2; 
+  color: #979797;
 }
 .classify_goods .user_avatar{
   width: 32rpx;

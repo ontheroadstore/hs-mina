@@ -1,5 +1,11 @@
 <scroll-view class='main' scroll-y>
-  <image class='frontcover' mode="aspectFill" src='{{goodInfo.banner[0]}}@640w_1l'></image>
+  <swiper class='frontcover' indicator-dots="true" indicator-active-color="#FFF" indicator-color="rgba(255, 255, 255, 0.3)" autoplay="true" interval="3000" circular="true">
+    <swiper-item wx:for="{{goodInfo.banner}}" wx:key="{{item.id}}">
+      <image class="frontcover" lazy-load mode="aspectFill" src='{{item}}@640w_1l'></image>
+    </swiper-item>
+  </swiper>
+
+  <!-- <image class='frontcover' mode="aspectFill" src='{{goodInfo.banner[0]}}@640w_1l'></image> -->
   <view class='good_title' wx:if="{{soldCountTxt==''}}">{{goodInfo.title}}</view>
   <view class='good_title good_title_and_count'wx:else>{{goodInfo.title}}
     <view class="sale_count_wrap" bindtap="navigateToPurchaseList">
@@ -129,18 +135,20 @@
     </view>
     <scroll-view class='good_items' scroll-x  wx:if="{{modulesUserGoods.data.result[0].goods.length != 0}}">
       <view class='good_item' wx:for="{{modulesUserGoods.data.result[0].goods}}" wx:key="key">
-        <image mode="aspectFill" lazy-load  src='{{item.cover}}' data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0"></image>
-        <view data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0">{{item.title}}</view>
+        <image mode="aspectFill" lazy-load  src='{{item.cover_fang?item.cover_fang:item.cover}}' data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0"></image>
+        <view class="tit" data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0">{{item.title}}</view>
+        <!-- <view class="sub_tit" data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0">{{item.title}}</view> -->
       </view>
     </scroll-view>
   </view>
   <view class="guess_like {{isIphoneX? 'iphoneX_guess_like' : ''}}">
     <view class='title'>猜你喜欢</view>
     <view class="good_item clearBoth" wx:key="key" wx:for="{{modulesGuessLike}}" wx:if="{{index < 5}}">
-      <image bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
-      <view bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+      <image bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover_fang?item.cover_fang:item.cover}}" />
       <image bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-satype="1" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
       <text bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-satype="1" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+      <view bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="1" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+
       <text class="price font_din float_left">￥ {{item.price[0]}}</text>
     </view>
   </view>

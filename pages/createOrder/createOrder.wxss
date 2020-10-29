@@ -96,7 +96,7 @@
 .orders .order_item .image,
 .order .order_item .image{
   border-radius: 12rpx;
-  width: 286rpx;
+  width: 146rpx;
   height: 146rpx;
   margin-right: 30rpx;
 }
@@ -106,7 +106,7 @@
   text-overflow: ellipsis;
   overflow: hidden; 
   white-space: nowrap;
-  width: 360rpx;
+  width: 500rpx;
   margin-bottom: 40rpx;
 }
 .orders .order_item .good_type,
@@ -123,8 +123,8 @@
   color: #AE2121;
   font-size: 26rpx;
   position: absolute;
-  left: 316rpx;
-  top: 140rpx;
+  left: 176rpx;
+  top: 144rpx;
   line-height: 1em;
 }
 .orders .order_item .count_num,

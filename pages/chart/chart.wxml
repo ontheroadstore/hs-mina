@@ -29,7 +29,7 @@
       <view animation="{{good.animation}}" wx:key="key" wx:for="{{item.item}}" wx:for-item="good" wx:for-index="i" bindtouchmove='leftTouchMove' bindtouchstart='leftTouchStart' data-orderid="{{good.id}}" bindtouchend='touchEnd'  class="order_item clearBoth {{good.is_sku_deleted == 0 && good.remain > 0 ? '':'order_item_opacity'}}  {{item.sale_promotion?'has_full_reduce':''}} {{i+1==item.item.length?'last_full_reduce':''}}">
         <image class='checkbox_icon float_left' data-seller="{{item.seller_user_id}}" data-proid="{{item.promotion_id}}" bindtap='selectSingle' data-goodid="{{good.item_id}}" data-itemindex="{{index}}" data-index="{{i}}" data-orderid="{{good.id}}" data-remainbuy="{{good.remainBuy}}" data-obj='2222' src="{{good.selectStatus? '/images/checked.png':'/images/checkbox.png'}}" wx:if="{{good.is_sku_deleted == 0 && good.remain > 0}}"></image>
         <view class="lose_efficacy float_left" wx:if="{{good.is_sku_deleted != 0 || good.remain <= 0}}">失效</view>
-        <image class='cover float_left' data-id="{{good.item_id}}" bindtap="{{good.is_sku_deleted == 1 || good.remain <= 0 ? '':'navigateToGoods'}}" src='{{good.image}}@640w_1l'></image>
+        <image class='cover float_left' data-id="{{good.item_id}}" bindtap="{{good.is_sku_deleted == 1 || good.remain <= 0 ? '':'navigateToGoods'}}" src='{{good.cover_fang?good.cover_fang:good.image}}@640w_1l'></image>
         <view class="text_hint" wx:if="{{good.limitBuy}}">限购{{good.limitNumber}}件</view>
         <view class='text_hint' wx:elif="{{good.special_offer_end}}">{{good.special_offer_end}}</view>
         <view class='text_hint' wx:elif="{{good.remain > 0 && good.remain <= 10 && !good.special_offer_end}}">{{good.labels[0]}}</view>
@@ -60,10 +60,10 @@
   <view class="random_goods {{isIphoneX? 'isIphoneX_random_goods':''}}" >
     <view class='model_title'>猜你喜欢</view>
     <view class='good_item clearBoth' wx:key="key" wx:for="{{randomGoods}}">
-      <image bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}" />
-      <view bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+      <image bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover_fang?item.cover_fang:item.cover}}" />
       <image bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
       <text bindtap="navigateToUser" data-index="{{index}}" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+      <view bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
       <text class="price font_din float_left">¥ {{item.price[0]}}</text>
     </view>
   </view>

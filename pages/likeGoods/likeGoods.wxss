@@ -10,13 +10,13 @@
   margin-top: 40rpx;
 }
 .me_like .cover{
-  width: 336rpx;
-  height: 172rpx;
+  width: 180rpx;
+  height: 180rpx;
   border-radius: 8rpx;
   margin-right: 30rpx;
 }
 .me_like .article_title{
-  width: 324rpx;
+  width: 470rpx;
   overflow: hidden;
   height: 72rpx;
   line-height: 36rpx;
@@ -43,7 +43,7 @@
   line-height: 1em;
   position: absolute;
   bottom: 0;
-  left: 366rpx;
+  left: 200rpx;
 }
 .me_like .like_btn{
   position: absolute;

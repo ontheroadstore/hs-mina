@@ -18,15 +18,22 @@
       <view>{{searchMsg}}</view>
     </view>
     <view class="search-item" wx:for="{{searchList}}" wx:key="index" data-urlid="{{item.id}}" bindtap="jumpArticle"> 
-      <image class="cover" src="{{item.cover}}"></image>
-      <view class="tit">
-        {{item.title}}
-      </view>
-      <view class="seller">
-        <image src="{{item.user_avatar}}"></image>
-        <view class="name">{{item.user_name}}</view>
+      <image class="cover" src="{{item.cover_fang?item.cover_fang:item.cover}}"></image>
+      <view class='card_right'>
+        <view class="seller">
+          <image src="{{item.user_avatar}}"></image>
+          <view class="name">{{item.user_name}}</view>
+        </view>
+        <view class="tit">
+          {{item.title}}
+        </view>
+         <view class="sub_tit">
+          {{item.post_subtitle}}
+        </view>
         <view class="price">￥{{item.min_price}}</view>
+        
       </view>
+
   
     </view>
   </view>

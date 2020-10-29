@@ -9,6 +9,7 @@
   align-items: center;
   border-bottom: 1px solid  #f2f2f2;
   background: #fff;
+  z-index: 2;
 }
 .search-fixed input{
   display: inline-block;
@@ -39,6 +40,7 @@
   color: #8E8E8E;
   height: 80rpx;
   background: #fff;
+  z-index: 2;
 }
 .sort-fixed view{
   width: 25%;
@@ -154,10 +156,10 @@
 
 /* 列表 */
 .search-list{
-  margin-top: 230rpx;
-  padding: 0 30rpx;
+  margin-top: 200rpx;
+  padding: 0 20rpx;
   font-size: 28rpx;
-
+  background: #F2F2F2;
 }
 .search-list .search-null{
   height: 100rpx;
@@ -179,15 +181,28 @@
   color: #000;
 }
 .search-item{
-  width: 690rpx;
-  height: 500rpx;
-  border-bottom: 1px solid #DADADA;
-  margin-bottom: 40rpx;
+  width: 710rpx;
+  height: 345rpx;
+  /* border-bottom: 1px solid #DADADA; */
+  /* margin-bottom: 40rpx; */
+  margin-bottom: 20rpx;
+  border-radius: 16rpx;
+  background: #fff;
+  overflow: hidden;
 }
 .search-item .cover{
-  width: 690rpx;
-  height: 348rpx;
-  border-radius: 16rpx;
+  width: 345rpx;
+  height: 345rpx;
+  /* border-radius: 16rpx; */
+  float: left;
+}
+.search-item .card_right{
+  width: 345rpx;
+  height: 345rpx;
+  float: left;
+  margin-left: 18rpx;
+  position: relative;
+  z-index: 0;
 }
 .search-item .tit{
   font-weight: 900;
@@ -197,11 +212,22 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.search-item .sub_tit{
+  font-weight: 900;
+  width: 100%;
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  display:-webkit-box; 
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2; 
+  color: #979797;
+
+}
 .seller{
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  margin-top: 10rpx;
+  margin-top: 20rpx;
 }
 .seller image{
   width: 40rpx;
@@ -209,14 +235,20 @@
   border-radius: 20rpx;
 }
 .seller .name{
-  width: 400rpx;
+  width: 200rpx;
   margin-left: 10rpx;
+  color: #979797;
+  height: 40rpx;
+  overflow: hidden;
 }
-.seller .price{
-  width: 240rpx;
-  text-align: right;
+.search-item .price{
+  /* width: 240rpx; */
+  /* text-align: right; */
   font-size: 32rpx;
   font-weight: bold;
+  position: absolute;
+  bottom: 20rpx;
+  left: 6rpx;
 }
 
 

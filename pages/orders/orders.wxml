@@ -24,7 +24,7 @@
 
       <view bindtap='navigateToOrderInfo' data-id="{{item.id}}">
       <view class='goods_item clearBoth' wx:key="key" wx:for="{{item.goods}}"  wx:for-index="index" wx:for-item="good" data-id="{{item.id}}">
-        <image class='float_left' lazy-load mode="aspectFill" src='{{good.image}}@320w_1l' data-id="{{item.id}}"></image>
+        <image class='float_left' lazy-load mode="aspectFill" src='{{good.cover_fang?good.cover_fang:good.image}}@320w_1l' data-id="{{item.id}}"></image>
         <view class='good_title float_left' data-id="{{item.id}}">{{good.object_title}}</view>
         <view class='good_type' data-id="{{item.id}}">{{good.goods_type_desc}}</view>
         <view class='good_refund' catchtap='goodRefund'>
