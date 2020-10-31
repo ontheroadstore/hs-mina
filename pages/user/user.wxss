@@ -11,24 +11,32 @@
   margin-top: 40rpx;
 }
 .user_goods .cover{
-  width: 336rpx;
-  height: 172rpx;
+  width: 272rpx;
+  height: 272rpx;
   border-radius: 8rpx;
   margin-right: 30rpx;
 }
 .user_goods .article_title{
-  width: 324rpx;
+  width: 384rpx;
   overflow: hidden;
   height: 72rpx;
   line-height: 36rpx;
   font-size: 26rpx;
+}
+.user_goods .article_sub_title{
+  width: 384rpx;
+  overflow: hidden;
+  height: 72rpx;
+  line-height: 36rpx;
+  font-size: 26rpx;
+  color: #979797;
 }
 .user_goods .price{
   font-size: 32rpx;
   line-height: 1em;
   position: absolute;
   bottom: 0;
-  left: 366rpx;
+  left: 310rpx;
 }
 .main .return_index{
   bottom: 294rpx;

@@ -7,8 +7,9 @@
   <scroll-view scroll-y bindscrolltolower="evGoodsSortInfo" lower-threshold="100" class="page {{actSort==index?'page_act':''}}" wx:key="index" wx:for="{{goodsSort}}" wx:for-index="index" wx:for-item="sort" data-sort-id="{{sort.id}}" data-now-page="{{sort.nowPage}}" data-total-page="{{sort.totalPage}}" data-index="{{index}}" data-event-type="1">
   
   <view class="user_goods clearBoth" wx:key="idx" wx:for="{{sort.goodsList}}" wx:for-index="idx" wx:for-item="goods">
-    <image bindtap="navigateToGoods" data-id="{{goods.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{goods.cover}}@640w_1l" />
+    <image bindtap="navigateToGoods" data-id="{{goods.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{goods.cover_fang?goods.cover_fang:goods.cover}}@640w_1l" />
     <view bindtap="navigateToGoods" data-id="{{goods.id}}" class="article_title float_left">{{goods.title}}</view>
+    <view bindtap="navigateToGoods" data-id="{{goods.id}}" class="article_sub_title float_left">{{goods.post_subtitle}}</view>
     <text class="price font_din float_left">{{goods.price}}</text>
   </view>
   
@@ -20,7 +21,8 @@
 <scroll-view  wx:if="{{pageFlag==2}}" class='main' scroll-y bindscroll="mainScroll" scroll-top="{{scrollTop}}" bindscrolltolower="scrolltolower">
   <view class="user_goods clearBoth" wx:key="key" wx:for="{{userGoods}}">
     <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
-    <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.post_title}}</view>
+    <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+    <view bindtap="navigateToGoods" data-id="{{goods.id}}" class="article_sub_title float_left">{{item.post_subtitle}}</view>
     <text class="price font_din float_left">￥ {{item.price[0]}}</text>
   </view>
   <image src='/images/returnTop.png' class='return_top' bindtap="returnTop" wx:if="{{returnTopStatus}}"></image>
