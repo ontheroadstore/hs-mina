@@ -1,7 +1,7 @@
 <scroll-view class='main' scroll-y>
   <swiper class='frontcover' indicator-dots="true" indicator-active-color="#FFF" indicator-color="rgba(255, 255, 255, 0.3)" autoplay="true" interval="3000" circular="true">
     <swiper-item wx:for="{{goodInfo.banner}}" wx:key="{{item.id}}">
-      <image class="frontcover" lazy-load mode="aspectFill" src='{{item}}@640w_1l'></image>
+      <image class="frontcover" lazy-load mode="aspectFill" src='{{item}}'></image>
     </swiper-item>
   </swiper>
 
@@ -179,7 +179,7 @@
   </view>
   <view class="select {{selectStatus ? 'show':''}}" catchtap='selectHide' catchtouchmove='true' data-status="true">
     <view class="select_content {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}" catchtouchmove='true'>
-      <image class='cover' src='{{goodInfo.banner[0]}}@640w_1l'></image>
+      <!-- <image class='cover' src='{{goodInfo.banner[0]}}@640w_1l'></image> -->
       <view class='title'>{{goodInfo.title}}</view>
       <view class='price' wx:if="{{styleNum == 1 && specialOfferStatus}}">
         <text class='new_price font_din'>￥{{specialOfferPrice}}</text>

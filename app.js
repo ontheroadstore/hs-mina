@@ -18,7 +18,9 @@ App({
     wx.getSystemInfo({
       success: (res) => {
         this.globalData.systemInfo = res
-        if (res.model.indexOf('iPhone X') >= 0) {
+        let barHeight = res.statusBarHeight?res.statusBarHeight:20
+        // if (res.model.indexOf('iPhone X') >= 0) {
+        if(barHeight>20){
           this.globalData.isIphoneX = true
         }
         // 判断当前环境，填写baseUrl//实际上是baseUrl，只是其他地方都写错了。

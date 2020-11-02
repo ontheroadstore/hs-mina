@@ -138,7 +138,7 @@
   position: relative;
 }
 .goods_item image{
-  width: 260rpx;
+  width: 132rpx;
   height: 132rpx;
   margin-right: 30rpx;
   border-radius: 8rpx;
@@ -147,7 +147,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 390rpx;
+  width: 490rpx;
   font-size: 26rpx;
   line-height: 1em;
 }
@@ -161,7 +161,7 @@
   color: #7E7E7E;
   position: absolute;
   bottom: 30rpx;
-  left: 292rpx;
+  left: 160rpx;
 }
 .goods_item .good_price{
   font-size: 26rpx;

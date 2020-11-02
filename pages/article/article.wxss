@@ -537,7 +537,7 @@
   border-radius: 16rpx;
 }
 .select_content .title{
-  padding: 154rpx 30rpx 0;
+  padding: 54rpx 30rpx 0;
   line-height: 40rpx;
   height: 80rpx;
   font-size: 32rpx;

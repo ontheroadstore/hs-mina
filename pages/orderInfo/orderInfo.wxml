@@ -58,7 +58,7 @@
       </view>
 
       <view class='goods_item clearBoth' wx:key="key" wx:for="{{orderInfo.goods}}">
-        <image class='float_left' mode="aspectFill" src='{{item.image}}@640w_1l'></image>
+        <image class='float_left' mode="aspectFill" src='{{item.cover_fang?item.cover_fang:item.image}}@640w_1l'></image>
         <view class='good_title float_left'>{{item.object_title}}</view>
         <view class='good_type'>{{item.goods_type_desc}}</view>
         <view class='good_refund' catchtap='goodRefund'>
