@@ -10,7 +10,7 @@
   <view class="search-list" >
   
     <view class="search-item" wx:for="{{searchList}}" wx:key="index" data-urlid="{{item.post_id}}" wx:if="{{index<=pageNum*10-1}}" bindtap="jumpArticle"> 
-      <image class="cover" src="{{item.cover}}"></image>
+      <image class="cover" src="{{item.cover_fang?item.cover_fang:cover}}"></image>
       <view class="item_right">
         <view class="tit">
           {{item.title}}

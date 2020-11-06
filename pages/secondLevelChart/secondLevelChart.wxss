@@ -369,7 +369,11 @@
   font-size: 20rpx;
   padding: 0 16rpx;
   color: #FFF;
-  max-width: 200rpx;
+  width: 118rpx;
+  margin-top: 15rpx;
+  overflow:hidden; 
+text-overflow:ellipsis; 
+white-space:nowrap; 
 }
 .full_reduce_tip .time{
   margin-right: 20rpx;

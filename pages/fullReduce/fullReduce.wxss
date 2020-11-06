@@ -158,7 +158,7 @@
   margin-bottom: 40rpx;
 }
 .search-item .cover{
-  width: 336rpx;
+  width: 172rpx;
   height: 172rpx;
   border-radius: 16rpx;
   float: left;
@@ -166,7 +166,7 @@
 }
 .search-item .item_right{
   float: left;
-  width: 323rpx;
+  width: 470rpx;
   height: 172rpx;
   position: relative;
 }

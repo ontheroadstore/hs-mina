@@ -1,160 +1,160 @@
 {
-  "description": "项目配置文件。",
-  "setting": {
-    "urlCheck": true,
-    "es6": true,
-    "enhance": true,
-    "postcss": true,
-    "minified": true,
-    "newFeature": true,
-    "coverView": true,
-    "autoAudits": true,
-    "showShadowRootInWxmlPanel": true,
-    "scopeDataCheck": false,
-    "uglifyFileName": true,
-    "checkInvalidKey": true,
-    "checkSiteMap": true,
-    "uploadWithSourceMap": true,
-    "compileHotReLoad": false,
-    "useMultiFrameRuntime": false,
-    "useApiHook": true,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
-    },
-    "useIsolateContext": true,
-    "useCompilerModule": false,
-    "userConfirmedUseCompilerModuleSwitch": false,
-    "packNpmManually": false,
-    "packNpmRelationList": [],
-    "minifyWXSS": true
-  },
-  "compileType": "miniprogram",
-  "libVersion": "2.13.2",
-  "appid": "wxc85bfe8b88df8a2d",
-  "projectname": "%E5%85%AC%E8%B7%AF%E5%95%86%E5%BA%97%E9%BB%91%E5%B8%82",
-  "isGameTourist": false,
-  "simulatorType": "wechat",
-  "simulatorPluginLibVersion": {},
-  "condition": {
-    "search": {
-      "list": []
-    },
-    "conversation": {
-      "list": []
-    },
-    "plugin": {
-      "list": []
-    },
-    "game": {
-      "currentL": -1,
-      "list": []
-    },
-    "gamePlugin": {
-      "list": []
-    },
-    "miniprogram": {
-      "list": [
-        {
-          "id": 0,
-          "name": "商品详情",
-          "pathName": "pages/article/article",
-          "query": "id=25475utm_source=tuisong03113",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "我的优惠券",
-          "pathName": "pages/userCoupon/userCoupon",
-          "query": "id=20834",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "测试1",
-          "pathName": "pages/createOrder/createOrder",
-          "query": "id=22100&utm_source=xiaowang0512",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "测试",
-          "pathName": "pages/index/index",
-          "query": "utm_source=testxxx",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "搜索",
-          "pathName": "pages/search/search",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "登录",
-          "pathName": "pages/login/login",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "我的个人中心",
-          "pathName": "pages/me/me",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 7,
-          "name": "满减列表",
-          "pathName": "pages/fullReduce/fullReduce",
-          "query": "spid=1",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "二级购物车",
-          "pathName": "pages/secondLevelChart/secondLevelChart",
-          "query": "spid=1",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "权益页面",
-          "pathName": "pages/equity/equity",
-          "query": "id=1096096",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "权益页面",
-          "pathName": "pages/equity/equity",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "确认订单",
-          "pathName": "pages/createOrder/createOrder",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "一级购物车",
-          "pathName": "pages/chart/chart",
-          "query": "id=25475utm_source=tuisong03113",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "我的收藏",
-          "pathName": "pages/likeGoods/likeGoods",
-          "query": "id=25475utm_source=tuisong03113",
-          "scene": null
-        }
-      ]
-    }
-  }
+	"description": "项目配置文件。",
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"enhance": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"coverView": true,
+		"autoAudits": true,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"uglifyFileName": true,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"compileHotReLoad": false,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"useIsolateContext": true,
+		"useCompilerModule": false,
+		"userConfirmedUseCompilerModuleSwitch": false,
+		"useMultiFrameRuntime": false,
+		"useApiHook": true,
+		"packNpmManually": false,
+		"packNpmRelationList": [],
+		"minifyWXSS": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.13.2",
+	"appid": "wxc85bfe8b88df8a2d",
+	"projectname": "%E5%85%AC%E8%B7%AF%E5%95%86%E5%BA%97%E9%BB%91%E5%B8%82",
+	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"list": []
+		},
+		"conversation": {
+			"list": []
+		},
+		"plugin": {
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"gamePlugin": {
+			"list": []
+		},
+		"miniprogram": {
+			"list": [
+				{
+					"id": 0,
+					"name": "商品详情",
+					"pathName": "pages/article/article",
+					"query": "id=25475utm_source=tuisong03113",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的优惠券",
+					"pathName": "pages/userCoupon/userCoupon",
+					"query": "id=20834",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "测试1",
+					"pathName": "pages/createOrder/createOrder",
+					"query": "id=22100&utm_source=xiaowang0512",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "测试",
+					"pathName": "pages/index/index",
+					"query": "utm_source=testxxx",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "搜索",
+					"pathName": "pages/search/search",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "登录",
+					"pathName": "pages/login/login",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的个人中心",
+					"pathName": "pages/me/me",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 7,
+					"name": "满减列表",
+					"pathName": "pages/fullReduce/fullReduce",
+					"query": "spid=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "二级购物车",
+					"pathName": "pages/secondLevelChart/secondLevelChart",
+					"query": "spid=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "权益页面",
+					"pathName": "pages/equity/equity",
+					"query": "id=1096096",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "权益页面",
+					"pathName": "pages/equity/equity",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "确认订单",
+					"pathName": "pages/createOrder/createOrder",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "一级购物车",
+					"pathName": "pages/chart/chart",
+					"query": "id=25475utm_source=tuisong03113",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我的收藏",
+					"pathName": "pages/likeGoods/likeGoods",
+					"query": "id=25475utm_source=tuisong03113",
+					"scene": null
+				}
+			]
+		}
+	}
 }
