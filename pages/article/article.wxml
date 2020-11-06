@@ -128,13 +128,13 @@
   -->
   <view class='user_goods'>
     <view class='user_info clearBoth'>
-      <image class='float_left' src='{{modulesUserGoods.data.result[0].avatar}}'></image>
-      <view class='user_name float_left'>{{modulesUserGoods.data.result[0].name}}</view>
-      <view class='user_motto float_left'>{{modulesUserGoods.data.result[0].motto?modulesUserGoods.data.result[0].motto:'这家伙太懒了，啥都没写'}}</view>
-      <view class='user_all_good float_right' bindtap="navigateToUser" data-name="{{modulesUserGoods.data.result[0].name}}" data-btn='全部狠货' data-id="{{modulesUserGoods.data.result[0].id}}">全部狠货</view>
+      <image class='float_left' src='{{modulesUserGoods.avatar}}'></image>
+      <view class='user_name float_left'>{{modulesUserGoods.name}}</view>
+      <view class='user_motto float_left'>{{modulesUserGoods.motto?modulesUserGoods.motto:'这家伙太懒了，啥都没写'}}</view>
+      <view class='user_all_good float_right' bindtap="navigateToUser" data-name="{{modulesUserGoods.name}}" data-btn='全部狠货' data-id="{{modulesUserGoods.id}}">全部狠货</view>
     </view>
-    <scroll-view class='good_items' scroll-x  wx:if="{{modulesUserGoods.data.result[0].goods.length != 0}}">
-      <view class='good_item' wx:for="{{modulesUserGoods.data.result[0].goods}}" wx:key="key">
+    <scroll-view class='good_items' scroll-x  wx:if="{{modulesUserGoods.goods.length != 0}}">
+      <view class='good_item' wx:for="{{modulesUserGoods.goodslist}}" wx:key="key">
         <image mode="aspectFill" lazy-load  src='{{item.cover_fang?item.cover_fang:item.cover}}' data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0"></image>
         <view class="tit" data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0">{{item.title}}</view>
         <!-- <view class="sub_tit" data-id="{{item.id}}" bindtap="navigateToGoods" data-index="{{index}}" data-title="{{item.title}}" data-satype="0">{{item.title}}</view> -->

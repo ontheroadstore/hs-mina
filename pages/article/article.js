@@ -53,7 +53,7 @@ Page({
       articleId: options.id
     })
     // 获取商品详情
-    req(app.globalData.bastUrl, 'appv3_1/goods/' + this.data.articleId+'?mask=1').then(res => {
+    req(app.globalData.bastUrl, 'appv6_5/getCommodityDetail/' + this.data.articleId+'?mask=1').then(res => {
 
       if (typeof res.data === 'string'){
         //如果data不是对象，可能是含有\u2028,会导致解析错误
@@ -70,12 +70,14 @@ Page({
       }
       this.setData({
         fullReduceInfo: res.data.sale_promotion,
-        modulesGuessLike: res.data.modules[1].data.result,
+        modulesGuessLike: res.data.related_goods,
         desc: util.replaceBr(res.data.desc),
         // content: util.replaceBr(res.data.content)
       })
-      const goodInfo = res.data
-      const modulesUserGoods = res.data.modules[0]
+      let originData = res.data,subData=res.data.post;
+      const goodInfo = Object.assign(originData,subData)
+      
+      const modulesUserGoods = res.data.seller_related_goods
       // 单个款式 直接显示预售且 选择框消失
       // 多个款式 选择框显示 预售消失 （在选中款式时，更新预售状态，以及选中的款式）
       const styleNum = goodInfo.type.length
@@ -117,8 +119,8 @@ Page({
         })
       }
       // 添加/64
-      res.data.seller.avatar = res.data.seller.avatar
-      res.data.modules[0].data.result[0].avatar = res.data.modules[0].data.result[0].avatar
+      // res.data.seller.avatar = res.data.seller.avatar
+      // res.data.modules[0].data.result[0].avatar = res.data.modules[0].data.result[0].avatar
 
       //生成卖出数量文字
       let soldCountTxt = '';
@@ -171,7 +173,7 @@ Page({
     }
 
       // 神策 浏览商品详情页
-      app.sensors.track('commodityDetail', { commodityID: String(this.data.articleId), sellerID: String(this.data.goodInfo.seller.id) });
+      app.sensors.track('commodityDetail', { commodityID: String(this.data.articleId), sellerID: String() });
 
     },(err)=>{
       setTimeout(()=>{
