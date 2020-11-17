@@ -2,7 +2,6 @@
 const app = getApp()
 import { req } from '../../utils/api.js'
 import util from '../../utils/util.js'
-
 Page({
 
   data: {
@@ -71,7 +70,7 @@ Page({
       this.setData({
         fullReduceInfo: res.data.sale_promotion,
         modulesGuessLike: res.data.related_goods,
-        desc: util.replaceBr(res.data.desc),
+        desc: util.replaceBr(res.data.post.desc),
         // content: util.replaceBr(res.data.content)
       })
       let originData = res.data,subData=res.data.post;
@@ -143,6 +142,7 @@ Page({
         specialOfferPrice: specialOfferPrice,
         soldCountTxt: soldCountTxt,
       })
+      console.log(goodInfo)
     if(goodInfo.post_html){
       goodInfo.post_html = goodInfo.post_html.replace(/class=/gi, '');
       goodInfo.post_html = goodInfo.post_html.replace(/width\s*:\s*[0-9]+px/g, 'width:100%');
@@ -155,7 +155,7 @@ Page({
         postHtml: goodInfo.post_html 
       })
     }
-    else if(goodInfo.post_excerpt){
+    else if(goodInfo.image_text){
       // 设置图文混排
       let postExcerpt = goodInfo.post_excerpt;
       let imageText = goodInfo.image_text;
@@ -168,10 +168,10 @@ Page({
       }
     }else{
       this.setData({
-        content: util.replaceBr(res.data.content)
+        content: util.replaceBr(goodInfo.content)
       })
     }
-
+    
       // 神策 浏览商品详情页
       app.sensors.track('commodityDetail', { commodityID: String(this.data.articleId), sellerID: String() });
 

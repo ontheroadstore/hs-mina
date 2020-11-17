@@ -34,8 +34,8 @@
     <view class='order' wx:if="{{orderType == 0}}">
       <view class='user_item'>
         <view class='user_info'>
-          <image class='float_left' src='{{singleOrder.seller.avatar}}'></image>
-          <view class='float_left'>{{singleOrder.seller.name}}</view>
+          <image class='float_left' src='{{singleOrder.seller_related_goods.avatar}}'></image>
+          <view class='float_left'>{{singleOrder.seller_related_goods.name}}</view>
         </view>
         <view class='order_item clearBoth'>
           <image class='float_left image' src='{{singleOrder.banner[0]}}'></image>

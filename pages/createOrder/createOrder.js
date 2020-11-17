@@ -370,8 +370,8 @@ Page({
           item_id: this.data.singleOrder.articleId,
           mid: this.data.singleOrder.newType[0].id
         }],
-        seller_name: this.data.singleOrder.seller.name,
-        seller_uid: this.data.singleOrder.seller.id
+        seller_name: this.data.singleOrder.seller_related_goods.name,
+        seller_uid: this.data.singleOrder.seller_related_goods.id
       }]
     }
 
@@ -696,8 +696,8 @@ Page({
           item_id: this.data.singleOrder.articleId,
           mid: this.data.singleOrder.newType[0].id
         }],
-        seller_name: this.data.singleOrder.seller.name,
-        seller_uid: this.data.singleOrder.seller.id
+        seller_name: this.data.singleOrder.seller_related_goods.name,
+        seller_uid: this.data.singleOrder.seller_related_goods.id
       }]
     }
     return createOrderData
@@ -978,7 +978,7 @@ Page({
     req(app.globalData.bastUrl, 'appv5_2/getFreightFee', obj).then(res => {
       if (res.status == 1) {
         if (orderType == 0) {
-          let uid = singleOrder.seller.id;
+          let uid = singleOrder.seller_related_goods.id;
           let newPostage = res.data[uid].freight_fee
           let postageTxt = 'singleOrder.newType[0].postage';
           that.setData({
