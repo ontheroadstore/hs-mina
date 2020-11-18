@@ -6,6 +6,7 @@ import { req } from '../../utils/api.js'
 Page({
 
   data: {
+    cacheStatus: 999,  //缓存购物车单选第一个的商品状态 0 1 2 //999不存在所以 初始化
     goodList: [],               // 购物车商品列表
     selectAllStatus: false,     // 全选状态
     startLocationX: null,       // 左滑开始位置（用于显示删除按钮）
@@ -426,7 +427,7 @@ Page({
     let seller = e.target.dataset.seller
 
     let promotionId = e.target.dataset.proid
-
+    console.log(this.data.cacheStatus)
     let limitBuyNumber = 0;
     let orderid = e.target.dataset.orderid
     if (goodsArr.item[goodIndex].selectStatus == true) {
@@ -456,8 +457,10 @@ Page({
         this.setData({
           goodList: status.data,
           selectAllStatus: status.selectAllStatus,
-          totalPrice: this.countTotalPrice(this.data.goodList,this.data.spids)
+          totalPrice: this.countTotalPrice(this.data.goodList,this.data.spids),
+          cacheStatus: goodsArr.item[goodIndex].is_baoguan
         })
+
       }
     }
   },
