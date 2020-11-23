@@ -757,6 +757,11 @@ Page({
       couponInfos: couponInfo
      
     })
+    if(totalPrice==0){
+      this.setData({
+        cacheStatus: 999
+      })
+    }
     return totalPrice
   }
 })

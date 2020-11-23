@@ -38,7 +38,7 @@
   <view class="popup_select  {{selectStatus ? 'show':''}}" catchtouchmove="true"  catchtap='selectHide' data-status="true">
     <view catchtouchmove="true" class="select_cont  {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}">
 
-      <image class="cover" src='{{searchList[selectIndex].cover}}'></image>
+      <!-- <image class="cover" src='{{searchList[selectIndex].cover}}'></image> -->
       <view class="title">{{searchList[selectIndex].title}}</view>
       <view class="price" wx:if="{{!selectStylePrice&&!specialOfferPrice}}">
         ¥ {{searchList[selectIndex].price[1]?searchList[selectIndex].price[0]+'-'+searchList[selectIndex].price[1]:searchList[selectIndex].price[0]}}

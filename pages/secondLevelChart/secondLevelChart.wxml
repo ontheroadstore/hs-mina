@@ -46,10 +46,12 @@
           <view class='special_offer_price' wx:if="{{good.special_offer_end}}">¥ {{good.price+good.quanyi_price}}</view>
         </view>
         <view class='num_content float_right' wx:if="{{good.is_sku_deleted == 0 && good.remain > 0}}">
-          <image class='sub_icon float_left' src='/images/good_num_reduce_1.png' bindtap='subNum' data-orderid="{{good.id}}"></image>
+          <image class='sub_icon float_left'  wx:if="{{good.numbers==1}}" src='/images/good_num_add_11.png' bindtap='subNum' data-orderid="{{good.id}}"></image>
+          <image class='sub_icon float_left'  wx:else src='/images/good_num_reduce_1.png' bindtap='subNum' data-orderid="{{good.id}}"></image>
           <!-- 下边框在text上，判断最后一个清除border -->
           <text class="good_num float_left {{i == item.item.length-1 ? '': 'good_num_border'}}">{{good.numbers}}</text>
-          <image class='add_icon float_left' src='/images/good_num_add_1.png' bindtap='addNum' data-itemindex="{{index}}" data-index="{{i}}" data-orderid="{{good.id}}" data-goodid="{{good.item_id}}"></image>
+          <image class='add_icon float_left' wx:if="{{good.numbers>=good.remain}}" src='/images/good_num_reduce_11.png' bindtap='addNum' data-itemindex="{{index}}" data-index="{{i}}" data-orderid="{{good.id}}" data-goodid="{{good.item_id}}"></image>
+          <image class='add_icon float_left' wx:else src='/images/good_num_add_1.png' bindtap='addNum' data-itemindex="{{index}}" data-index="{{i}}" data-orderid="{{good.id}}" data-goodid="{{good.item_id}}"></image>
         </view>
         <view class='good_empty' wx:if="{{good.is_sku_deleted == 0 && good.remain <= 0}}">商品已售罄</view> 
         <view class='good_empty' wx:if="{{good.is_sku_deleted != 0}}">商品已下架</view>
