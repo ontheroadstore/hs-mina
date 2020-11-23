@@ -6,6 +6,7 @@ import { req } from '../../utils/api.js'
 Page({
 
   data: {
+    cacheStatus: 999,  //缓存购物车单选第一个的商品状态 0 1 2 //999不存在所以 初始化
     goodList: [],               // 购物车商品列表
     selectAllStatus: false,     // 全选状态
     startLocationX: null,       // 左滑开始位置（用于显示删除按钮）
@@ -379,6 +380,14 @@ Page({
     let goodList = this.data.goodList;
     let limitBuyNumber = 0;
     let json = {};
+    if(!this.checkSelectAll(goodList)){
+      wx.showToast({
+        title: '购物车内含多种发货类型商品（海外直邮/保税仓发货），请分别结算',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
     let isLimitStatus = false; // 是否超出限购
     if (this.data.selectAllStatus) {
       let status = SetStatus(this.data.goodList, false, 0, 0)
@@ -414,6 +423,19 @@ Page({
       })
     }
   },
+  checkSelectAll(list){
+    let status = true
+    let firstType = list[0].item[0].is_baoguan
+    for (let i = 0; i < list.length; i++) {
+      for (let j = 0; j < list[i].item.length; j++) {
+        if(list[i].item[j].is_baoguan!=firstType){
+          status = false
+          break
+        }
+      }
+    }
+    return status
+  },
   // 单个选择商品
   selectSingle: function (e) {
     let remainbuy = e.target.dataset.remainbuy;
@@ -426,7 +448,32 @@ Page({
     let seller = e.target.dataset.seller
 
     let promotionId = e.target.dataset.proid
-
+    console.log(this.data.cacheStatus)
+    if(this.data.cacheStatus!=999&&(goodsArr.item[goodIndex].is_baoguan!=this.data.cacheStatus)){
+      if(this.data.cacheStatus==1){
+        wx.showToast({
+          title: '保税仓商品需单独结算',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      if(this.data.cacheStatus==2){
+        wx.showToast({
+          title: '海外直邮商品需单独结算',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      if(this.data.cacheStatus==0){
+        wx.showToast({
+          title: '当前所选商品不可以与海外直邮/保税仓商品同时结算，请分别结算。',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      
+      return
+    }
     let limitBuyNumber = 0;
     let orderid = e.target.dataset.orderid
     if (goodsArr.item[goodIndex].selectStatus == true) {
@@ -456,8 +503,10 @@ Page({
         this.setData({
           goodList: status.data,
           selectAllStatus: status.selectAllStatus,
-          totalPrice: this.countTotalPrice(this.data.goodList,this.data.spids)
+          totalPrice: this.countTotalPrice(this.data.goodList,this.data.spids),
+          cacheStatus: goodsArr.item[goodIndex].is_baoguan
         })
+
       }
     }
   },
@@ -470,6 +519,14 @@ Page({
     let limitBuyNumber = 0;
     let json = {};
     let arr = goodList[sellerIndex];
+    if(!this.checkSellerSame(arr.item)){
+      wx.showToast({
+        title: '购物车内含多种发货类型商品（海外直邮/保税仓发货），请分别结算',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
     json = this.checkLimitBuy(arr)
     for (let name in json) {
       if (json[name] > json.remainBuy) {
@@ -488,6 +545,25 @@ Page({
       selectAllStatus: status.selectAllStatus,
       totalPrice: this.countTotalPrice(this.data.goodList,this.data.spids)
     })
+  },
+  //判断全选卖家是否全部是一种类型的商品
+  checkSellerSame(list){
+    let status = true;
+    let firstType =this.data.cacheStatus!=999?this.data.cacheStatus:list[0].is_baoguan
+    list.forEach(v=>{
+      if(v.is_baoguan!=firstType){
+        status = false
+      }else{
+        
+      }
+    })
+    if(status){
+      this.setData({
+        cacheStatus: firstType
+      })
+    }
+    return status
+    
   },
   // 判断商品是否超过限购数量
   checkLimitBuy: function (arr) {

@@ -1,7 +1,7 @@
 <scroll-view class='main' scroll-y>
   <swiper class='frontcover' indicator-dots="true" indicator-active-color="#FFF" indicator-color="rgba(255, 255, 255, 0.3)" autoplay="true" interval="3000" circular="true">
     <swiper-item wx:for="{{goodInfo.banner}}" wx:key="{{item.id}}">
-      <image class="frontcover" lazy-load mode="aspectFill" src='{{item}}'></image>
+      <image class="frontcover" lazy-load mode="aspectFill" src='{{item}}' data-url="{{item}}" bindtap="previewImageBanner"></image>
     </swiper-item>
   </swiper>
 

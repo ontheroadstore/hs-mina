@@ -106,12 +106,23 @@
   display: inline-block;
   position: absolute;
   left: 0;
-  top: 36rpx;
+  top: 56rpx;
 
 }
+.good_info .baoguan{
+  height: 30rpx;
+}
+.good_info .baoguan .baoguan1{
+  width: 144rpx;
+  height: 26rpx;
+} 
+.good_info .baoguan .baoguan2{
+  width: 124rpx;
+  height: 26rpx;
+} 
 .good_info .special_offer_price{
   position: absolute;
-  top: 36rpx;
+  top: 56rpx;
   left: 90rpx;
   font-size: 24rpx;
   color: #999;
@@ -127,18 +138,18 @@
   position: absolute;
 }
 .num_content{
-  height: 30rpx;
+  height: 46rpx;
   font-size: 28rpx;
-  line-height: 30rpx;
+  line-height: 46rpx;
   margin-right: 20rpx;
 }
 .num_content .add_icon,
 .num_content .sub_icon{
-  width: 30rpx;
-  height: 30rpx;
-  border: 1rpx solid #E8E8E8;
+  width: 46rpx;
+  height: 46rpx;
+  /* border: 1rpx solid #E8E8E8; */
   background: none;
-  padding: 6rpx;
+  /* padding: 6rpx; */
   box-sizing: border-box;
 }
 .num_content .good_num{

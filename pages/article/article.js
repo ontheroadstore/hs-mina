@@ -323,6 +323,14 @@ Page({
       urls: this.data.goodInfo.images // 需要预览的图片http链接列表
     })
   },
+  //预览banner
+  previewImageBanner(e){
+    const url = e.target.dataset.url
+    wx.previewImage({
+      current: url, // 当前显示图片的http链接
+      urls: this.data.goodInfo.banner // 需要预览的图片http链接列表
+    })
+  },
   // 收藏
   addLike: function () {
     // 判断是否登录
