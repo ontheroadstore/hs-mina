@@ -42,7 +42,8 @@ Page({
       canUseCouponId: null,
       couponInfos:[],
       maxCouponPrice: 0,
-      fullReducePrice: 0
+      fullReducePrice: 0,
+      cacheStatus: 999
     })
     //判断是否登录 
     app.ifLogin(() => {

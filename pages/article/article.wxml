@@ -211,9 +211,13 @@
           </view>
           <view class='good_num clearBoth'>
             <view class='label'>数量</view>
-            <image src='/images/sub.png' class='sub float_left' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}">-</image>
+            <image class='sub float_left'  wx:if="{{selectStyleCount==1}}" src='/images/good_num_add_11.png' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}"></image>
+            <image class='sub float_left'  wx:else src='/images/good_num_reduce_1.png' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}"></image>
+            <!-- <image src='/images/sub.png' class='sub float_left' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}">-</image> -->
             <text class='num float_left'>{{selectStyleCount}}</text>
-            <image src='/images/add.png' class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}">+</image>
+            <!-- <image src='/images/add.png' class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}">+</image> -->
+            <image src='/images/good_num_reduce_11.png' wx:if="{{selectStyleCount>=selectStyleStock}}" class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}"></image>
+            <image src='/images/good_num_add_1.png' wx:else  class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}"></image>
           </view>
         </view>
       </scroll-view>

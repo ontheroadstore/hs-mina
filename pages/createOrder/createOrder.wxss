@@ -141,7 +141,7 @@
 .order_item .count_num .sub_icon{
   width: 35rpx;
   height: 35rpx;
-  border: 1rpx solid #E8E8E8;
+  /* border: 1rpx solid #E8E8E8; */
   background: none;
   padding: 6rpx;
   box-sizing: border-box;

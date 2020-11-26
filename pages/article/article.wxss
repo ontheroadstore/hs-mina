@@ -657,9 +657,9 @@
 
 .select_content .good_num .sub,
 .select_content .good_num .add{
-  border: 2rpx solid #E8E8E8;
-  width: 48rpx;
-  height: 48rpx;
+  /* border: 2rpx solid #E8E8E8; */
+  width: 58rpx;
+  height: 58rpx;
   background: none;
   border-radius: 4rpx;
   padding: 10rpx;

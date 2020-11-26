@@ -43,9 +43,11 @@
           <view class='good_type float_left'>{{singleOrder.newType[0].name}}</view> 
           <view class='good_price float_left'>￥ {{singleOrder.newType[0].price}}</view> 
           <view class='count_num'>
-            <image class='sub_icon float_left' src='/images/sub.png' bindtap='subNum'></image>
+            <image class='sub_icon float_left' wx:if="{{singleOrder.newType[0].number==1}}" src='/images/good_num_add_11.png' bindtap='subNum'></image>
+            <image class='sub_icon float_left' wx:else src='/images/good_num_reduce_1.png' bindtap='subNum'></image>
             <text class="good_num float_left">{{singleOrder.newType[0].number}}</text>
-            <image class='add_icon float_left' data-remainbuy="{{singleOrder.newType[0].remainBuy?singleOrder.newType[0].remainBuy:''}}" src='/images/add.png' bindtap='addNum' data-remain="{{singleOrder.newType[0].stock}}"></image>
+            <image class='add_icon float_left' wx:if="{{singleOrder.newType[0].number>=singleOrder.newType[0].stock}}" data-remainbuy="{{singleOrder.newType[0].remainBuy?singleOrder.newType[0].remainBuy:''}}" src='/images/good_num_reduce_11.png' bindtap='addNum' data-remain="{{singleOrder.newType[0].stock}}"></image>
+            <image class='add_icon float_left' wx:else data-remainbuy="{{singleOrder.newType[0].remainBuy?singleOrder.newType[0].remainBuy:''}}" src='/images/good_num_add_1.png' bindtap='addNum' data-remain="{{singleOrder.newType[0].stock}}"></image>
           </view>
           <view class='clearBoth quanyi_btn' wx:if="{{singleEquity!=0}}" data-price="{{singleOrder.newType[0].quanyi_price}}" bindtap="jumpEquity">
             <image class="quanyi_icon" src="https://img8.ontheroadstore.com/H5_Icon/quanyi_order_icon.png"></image>
