@@ -35,6 +35,8 @@ Page({
     imgTxtArr: [],                //图文混排解析后的对象数组
     soldCountTxt:'',                   //卖出数量，哆嗦次数，少于1万件显示 xxx件，大于1万件显示 a.b万件
     couponPopup: 0,                //领券/返券 弹窗 1显示领券，2显示返券，0都不显示
+    taxPopup: 0,                    //税费 1 显示  0 不显示
+    explan: 0,                      //轨迹说明 1 显示 0 不显示
     getCoupon: null,                   //可以领取的coupon数组
     backCoupon: null,                   //返券数组
     deliveryTxt:'',               //发货周期文本
@@ -763,6 +765,24 @@ Page({
       status = false
     }, true);
     return status;
+  },
+  //设置税费
+  setTaxPopup: function (event) {
+    let type = +event.currentTarget.dataset.type;
+    if(type >= 0){
+      this.setData({
+        taxPopup: type,
+      })
+    };
+  },
+  //轨迹说明
+  setExplanPopup: function(event){
+    let type = +event.currentTarget.dataset.type;
+    if(type >= 0){
+      this.setData({
+        explanPopup: type,
+      })
+    };
   },
 
   // 设置领券、返券弹窗状态

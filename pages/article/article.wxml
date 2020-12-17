@@ -82,6 +82,16 @@
     <view class='label'>权益卡</view>
     <text>购买此商品必须加购权益卡</text>
   </view>
+  <view class='style' bindtap='setTaxPopup' data-type="1" wx:if="{{goodInfo.tax_desc}}">
+    <view class='label'>税费</view>
+    <text>{{goodInfo.tax_desc.name}}</text>
+    <image class='more' src='/images/gt.png'></image>
+  </view>
+  <view class='style' bindtap='setExplanPopup' data-type="1" wx:if="{{goodInfo.is_baoguan==2}}">
+    <view class='label'>说明</view>
+    <text>物流轨迹告知</text>
+    <image class='more' src='/images/gt.png'></image>
+  </view>
   <view class='user_introduce clearBoth' wx:if="{{goodInfo.seller.announcement}}">
     <image class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='头像' src='{{goodInfo.seller.avatar}}'></image>
     <text class='float_left' catchtap='navigateToUserBtn' data-id='{{goodInfo.seller.id}}' data-name='{{goodInfo.seller.name}}' data-btn='店铺'>{{goodInfo.seller.announcement}}</text>
@@ -283,6 +293,38 @@
       </scroll-view>
 
       <view class="coupon_popup_ok" catchtap='setCouponPopup' data-type="0">完成</view>
+    </view>
+  </view>
+
+  <!-- 税费 -->
+   <view class="tax_popup_mask" catchtouchmove="true"  bindtap='setTaxPopup' data-type="0" hidden="{{taxPopup===1 ? false : true}}">
+    <view class="tax_popup_wrap" catchtap='setTaxPopup'>
+     <view class="coupon_popup_title">税费</view>
+      <scroll-view class="tax_popup_ul" scroll-y="true">
+        <rich-text nodes="{{goodInfo.tax_desc.desc}}"></rich-text>
+      </scroll-view>
+
+      <view class="tax_popup_ok" catchtap='setTaxPopup' data-type="0">完成</view>
+    </view>
+  </view>
+  <!-- 轨迹说明 -->
+   <view class="tax_popup_mask" catchtouchmove="true"  bindtap='setExplanPopup' data-type="0" hidden="{{explanPopup===1 ? false : true}}">
+    <view class="tax_popup_wrap" catchtap='setExplanPopup'>
+         <view class="coupon_popup_title">轨迹说明</view>
+      <scroll-view class="tax_popup_ul" scroll-y="true">
+        <view class="text-center">关于物流</view>
+        <view>1、本店铺商品全部采用预售模式，海外平台发货，到香港转运后广州清关派送。</view>
+        <view>2、因海外疫情较严重，海外段发货时效有可能会延迟。</view>
+        <view>3、一般情况下从订单产生到收货，预计时效是15-20天，特殊情况（含不可抗力）除外，如果物流轨迹异常，请及时与平台客服联系。</view>
+        <view>4、国内派送默认中通。</view>
+        <view class="text-center">关于清关</view>
+        <view>1、下单时填写的身份证号码必须与支付绑定的身份一致。</view>
+        <view>2、海关政策要求，每个购买人一年有26000CNY的购买额度，超额将造成退运，平台会给用户退款。或者需要用户更换其他身份证信息进行购买。</view>
+        <view>3、广州海关不定期会进行包裹查验，查验时效一般是48小时。遇到此情况则收货时间会比平时延迟48小时，属于正常情况。</view>
+        <view>4、海关抽查核实购买人的真实信息，会给收件人手机号码发送验核短信，按照短信内容登陆核验即可，望收件人积极配合，如72小时不能完成验证，海关会判定退运。</view>
+      </scroll-view>
+
+      <view class="tax_popup_ok" catchtap='setExplanPopup' data-type="0">完成</view>
     </view>
   </view>
 
