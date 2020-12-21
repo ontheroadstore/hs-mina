@@ -9,7 +9,7 @@
     <view class='order_item' wx:key="key" wx:for="{{ordersItem}}">
 
       <view class='user_info clearBoth'>
-        <image class='float_left' src='{{item.avatar}}'></image>
+        <image class='float_left' mode="aspectFill" src='{{item.avatar}}'></image>
         <view class='user_name float_left'>{{item.user_nicename}}</view>
         <view class='order_status float_right'>
           <!-- process_status: 33交易关闭，0待发货，1已发货待收货，2交易完成。  -->
