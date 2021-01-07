@@ -11,6 +11,10 @@ Page({
     content: null,
     postHtml: null,
     quanyiPrice: 0,
+    whScale: 1,
+    selectName: '',
+    isEmpty: false,               //所有款式都售罄状态
+    skuStyleImage: '//img8.ontheroadstore.com/H5_Icon/sku_image_no_data.png',
     selectStyleId: null,          // 选中的款式ID
     selectStylePostage: null,     // 选中的款式运费
     selectStyleName: null,        // 选中的款式名称
@@ -70,7 +74,7 @@ Page({
         }
       }
       this.setData({
-        fullReduceInfo: res.data.sale_promotion,
+        fullReduceInfo: res.data.post.sale_promotion,
         modulesGuessLike: res.data.related_goods,
         desc: util.replaceBr(res.data.post.desc),
         // content: util.replaceBr(res.data.content)
@@ -86,6 +90,7 @@ Page({
       let selectStyleId = null
       let specialOfferStatus = false
       let specialOfferPrice = false
+      let isEmpty = true
       goodInfo.type.forEach((item,index) => {
         item.price = item.price+item.quanyi_price
         item.special_offer_price = item.special_offer_price+item.quanyi_price
@@ -97,6 +102,9 @@ Page({
           item.restrictionTypes = 1 //款式限购
           item.limitBuyNum = item.goodsRestrictionNumber //限购数量
           item.remainBuy = item.goodsRestrictionNumber - item.goodsAlreadyNumber
+        }
+        if(item.stock){
+          isEmpty = false
         }
       })
       // 单个订单 初始 预售 款式ID 处理特价时间
@@ -134,7 +142,17 @@ Page({
           soldCountTxt = soldCount;
         }
       }
+      let whScale = goodInfo.top_image_width/goodInfo.top_image_height
+      if(whScale>1){
+        whScale = 1
+      }else if(whScale<0.75){
+        whScale = 0.75
+      }else{
+
+      }
       this.setData({
+        skuStyleImage:  goodInfo.banner[0],
+        whScale: whScale,
         presellTime: presellTime,
         styleNum: styleNum,
         selectStyleId: selectStyleId,
@@ -143,6 +161,7 @@ Page({
         specialOfferStatus: specialOfferStatus,
         specialOfferPrice: specialOfferPrice,
         soldCountTxt: soldCountTxt,
+        isEmpty: isEmpty
       })
       console.log(goodInfo)
     if(goodInfo.post_html){
@@ -333,6 +352,18 @@ Page({
       urls: this.data.goodInfo.banner // 需要预览的图片http链接列表
     })
   },
+  //预览Sku
+  previewImageSku(e){
+    const url = e.target.dataset.url
+    //默认款式图不显示
+    if(url.indexOf('sku_image_no_data')>0){
+      return
+    }
+    wx.previewImage({
+      current: url, // 当前显示图片的http链接
+      urls: [url] // 需要预览的图片http链接列表
+    })
+  },
   // 收藏
   addLike: function () {
     // 判断是否登录
@@ -457,8 +488,8 @@ Page({
     let remainBuy = this.data.goodInfo.type[oIndex].remainBuy;
     let limitBuyNum = this.data.goodInfo.type[oIndex].limitBuyNum;
     let quanyiPrice = this.data.goodInfo.type[oIndex].quanyi_price
-    console.log(restrictiontypes)
-    console.log(remainBuy)
+    let skuimage = this.data.goodInfo.type[oIndex].style_image
+    let selectName = this.data.goodInfo.type[oIndex].name
     if (restrictiontypes !== undefined){
       this.setData({
         limitBuyText: "限购" + limitBuyNum + "件",
@@ -483,17 +514,28 @@ Page({
       }
     }
     if (stock <= 0) {
-      return false
+      // return false
+      this.setData({
+        isEmpty: true,
+        selectStyleCount: 0
+      })
+    }else{
+      this.setData({
+        isEmpty: false,
+        selectStyleCount: 1
+      })
     }
     // 每次切换款式 初始数量
     this.setData({
+      skuStyleImage: skuimage?skuimage:'//img8.ontheroadstore.com/H5_Icon/sku_image_no_data.png',
       selectStyleId: id,
+      selectName: selectName,
       selectStylePostage: postage,
       selectStyleName: name,
       presellTime: presellTime,
       selectStylePrice: price,
       selectStyleStock: stock,
-      selectStyleCount: 1,
+      // selectStyleCount: 1,
       specialOfferStatus: specialOfferStatus,
       specialOfferPrice: specialOfferPrice,
       deliveryTxt: deliveryTxt,
@@ -503,7 +545,7 @@ Page({
   // 当没有选中款式时 点击加入购物车/立即购买
   noSelect: function () {
     wx.showToast({
-      title: '请选择一个款式',
+      title: '请选择一个正确的款式',
       icon: 'none',
       duration: 1000
     })

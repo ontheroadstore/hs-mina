@@ -1,7 +1,7 @@
 <scroll-view class='main' scroll-y>
-  <swiper class='frontcover' indicator-dots="true" indicator-active-color="#FFF" indicator-color="rgba(255, 255, 255, 0.3)" autoplay="true" interval="3000" circular="true">
+  <swiper class='frontcover' style="height:{{100/whScale}}vw" indicator-dots="true" indicator-active-color="#FFF" indicator-color="rgba(255, 255, 255, 0.3)" autoplay="true" interval="3000" circular="true">
     <swiper-item wx:for="{{goodInfo.banner}}" wx:key="{{item.id}}">
-      <image class="frontcover" lazy-load mode="aspectFill" src='{{item}}' data-url="{{item}}" bindtap="previewImageBanner"></image>
+      <image   lazy-load mode="aspectFit" src='{{item}}' data-url="{{item}}" bindtap="previewImageBanner"></image>
     </swiper-item>
   </swiper>
 
@@ -175,12 +175,13 @@
       <image src='/images/likeSelected.png' wx:else></image>
       <text>收藏</text>
     </view>
-    <view class='chart_btn float_left' wx:if="{{!activityCanBy}}" bindtap="{{styleNum> 1?'selectShow':'addChart'}}" data-type="1" style="{{fullReduceInfo?'width: 534rpx;background:#AE2121;right:0;':''}}">加入购物车</view>
+    <view class='chart_btn float_left' wx:if="{{!activityCanBy&&!isEmpty}}" bindtap="{{styleNum> 1?'selectShow':'addChart'}}" data-type="1" style="{{fullReduceInfo?'width: 534rpx;background:#AE2121;right:0;':''}}">加入购物车</view>
     <!-- <view class='buy_btn float_left' bindtap='navigateToChart'>
       去购物车
     </view> -->
+    <view class="sku_empty" wx:if="{{isEmpty}}"> 抱歉商品暂时缺货 </view>
     <view class='chart_btn float_left' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
-    <view class='buy_btn float_left' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2" wx:if="{{!fullReduceInfo}}">立即购买</view>
+    <view class='buy_btn float_left' data-stock="{{goodInfo.type[0].stock}}" bindtap="{{styleNum > 1&&!selectStyleId ? 'selectShow':'navigateToCreateOrder'}}" data-type="2" wx:if="{{!fullReduceInfo&&!isEmpty}}">立即购买</view>
     <view class="cant_buy {{isIphoneX ? 'iphoneX_cant_buy':''}}" wx:if='{{goodInfo.is_only_app_sale==1}}' bindtap='downloadApp'>
       <text class='open_app_title'>打开APP</text>
       <text class='open_app_txt'>仅有少量现货在APP上购买</text>
@@ -191,8 +192,10 @@
   </view>
   <view class="select {{selectStatus ? 'show':''}}" catchtap='selectHide' catchtouchmove='true' data-status="true">
     <view class="select_content {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}" catchtouchmove='true'>
-      <!-- <image class='cover' src='{{goodInfo.banner[0]}}@640w_1l'></image> -->
-      <view class='title'>{{goodInfo.title}}</view>
+      <image class='cover' mode="aspectFill" src='{{skuStyleImage}}@640w_1l' data-url="{{skuStyleImage}}" bindtap="previewImageSku"></image>
+      <view class="select_top">
+      
+      <view class='title {{goodInfo.title.length>26?"line2":"line1"}}' >{{goodInfo.title}}</view>
       <view class='price' wx:if="{{styleNum == 1 && specialOfferStatus}}">
         <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
         <text class='now_price font_din'>￥{{goodInfo.type[0].price}}</text>
@@ -207,8 +210,10 @@
         <text class='new_price font_din'>￥{{specialOfferPrice}}</text>
         <text class='now_price font_din'>￥{{selectStylePrice}}</text>
       </view>
-      <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view>
-      <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view>
+      <view class='sel_type' >{{selectName?'已选：'+selectName:'请选择：款式'}}</view> 
+      <!-- <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view> -->
+      <!-- <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view> -->
+      </view>
       <scroll-view class='styles_content' scroll-y="{{selectScrollStatus}}">
         <view id='styles_select'>
           <view class="delivery_cycle" wx:if="{{deliveryTxt}}">
@@ -221,20 +226,21 @@
           </view>
           <view class='good_num clearBoth'>
             <view class='label'>数量</view>
-            <image class='sub float_left'  wx:if="{{selectStyleCount==1}}" src='/images/good_num_add_11.png' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}"></image>
+            <image class='sub float_left'  wx:if="{{selectStyleCount==1}}" src='/images/good_num_add_11.png' bindtap="{{selectStyleId&&!isEmpty ? 'subGoodNum':'noSelect'}}"></image>
             <image class='sub float_left'  wx:else src='/images/good_num_reduce_1.png' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}"></image>
             <!-- <image src='/images/sub.png' class='sub float_left' bindtap="{{selectStyleId ? 'subGoodNum':'noSelect'}}">-</image> -->
             <text class='num float_left'>{{selectStyleCount}}</text>
             <!-- <image src='/images/add.png' class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}">+</image> -->
-            <image src='/images/good_num_reduce_11.png' wx:if="{{selectStyleCount>=selectStyleStock}}" class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}"></image>
+            <image src='/images/good_num_reduce_11.png' wx:if="{{selectStyleCount>=selectStyleStock}}" class='add float_left' bindtap="{{selectStyleId&&!isEmpty ? 'addGoodNum':'noSelect'}}"></image>
             <image src='/images/good_num_add_1.png' wx:else  class='add float_left' bindtap="{{selectStyleId ? 'addGoodNum':'noSelect'}}"></image>
           </view>
         </view>
       </scroll-view>
-        <view class='chart_btn' wx:if="{{selectType==0&&!activityCanBy}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}" style="{{fullReduceInfo?'width: 750rpx;':''}}">加入购物车</view> 
+        <view class="sku_empty" wx:if="{{isEmpty}}"> 抱歉商品暂时缺货 </view>
+        <view class='chart_btn' wx:if="{{selectType==0&&!activityCanBy&&!isEmpty}}" bindtap="{{selectStyleId ? 'addChart':'noSelect'}}" style="{{fullReduceInfo?'width: 750rpx;':''}}">加入购物车</view> 
         <view class='chart_btn' wx:if="{{activityCanBy}}" bindtap="activityToast">参与优惠活动</view>
 
-        <view class='buy_btn {{btnStatus?"buy_btn_no":""}}' wx:if="{{selectType==0&&!fullReduceInfo}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}" >{{limitBuyText}}</view>
+        <view class='buy_btn {{btnStatus?"buy_btn_no":""}}' wx:if="{{selectType==0&&!fullReduceInfo&&!isEmpty}}" bindtap="{{selectStyleId ? 'navigateToCreateOrder':'noSelect'}}" >{{limitBuyText}}</view>
 
       <view class="select_cant_buy cant_buy {{isIphoneX ? 'iphoneX_cant_buy':''}}" wx:if='{{goodInfo.is_only_app_sale==1}}' bindtap='downloadApp'>
         <text class='open_app_title'>打开APP</text>

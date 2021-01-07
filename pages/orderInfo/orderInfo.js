@@ -40,6 +40,18 @@ Page({
       })
     })
   },
+  //报关商品
+  jumpBaoguan(){
+    let isBaoguan = this.data.orderInfo.is_baoguan
+    if(isBaoguan==0){
+      return
+    }
+    let _url ="/pages/express/express?order_number="+this.data.orderInfo.order_number
+    wx.navigateTo({
+      url: _url,
+    })
+    
+  },
   // 电话联系卖家
   callTel: function(e) {
     const tel = String(e.target.dataset.tel)

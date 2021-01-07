@@ -106,7 +106,7 @@
   padding: 0 30rpx;
   height: 60rpx;
   line-height: 60rpx;
-  border-radius: 30rpx;
+  border-radius: 12rpx;
   margin-right: 30rpx;
   margin-bottom: 16rpx;
   display: inline-block;
@@ -140,7 +140,7 @@
   padding-top: 18rpx;
 }
 
-.delete-cover::after{
+/* .delete-cover::after{
   content: '删除';
   display: block;
   width: 100%;
@@ -154,6 +154,21 @@
   text-align: center;
   line-height: 60rpx;
   font-size: 24rpx;
+} */
+.delete-cover{
+  background: #DEDEDE;
+  padding-right: 30rpx;
+}
+.delete-cover::after{
+  content: 'x';
+  display: block;
+  width: 20rpx;
+  height: 20rpx;
+  position: absolute;
+  top: 20rpx;
+  right: 10rpx;
+  line-height: 20rpx;
+  transform: scaleY(0.8);
 }
 
 /* 列表 */

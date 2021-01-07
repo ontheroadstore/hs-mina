@@ -1,18 +1,22 @@
 <scroll-view scroll-y class="main">
-  <view class='order_info express_status'>物流状态： {{expressInfo.statusLabel}}</view>
-  <view class='order_info'>运单编号： <text>{{expressInfo.mailNo}}</text></view>
-  <view class='order_info'>承运来源： {{expressInfo.expTextName}}</view>
-  <view class='order_info'>官方电话： <text>{{expressInfo.tel}}</text></view>
+  <view class='order_info express_status' wx:if="{{expressInfo.statusLabel}}">物流状态： {{expressInfo.statusLabel}}</view>
+  <view class='order_info' wx:if="{{expressInfo.mailNo}}">运单编号： <text>{{expressInfo.mailNo}}</text></view>
+  <view class='order_info' wx:if="{{expressInfo.expTextName}}">承运来源： {{expressInfo.expTextName}}</view>
+  <view class='order_info' wx:if="{{expressInfo.tel}}">官方电话： <text>{{expressInfo.tel}}</text></view>
   <view class='express_details' wx:if="{{expressData.length != 0}}">
     <view class='title'>物流跟踪</view>
     <view class='express_content'>
       <view class="express_item {{expressData.length-1 == index? 'clearBorder': ''}}" wx:key="key" wx:if="{{expressData.length!=0}}" wx:for="{{expressData}}">
-        <view class="date float_left {{index == 0 ? 'active':''}}">
+        <view  wx:if="{{!item.icon}}" class="date float_left {{index == 0 ? 'active':''}}">
           <view class='day'>{{item.newDay}}</view>
           <view class='time'>{{item.newTime}}</view>
         </view>
-        <image class='up_icon' src='/images/up.png' wx:if="{{index != 0}}"></image>
-        <image class='up_icon' src='/images/upNow.png' wx:if="{{index == 0}}"></image>
+        <view wx:else class="date float_left  {{index == 0 ? 'active':''}}">
+           <view class='day'>{{item.time}}</view>
+        </view>
+        <image class='up_icon' src='/images/up.png' wx:if="{{index != 0&&!item.icon}}"></image>
+        <image class='up_icon' src='/images/upNow.png' wx:if="{{index == 0&&!item.icon}}"></image>
+        <image class='icon_baoguan' wx:if="{{item.icon}}" src="{{item.icon}}"/>
         <view class="details  float_left  {{index == 0 ? 'active':''}}">{{item.context}}</view>
       </view>
       <view class='no_data' wx:if="{{}}">{{expressInfo.msg}}</view>

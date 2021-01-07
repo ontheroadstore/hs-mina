@@ -9,6 +9,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    selectName: '',
+    isEmpty: false,               //所有款式都售罄状态
+    skuStyleImage: '//img8.ontheroadstore.com/H5_Icon/sku_image_no_data.png',
     actid: null,            //活动id·
     searchList:[],
     endTime: null,          //结束时间时间戳
@@ -128,7 +131,11 @@ Page({
      
       }, "GET").then(res=>{
         let list = res.data
+        let isEmpty = true
         list.forEach((item,index) => {
+          if(item.stock){
+            isEmpty = false
+          }
           if (item.postsRestrictionNumber != undefined) {
             item.restrictionTypes = 0 //商品限购
             item.limitBuyNum = item.postsRestrictionNumber //限购数量
@@ -139,13 +146,28 @@ Page({
             item.remainBuy = item.goodsRestrictionNumber - item.goodsAlreadyNumber
           }
         })
+     
+
         this.setData({
           selectStatus: true,
-          styleList: list
+          styleList: list,
+          isEmpty: isEmpty
         })
       })
      
     }
+  },
+   //预览Sku
+   previewImageSku(e){
+    const url = e.target.dataset.url
+    //默认款式图不显示
+    if(url.indexOf('sku_image_no_data')>0){
+      return
+    }
+    wx.previewImage({
+      current: url, // 当前显示图片的http链接
+      urls: [url] // 需要预览的图片http链接列表
+    })
   },
   //隐藏这个弹出的框
   selectHide(e){
@@ -199,6 +221,8 @@ Page({
     let restrictiontypes = this.data.styleList[oIndex].restrictionTypes
     let remainBuy = this.data.styleList[oIndex].remainBuy;
     let limitBuyNum = this.data.styleList[oIndex].limitBuyNum;
+    let skuimage = this.data.styleList[oIndex].style_image;
+    let selectName = this.data.styleList[oIndex].name
     console.log(restrictiontypes)
     console.log(remainBuy)
     if (restrictiontypes !== undefined){
@@ -224,21 +248,43 @@ Page({
         deliveryTxt = delivery + '天内发货';
       }
     }
+    // if (stock <= 0) {
+    //   return false
+    // }
     if (stock <= 0) {
-      return false
+      // return false
+      this.setData({
+        isEmpty: true,
+        selectStyleCount: 0
+      })
+    }else{
+      this.setData({
+        isEmpty: false,
+        selectStyleCount: 1
+      })
     }
     // 每次切换款式 初始数量
     this.setData({
+      skuStyleImage: skuimage?skuimage:'//img8.ontheroadstore.com/H5_Icon/sku_image_no_data.png',
       selectStyleId: id,
+      selectName: selectName,
       selectStylePostage: postage,
       selectStyleName: name,
       presellTime: presellTime,
       selectStylePrice: price,
       selectStyleStock: stock,
-      selectStyleCount: 1,
+      // selectStyleCount: 1,
       specialOfferStatus: specialOfferStatus,
       specialOfferPrice: specialOfferPrice,
       deliveryTxt: deliveryTxt,
+    })
+  },
+  // 当没有选中款式时 点击加入购物车/立即购买
+  noSelect: function () {
+    wx.showToast({
+      title: '请选择一个正确的款式',
+      icon: 'none',
+      duration: 1000
     })
   },
   //减少数量

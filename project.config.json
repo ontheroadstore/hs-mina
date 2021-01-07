@@ -54,7 +54,7 @@
         {
           "name": "商品详情",
           "pathName": "pages/article/article",
-          "query": "id=1096145",
+          "query": "id=1096613",
           "scene": null
         },
         {
@@ -100,10 +100,9 @@
           "scene": null
         },
         {
-          "id": 7,
           "name": "满减列表",
           "pathName": "pages/fullReduce/fullReduce",
-          "query": "spid=1",
+          "query": "spid=2",
           "scene": null
         },
         {

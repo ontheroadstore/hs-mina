@@ -36,10 +36,13 @@
 
   <!-- 弹出的选择款式的框框 -->
   <view class="popup_select  {{selectStatus ? 'show':''}}" catchtouchmove="true"  catchtap='selectHide' data-status="true">
-    <view catchtouchmove="true" class="select_cont  {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}">
+    <view catchtouchmove="true" class="select_cont select_content  {{selectStatus ? 'show':''}} {{isIphoneX ? 'iphoneX_select_content':''}}">
 
       <!-- <image class="cover" src='{{searchList[selectIndex].cover}}'></image> -->
-      <view class="title">{{searchList[selectIndex].title}}</view>
+      <image class='cover' mode="aspectFill" src='{{skuStyleImage}}@640w_1l' data-url="{{skuStyleImage}}" bindtap="previewImageSku"></image>
+      <view class="select_top">
+      
+      <view class='title {{searchList[selectIndex].title.length>26?"line2":"line1"}}' >{{searchList[selectIndex].title}}</view>
       <view class="price" wx:if="{{!selectStylePrice&&!specialOfferPrice}}">
         ¥ {{searchList[selectIndex].price[1]?searchList[selectIndex].price[0]+'-'+searchList[selectIndex].price[1]:searchList[selectIndex].price[0]}}
       </view>
@@ -49,13 +52,17 @@
       <view class="price" wx:if="{{specialOfferPrice}}">
         ¥ {{specialOfferPrice}} <text wx:if="{{selectStylePrice}}">¥ {{selectStylePrice}}</text>
       </view>
+      <view class='sel_type' >{{selectName?'已选：'+selectName:'请选择：款式'}}</view> 
+      <!-- <view class='special' wx:if="{{specialOfferStatus}}">限时特价： {{specialOfferStatus}}</view> -->
+      <!-- <view class='activity_text' wx:if="{{goodCanSell}}">下单立减5元/件</view> -->
+      </view>
       <scroll-view class='styles_content' scroll-y="{{true}}">
       <view class="delivery_style_num">
         <view class="delivery clearBoth" wx:if="{{deliveryTxt}}">
           <view class="label">发货</view>
           <view class="delivery_txt">{{deliveryTxt}}</view>
         </view>
-        <view class="style_cont clearBoth">
+        <view class="style_cont styles_select clearBoth">
           <view class="label">款式:</view>
           <text bindtap='selectedStyle' wx:key="key" wx:for="{{styleList}}" data-typeindex="{{index}}" data-postage="{{item.postage}}" data-typeId="{{item.id}}" data-price="{{item.price}}" data-stock="{{item.stock}}" data-name="{{item.name}}" data-presellTime="{{item.estimated_delivery_date}}" data-specialofferstart="{{item.special_offer_start}}" data-specialofferend="{{item.special_offer_end}}" data-specialofferprice="{{item.special_offer_price}}" data-expected_delivery_cycle="{{item.expected_delivery_cycle}}" class="{{item.id == selectStyleId ? 'active': ''}} {{item.stock <= 0 ? 'no_stock' : ''}}" >{{item.name}}</text>   
         </view>
@@ -67,7 +74,8 @@
         </view>
       </view>
       </scroll-view>
-      <view class="sure" catchtap="addChart">
+      <view class="sku_empty" wx:if="{{isEmpty}}"> 抱歉商品暂时缺货 </view>
+      <view class="sure" wx:else catchtap="addChart">
         确定
       </view>
 

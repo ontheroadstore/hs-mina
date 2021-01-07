@@ -36,7 +36,7 @@
   height: 140rpx;
   background: #B2B2B2;
   top: 34rpx;
-  left: 143rpx;
+  left: 173rpx;
 }
 .clearBorder:after{
   content: "";
@@ -61,14 +61,24 @@
 .express_item .up_icon{
   position: absolute;
   top: 21rpx;
-  left: 130rpx;
+  left: 161rpx;
   width: 26rpx;
   height: 26rpx;
   border-radius: 50%;
   z-index: 1;
 }
+.icon_baoguan{
+  position: absolute;
+  top: -8rpx;
+  left: 146rpx;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  z-index: 1;
+}
 .express_item .details{
-  width: 500rpx;
+  float: right;
+  width: 450rpx;
   height: 68rpx;
   overflow: hidden;
   line-height: 34rpx;
@@ -77,7 +87,7 @@
 }
 .express_item .date.active,
 .express_item .details.active{
-  color: #EC3B2A;
+  color: #151515;
 }
 
 .random_goods{
