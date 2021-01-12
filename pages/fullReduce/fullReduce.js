@@ -149,6 +149,8 @@ Page({
      
 
         this.setData({
+          skuStyleImage: this.data.searchList[this.data.selectIndex].cover_fang?this.data.searchList[this.data.selectIndex].cover_fang:this.data.searchList[this.data.selectIndex].cover,
+          selectName:'',
           selectStatus: true,
           styleList: list,
           isEmpty: isEmpty
