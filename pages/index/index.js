@@ -27,12 +27,12 @@ Page({
       lv1:'',//当前一级分类名
       lv2:'',//当前二级分类名
     },
-    text: "由于2020年全国两会即将在京召开，现所有液体类邮件一律不得进京，两会之后解禁。以此带来的不便，请谅解。",
+    text: "",//公告：北京顺义，辽宁省，河北省等地区由于疫情影响，可能会发生暂停快递收寄的情况。如需咨询请联系卖家沟通，敬请谅解。
     marqueePace: 1,//滚动速度
     marqueeDistance: 0,//初始滚动距离
     marquee_margin: 30,
     size:14,
-    hideNotice: false,
+    hideNotice: true,
     interval: 20 // 时间间隔
   },
   onLoad: function (opt) {
@@ -102,13 +102,25 @@ Page({
       })
       this.getHotlistLoading()
     })
-    req(app.globalData.bastUrl, 'appv6_5/getSystemNotice', {
-    }, "GET", true).then(res => {
+    req(app.globalData.bastUrl, 'appv6_5/homepage', {
+      HomepageAppNotice:[1],
+      cid: 7
+    }, "POST", true).then(res => {
 
-      if(res.data){
-       this.setData({
-        //  text: res.data
-       })
+      if(res.data.HomepageAppNotice){
+        this.setData({
+          hideNotice: false,
+          text: res.data.HomepageAppNotice.model_data.content
+        })
+       var that = this;
+       var length = that.data.text.length * that.data.size;//文字长度
+       var windowWidth = wx.getSystemInfoSync().windowWidth;// 屏幕宽度
+       //console.log(length,windowWidth);
+       that.setData({
+         length: length,
+         windowWidth: windowWidth
+       });
+       that.scrolltxt();// 第一个字消失后立即从右边出现
       }else{
         this.setData({
           hideNotice: true
@@ -120,15 +132,7 @@ Page({
 
   onShow: function () {
     clearInterval(interval);
-    var that = this;
-    var length = that.data.text.length * that.data.size;//文字长度
-    var windowWidth = wx.getSystemInfoSync().windowWidth;// 屏幕宽度
-    //console.log(length,windowWidth);
-    that.setData({
-      length: length,
-      windowWidth: windowWidth
-    });
-    // that.scrolltxt();// 第一个字消失后立即从右边出现
+   
   },
  
   scrolltxt: function () {
